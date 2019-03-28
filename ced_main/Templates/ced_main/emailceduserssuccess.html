@@ -1,0 +1,22 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Email Success{% endblock title %}
+
+
+{% block content %}
+
+	<div id="regis">
+		<h3>Your email has been successfully sent </h3>
+
+	</div>
+
+{% endblock %}

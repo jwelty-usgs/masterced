@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+
+<title>Spatial help</title>
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+<style type="text/css"><!-- img { display:block } video {display:block} --></style>
+<div id="map1">
+<div id="SH">
+<p>The CED has many methods to assist users with data entry and interpreation. <br>
+Below are short 1-2 minute videos that will assist you with the mapping tool. </p>
+
+<h3> Go to the video:  
+
+<br> <a href="#AddingData">Adding Spatial Data to Your CED Project </a>
+<br> <a href="#Basics">Basics of the Footprint editor </a>
+<br> <a href="#Upload">Uploading a shapefile to the Footprint editor </a> 
+<br> <a href="#Digitize">Digitizing New and Editing Digitized Features </a> 
+<br> <a href="#Search">Using the Built in Search Tool </a>
+<br> <a href="#Other">Other Tools Available in the Footprint Editor </a> </h3>
+
+</div>
+
+<div id="AddingData">
+  <div id="MU">
+  <h4> Adding Spatial Data to Your CED Project </h4>
+  
+  <video class="video" width="480" height="320" controls="controls">
+  <source src="{% static 'ced_main/images/ced_main/Adding_Spatial_Data.mp4' %}" type="video/mp4">
+  </video>
+  <p> This video gives a brief overview of how to add spatial data to your CED project using the Footprint editor<br>
+  Details for each feature are covered in subsequent videos <br> <a href="#Top"> Return to Top </a></p>
+  </div>
+</div>
+
+<div id="Basics">
+  <div id="MU">
+  <h4> Basics of the Footprint editor </h4>
+  
+  <video class="video" width="480" height="320" controls="controls">
+  <source src="{% static 'ced_main/images/ced_main/Basics.mp4' %}" type="video/mp4">
+  </video>
+  <p> This video gives a brief overview of all the features of the footprint editor <br>
+  Details for each feature are covered in subsequent videos <br> <a href="#Top"> Return to Top </a></p>
+  </div>
+</div>
+
+<div id="Upload">
+  <div id="MU">
+  <h4> Uploading a shapefile to the Footprint editor </h4>
+
+  <video class="video" width="480" height="320" controls="controls">
+  <source src="{% static 'ced_main/images/ced_main/Uploading_A_Shapefile.mp4' %}" type="video/mp4">
+  </video>
+  <p> This video describes how to upload a shapefile to the footprint editor <br> <a href="#Top"> Return to Top </a></p>
+  </div>
+</div>
+
+<div id="Digitize">
+  <div id="MU">
+  <h4> Digitizing New and Editing Digitized Features </h4>
+
+  <video class="video" width="480" height="320" controls="controls">
+  <source src="{% static 'ced_main/images/ced_main/Digitize.mp4' %}" type="video/mp4">
+  </video>
+  <p> This video describes how to digitize and edit digitized shapefiles within the footprint editor <br> <a href="#Top"> Return to Top </a></p>
+  </div>
+</div>
+
+<div id="Search">
+  <div id="MU">
+  <h4> Using the Built in Search Tool </h4>
+
+  <video class="video" width="480" height="320" controls="controls">
+  <source src="{% static 'ced_main/images/ced_main/Using_The_Search_Tool.mp4' %}" type="video/mp4">
+  </video>
+  <p> This video describes how to use the built in search tool to identify and upload shapefiles that currently reside within Science Base <br> <a href="#Top"> Return to Top </a></p>
+  </div>
+</div>
+
+<div id="Other">
+  <div id="MU">
+  <h4> Other Tools Available in the Footprint Editor </h4>
+
+  <video class="video" width="480" height="320" controls="controls">
+  <source src="{% static 'ced_main/images/ced_main/Other_Tools.mp4' %}" type="video/mp4">
+  </video>
+  <p> This video describes additional features within the Footprint editor and how to use them. <br> These tools are not required for CED data entry. <br> <a href="#Top"> Return to Top </a></p>
+  </div>
+</div>
+</div>
+{% endblock %}

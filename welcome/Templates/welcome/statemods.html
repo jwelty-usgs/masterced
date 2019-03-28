@@ -1,0 +1,48 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/welcomestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Reset Password{% endblock title %}
+
+
+{% block content %}
+
+
+
+<div id="welcome"><h1>CED STATE SPECIFIC MODULES</h1></div>
+
+<div id="upcomeevents"> 
+        
+		<h4> LOOKING FOR A PLACE TO STORE YOUR DATA? </h4>
+
+		<p>The Conservation Efforts Database (CED) is a joint effort by the U.S. Fish &#38; Wildlife Service and U.S. Geological Survey to collect data related to conservation plans and actions aimed at conserving and restoring sagebrush habitats as well as those that address the threats driving sagebrush habitat loss, degradation, and fragmentation.</p>
+        <p>The CED is willing to work with users states and other users who are interested in capturing their data within the CED framework, but require additional fields in information to complete data archiving.</p>
+        <p>If you are interested in a centralized data storage system, but the CED isn't what you are looking for we can put you in contact with one of our data archiving partners such as the <a href="https://ltdl.wr.usgs.gov/">Land Treatment Digitial Library (LTDL)</a> that may be able to better suite your needs.
+        <p>Interested in learning more? Feel free to <a href="mailto:fw1sagegrouseced@fws.gov?subject=State specific CED modules">Contact Us</a>
+		</p>
+
+</div>
+
+<div id="upcomeevents">
+	<h4>STATE SPECIFIC MODULES</h4>
+	
+	<p>We are currently working with the state of Oregon to construct and Oregon specific CED module. However, at this time no state specific modules are available for general use.</p>
+</div>
+
+
+
+
+{% endblock %}  
+
+
+
+
+
+ 

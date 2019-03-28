@@ -1,0 +1,8548 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+{% load render_table from django_tables2 %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+<head>
+<script src="https://code.jquery.com/jquery-1.7.js"></script>
+<script src="https://openlayers.org/api/OpenLayers.js"></script>
+</head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+<link rel="stylesheet" href="https://js.arcgis.com/3.18/esri/css/esri.css" />
+<!--<link rel="stylesheet" type="text/css" href="Styles/panel.css" />-->
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/images/grsgmap/Styles/panel.css' %}"/>
+
+<title>CED Edit CED Effort</title>
+
+{% block content %}
+<style>
+#editmain{
+ position: relative;
+  float: left;
+  width: 950px;
+
+
+}
+lab{
+    font-weight:bold;
+    font-size: 12px;
+    color: #7f7962;
+}
+
+
+
+.actbot{
+    width: 500px;
+}
+
+#minimap{
+    position: relative;
+    float: left;
+    width: 300px;
+    height: 300px;
+}
+
+#minimap1{
+    position: relative;
+    float: left;
+    width: 300px;
+    height: 300px;
+}
+
+#trtssel{
+    position: relative;
+    float: left;
+    width: 640px;
+    white-space: normal;
+}
+
+
+
+#delapp{
+    position: relative;
+    float: right;
+    font-size: 14px;
+    z-index: 0;
+    top: 35px;
+}
+
+
+
+
+
+
+
+
+#map2 a{
+    color: #7f697f;
+    text-decoration: none;
+    font-family: arial;
+
+}
+
+#map2 a:hover{
+    color: #97767b;
+    text-decoration: none;
+    font-family: arial;
+
+}
+
+#downdoc{
+    position: relative;
+    float: left;
+    color: black;
+}
+
+#map1{
+    position: absolute;
+    left: 10px;
+    top: 80px;
+    min-height: 88%;
+    max-height: 88%;
+    color:#0000FF;
+    text-align: left;
+    padding-right: 15px;
+    width: 975px;
+    overflow-y: auto;
+}
+
+
+
+#map1 a{
+    color: #7f697f;
+    text-decoration: none;
+    font-family: arial;
+
+}
+
+#map1 a:hover{
+    color: #97767b;
+    text-decoration: none;
+    font-family: arial;
+
+}
+
+
+#AR{
+    position: absolute;
+    float: left;
+    top: 475px;
+    left: 30px;
+}
+
+#AR h3{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#armenu{
+    margin-left: -35px;
+}
+
+#armenu ul li{
+    z-index: 10;
+    float: left;
+    border-left: 1px solid #7f697f;
+    padding-right: 10px;
+    padding-left: 10px;
+    text-align: center;
+    font-size: 14px;
+    list-style: none;
+    position: relative;
+    display: inline-table;
+    max-width: 280px;
+    text-align: left;
+    font-family: Arial;
+}
+
+#armenu ul li a{
+    color: #7f7962;
+    text-decoration: none;
+    font-family: Arial;
+}
+
+#armenu ul li a:hover{
+    color: #97767b;
+    text-decoration: none;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+#submitlog{
+    color: #FFFFFF;
+    font-family: Arial;
+    font-weight: bold; 
+    background-color: #7f7962;
+    width: 250px;
+    border-radius: 25px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+#submitlog:hover{
+    color: #7f697f;
+    font-family: Arial;
+    font-weight: bold; 
+    background-color: #ccc6b2;
+    width: 250px;
+    border-radius: 25px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+
+
+
+
+#resetbody {
+   background-color: #a4d4cb;
+   font-family: Arial;
+   width: 300px;
+   font-weight: bold; 
+   margin-left: -8px;
+   margin-top: -15px;
+   padding-bottom: 10px;
+}
+
+#resetboxtext{
+    position: relative;
+    left: 10px;
+    top: 10px;
+    width: 290px;
+    color: #7f7962;
+}
+
+
+
+
+
+
+
+#loginhead3{
+    background-color: #7f7962;
+    width: 660px;
+    margin-left: -8px;
+    height: 20px;
+}
+
+#loginhead3 p{
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: bold; 
+   margin-left: 10px;
+   padding-top: 2px;
+}
+
+#loginbody3{
+   background-color: #a4d4cb;
+   font-family: Arial;
+   width: 660px;
+   font-weight: bold; 
+   margin-left: -8px;
+   margin-top: -12px;
+}
+
+#loginbody3 ul li{
+    border-top: 1px solid #85c0b5;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-left: -40px;
+    text-align: center;
+}
+
+#loginbody3 ul li a{
+    color: #7f697f;
+    font-size: 16px;
+    text-decoration: none;
+
+    font-family: Arial;
+
+}
+
+
+#loginbody3 ul li a:hover{
+    color: #97767b;
+    font-size: 16px;
+    text-decoration: none;
+    margin-left: 20px;
+    font-family: Arial;
+    font-weight: bold; 
+}
+
+
+
+#mainim{
+    margin-left: 12px;
+}
+
+#abtext{
+    margin-left: 12px;
+    color: black;
+    font-family: Arial;
+}
+
+#abtext p a{
+    color: #7f697f;
+    font-family: Arial;
+}
+
+#abtext p a:hover{
+    color: #7f697f;
+    font-family: Arial;
+    font-weight: bold; 
+}
+
+#AB{
+    position: relative;
+    float: left;
+    left: 12px;
+    width: 650px;
+}
+
+#nottime{
+    margin-left: 20px;
+    margin-bottom: -10px;
+    margin-top: -5px;
+}
+
+#nottime h4{
+    color: black;
+    font-size: 10px;
+}
+
+#AB h3{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#PR{
+    position: relative;
+    float: left;
+    left: 5px;
+    top: 2px;
+    width: 630px;
+    white-space: normal;
+}
+
+#PR h3{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#profall{
+    width: 650px;
+    max-width: 650px;
+    min-width: 650px;
+    white-space: normal;
+}
+
+#req p{
+    margin-top: -15px;
+    font-size: 11px;
+    padding-bottom: 10px;
+    color: black;
+}
+
+#useri{
+    position: relative;
+    border: solid 0.125em #103B7F; 
+    width: 640px;
+    float: left;
+}
+
+#CI{
+    position: relative;
+    float: left;
+    left: 5px;
+    top: -12px;
+    width: 620px;
+    margin-bottom: -30px;
+}
+
+#CI h3{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#userinfo{
+    position: relative;
+    float: left;
+    padding-top: 0.5em;
+}
+
+#userinfo fld{
+    margin-left: 10px;
+    padding-right: 20px;
+    white-space:nowrap;
+    padding-bottom: 0.5em;
+    display: inline-block;
+    min-width: 250px;
+
+}
+
+#TA{
+    position: relative;
+    float: left;
+    left: -10px;
+    top: -12px;
+    width: 620px;
+    margin-bottom: -25px;
+}
+
+#TA h3{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#appdate{
+    position: relative;
+    float: right;
+    font-weight: bold;
+    bottom: 10px;
+    right: 10px;
+    color: #7f7962;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold; 
+}
+
+#disset{ 
+    position: relative;
+    float: left;
+    width: 640px;
+    top: 10px;
+    border: solid 0.125em #103B7F;
+}
+
+#disset1{
+    position: relative;
+    float: left;
+    padding: 0em 1em 0em 1em;
+    margin-bottom: -20px;
+}
+
+#disset1 p{
+    font-size: 11px;
+    color: black;
+    font-family: Arial;
+}
+
+#othereditors{
+    position: relative;
+    float: left;
+    width: 616px;
+    border: solid 0.125em #103B7F;
+    padding: 0em 1em 0em 1em;
+    top: 20px;
+}
+
+#othereditors p{
+    font-size: 11px;
+    color: black;
+    font-family: Arial;
+    width: 620px;
+}
+
+#field-checksua{
+    position: relative;
+/*    width: 618px;*/ 
+    margin-left: -50px;
+    display: inline-block;
+}
+
+#field-checksua ul{ 
+    position: relative;
+    width: 500px; 
+}
+
+#field-checksua ul li{
+    padding:0.125em 0.625em;
+    font-size: 12px;
+    position: relative;
+    width: 290px;
+    float: left;
+    top: -10px;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold; 
+    color: #7f7962;
+}
+
+#field-checksua ul li lab1 label{
+    width: 620px;
+    white-space: normal;
+}
+
+#querydb{
+    position: relative;
+    float: left;
+    top: 155px;
+    max-width: 650px;
+}
+
+#emaildb{
+    margin-top: 50px;
+    top: 70px;
+    padding-top: 70px;
+    width: 640px;
+    white-space: normal;
+
+}
+
+
+#LowerLine{
+    position: relative;
+    min-width: 650px;
+    border-top: 1px dotted black;
+    min-height: 2px;
+    margin-top: 20px;
+}
+
+#querydb label{
+    width: 210px;
+    font-weight: bold;
+    font-size: 12px;
+
+}
+
+#emailprof{
+    position: relative;
+    float: left;
+    width: 50%;
+    min-width: 600px;
+    top: -10px;
+}
+
+#emailprof li a{
+    position: relative;
+    float: right;
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    top: -20px;
+}
+
+.button{
+    position: relative;
+    float: left;
+    background: #97767b;
+    border-radius: 25px;
+    position: relative;
+    height: 30px;
+    width: 30px;
+    font-family: Arial;
+    color: white;
+    font-weight: bold;
+    font-size: 23px;
+    z-index: 4;
+}
+
+.button:hover{
+    position: relative;
+    float: left;
+    background: #97767b;
+    border-radius: 25px;
+    position: relative;
+    height: 30px;
+    width: 30px;
+    font-family: Arial;
+    color: #a4d4cb;
+    font-weight: bold;
+    font-size: 25px;
+    z-index: 4;
+}
+
+.buttonret{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 50;
+    padding: 5px;
+}
+
+.buttonret:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 50;
+    padding: 5px;
+
+}
+
+
+#dtable tr td{
+    max-width: 450px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#list{
+    max-width: 650px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+
+#cl1 tr td{
+    max-width: 100px;
+}
+
+#cl2 tr td{
+    max-width: 100px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#cl3 tr td{
+    max-width: 400px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.buttonr{
+    background: #a4d4cb;
+    border-radius: 15px;
+    position: relative;
+    height: 20px;
+    float: right;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 50;
+}
+
+.buttonr:hover{
+    background: #85c0b5;
+    border-radius: 15px;
+    position: relative;
+    float: right;
+    height: 20px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 50;
+}
+
+.button1{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    width: 350px;
+    height: 30px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.button1:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    width: 350px;
+    height: 30px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+
+
+.button11{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    width: 140px;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 10px;
+    text-align: center;
+}
+
+.button11:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.button12{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    width: 140px;
+    color: black;
+    font-weight: bold;
+    font-size: 10px;
+    text-align: center;
+}
+
+.button12:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: black;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.button13{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    width: 140px;
+    color: #0404B4;
+    font-weight: bold;
+    font-size: 10px;
+    text-align: center;
+}
+
+.button13:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #0404B4;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.button14{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    width: 140px;
+    color: #610B0B;
+    font-weight: bold;
+    font-size: 10px;
+    text-align: center;
+}
+
+.button14:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #610B0B;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.button2{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    width: 150px;
+    height: 30px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 65px;
+}
+
+.button15{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    min-width: 250px;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 12px;
+    padding-right: 20px;
+    padding-left: 20px;
+    text-align: center;
+    top: -20px;
+}
+
+.button15:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    min-width: 250px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.button2:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    width: 150px;
+    height: 30px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 65px;
+}
+
+.button5{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 50;
+}
+
+.button5:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 11px;
+    z-index: 50;
+}
+
+.buttonapp{
+    background: #0000ff;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 50;
+}
+
+.buttonapp:hover{
+    background: #ccccff;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: black;
+    font-weight: bold;
+    font-size: 11px;
+    z-index: 50;
+}
+
+.button6{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 12px;
+    z-index: 50;
+}
+
+.button6:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 50;
+}
+
+.deletebttn{
+    background: red;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 50;
+    max-width: 120px;
+    text-align: center;
+}
+
+.deletebttn:hover{
+    background: #8A0808;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 50;
+    max-width: 120px;
+    text-align: center;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    color: #7f697f;
+    font-weight: bold;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    color: #7f697f;
+    font-weight: bold;
+    filter: alpha(opacity=0);
+}
+
+
+.buttonclr{
+    background: #a4d4cb;
+    border-radius: 20px;
+    position: relative;
+    float: left;
+    height: 20px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 50;
+}
+
+.buttonclr:hover{
+    background: #85c0b5;
+    border-radius: 20px;
+    position: relative;
+    float: left;
+    height: 20px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 50;
+}
+
+#afterprephead{
+    top: 40px;
+}
+
+#dataprep{
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+#dataprep p{
+    font-size: 12px;
+}
+
+#attributeshead{
+    top: 20px;
+}
+
+#attributes{
+    margin-top: 40px;
+    margin-left: 10px;
+}
+
+#attributes p{
+    font-size: 12px;
+}
+
+#afterprep{
+    margin-top: 60px;
+    margin-left: 10px;
+}
+
+#afterprep p{
+    font-size: 12px;
+}
+
+#comstatus{
+    margin-top: -20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+#conpartner{
+    margin-top: -20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+#viewtypeact{
+    margin-top: -20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+#viewplac{
+    margin-top: -20px;
+    margin-left: 30px;
+    font-weight: bold;
+}
+
+
+#viewnrcs{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+
+
+#viewrmpp{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewwippe{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewprac{
+    margin-top: -20px;
+    margin-left: 30px;
+    font-weight: bold;
+}
+
+#viewhpce{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewhpceltchead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewhpceltc{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewhpceltca{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewalvals{
+    margin-top: -20px;
+    margin-left: 30px;
+    font-weight: bold;
+}
+
+#viewapvals{
+    margin-top: -20px;
+    margin-left: 30px;
+    font-weight: bold;
+}
+
+#viewpapavals{
+    margin-top: -20px;
+    margin-left: 30px;
+    font-weight: bold;
+}
+
+#viewhphaltchead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewhpha{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewhphaltc{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewhphaltca{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewhppapavals{
+    margin-top: -20px;
+    margin-left: 30px;
+    font-weight: bold;
+}
+
+#viewrirm{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewrirmmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrirmmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+
+
+#viewfmodmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewfmodmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewfremmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewfremmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewpbdlmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewpbdlmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewpbtlmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewpbtlmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewpretmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewpretmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewprmmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewprmmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewsrctmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewsrctmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewsromethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewsromet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewsrpmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewsrpmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewsrrmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewsrrmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewsrwtmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewsrwtmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrlrm{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewrlrmacmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrlrmacmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrlrmigpmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrlrmigpmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrlrmrcmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrlrmrcmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrrm{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewrrmrtmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrrmrtmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrrmrtcmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrrmrtcmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrcr{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewrcrm12methead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrcrm12met{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrcr1methead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrcr1met{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrcr2methead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrcr2met{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrcr3methead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrcr3met{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrhre{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewrhremrmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrhremrmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrhreogrmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrhreogrmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrhr{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewrhrmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrhrmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrhrfmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrhrfmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrpa{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewrpamethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrpamet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrwem{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewrwemmethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrwemmet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrwem1methead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrwem1met{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrwpe{
+    margin-top: -20px;
+    margin-left: 40px;
+    font-weight: bold;
+}
+
+#viewrwpemethead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrwpemet{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewrwpe1methead{
+    margin-bottom: -30px;
+    margin-left: -20px;
+    font-weight: bold;
+
+}
+
+#viewrwpe1met{
+    margin-top: -20px;
+    margin-left: 60px;
+    font-weight: bold;
+}
+
+#viewthreats{
+    margin-top: -20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+#viewowners{
+    margin-top: -20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+
+#viewimpstat{
+    margin-top: -20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+#viewcollab{
+    margin-top: -20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+
+
+#reseth3{
+    position: relative;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    width: 650px;
+    white-space: normal;
+}
+
+#sbdown{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    width: 650px;
+    white-space: normal;
+}
+
+#sbdown h3{
+    text-align: center;
+}
+
+#sbdownmap{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+    width: 100%;
+    white-space: normal;
+    z-index: 300;
+}
+
+#sbdownmap h3{
+    text-align: center;
+}
+
+
+#sbdown1{
+    position: absolute;
+    top: 75px;
+    left: 0px;
+    background-color: black;
+    width: 975px;
+    white-space: normal;
+    z-index: 50;
+    margin-left: 7px;
+}
+
+#sbdown1 h3{
+    text-align: center;
+    color: white;
+}
+
+#TN{
+    position: fixed;
+    margin-left: 0px;
+    float: left;
+    top: 0px;
+    margin-right: 0px;
+    max-width: 970px;
+    min-width: 970px;
+    background-color: white;
+    z-index: 5;
+    padding-left: -10px;
+    max-height: 110px;
+    min-height: 110px;
+    border-bottom: thin dotted black;
+    margin-bottom: 35px;
+}
+
+#TN h3{
+    color: #7f7962;
+    font-family: Arial;
+    font-size: 15px;
+    position: relative;
+    float: left;
+    margin-right: 1px;
+    margin-top: 10px;
+}
+
+#TN h4{
+    color: black;
+    font-family: Arial;
+    font-size: 15px;
+    position: relative;
+    float: left;
+    top: -5px;
+    margin-top: 10px;
+
+}
+
+#IMH h4{
+    color: #7f697f;
+    font-family: Arial;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: -10px;
+}
+
+#MU{
+    position: relative;
+    float: left;
+    left: 0px;
+    top: -12px;
+    width: 630px;
+    margin-bottom: -25px;
+}
+
+#MU h3{
+    color: #7f7962;
+    font-family: Arial;
+    font-size: 15px;
+    padding-bottom: 2px;
+}
+
+#MU h4{
+    color: #7f7962;
+    font-family: Arial;
+    width: 630px;
+    white-space: normal;
+}
+
+#MU p{
+    color: black;
+    font-family: Arial;
+    margin-top: -10px;
+    margin-bottom: 30px;
+}
+
+#SH{
+    position: relative;
+    float: left;
+    left: 0px;
+    width: 1000px;
+}
+
+#SH h3{
+    color: #7f7962;
+    font-family: Arial;
+    font-size: 15px;
+    padding-bottom: -50px;
+}
+
+#SH h3 ti{
+    margin-left: 20px;
+}
+
+#SH h3 a{
+    margin-left: 40px;
+}
+
+#SH h4{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#SH p{
+    color: black;
+    font-family: Arial;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.video{
+    margin-top: -30px;
+    margin-bottom: 10px;
+}
+
+#HELP{
+    position: relative;
+    float: left;
+    left: 0px;
+    top: 0px;
+    width: 630px;
+    color: black;
+    white-space: normal;
+}
+
+.HelpDoc{
+    position: relative;
+    float: left;
+    left: 0px;
+    top: 0px;
+    width: 900px;
+    color: black;
+    white-space: normal;
+}
+
+#HE{
+    position: relative;
+    float: left;
+    left: 0px;
+    top: -12px;
+    width: 640px;
+    margin-bottom: -25px;
+}
+
+#HE h3{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#HE h4{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#HE p{
+    color: black;
+    font-family: Arial;
+    margin-top: -10px;
+    margin-bottom: 30px;
+    white-space: normal;
+}
+
+
+#CP{
+    position: relative;
+    float: left;
+    left: 0px;
+    width: 1000px;
+    margin-bottom: -25px;
+    white-space: normal;
+}
+
+#CP h3{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#CP h4{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#CP p{
+    color: black;
+    font-family: Arial;
+    margin-top: -10px;
+    margin-bottom: 30px;
+    white-space: normal;
+}
+
+#usertable table{
+    padding-top: 20px;
+    color: black;
+    font-weight: bold;
+    max-width: 640px;
+}
+
+#AC{
+    font-family: Arial;
+    white-space: normal;
+}
+
+#AC h4{
+    color: #7f7962;
+}
+
+#AC a{
+    font-weight: bold;
+    color: #7f697f;
+    font-size:16px;
+}
+
+#AC a:hover{
+    font-weight: bold;
+    color: #97767b;
+    font-size:18px;
+}
+
+#AC p{
+    color: black;
+    font-size:16px;
+    font-family: Arial;
+}
+
+#AddingData{
+    margin-top: 50px;
+    position: relative;
+    float: left;
+}
+
+
+
+#Welcome{
+    position: relative;
+    float: left;
+}
+
+#Regestration{
+    position: relative;
+    float: left;
+}
+
+#Profile{
+    position: relative;
+    float: left;
+}
+
+#NavEdit{
+    position: relative;
+    float: left;
+}
+
+#Create{
+    position: relative;
+    float: left;
+}
+
+#NavEffort{
+    position: relative;
+    float: left;
+}
+
+#AddingData{
+    position: relative;
+    float: left;
+}
+
+#Step2{
+    position: relative;
+    float: left;
+}
+
+#Step3{
+    position: relative;
+    float: left;
+}
+
+#Step5{
+    position: relative;
+    float: left;
+}
+
+#Step6{
+    position: relative;
+    float: left;
+}
+
+#Basics{
+    position: relative;
+    float: left;
+}
+
+#Upload{
+    position: relative;
+    float: left;
+}
+
+#Digitize{
+    position: relative;
+    float: left;
+}
+
+#Search{
+    position: relative;
+    float: left;
+}
+
+#Other{
+    position: relative;
+    float: left;
+}
+
+
+
+#CEProj{
+    position: relative;
+    float: left;
+    left: 0px;
+    top: -10px;
+    min-width: 660px;
+}
+
+#CEProj h3{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#CEProj p{
+    color: black;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+#CEProj p1{
+    color: red;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+
+
+#bttn{
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    float: right;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+#bttnsp{
+    position: absolute;
+    top: 0px;
+    left: 650px;
+    display: inline-block;
+    white-space: nowrap;
+    float: right;
+    z-index: 10;
+}
+
+#return{
+    position: absolute;
+    top: 0px;
+    left: 825px;
+    width: 150px;
+    display: inline-block;
+    white-space: nowrap;
+    float: right;
+    z-index: 10;
+}
+
+#return a{
+    position: relative;
+    float: left;
+    margin-left: 12px;
+    margin-top: 7px;
+}
+
+#back2top{
+    margin-left: -30px;
+}
+
+#tblofcontentshead{
+    background-color: #7f7962;
+    width: 660px;
+    margin-left: 0px;
+    height: 20px;
+}
+
+#tblofcontentshead p{
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: bold; 
+   margin-left: 10px;
+   padding-top: 2px;
+}
+
+
+#tblofcontents{
+   background-color: #a4d4cb;
+   font-family: Arial;
+   width: 660px;
+   font-weight: bold; 
+   margin-left: -8px;
+   margin-top: -12px;
+   padding-top: 0.1px;
+}
+
+#tblofcontents ul li{
+    border-top: 1px solid #85c0b5;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-left: -40px;
+    text-align: center;
+}
+
+#tblofcontents ul li a{
+    color: #7f697f;
+    font-size: 12px;
+    text-decoration: none;
+
+    font-family: Arial;
+
+}
+
+
+#tblofcontents ul li a:hover{
+    color: #97767b;
+    font-size: 12px;
+    text-decoration: none;
+    margin-left: 18px;
+    font-family: Arial;
+    font-weight: bold; 
+}
+
+
+#bttnnew{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+#bttnerror{
+    position: relative;
+    float: left;
+    min-width: 600px;
+    padding-bottom: 15px;
+}
+
+#newprjdiv{
+    position: relative;
+    top: 15px;
+    min-width: 650px;
+    max-width: 650px;
+}
+
+
+
+#fld1{
+    position: relative;
+    float: left;
+    list-style: none;
+    font-weight: bold;
+    color: #7f697f;
+    font-size:12px;
+    white-space: nowrap;
+    margin-bottom: 15px;
+    min-width: 650px;
+    max-width: 650px;
+
+}
+
+#id_Project_Status_0{
+    margin-left: 5px;
+}
+
+#id_Project_Status_1{
+    margin-left: 18px;
+
+}
+
+#id_Project_Status_2{
+    margin-left: 50px;
+}
+
+#id_Project_Status_3{
+    margin-left: 80px;
+}
+
+
+#iframespat{
+    min-width: 950px;
+    max-width: 950px;
+    min-height: 630px;
+    max-height: 630px;
+    position: relative;
+    
+    
+}
+
+#spatiframe{
+    min-width: 960px;
+    max-width: 960px;
+    min-height: 650px;
+    max-height: 650px;
+    position: absolute;
+    overflow-y: auto;
+    top: 160px;
+}
+
+#spatialwarnings{
+    color: red;
+    font-family: Arial;
+    margin-top: 70px;
+    margin-left: -20px;
+    margin-bottom: 30px;
+    width: 900px;
+    font-size: 10px;
+    margin-bottom: 20px;
+    white-space: normal;
+    position: relative;
+    float: left;
+}
+
+#spatialwarnings p{
+    font-size: 10px;
+}
+
+#effortname{
+    max-width: 650px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+#SD{
+    position: fixed;
+    float: left;
+    top: 140px;
+    width: 900px;
+    z-index: 50;
+
+}
+
+
+
+#SD h3{
+    color: #7f7962;
+    font-family: Arial;
+    margin-top: 0px;
+    margin-left: -30px;
+    z-index: 50;
+    background-color: white;
+    width: 950px;
+    padding-bottom: 5px;
+
+
+}
+
+#SDMap{
+    position: fixed;
+    float: left;
+    top: 140px;
+    width: 900px;
+    z-index: 50;
+
+}
+
+
+
+#SDMap h3{
+    color: #7f7962;
+    font-family: Arial;
+    margin-top: 5px;
+    z-index: 50;
+    background-color: white;
+    width: 950px;
+    padding-bottom: 5px;
+}
+
+#SD h4{
+    color: #7f7962;
+    font-family: Arial;
+    margin-top: 15px;
+    margin-left: -20px;
+    width: 950px; 
+    background-color: white;
+
+}
+
+#id_Wobble_GIS{
+    margin-left: 190px;
+}
+
+#id_Project_Name{
+    margin-bottom: 15px;
+}
+
+.disstatus{
+    position: relative;
+    float: left;
+    color: blue;
+    font-weight: bold;
+
+}
+
+#SD p{
+    color: black;
+    font-family: Arial;
+    margin-top: -10px;
+    margin-left: -20px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 20px;
+    white-space: normal;
+}
+
+#SD p a{
+    color: #7f697f;
+    font-size: 13px;
+}
+
+#SD p a:hover{
+    color: #97767b;
+    font-size: 15px;
+}
+
+
+.meter { 
+    height: 32px;  /* Can be anything */
+    position: relative;
+    background: #7f7962;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+    border-radius: 25px;
+    padding: 10px;
+    -webkit-box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+    -moz-box-shadow   : inset 0 -1px 1px rgba(255,255,255,0.3);
+    box-shadow        : inset 0 -1px 1px rgba(255,255,255,0.3);
+    width: 600px;
+}
+.meter > span {
+    display: block;
+    height: 18px;
+    top: -22px;
+       -webkit-border-top-right-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px;
+           -moz-border-radius-topright: 8px;
+        -moz-border-radius-bottomright: 8px;
+               border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        -webkit-border-top-left-radius: 20px;
+     -webkit-border-bottom-left-radius: 20px;
+            -moz-border-radius-topleft: 20px;
+         -moz-border-radius-bottomleft: 20px;
+                border-top-left-radius: 20px;
+             border-bottom-left-radius: 20px;
+    background-color: #7f697f;
+    background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0, #7f697f),
+      color-stop(1, #97767b)
+     );
+    background-image: -webkit-linear-gradient(
+      center bottom,
+      #7f697f 37%,
+      #97767b 69%
+     );
+    background-image: -moz-linear-gradient(
+      center bottom,
+      #7f697f 37%,
+      #97767b 69%
+     );
+    background-image: -ms-linear-gradient(
+      center bottom,
+      #7f697f 37%,
+      #97767b 69%
+     );
+    background-image: -o-linear-gradient(
+      center bottom,
+      #7f697f 37%,
+      #97767b 69%
+     );
+    -webkit-box-shadow: 
+      inset 0 2px 9px  rgba(255,255,255,0.3),
+      inset 0 -2px 6px rgba(0,0,0,0.4);
+    -moz-box-shadow: 
+      inset 0 2px 9px  rgba(255,255,255,0.3),
+      inset 0 -2px 6px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+
+.meter > span:after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background-image: 
+       -webkit-gradient(linear, 0 0, 100% 100%, 
+          color-stop(.25, rgba(255, 255, 255, .4)), 
+          color-stop(.25, transparent), color-stop(.5, transparent), 
+          color-stop(.5, rgba(255, 255, 255, .4)), 
+          color-stop(.75, rgba(255, 255, 255, .4)), 
+          color-stop(.75, transparent), to(transparent)
+       );
+    background-image: 
+        -webkit-linear-gradient(
+          -45deg, 
+          rgba(255, 255, 255, .4) 25%, 
+          transparent 25%, 
+          transparent 50%, 
+          #7f697f, .4) 50%, 
+          rgba(255, 255, 255, .4) 75%, 
+          transparent 75%, 
+          transparent
+       );
+    background-image: 
+        -moz-linear-gradient(
+          -45deg, 
+          rgba(255, 255, 255, .4) 25%, 
+          transparent 25%, 
+          transparent 50%, 
+          rgba(255, 255, 255, .4) 50%, 
+          rgba(255, 255, 255, .4) 75%, 
+          transparent 75%, 
+          transparent
+       );
+    background-image: 
+        -ms-linear-gradient(
+          -45deg, 
+          rgba(255, 255, 255, .4) 25%, 
+          transparent 25%, 
+          transparent 50%, 
+          rgba(255, 255, 255, .4) 50%, 
+          rgba(255, 255, 255, .4) 75%, 
+          transparent 75%, 
+          transparent
+       );
+    background-image: 
+        -o-linear-gradient(
+          -45deg, 
+          rgba(255, 255, 255, .4) 25%, 
+          transparent 25%, 
+          transparent 50%, 
+          rgba(255, 255, 255, .4) 50%, 
+          rgba(255, 255, 255, .4) 75%, 
+          transparent 75%, 
+          transparent
+       );
+    z-index: 1;
+    -webkit-background-size: 50px 50px;
+    -moz-background-size:    50px 50px;
+    background-size:         50px 50px;
+    -webkit-animation: move 2s linear infinite;
+       -webkit-border-top-right-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px;
+           -moz-border-radius-topright: 8px;
+        -moz-border-radius-bottomright: 8px;
+               border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        -webkit-border-top-left-radius: 20px;
+     -webkit-border-bottom-left-radius: 20px;
+            -moz-border-radius-topleft: 20px;
+         -moz-border-radius-bottomleft: 20px;
+                border-top-left-radius: 20px;
+             border-bottom-left-radius: 20px;
+    overflow: hidden;
+}
+
+
+.button3{
+    background: #a4d4cb;
+    border-radius: 21.5px;
+    position: relative;
+    font-family: Arial;
+    color: #7f697f;
+
+}
+
+.button3:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+}
+
+.buttondown{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #7f697f;
+    padding: 5px;
+    font-size: 10px
+
+}
+
+.buttondown:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    padding: 5px;
+    font-size: 10px
+}
+
+.button7{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    font-size: 16px;
+    font-weight: bold;
+    color: #7f697f;
+
+}
+
+.button7:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.button8{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    font-size: 16px;
+    font-weight: bold;
+    color: red;
+
+}
+
+.button8:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #8A0808;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.edittop{
+    margin-top: 75px;
+}
+
+
+#errorchkinprogress{
+    position: relative;
+    background-color: black;
+    text-align: center;
+    color: white;
+    height: 170px;
+    width: 300px;
+    top: 200px;
+    left: 150px;
+}
+
+#errorchkinprogress p{
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    top: 30px;
+    margin-left: 50px;
+    position: absolute;
+    float: left; 
+}
+
+#menuitems{
+    position: fixed;
+    float: right;
+    top: 85px;
+    margin-right: 0px;
+    background-color: white;
+    width: 950px;
+    z-index: 5;
+    margin-top: 0px;
+    white-space: nowrap;
+    z-index: 5;
+
+}
+
+
+#spatialewhiteback{
+    position: fixed;
+    float: left;
+    top: 85px;
+    margin-left: 0px;
+    margin-top: -5px;
+    background-color: white;
+    width: 975px;
+    height: 60px;
+    z-index: 40;
+}
+
+#steps{
+    position: relative;
+    float: left;
+    list-style: none;
+    display: inline-block;
+    max-width: 650px; 
+    width: 650px;
+    margin-bottom: 20px;
+    background-color: white;
+    top: -5px;
+}
+
+
+#steps li {
+    z-index: 10;
+    float: left;
+    margin-top: 5px;
+    text-align: center;
+    list-style: none;
+    position: relative;
+    display: inline-table;
+    text-align: left;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+#step1{
+    font-size: 12px;
+    font-weight: bold;
+    left: 30px;
+    color: red;    
+}
+
+#step2{
+    font-size: 10px;
+    left: 80px;
+}
+
+#step3{
+    font-size: 10px;
+    left: 130px;
+}
+
+#step4{
+    font-size: 10px;
+    left: 180px;
+}
+
+#step5{
+    font-size: 10px;
+    left: 230px;
+}
+
+#step6{
+    font-size: 10px;
+    left: 280px;
+}
+
+#step2:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step3:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step4:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step5:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step6:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+
+#step1a{
+    font-size: 10px;
+    margin-left: 15px;   
+}
+
+#step2a{
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 28px;
+    color: red;
+}
+
+#step3a{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step4a{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step5a{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step6a{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step1a:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step3a:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step4a:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step5a:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step6a:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+#step1b{
+    font-size: 10px;
+    margin-left: 15px;   
+}
+
+#step2b{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step3b{
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 28px;
+    color: red;
+    
+}
+
+#step4b{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step5b{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step6b{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step1b:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step2b:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step4b:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step5b:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step6b:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step1c{
+    font-size: 10px;
+    margin-left: 15px;   
+}
+
+#step2c{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step3c{
+    font-size: 10px;
+    margin-left: 28px;  
+}
+
+#step4c{
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 28px;
+    color: red;
+    
+}
+
+#step5c{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step6c{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step1c:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step2c:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step3c:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step5c:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step6c:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step1d{
+    font-size: 10px;
+    margin-left: 15px;   
+}
+
+#step2d{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step3d{
+    font-size: 10px;
+    margin-left: 28px;  
+}
+
+#step4d{
+    font-size: 10px;
+    margin-left: 28px;  
+}
+
+#step5d{
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 28px;
+    color: red;
+    
+}
+
+#step6d{
+    font-size: 10px;
+    margin-left: 35px;
+}
+
+#step1d:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step2d:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step3d:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step4d:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step6d:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step1e{
+    font-size: 10px;
+    margin-left: 15px;   
+}
+
+#step2e{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step3e{
+    font-size: 10px;
+    margin-left: 28px;  
+}
+
+#step4e{
+    font-size: 10px;
+    margin-left: 28px; 
+}
+
+#step5e{
+    font-size: 10px;
+    margin-left: 28px; 
+}
+
+#step6e{
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 28px;
+    color: red;
+}
+
+#step1e:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step2e:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step3e:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step4e:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step5e:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+#step1f{
+    font-size: 10px;
+    margin-left: 15px;   
+}
+
+#step2f{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step3f{
+    font-size: 10px;
+    margin-left: 28px;  
+}
+
+#step4f{
+    font-size: 10px;
+    margin-left: 28px; 
+}
+
+#step5f{
+    font-size: 10px;
+    margin-left: 28px; 
+}
+
+#step6f{
+    font-size: 10px;
+    margin-left: 28px;
+}
+
+#step1f:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step2f:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step3f:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step4f:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step5f:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#step6f:hover{
+    font-size: 11px;
+    font-weight: bold;
+}
+
+#actinfo{
+    position: relative;
+    float: left;
+    top: 30px;
+    max-width: 950px;
+    min-width: 950px;
+    white-space: normal;
+}
+
+#actinfo lab{
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.actbot{
+    margin-bottom: 15px;
+}
+
+#protecthead1{
+    position: relative;
+    float: left;
+}
+
+#protecthead1 h4{
+    font-size: 14px;
+    font-weight: bold;
+    color: #7f7962;
+    font-style: italic;
+    margin-bottom: -10px;
+
+}
+
+#protecthead1 p {
+    font-size: 12px;
+    color: black;
+    margin-bottom: -5px;
+    white-space: normal;
+    width: 950px;
+}
+#agrmet{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    width:950px;
+    position: relative;
+    float: left;
+    z-index: 3;
+    top: 10px;
+    white-space: normal;
+}
+
+
+#agrmet li{
+    top: 0px;
+    text-align: left;
+    float: left;
+    position: relative;
+    margin-left: 5px;
+    display: inline-block;
+    white-space: normal;
+    min-width: 310px;
+}
+
+#agrmet li lab{
+    white-space: nowrap;
+    min-width: 180px;
+
+}
+
+#field-checks11{
+    position: relative;
+    float: left;
+    width: 650px;
+}
+
+#wyomingdiv1{
+    margin-top: 80px;
+    margin-bottom: -80px;
+}
+
+
+
+#wyomingred{
+    color: red;
+    font-size: 12px;
+    white-space: normal;
+    font-weight: bold;
+}
+
+#wyoming{
+    font-size: 12px;
+    white-space: normal;
+    color: black;
+    padding-left: 13px;
+    padding-right: 11px;
+}
+
+
+#agradd{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    width:950px;
+    position: relative;
+    float: left;
+    z-index: 3;
+    top: 10px;
+    white-space: normal;
+}
+
+#agradd li{
+    top: 0px;
+    text-align: left;
+    float: left;
+    position: relative;
+    margin-left: 5px;
+    display: inline-block;
+    white-space: normal;
+    min-width: 315px;
+}
+
+
+#agradd li lab{
+    white-space: nowrap;
+    min-width: 200px;
+    margin-right: 160px;
+
+}
+
+#txtboxes{
+    position: relative;
+    white-space: normal;
+    float: left;
+    display: inline-block;
+    max-width: 650px;
+
+}
+
+#txtboxes lab{
+    white-space: nowrap;
+    padding-right: 20px;
+}
+
+#txtboxes p{
+    color: black;
+    font-size: 12px;
+    white-space: normal;
+    margin-bottom: -10px;
+    font-weight: normal;
+    margin-top: 5px;
+
+}
+
+#field-checks12{
+    position: relative;
+    float: left;
+    width: 950px;
+    margin-left: -40px;
+    top: -40px;
+}
+
+#TextBox{
+    position: relative;
+    float: left;
+    width: 650px;
+}
+
+#ThrtBox{
+    position: relative;
+    float: left;
+    width: 950px;
+    top: 0px;
+}
+
+#ThreatVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 750px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    margin-left: -5px;
+}
+
+#ThreatVals ul{
+    margin-top: 0px;
+    margin-left: -25px;
+}
+
+#ThreatVals ul li{
+    position: relative;
+    float: left;
+    min-width: 360px;
+    font-size: 12px;
+    color: #7f7962;
+
+}
+
+#ThreatVals ul li span{
+
+}
+
+#QKeyWords{
+    width: 640px;
+    float: left;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+}
+
+#QThreatVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+}
+
+#QThreatVals ul{
+     
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QThreatVals ul li{
+     
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QThreatVals ul li span{
+    
+}
+
+#QCountyVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#QCountyVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QCountyVals ul li{
+    width: 120px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QCountyVals ul li label{
+    width: 140px;
+}
+
+#QFTVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+}
+
+#QFTVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QFTVals ul li{
+    width: 300px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QFTVals ul li label{
+    width: 300px;
+}
+
+
+#QETVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+}
+
+#QETVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QETVals ul li{
+    width: 300px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QETVals ul li label{
+    width: 300px;
+}
+
+#QAMet{
+    /*border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;*/
+    float:left;
+    /*width: 640px;*/
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 25px;
+}
+
+#metty{
+    padding-right: 30px;
+}
+
+#mettylab{
+    padding-bottom: 3px;
+}
+
+#meteq{
+    margin-top: -17px;
+}
+
+#meteqfld{
+    margin-left: -45px;
+    margin-top: -12px;
+    padding-right: -40px;
+    margin-right: -40px;
+}
+
+#metva{
+    position: absolute;
+    float: right;
+    left: -80px;
+}
+
+#metvalab{
+    padding-bottom: 3px;
+}
+
+#kwwarn{
+    position: relative;
+    float: right;
+    color: black;
+    white-space: normal;
+    margin-top: 10px;
+}
+
+#QAgencyVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+}
+
+#QAgencyVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QAgencyVals ul li{
+    width: 300px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QAgencyVals ul li label{
+    width: 300px;
+}
+
+#EmailVals{
+    margin-top: 10px;
+    top: 10px;
+}
+
+#QEmailVals label{
+    width: 300px;
+}
+
+#QEmailVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 20px;
+    top: 15px;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#QEmailVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QEmailVals ul li{
+    width: 600px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QEmailVals ul li label{
+    width: 600px;
+}
+
+#QEmailVals1 label{
+    width: 300px;
+}
+
+#QEmailVals1{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 20px;
+    top: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#QEmailVals1 ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QEmailVals1 ul li{
+    width: 600px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QEmailVals1 ul li label{
+    width: 600px;
+}
+
+
+#QFOVals label{
+    width: 300px;
+}
+
+#QFOVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    max-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#QFOVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QFOVals ul li{
+    width: 600px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QFOVals ul li label{
+    width: 600px;
+}
+
+
+#QAVals label{
+    width: 300px;
+}
+
+#QAVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#QAVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QAVals ul li{
+    width: 600px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QAVals ul li label{
+    width: 600px;
+}
+
+#QSGPVals label{
+    width: 300px;
+}
+
+#QSGPVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#QSGPVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QSGPVals ul li{
+    width: 600px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QSGPVals ul li label{
+    width: 600px;
+}
+
+#QSAVals label{
+    width: 300px;
+}
+
+#QSAVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#QSAVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QSAVals ul li{
+    width: 600px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QSAVals ul li label{
+    width: 600px;
+}
+
+
+#QEffVals label{
+    width: 300px;
+}
+
+#QEffVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#QEffVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 5px;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QEffVals ul li{
+    width: 600px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QEffVals ul li label{
+    width: 600px;
+}
+
+#QYearVals label{
+    width: 300px;
+}
+
+#QYearVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    height: 40px;
+}
+
+#QYearVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QYearVals ul li{
+    width: 70px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QYearVals ul li label{
+    width: 70px;
+}
+
+#QTAVals label{
+    width: 300px;
+}
+
+#QTAVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    height: 40px;
+}
+
+#QTAVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QTAVals ul li{
+    width: 70px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QTAVals ul li label{
+    width: 70px;
+}
+
+#QWAFWAVals label{
+    width: 300px;
+}
+
+#QWAFWAVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    height: 40px;
+}
+
+#QWAFWAVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QWAFWAVals ul li{
+    width: 70px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QWAFWAVals ul li label{
+    width: 70px;
+}
+
+#QStateVals label{
+    width: 300px;
+}
+
+
+#QImpVals label{
+    width: 300px;
+}
+
+#QImpVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    height: 40px;
+}
+
+#QImpVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QImpVals ul li{
+    width: 100px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QImpVals ul li label{
+    width: 100px;
+}
+
+
+
+#QStateVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 640px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    height: 60px;
+}
+
+#QStateVals ul{
+    width: 650px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QStateVals ul li{
+    width: 70px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QStateVals ul li label{
+    width: 70px;
+}
+
+#thradd{
+    position: relative;
+    float: left;
+    margin-left: 18px;
+    white-space: normal;
+
+}
+
+#thradd h4{
+    font-size: 14px;
+    font-weight: bold;
+    color: #7f7962;
+    font-weight: bold;
+    position: relative;
+    float: left;
+    margin-bottom: 0px;
+    left: -17px;
+    max-width: 155px;
+
+}
+
+#thrlst{
+    position: relative;
+    float: left;
+    margin-left: 12px;
+    white-space: normal;
+    color: black;
+    min-width: 600px;
+    white-space: nowrap;
+    left: -18px;
+}
+
+#entrymenu{
+    position: relative;
+    float: left;
+}
+
+
+
+#disagr{
+    position: relative;
+    float: left;
+    padding-right: 50px;
+    margin-bottom: 10px;
+}
+
+#disagr lab{
+    white-space: nowrap;
+    min-width: 105px;
+    position: relative;
+    float: left;
+    
+}
+
+#agrpen{
+    color: #7f7962;
+    font-weight: bold;;
+    position: relative;
+    float: left;
+}
+
+#agrpen lab label{
+    white-space: normal;
+    width: 110px;
+    position: relative;
+    float: left;
+}
+
+
+#DocHead{
+    position: relative;
+    color: black;
+    max-width: 9500px;
+    white-space: normal;
+}
+
+lido {
+   position: relative;
+   float: left;
+   width: 100% ;
+   left:5px;
+   margin-top: -15px;
+   margin-bottom: 5px;
+}
+
+lido h4{
+   position: relative;
+   float: left;
+   width: 100% ;
+   left:27px;
+   top: -15px;
+   margin-bottom: -5px;
+   font-weight:bold;
+  color: #7f7962;
+  font-size: 14px;
+}
+
+#submitquery{
+    position: fixed;
+    width: 650px;
+    background-color: white;
+    z-index: 100;
+    padding-top: 10px;
+    margin-top: -8px;
+    white-space: normal;
+}
+
+#submitqueryfws{
+    position: relative;
+    float: left;
+    width: 650px;
+    margin-top: 10px;
+}
+
+#doctable{
+    position: relative;
+    float: left;
+
+    color: black;
+}
+
+
+#doctextbody{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 950px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 10px;
+    height: auto;
+    padding-right: 5px;
+}
+
+lido ul li{
+    border: none;
+    padding: 0.625em 0.625em;
+
+
+}
+
+.txtboxfld{
+    position: relative;
+    float: left;
+    margin-left: 10px;
+    margin-top: -10px;
+}
+
+#EffectDeter{
+   
+}
+
+#EffectDeter ul li label{
+    min-width: 800px;
+    position: relative;
+    float: left;
+    margin-left: -5px;
+    margin-bottom: 10px;
+    min-width: 800px;
+    max-width: 800px;
+    color: black;
+}
+#EffectDeter ul{
+    position: relative;
+    float: left;
+    font-size: 16px;
+    padding-right: 25px;
+    min-width: 800px;
+    max-width: 800px;
+}
+
+#EffectDeter ul li{
+    color: #7f7962;
+    font-size: 16px;
+    position: relative;
+    float: left;
+    padding-right: 25px;
+    font-family: arial;
+    min-width: 800px;
+    max-width: 800px;
+    color: black;
+    top: 10px;
+
+
+}
+
+#strtdateloc{
+    position: relative;
+    float: left;
+    margin-left: 25px;
+}
+
+#inperpet{
+    position: relative;
+    float: left;
+    width: 605px;
+    margin-top: 5px;
+    left: 255px;
+}
+
+#wafwahead{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 950px;
+    min-width: 950px;
+}
+
+#wafwahead h3{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+}
+
+#WAFWAsList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+    font-weight: bold;
+}
+
+#WAFWAsMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+
+}
+
+#wafwabody{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    position: relative;
+    float:left;
+    width: 950px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    max-height: 20px;
+}
+
+#wafwabody ul{
+    margin-left: -2em;
+    margin-top: 2px;
+    color: #7f7962;
+    font-size: 12px;
+    max-width: 940px;
+    position: relative;
+    float: left;
+}
+
+#wafwabody ul li{
+    font-size: 12px;
+    max-width: 75px;
+    min-width: 75px;
+    position: relative;
+    float: left;
+    display: inline-block;
+}
+
+
+
+
+
+#pophead{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 950px;
+    min-width: 950px;
+}
+
+#pophead h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+}
+
+#PopsList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+    font-weight: bold;
+}
+#PopsMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+}
+
+#popul{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    max-width: 950px;
+    min-width: 950px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    max-height: 95px;
+    overflow-y: auto;
+}
+
+#popul ul{
+
+    margin-left: -2em;
+    margin-top: 0em;
+    color: #7f7962;
+    font-size: 12px;
+    max-width: 900px;
+    min-width: 900px;
+    position: relative;
+    float: left;
+    display: inline-block;
+
+}
+
+#popul ul li{
+    font-size: 12px;
+    position: relative;
+    float: left;
+    display: inline-block;
+
+}
+
+#popul ul li label{
+    white-space: normal;
+    min-width: 225px;
+    max-width: 225px;
+    position: relative;
+    float: left;
+    display: inline-block;
+}
+
+
+#statehead{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 950px;
+    min-width: 950px;
+}
+
+#statehead h3{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+}
+
+#StatesList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+    font-weight: bold;
+}
+#StatesMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+}
+
+#statebody{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    max-width: 930px;
+    min-width: 930px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    max-height: 20px;
+    min-height: 20px;
+    overflow-y: none;
+}
+
+#statebody ul{
+    margin-left: -1.5em;
+    color: #7f7962;
+    font-size: 12px;
+    margin-top: 2px;
+    position: relative;
+    float: left;
+
+}
+
+#statebody ul li{
+    font-size: 12px;
+    position: relative;
+    max-width: 55px;
+    min-width: 55px;
+    float: left;
+    display: inline-block;
+
+}
+
+
+#countyhead{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 950px;
+    min-width: 950px;
+}
+
+#countyhead h3{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+}
+
+#CntsList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+    font-weight: bold;
+}
+#CntsMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+}
+
+#county{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    max-width: 950px;
+    min-width: 950px;
+    max-height: 100px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+
+    overflow-y: auto;
+}
+
+#county ul{
+    margin-left: -2em;
+    margin-top: 0px;
+    color: #7f7962;
+    font-size: 12px;
+    position: relative;
+    float: left;
+    display: inline-block;
+}
+
+#county ul li{
+    font-size: 12px;
+    min-width: 180px;
+    max-width: 180px;
+    position: relative;
+    float: left;
+    display: inline-block;
+}
+
+#ownerhead{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 950px;
+    min-width: 950px;
+}
+
+#ownerhead h3{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+}
+
+#OwnerList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+    font-weight: bold;
+}
+#OwnerMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 950px;
+}
+
+#owner{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    max-width: 950px;
+    min-width: 950px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+
+    overflow-y: auto;
+}
+
+#owner ul{
+    margin-left: -2em;
+    margin-top: 0px;
+    color: #7f7962;
+    font-size: 12px;
+    position: relative;
+    float: left;
+    display: inline-block;
+}
+
+#owner ul li{
+    font-size: 12px;
+    min-width: 220px;
+    max-width: 220px;
+    position: relative;
+    float: left;
+    display: inline-block;
+}
+
+#OptUse{
+    position: relative;
+    float: left;
+    width: 335px;
+    border: solid 2px black;
+    white-space: normal;
+    color: #97767b;
+    font-weight: bold;
+    top: 30px;
+}
+
+#OptUse p{
+    position: relative;
+    float: left;
+    width: 300px;
+    white-space: normal;
+    color: #97767b;
+    font-weight: bold;
+    margin-left: 10px;
+    text-align: center;
+}
+
+#OptUse1{
+    position: relative;
+    float: left;
+    width: 640px;
+    border: solid 2px black;
+    white-space: normal;
+    color: #97767b;
+    font-weight: bold;
+    top: 100px;
+}
+
+#OptUse1 p{
+    position: relative;
+    float: left;
+    width: 600px;
+    white-space: normal;
+    color: #97767b;
+    font-weight: bold;
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+
+
+#upcomeeventssg{
+    position: relative;
+    float: left;
+    width: 640px;
+    border: solid 2px black;
+    white-space: normal;
+    top: 95px;
+    color: #97767b;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#upcomeeventssg h4{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #97767b;
+    font-weight: bold;
+}
+
+#upcomeeventssg p{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #97767b;
+    font-weight: bold;
+}
+
+#upcomeeventssg p b att{
+    font-size: 14px;
+    color: #A30000;
+}
+
+#upcomeeventssg1{
+    position: relative;
+    float: left;
+    width: 640px;
+    border: solid 2px black;
+    white-space: normal;
+    top: 0px;
+    color: #97767b;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#upcomeeventssg1 h4{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #97767b;
+    font-weight: bold;
+}
+
+#upcomeeventssg1 p{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #97767b;
+    font-weight: bold;
+}
+
+#upcomeeventssg1 p b att{
+    font-size: 14px;
+    color: #A30000;
+}
+
+
+
+.testbtn{
+    position: fixed;
+    float: left;
+    top: 230px;
+    margin-left: 800px;
+}
+
+
+
+
+#collaball{
+    position: relative;
+    float: left;
+    top: 10px;
+    left: 38px;
+    width: 950px;
+}
+
+#collabhead{
+    position: relative;
+    float: left;
+    margin-top: -10px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 950px;
+    min-width: 950px;
+    left: -35px;
+    margin-bottom: -20px;
+}
+
+#collabhead h3{
+    font-size: 14px;
+    font-weight: bold;
+    color: #7f7962;
+    margin-bottom: 5px;
+}
+
+#collabwidth{
+    width: 950px;
+    white-space: normal;
+}
+
+#agencywidth label{
+    position: relative;
+    float: left;
+    margin-top: 10px;
+    width: 640px;
+    white-space: normal;
+}
+
+#officewidth label{
+    position: relative;
+    float: left;
+    margin-top: 10px;
+    width: 640px;
+    white-space: normal;
+
+}
+
+#dashed{
+    position: relative;
+    float: left;
+    border-top: 1px dashed black;
+    padding-top: 10px;
+    margin-top: 15px;
+    width: 640px;
+}
+
+#threatwidth{
+    width: 640px;
+    white-space: normal;
+}
+
+#collabList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    font-weight: bold;
+    width: 950px;
+    white-space: normal;
+    position: relative;
+    top: -20px;
+
+}
+#collabMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+}
+
+#collab{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    min-width: 950px;
+    max-width: 950px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 30px;
+    margin-left: -35px;
+}
+
+#collab ul{
+    margin-top: 0px;
+    margin-left: -35px;
+}
+
+#collab ul li{
+    position: relative;
+    float: left;
+    min-width: 230px;
+    padding-right: 5px;
+    font-size: 12px;
+    color: #7f7962;
+    
+}
+
+#contact{
+    position: relative;
+    float: left;
+}
+
+#coninfo{
+    position: relative;
+    float: left;
+    top: 10px;
+}
+
+#coninfo li{
+    margin-right: 30px;
+}
+
+#coninfo li label{
+    margin-right: 30px;
+    margin-bottom: 10px;
+    min-width: 100px;
+}
+
+
+#Qagency{
+    width: 640px;
+    white-space: normal;
+    position: relative;
+}
+
+#Qagencyfld{
+    width: 300px;
+    white-space: normal;
+    position: relative;
+}
+
+#viewptbl table{
+    padding-top: 20px;
+    color: black;
+    font-weight: bold;
+    max-width: 950px;
+    white-space: normal;
+    margin-bottom: 40px;
+}
+
+#regis h2{
+    color: #7f697f;
+    font-size: 18px;
+}
+
+#regform{
+    margin-left: -10px;
+}
+
+#passreset{
+    position: relative;
+    float: left;
+    top: 60px;
+    left: 20px;
+    width: 1000px;
+    white-space: nowrap;
+}
+
+#PARE{
+    position: relative;
+    float: left;
+    white-space: nowrap;
+    max-width: 1000px;
+}
+
+#PARE label{
+    position: relative;
+    float: left;
+    white-space: nowrap;
+    max-width: 1000px;
+}
+
+#prbutton{
+   position: relative;
+    float: left;
+    white-space: nowrap; 
+    top: 20px;
+}
+
+#bugsrpt{
+    position: relative;
+    float: left;
+    max-width: 650px;
+    min-width: 650px;
+    width: 650px;
+}
+
+img bugs{
+    max-width: 650px;
+    min-width: 650px;
+    width: 650px;
+}
+#edprof{
+    width: 640px;
+    position: relative;
+    float: left;
+    white-space: normal;
+}
+
+#edprof lab{
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+
+#userprofset{
+    margin-bottom: 10px;
+    white-space: nowrap;
+    color: #7f7962;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: arial;
+}
+
+
+#seluseper{
+    white-space: nowrap;
+    color: #7f7962;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: arial;
+    margin-top: -15px;
+    margin-left: -40px;
+}
+
+#idfield{
+    position: relative;
+    float: left;
+}
+
+#ReviewDir{
+    position: relative;
+    float: left;
+    font-weight: normal;
+    left: 5px;
+    top: 25px;
+}
+
+#ReviewDir p{
+    white-space: normal;
+    color: black;
+    max-width: 950px;
+}
+
+
+
+
+
+
+
+#agproback{
+    border: solid 0.125em #7f697f; 
+    position: relative;
+    float: left;
+    width: 640px;
+}
+
+#metricback{
+    border: solid 0.125em #7f697f; 
+    position: relative;
+    float: left;
+    width: 640px;
+}
+
+#loginissues{
+    width: 300px;
+    white-space: normal;
+    font-weight: bold;
+    color: red;
+}
+
+
+
+
+table.paleblue {
+    border-collapse: collapse;
+    border-color: #CCC;
+    border: 1px solid #DDD;
+}
+
+table.paleblue,
+table.paleblue +  ul.pagination {
+    font: normal 11px/14px 'Lucida Grande', Verdana, Helvetica, Arial, sans-serif;
+}
+
+table.paleblue a:link,
+table.paleblue a:visited,
+table.paleblue + ul.pagination > li > a {
+    color: #5B80B2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+table.paleblue a:hover {
+    color: #036;
+}
+
+table.paleblue td,
+table.paleblue th {
+    padding: 5px;
+    line-height: 13px;
+    border-bottom: 1px solid #EEE;
+    border-left: 1px solid #DDD;
+    text-align: left;
+}
+
+table.paleblue thead th:first-child,
+table.paleblue thead td:first-child {
+    border-left: none !important;
+}
+
+table.paleblue thead th,
+table.paleblue thead td {
+    background: #FCFCFC url(../ced_main/images/ced_main/header-bg.png) left bottom repeat-x;
+    border-bottom: 1px solid #DDD;
+    padding: 2px 5px;
+    font-size: 11px;
+    vertical-align: middle;
+    color: #666;
+}
+
+table.paleblue thead th > a:link,
+table.paleblue thead th > a:visited {
+    color: #666;
+}
+
+table.paleblue thead th.orderable > a {
+    padding-right: 20px;
+    background: url(../ced_main/images/ced_main/arrow-inactive-up.png) right center no-repeat;
+}
+table.paleblue thead th.orderable.asc > a {
+    background-image: url(../ced_main/images/ced_main/arrow-active-up.png);
+}
+table.paleblue thead th.orderable.desc > a {
+    background-image: url(../ced_main/images/ced_main/arrow-active-down.png);
+}
+
+table.paleblue tr.odd {
+    background-color: #EDF3FE;
+}
+
+table.paleblue tr.even {
+    background-color: white;
+}
+
+table.paleblue + ul.pagination {
+    background: white url(../ced_main/images/ced_main/pagination-bg.gif) left 180% repeat-x;
+    overflow: auto;
+    margin: 0;
+    padding: 10px;
+    border: 1px solid #DDD;
+    list-style: none;
+}
+
+table.paleblue + ul.pagination > li {
+    float: left;
+    line-height: 22px;
+    margin-left: 10px;
+}
+
+table.paleblue + ul.pagination > li:first-child {
+    margin-left: 0;
+}
+
+table.paleblue + ul.pagination > li.cardinality {
+    float: right;
+    color: #8d8d8d;
+}
+
+table.paleblue > tbody > tr > td > span.true,
+table.paleblue > tbody > tr > td > span.false {
+    background-position: top left;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 10px;
+    overflow: hidden;
+    text-indent: -200px;
+    width: 10px;
+}
+
+table.paleblue > tbody > tr > td > .missing {
+    background: transparent url(../ced_main/images/ced_main/missing.png) right center no-repeat;
+    color: #717171;
+    padding-right: 20px;
+}
+
+table.paleblue > tbody > tr > td > .missing:hover {
+    color: #333;
+}
+
+table.paleblue > tbody > tr > td > span.true {
+    background-image: url(../ced_main/images/ced_main/true.gif);
+}
+
+table.paleblue > tbody > tr > td > span.false {
+    background-image: url(../ced_main/images/ced_main/false.gif);
+}
+
+div.table-container {
+    display: inline-block;
+}
+
+
+#AllTxt{
+    float:left;
+    position: relative;
+
+}
+
+#txtbox{
+    float:left;
+    position: relative;
+
+}
+
+#txtbox1{
+    float:left;
+    position: relative;
+    margin-left: 2em;
+}
+
+#txtbox2{
+    float:left;
+    position: relative;
+    margin-left: 2em;
+}
+
+#actcom{
+    margin-left: 160px;
+    z-index: -500;
+}
+
+
+#key p{
+    position: fixed;
+    top: 45px;
+    left: 400px;
+    z-index: 10;
+}
+
+#ThreatsList{
+    font-size: 14px;
+    margin-left: 16px;
+    width: 640px;
+    white-space: normal;
+    font-weight: bold;
+}
+#ThreatsMod{
+    font-size: 14px;
+    margin-left: 16px;
+}
+
+
+
+
+
+#NoDataLabel{
+    position: relative;
+    float: left;
+    margin-top: 0.5em;
+    margin-left: 1em;
+    font-size: 16px;
+}
+
+
+
+
+
+
+
+#agree{
+    position: relative;
+}
+
+
+
+
+
+#lity{
+    float:left;
+    position: relative;
+    padding-bottom: 1.5em;
+    width: 100%;
+}
+
+lity{
+    margin-left: 2em;
+    margin-right: 30%;
+}
+
+#lity1{
+    float:left;
+    position: relative;
+    padding-bottom: 1.5em;
+    width: 100%;
+}
+
+#lity2{
+    margin-top: 0.5em;
+    float:left;
+    position: relative;
+
+}
+
+lity2{
+    padding-right: 2em;
+    float:left;
+    position: relative;
+
+}
+
+lity3{
+    padding-bottom: 1em;
+    float:left;
+    position: relative;
+}
+
+
+#lity3{
+    float:left;
+    position: relative;
+    margin-bottom: 2em;
+    width: 100%;
+}
+
+
+lity4{
+
+    padding-right: 1em;
+    padding-bottom: 0em;
+}
+
+lity5{
+    padding-right: 1em;
+    padding-bottom: 0em;
+}
+
+lity6{
+}
+
+
+
+
+agset{
+    top: -0.5em;
+    min-width: 230px;
+    float: right;
+    right: -10px;
+    text-align: right;
+    position: relative;
+    margin-bottom: -1.25em;
+}
+
+#agrhead{
+    text-align: center;
+    position: absolute;
+    float: right;
+    right: 180px;
+    margin-top: 40px;
+
+}
+
+.rotate {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+
+  /* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling */
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  -o-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+
+  /* Should be unset in IE9+ I think. */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+
+
+
+
+#editerrorlist p{
+    position: relative;
+    float:left;
+    padding-bottom: 10px;
+    width: 640px;
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: normal;
+}
+
+liac {
+    border: solid 0.125em gray;
+    position: relative;
+    float:left;
+    padding: 0.625em 0.625em;
+    margin-top: 50px;
+    width: 1240px;
+    left: -45px;
+    height: auto;
+    z-index: 1;
+}
+
+liac ul li{
+    position: relative;
+    border: none;
+    padding: 0.625em 1.25em;
+}
+
+
+
+
+#field-checkscp ac{
+    border: solid 0.125em blue;  
+    border-radius: 0.25em;
+    float:left;
+    width:98%;
+    padding: 0em 0.5em;
+    margin-top: 45px;
+    background-color: #E0F8E0;
+
+}
+
+
+#field-checkscp ul{
+    position: relative;
+    width: 100%; margin-right: -2%;
+
+  
+}
+
+#field-checkscp ul li{
+    padding: 0.125em 0.938em;
+    width: 30%;
+    display:block;
+    float:left;
+    font-size: 12px;
+}
+
+
+
+#datetitle p{
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#datetitle ul li{
+    
+    margin-left: -42px;
+    width: 560px;
+    margin-bottom: -20px;
+    margin-top: -8px;
+
+}
+
+
+
+lien {
+    border: solid 0.125em gray;
+    position: relative;
+    float:left;
+    padding: 0.625em 0.625em;
+    top: 0%;
+    width: 1240px;
+    left: -45px;
+    margin-bottom: 10%;
+    display:inline-block;
+    font-weight: bold;
+    z-index: 1;
+
+}
+
+lien ul li{
+    border: none;
+    padding: 0.625em 0.313em;
+}
+
+lilo {
+    border: solid 0.125em gray;
+    position: relative;
+    float:left;
+    padding: 0.625em 0.625em;
+    width: 1240px;
+    left: -45px;
+    top: 0%;
+    z-index: 1;
+}
+
+lilo ul li{
+    border: none;
+    padding: 0.625em 0.625em;
+}
+
+
+
+lilo fieldset ab h1{
+    font-size: 20;
+}
+
+
+#logout{
+    top: 50%;
+    left: 5%;
+}
+
+
+
+
+
+
+
+
+liap {
+    border: solid 0.125em gray;
+    position: absolute;
+    float:left;
+    padding: 0.625em 0.625em;
+    width: 93.75em;
+    top: 124em;
+    left: 0.625em;
+}
+
+liap ul li{
+    border: none;
+    padding: 0.625em 0.625em;
+}
+
+
+
+
+liod{
+    position: absolute;
+    float:left;
+    padding: 0.625em 0.625em;
+    top: 8.438em;
+    left: 3.125em;
+}
+
+vprj{
+    position: absolute;
+    float:left;
+    padding: 0.625em 0.625em;
+    top: 9.5em;
+    left: 11em;
+}
+
+#prjnamehelp{
+    position: relative;
+    float: left;
+    width: 2em;
+    height: 2em;
+    top: -2em;
+    left: 10em;
+}
+
+
+lied{
+    position: absolute;
+    float:left;
+    padding: 0.625em 0.625em;
+    top: 6.5em;
+    left: 29em;
+}
+
+
+
+#abn{
+    position: absolute;
+    padding-left: 0.625em;
+    padding-bottom: 0.625em;
+    margin-top: 1em;
+    margin-left: 10em;
+    width: 78.125em;
+    top: 9em;
+}
+
+
+
+
+#ferrors{
+    color: red;
+    font-size: 1.5em;
+}
+
+
+
+
+
+p {
+    font-size: 15px;
+}
+
+
+
+
+li a {
+    color: blue;
+}
+
+fieldset {
+    border: solid 0.125em transparent;  
+}
+
+
+ul
+{
+    list-style-type: none;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+ul li {
+    font-family: Tahoma, Geneva, sans-serif;
+}
+
+
+
+
+.clear {
+    clear: both;
+}
+
+#HeaderInfo { 
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 1.563em; 
+}
+
+#editplan_Form li {
+    float: left;
+    display: block;
+
+}
+
+bdy{
+    position: relative;
+    float: left;
+    margin-left: 6.875em
+}
+
+fieldset{
+    float:left;
+
+}
+
+
+a.anchor{
+    display: block; 
+    position: fixed;  
+    visibility: hidden;
+    margin-top: -90px;
+}
+
+a.anchor1{
+    display: block; 
+    position: fixed;  
+    visibility: hidden;
+    margin-top: 190px;
+}
+
+a.anchor2{
+    display: block; 
+    position: fixed;  
+    visibility: hidden;
+    margin-top: -90px;
+}
+
+a.anchor3{
+    display: block; 
+    position: fixed;  
+    visibility: hidden;
+    margin-top: 100px;
+}
+
+a.anchor4{
+    display: block; 
+    position: fixed;  
+    visibility: hidden;
+    margin-top: -160px;
+}
+
+a.anchor5{
+    display: block; 
+    position: fixed;  
+    visibility: hidden;
+    margin-top: -110px;
+}
+
+#discnty{
+    float:right;
+    position: relative;
+    margin-top: -10px;
+    right: 20px;
+    z-index: 30;
+}
+
+#discnty1{
+    position: relative;
+    float:right;
+    margin-top: 25px;
+    z-index: 50;
+}
+
+#fileforms{
+    margin-top: -0.1em;
+    position: relative;
+    float: left;
+    white-space: nowrap;
+    
+}
+
+#fileform{
+    padding-top: 5px;
+    margin-top: 1px;
+    border: dashed 1px black;
+    position: relative;
+    float: left;
+    display: inline-block;
+    font-size: 8px;
+    white-space: normal;
+    width: 948px;
+    
+}
+
+#fileform li{
+    position: relative;
+    float: left;
+    display: inline-block;
+    font-size: 14px;
+    white-space: normal;
+    padding-right: 50px;
+    margin-left: 5px;
+    
+}
+
+#fileform li1{
+    position: relative;
+    float: left;
+    display: inline-block;
+    font-size: 14px;
+    white-space: normal;
+    padding-right: 50px;
+    margin-left: 5px;
+    margin-top: 3px;
+    
+}
+
+
+
+#ddbutton{
+    display: inline-block;
+    position: relative;
+    float: right;
+    right: 5px;
+    white-space: normal;
+    padding-bottom: 5px;
+}
+
+#batchhead{
+    position: fixed;
+    z-index: 10;
+    background-color:#FFFFFF;
+    width: 100%;
+    top: -0.25em;
+}
+
+#fileformsba{
+    margin-top: 0.1em;
+    background-color:#FFFFFF;
+    position: relative;
+    float: left;
+    display: inline-block;
+    width: 950px;
+    overflow: auto;
+
+}
+
+#fileformba{
+    border: solid 0.1em black;
+    background-color:#CEE3F6;
+    padding-top: 10px;
+    margin-top: -0.1em;
+    position: relative;
+    float: left;
+    display: inline-block;
+    width: 935px;
+    padding-left: 10px;
+
+
+}
+
+#selectlists{
+    color: black;
+    position: relative;
+    float: left;
+    top:10px;
+    left: 10px;
+    font-size: 14px;
+    bottom: 10px;
+    width: 650px;
+}
+
+#fwsviewpqrs{
+    top: 20px;
+    left: 15px;
+    position: relative;
+    float: left;
+    max-width: 650px;
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#fwsviewpqrs table{
+    color: black;
+    font-size: 10px;
+}
+
+#fwsqueryflds{
+    position: relative;
+    float: left;
+    width: 650px;
+    margin-bottom: 10px;
+}
+
+#statefws{
+    position: relative;
+    float: left;
+}
+
+#querytype label{
+    margin-right: 100px;
+}
+
+#querytype{
+    position: relative;
+    float: left;
+    width: 650px;
+    margin-bottom: 10px;
+}
+
+#totrec{
+    position: relative;
+    float: left;
+}
+
+#wafwafws{
+    position: relative;
+    float: left;
+}
+
+#fwsresponse{
+    position: relative;
+    float: left;
+}
+
+#fwsresponse label{
+    margin-right: 55px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#dateeqfws{
+    position: relative;
+    float: left;
+}
+
+#dateeqfws label{
+    margin-right: 95px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#sdfws{
+    position: relative;
+    float: left;
+}
+
+#fdfws{
+    position: relative;
+    float: left;
+}
+
+
+#showthr{
+    position: relative;
+    float: left;
+}
+
+#SelectWaf{
+    position: relative;
+    float: left;
+}
+
+#viewpqrs{
+    margin-top: -15px;
+    position: absolute;
+    float: right;
+    max-width: 300px;
+    overflow-x: hidden;
+    max-height: 175px;
+    overflow-y: auto;
+}
+
+#viewpqrs h3{
+    color: black;
+    font-size: 12px;
+    margin-bottom: -1px;
+}
+
+#viewpqrs table{
+    color: black;
+    font-size: 8px;
+}
+
+#viewpqrs table tr th{
+    font-size: 8px;
+}
+
+
+#qSummary{
+    position: relative;
+    float: left;
+    color: black;
+    margin-top: 110px;
+    max-width: 630px;
+    width: 630px;
+    min-width: 630px;
+}
+
+#qSummary p{
+    color: black;
+    max-width: 630px;
+    width: 630px;
+    min-width: 630px;
+    white-space: normal;
+    font-size: 12px;
+}
+
+
+
+#lockbod{
+    font-size: 15px;
+    color: black;
+    white-space: normal;
+    width: 640px;
+}
+
+#qspsummary{
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+#toggle label { 
+    padding:0.2em 1em 0.2em 0; 
+}
+
+/* CSS only version */
+
+#toggle{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.toggle-btn-grp.cssonly * {
+    
+    font-weight: bold;
+    color: black;
+    width:120px;
+    height:15px;
+    line-height:15px;
+}
+.toggle-btn-grp.cssonly div {
+    display:inline-block;
+    position:relative;
+    margin:15px 10px;
+}
+
+.toggle-btn-grp.cssonly div label {
+    border:solid 1px black !important;
+    background-color: #7f697f;
+    position:absolute;
+    z-index:0;
+    padding:0;
+    text-align:center;
+}
+
+.toggle-btn-grp.cssonly div input {
+    position:absolute;
+    z-index:1;
+    cursor:pointer;
+    opacity:0;
+}
+
+.toggle-btn-grp.cssonly div:hover label {
+    border:solid 1px #a0d5dc !important; 
+    background:#f1fdfe;
+}
+
+.toggle-btn-grp.cssonly div input:checked + label {
+    background:lightgreen;
+    border:solid 1px green !important; 
+}
+
+
+#qsp{
+    color: black;
+    min-width: 630px;
+    margin-left: 15px;
+    white-space: normal;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+#mapth{
+    position: relative;
+    float: left;
+    font-size: 15px;
+}
+
+#mapviewer{
+    position: relative;
+    float: left;
+    left: 40px;
+}
+
+#qsp1{
+    position: relative;
+    float: left;
+    color: black;
+    left: 0px;
+    top: 30px;
+    white-space: normal;
+    font-size: 12px;
+}
+
+#dqsp{
+    color: black;
+    min-width: 630px;
+    margin-left: 15px;
+    white-space: normal;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+
+
+#qResults{
+    position: relative;
+    float: left;
+}
+
+#qResults h3{
+    color: black;
+    width: 950px;
+    font-size: 14px;
+}
+
+#qResults p{
+    color: black;
+    width: 950px;
+    white-space: normal;
+    font-size: 12px;
+}
+
+#fileformba li{
+    background-color:#CEE3F6;
+    position: relative;
+    padding: 0em 0.5em 0em 0em;
+    display: inline-block;
+}
+
+#fileformheadba{
+    border: solid 0.1em black;
+    padding: 0.25em 0.25em 0.25em 0.25em;
+    height: 1.5em;
+    width: 940px;
+    background-color:#CEE3F6;
+    position: relative;
+    float: left;
+    z-index: 10
+}
+
+#fileformheadba head5{
+    position: absolute;
+    margin-left: 65px;
+    margin-top: -1.1em
+}
+
+#fileformheadba head1{
+    position: absolute;
+    margin-left: 240px;
+    margin-top: -1.1em
+}
+
+#fileformheadba head4{
+    position: absolute;
+    margin-left: 420px;
+    margin-top: -1.1em
+}
+
+#fileformheadba head2{
+    position: absolute;
+    margin-left: 602px;
+    margin-top: -1.1em
+}
+
+#fileformheadba head3{
+    position: absolute;
+    margin-left: 710px;
+    margin-top: -1.1em
+}
+
+#fileformheadba head6{
+    position: absolute;
+    margin-left: 820px;
+    margin-top: -1.1em
+}
+
+#fileformhead{
+    border: solid 0.1em black;
+    padding: 0.25em 0.25em 0.25em 0.25em;
+    margin-top: 1em;
+    background-color:#7f7962;
+    color: white;
+    height: 25px;
+
+}
+
+#fileformhead head0{
+    position: absolute;
+    margin-left: 5px;
+    margin-top: -1.1em
+}
+
+#fileformhead head1{
+    position: absolute;
+    margin-left: 5px;
+    margin-top: -1.1em
+}
+
+#fileformhead head2{
+    position: absolute;
+    margin-left: 245px;
+    margin-top: -1.1em
+}
+
+#fileformhead head3{
+    position: absolute;
+    margin-left: 520px;
+    margin-top: -1.1em
+}
+
+#fileformhead head4{
+    position: absolute;
+    margin-left: 540px;
+    margin-top: 0em;
+}
+
+
+
+bt {
+    font-weight:bold;
+    position: relative;
+    float: left;    
+}
+
+head0{
+    position: absolute;
+    margin-left: 5px;
+    margin-top: -1.1em
+    }
+
+head1{
+    position: absolute;
+    margin-left: 200px;
+    margin-top: -1.1em
+    }
+
+head2{
+    position: absolute;
+    margin-left: 450px;
+    margin-top: -1.1em
+    }
+
+head3{
+    position: absolute;
+    margin-left: 700px;
+    margin-top: -1.1em
+    }
+
+head4{
+    position: absolute;
+    margin-left: 800px;
+    margin-top: 0em
+    }
+
+locval{
+    border: solid 0.125em red;  
+    border-radius: 0.5em;
+    padding: 0.5em 0em;
+    float:left;
+}
+
+
+#up{
+    border: solid 0.125em #103B7F;
+    display: block;
+    position: absolute;
+    margin-left: 10em;
+    margin-top: 10em;
+    width: 40em;
+    top: 0.53em;
+    padding-left: 2em;
+}
+
+#acom{
+    position: absolute;
+    float:left;
+    margin-left: 9.5;
+    margin-top: 9em;
+    width: 37.5em;
+}
+
+
+#All{
+    float:left;
+    position: absolute;
+}
+
+#success{
+    position: absolute;
+    float:left;
+    padding: 0.625em 0.625em;
+    width: 40.625em;
+    top: 9.375em;
+    left: 10em;
+}
+
+
+
+
+#abt{
+    position: absolute;
+    float:left;
+    border: solid 0.125em #103B7F;
+    display: block;
+    padding-left: 0.625em;
+    margin-top: 0.625em;
+    margin-left: 9.5em;
+    width: 62.5em;
+    top: 9.375em;
+}
+
+
+
+
+
+#processingDivpc{
+    position: fixed;
+    background-color: #FFFFFF;
+    z-index: 100;
+    font-size: 1.5em;
+    font-weight: bold;
+    top: 15%;
+    left: 500px;
+    text-align: center;
+}
+
+#DocText{
+    background-color: black;
+    width: 350px;
+    height: 100px;
+    position: absolute;
+    top: 55px;
+    left: 200px;
+    z-index: 100;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#DocText h3{
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    top: 45px;
+}
+
+#DocText1{
+    background-color: black;
+    width: 350px;
+    height: 100px;
+    position: absolute;
+    top: 55px;
+    left: 200px;
+    z-index: 100;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#DocText1 h3{
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    top: 45px;
+}
+
+#DocText2{
+    background-color: black;
+    width: 350px;
+    height: 100px;
+    position: absolute;
+    top: 55px;
+    left: 200px;
+    z-index: 100;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#DocText2 h3{
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    top: 45px;
+}
+
+#downloaddata{
+    position: relative;
+    float: left;
+}
+
+#downdata{
+    position: relative;
+    float: left;
+}
+
+
+
+#processingDiv1{
+    position: absolute;
+    background-color: #FFFFFF;
+    z-index: 100;
+    font-weight: bold;
+    max-height: 5px;
+    max-width: 10px;
+    margin-top: 100px;
+    left: 350px;
+    text-align: center;
+}
+
+#processingDiv{
+    position: absolute;
+    background-color: #FFFFFF;
+    z-index: 100;
+    font-size: 1.5em;
+    font-weight: bold;
+    top: 300px;
+    left: 400px;
+    text-align: center;
+}
+
+#processingDiv2{
+    position: absolute;
+    background-color: #FFFFFF;
+    z-index: 100;
+    font-size: 1.5em;
+    font-weight: bold;
+    top: 60px;
+    left: 400px;
+    text-align: center;
+    padding: 40px 40px 40px 40px;
+}
+
+#DocText3{
+    position: relative;
+    top: 35px;
+    left: 50px;
+    z-index: 100;
+    color: red;
+    font-size: 30px;
+    width: 800px;
+}
+
+#userinfo{
+    position: relative;
+    
+}
+
+
+
+#uphucs{
+    position: relative;
+}
+
+
+
+#processingDiv3{
+    position: relative;
+    background-color: #FFFFFF;
+    z-index: 100;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+}
+
+#DocText4{
+    position: relative;
+    z-index: 100;
+    left: 30px;
+    color: red;
+    font-size: 30px;
+}
+
+
+#Header{
+    margin-bottom: -20px;
+}
+
+#templatediv{
+    margin-top: 20px;
+    margin-bottom: -15px;
+}
+
+#templatediv li a{
+    text-align: center;
+    margin-left: -40px;
+}
+
+#Nospat{
+    position: absolute;
+    color: red;
+    z-index: 100;
+    right: -300px;
+    top: 25px;
+}
+
+#processingDiv4{
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    color: black;
+    text-align: center;
+}
+
+#NoSpatial{
+    position: fixed;
+    color: red;
+    bottom: 2%;
+    left: 10%;
+    z-index: 100;
+}
+
+abal{
+    font-weight: bold;
+    z-index: 10;
+}
+
+#eftdet{
+    position: relative;
+    float: left;
+    min-width: 950px;
+    max-width: 950px;
+    padding-top: 10px;
+}
+
+#eftdet lab{
+    margin-bottom: 10px;
+}
+
+#eftdet labred{
+    padding-bottom: 10px;
+}
+
+#eftexp{
+    position: relative;
+    float: left;
+    min-width: 950px;
+    max-width: 950px;
+    padding-top: 10px;
+    margin-left: 15px;
+}
+
+#TopPage{
+    position: fixed;
+    background:#F2F2F2; 
+    position:fixed;
+    max-width: 1280px;
+    min-width: 1280px;
+    top: 0px;
+    max-height: 90px;
+    background-repeat: no-repeat;
+    height: 100px;
+    z-index: 2;
+}
+
+
+prjnamehead{
+    z-index: 3;
+}
+
+
+ul lid{
+    position:fixed;
+    font-weight: bold;
+    font-size: 10px;
+    left: 15px;
+    top: 15px;
+    height: 6em;
+    border: solid 0.125em #103B7F;
+    padding: 0.25em 0.25em;
+    width:140px;
+    z-index: 5; 
+}
+
+ul lid li{
+    position: relative;
+    float: left;
+    margin-left: -17px;
+}
+
+ul lil{
+    position:fixed;
+    font-weight: bold;
+    left:170px;
+    top: 15px;
+    width:36.5em;
+    border: solid 0.125em #103B7F;
+    padding: 0.25em 0.25em;
+    z-index: 2;
+    
+}
+
+
+
+#sav1{
+    position:fixed;
+    left: 780px;
+    width: 100px;
+    height: 40px;
+    top: 20px;
+    font-weight: bold;
+    z-index: 5;
+    white-space: normal;
+    background: #81DAF5; 
+    background: linear-gradient(top, #81DAF5 0%, #bbbbbb 100%);  
+    background: -moz-linear-gradient(top, #81DAF5 0%, #bbbbbb 100%); 
+    background: -webkit-linear-gradient(top, #81DAF5 0%,#bbbbbb 100%);
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 5px;
+
+}
+
+#sav1:hover{
+    background: #81DAF5;
+    color: white;
+}
+
+#savap1{
+    position:fixed;
+    left: 890px;
+    width: 100px;
+    height: 40px;
+    top: 20px;
+    font-weight: bold;
+    z-index: 5;
+    white-space: normal;
+    background: #00BFFF; 
+    background: linear-gradient(top, #00BFFF 0%, #bbbbbb 100%);  
+    background: -moz-linear-gradient(top, #00BFFF 0%, #bbbbbb 100%); 
+    background: -webkit-linear-gradient(top, #00BFFF 0%,#bbbbbb 100%);
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 5px;
+}
+
+#savap1:hover{
+    background: #00BFFF;
+    color: white;
+}
+
+#savap2{
+    position:fixed;
+    left: 1000px;
+    width: 100px;
+    height: 40px;
+    top: 20px;
+    font-weight: bold;
+    z-index: 5;
+    white-space: normal;
+    background: #086A87; 
+    background: linear-gradient(top, #086A87 0%, #bbbbbb 100%);  
+    background: -moz-linear-gradient(top, #086A87 0%, #bbbbbb 100%); 
+    background: -webkit-linear-gradient(top, #086A87 0%,#bbbbbb 100%);
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 1px;
+    padding-bottom: 5px;
+}
+
+#savap2:hover{
+    background: #086A87;
+    color: white;
+}
+
+#sav2{
+    position:fixed;
+    left: 50px;
+    width: 7em;
+    height: 3.5em;
+    top: 12px;
+    font-weight: bold;
+    z-index: 5;
+    white-space: normal;
+    background: #81DAF5; 
+    background: linear-gradient(top, #81DAF5 0%, #bbbbbb 100%);  
+    background: -moz-linear-gradient(top, #81DAF5 0%, #bbbbbb 100%); 
+    background: -webkit-linear-gradient(top, #81DAF5 0%,#bbbbbb 100%);
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+#sav2:hover{
+    background: #81DAF5;
+    color: white;
+}
+
+#savap3{
+    position:fixed;
+    left: 170px;
+    width: 10em;
+    height: 3.5em;
+    top: 12px;
+    font-weight: bold;
+    z-index: 5;
+    white-space: normal;
+    background: #00BFFF; 
+    background: linear-gradient(top, #00BFFF 0%, #bbbbbb 100%);  
+    background: -moz-linear-gradient(top, #00BFFF 0%, #bbbbbb 100%); 
+    background: -webkit-linear-gradient(top, #00BFFF 0%,#bbbbbb 100%);
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#savap3:hover{
+    background: #00BFFF;
+    color: white;
+}
+
+#savap4{
+    position:fixed;
+    left: 330px;
+    width: 10em;
+    height: 3.5em;
+    top: 12px;
+    font-weight: bold;
+    z-index: 5;
+    white-space: normal;
+    background: #086A87; 
+    background: linear-gradient(top, #086A87 0%, #bbbbbb 100%);  
+    background: -moz-linear-gradient(top, #086A87 0%, #bbbbbb 100%); 
+    background: -webkit-linear-gradient(top, #086A87 0%,#bbbbbb 100%);
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#savap4:hover{
+    background: #086A87;
+    color: white;
+}
+
+
+
+#deleteprj:hover{
+    background: #F6CECE;
+    color: white;
+}
+
+
+containerfile{
+    position: relative;
+    float: left;
+}
+
+
+
+
+#ferrorsp{
+    background-color: #E0E6F8;
+    color: red;
+    font-size: 1.5em;
+    margin-top: -1em;
+}
+
+#prjsect{
+    position: fixed;
+    top: 40px;
+    left: 170px;
+    z-index: 4;
+    
+}
+
+#prjsect nav ul{
+    margin-left: 50px;
+    margin-top: 8px;
+    
+}
+
+nav4 ul ul {
+    display: none;
+}
+
+nav4 ul li:hover > ul {
+    display: block;
+}
+
+nav4 ul {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+nav4 ul:after {
+    content: ""; clear: both; display: block;
+}
+
+nav4 ul li {
+    font-size: 1.1em;
+    border: 1px solid #000000;
+    text-align: center;
+    background: #0B3861; 
+    background: linear-gradient(top, #0B3861 0%, #bbbbbb 100%);  
+    background: -moz-linear-gradient(top, #0B3861 0%, #bbbbbb 100%); 
+    background: -webkit-linear-gradient(top, #0B3861 0%,#bbbbbb 100%);
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.15);
+    list-style: none;
+    display: inline-table;
+    padding: 0.25em 0.25em 0.25em 0.25em;
+}
+
+nav4 ul li:hover {
+    background: #A9D0F5;
+    background: linear-gradient(top, #A9D0F5 0%, #0B3B24 40%);
+    background: -moz-linear-gradient(top, #A9D0F5 0%, #0B3B24 40%);
+    background: -webkit-linear-gradient(top, #A9D0F5 0%,#0B3B24 40%);
+
+}
+
+nav4 ul li:hover a {
+    color: #FFFFFF;
+
+}
+
+nav4 ul li a {
+    display: block; 
+    color: #FFFFFF; 
+    text-decoration: none;
+    font-size: 0.8em;
+}
+
+#acttypelen{
+  width: 70px;
+  margin-right: 30px;
+}
+
+
+#actlen{
+  width: 500px;
+}
+
+#actdivmast{
+    margin-bottom: -5px;
+    border: none;
+    font-weight: bold;
+    margin-top: 25px;
+    font-size: 18px;
+    max-width: 1000px;
+}
+
+#actdivmast lab{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 110px;
+    text-align: left;
+    padding-right: 10px;
+    font-size: 18px;
+}
+
+#actdivmain{
+    margin-bottom: -5px;
+    border: none;
+
+}
+
+#actdivmain lab{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 143px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
+#actdiv{
+    padding-bottom: 10px;
+    border: none;
+}
+
+#actdiv lab{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 141.5px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
+#actdiv labwc{
+    display: inline-block;
+    float: left;
+    padding-right: 10px;
+    font-size: 14px;
+    min-width: 800px;
+    max-width: 800px;
+    margin-left: 59px;
+    font-weight:bold;
+    color: #7f7962;
+}
+
+#actdiv labwc2{
+    display: inline-block;
+    float: left;
+    font-size: 14px;
+    margin-left: 64px;
+    font-weight:bold;
+    color: #7f7962;
+}
+
+#actdiv labwc1{
+    display: inline-block;
+    float: left;
+    padding-right: 10px;
+    font-size: 14px;
+    min-width: 800px;
+    max-width: 800px;
+    margin-left: 65px;
+    font-weight:bold;
+    color: #7f7962;
+}
+
+#objmargin{
+    position: relative;
+    float: left;
+    margin-left: 87px;
+    top: -15px;
+}
+
+#objwrdcnt{
+    position: relative;
+    float: right;
+    color: black;
+    right: -60px;
+}
+
+
+#effwrdcnt{
+    position: relative;
+    float: right;
+    color: black;
+    right: 0px;
+}
+
+
+
+#actdiv labwc1{
+    display: inline-block;
+    float: left;
+    padding-right: 10px;
+    font-size: 14px;
+    min-width: 775px;
+    max-width: 775px;
+    margin-left: 83px;
+    font-weight:bold;
+    color: #7f7962;
+}
+
+#actdiv lab5{
+    clear: left;
+    width: 141.5px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+    margin-left: 10px;
+    color: #7f7962;
+    font-weight: bold;
+    font-family: arial;
+    font-size: 14px;
+}
+
+#lab66{
+    clear: left;
+    width: 141.5px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+    color: #7f7962;
+    font-weight: bold;
+    font-family: arial;
+    font-size: 14px;
+
+}
+
+.actdivcl{
+    padding-bottom: 10px;
+    border: none;
+    min-width: 950px;
+    max-width: 950px;
+    position: relative;
+    float: left;
+}
+
+.actdivcl lab{
+    display: inline-block;
+    float: left;
+    clear: right;
+    width: 145px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
+#actdiv1{
+    padding-bottom: 10px;
+    border: none;
+    min-width: 950px;
+    max-width: 950px;
+    position: relative;
+    float: left;
+}
+
+#actdiv1 lab{
+    display: inline-block;
+    float: left;
+    clear: right;
+    width: 145px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
+#actdiv1 lab1{
+    display: inline-block;
+    float: left;
+    clear: right;
+    width: 145px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
+#actdiv2{
+    padding-bottom: 10px;
+    border: none;
+    min-width: 950px;
+    max-width: 950px;
+    position: relative;
+    float: left;
+}
+
+#actdiv2 lab{
+    display: inline-block;
+    float: left;
+    clear: right;
+    width: 250px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
+#actdiv2 h3{
+    display: inline-block;
+    float: left;
+    font-size: 14px;
+    color: black;
+    margin-left: 50px;
+    text-decoration: underline;
+    margin-bottom: -5px;
+}
+
+#actdiv2 h4{
+    display: inline-block;
+    float: left;
+    font-size: 18px;
+    color: #7f697f;
+    font-family: Arial;
+    margin-left: 20px;
+    margin-bottom: -5px;
+}
+
+
+#bckrndbox{
+    position: relative;
+    float: left;
+
+}
+
+#effstatus{
+    position: relative;
+    float: left;
+    color: blue;
+    font-size: 14px;
+    top: -10px;
+    left: 20px;
+
+}
+
+#eft{
+    position: relative;
+    float: left;
+    color: blue;
+    font-size: 14px;
+    top: -10px;
+    left: 15px;
+    
+
+}
+
+#MFD{
+    position: relative;
+    float: right;
+    color: red;
+    font-size: 14px;
+    top: -10px;
+    right: 10px;
+}
+
+#RequiredFlds p{
+    position: relative;
+    float: right;
+    color: black;
+    font-size: 16px;
+    right: 10px;
+    top: -30px;
+
+}
+
+#RequiredFlds p span{
+
+    color: red;
+    font-size: 16px;
+
+}
+
+.required{
+    color: red;
+    font-size: 16px;
+}
+
+.required1{
+    position: relative;
+    left: -39px;
+    color: red;
+    font-size: 16px;
+}
+
+.required2{
+    top: 20px;
+    color: red;
+    font-size: 16px;
+    position: relative;
+}
+
+.required3{
+    position: relative;
+    left: -10px;
+    color: red;
+    font-size: 16px;
+}
+
+#Locationinfo{
+    position: relative;
+    float: left;
+    left: 5px;
+    top: 20px;
+}
+
+#ApprovePrj{
+    font-weight: bold;
+    font-family: arial;
+    font-size: 16px;
+    position: relative;
+    float: left;
+    top: 35px;
+}
+
+#fldwidth{
+    min-width: 950px;
+    max-width: 950px;
+}
+
+#fldwidth lab{
+}
+
+#fldwidth red{
+}
+
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 10px;
+    margin-right: -20px;
+    border-width: 2px;
+} 
+
+
+
+#impefttopL{
+    position: relative;
+    float: left;
+    min-width: 950px;
+    max-width: 950px;
+    top: 25px;
+}
+
+#impstatus{
+    margin-bottom: 0px;
+}
+
+#impefttopR{
+    position: relative;
+    float: left;
+    top: 40px;
+}
+#pt2Label{
+    min-width: 950px;
+    max-width: 950px;
+    margin-top: 10px;
+}
+
+#pt2Label p{
+    margin-left: 20px;
+
+    margin-bottom: 0px;
+    min-width: 950px;
+    max-width: 950px;
+    font-weight: bold;
+}
+
+#pt2fields{
+    margin-bottom: 20px;
+}
+
+#pt2fields ul{
+    margin-bottom: -10px;
+}
+
+#pt2fields ul li span{
+    margin-left: 40px;
+}
+
+#pt1fields ul li span{
+    margin-left: 40px;
+}
+
+#Part1Label{
+    position: relative;
+    float: left;
+    left: 20px;
+    padding-right: 20px;
+    margin-right: 20px; 
+    min-width: 950px;
+    max-width: 950px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#Part2Label{
+    position: relative;
+    float: left;
+    left: 20px;
+    padding-right: 20px;
+    margin-right: 20px; 
+    min-width: 950px;
+    max-width: 950px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+#ImpStat ul li{
+    margin-left: -5px;
+}
+
+#spatlink{
+    position: relative;
+    float: left;
+    font-family: arial;
+    font-size: 14px;
+    top: -5px;
+    left: 70px;
+}
+
+#spatlink1{
+    position: relative;
+    float: left;
+    font-family: arial;
+    font-size: 14px;
+    top: -5px;
+    right: -100px;
+
+}
+
+.button10{
+
+    background: #a4d4cb;
+    border-radius: 25px;
+    right: 10px;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none
+}
+
+.button10:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none
+}
+
+.button100{
+
+    background: #a4d4cb;
+    border-radius: 25px;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none;
+    margin-top: 20px;
+    margin-left: -60px;
+}
+
+.button100:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none
+}
+
+#DownAllButton{
+    left: 320px;
+}
+
+.threatsexplained{
+    padding-bottom: 10px;
+    border: none;
+}
+
+.threatsexplained lab{
+    display: inline-block;
+    float: left;
+    clear: left;
+    max-width: 141.5px;
+    min-width: 141.5px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 14px;
+    white-space: normal;
+}
+
+#ExplainLab{
+    font-size: 16px;  
+    margin-left: 152px;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+#indmap{
+    position: relative;
+    float: left;
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 200px;
+    max-height: 200px;
+
+}
+
+#sectype{
+    position: relative;
+    float: left;
+    color: #97767b;
+    font-size: 16px;  
+    font-family: Arial;
+    font-weight: bold;
+    min-width: 975px;
+    max-width: 975px;
+}
+
+
+#docreview{
+    position: relative;
+    float: left;
+    min-width: 950px;
+    max-width: 950px;
+
+}
+
+#docreviewcnt{
+    position: relative;
+    float: left;
+    
+}
+
+#docreviewlab{
+
+}
+
+#docreviewrow{
+    position: relative;
+    float: left;
+}
+
+#effexpwrdcnt{
+    position: relative;
+    float: right;
+    right: 90px;
+    color: black;
+    font-size: 12px;  
+    font-weight: bold;
+    top: 30px;
+
+}
+
+#map{
+    max-width: 900px; 
+    max-height: 400px;
+    min-width: 900px; 
+    min-height: 400px; 
+    position: relative;
+    float: left;
+    top: 10px;
+  }
+
+#GISAcres{
+    position: relative;
+    float: left;
+    margin-left: 230px;
+    color: red;
+    font-size: 11px; 
+    font-weight: bold;
+    margin-top: 0px;
+    max-width: 900px;
+    min-width: 900px;
+    padding-bottom: 10px;
+}
+
+#GISAcresMis{
+    position: relative;
+    float: left;
+    margin-left: 430px;
+    color: red;
+    font-size: 11px; 
+    font-weight: bold;
+    margin-top: -40px;
+    max-width: 640px;
+    min-width: 640px;
+}
+
+
+#GISAC{
+    position: relative;
+    float: left;
+    left: -5px;
+    font-size: 14px;
+    max-width: 200px;
+}
+
+#threatdivac lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivce lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivog lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivfi lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivfe lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivig lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivin lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivip lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivmi lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdiviv lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivre lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+#threatdivsl lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+
+#threatdivud lab{
+  white-space: normal; 
+  max-width: 141.5px;
+  min-width: 141.5px;
+}
+
+
+#statusqs{
+    margin-left: 25px;
+}
+
+#effectqs{
+    margin-left: 25px;
+}
+
+/*#Effect_Explained_Label{
+    
+    margin-bottom: 20px;
+}*/
+
+#Effect_Explained_Label{
+    margin-top: 30px;
+    top: -5px;
+    font-weight:bold;
+    font-size: 12px;
+    color: #7f7962;
+    max-width: 600px;
+    position: relative;
+    float: left;
+}
+
+#dismaps{
+    top: 10px;
+}
+
+#actinfo{
+    top: 40px;
+}
+
+#giscolor{
+    margin-left: 7px;
+}
+
+#GISWarnings{
+    position: relative;
+    float: left;
+    top: 0px;
+    left: -180px;
+    padding-bottom: 15px;
+}
+
+#startcolor{
+    position: relative;
+    float: left;
+    left: 7px;
+}
+
+#objcolor{
+    position: relative;
+    float: left;
+    left: -60px;
+
+}
+
+#metricleft{
+   position: relative;
+    float: left;
+    left: -5px; 
+}
+
+#metricleft i{
+   font-size: 14px;
+}
+
+#weirdrequired{
+    position: relative;
+    float: left;
+}
+
+
+#seedtypelab{
+    margin-left: 7px;
+}
+
+#seedchoicecolor{
+    color: #7f7962;
+    font-size: 15px;
+}
+
+#id_seeding_type_1{
+    margin-left: 30px;
+}
+
+#id_seeding_type_2{
+    margin-left: 30px;
+}
+
+#pfirelab{
+    margin-left: 7px;
+}
+
+#pfirechoicecolor{
+    color: #7f7962;
+    font-size: 15px;
+}
+
+#id_post_fire_1{
+    margin-left: 30px;
+}
+
+#readonly{
+    position: relative;
+    float: left;
+    top: 80px;
+
+}
+
+#location{
+    position: relative;
+    float: left;
+}
+
+#viewloc{
+    position: relative;
+    float: left;
+    width: 1000px;
+    top: 50px;
+    padding-bottom: 10px;
+}
+
+#viewloc1{
+    position: relative;
+    float: left;
+    left: 10px;
+    top: 10px;
+}
+
+#loctool{
+    position: relative;
+    float: left;
+    width: 950px;
+    margin-bottom: -20px;
+}
+
+#loctool{
+    position: relative;
+    float: left;
+    width: 950px;
+    border: solid 2px black;
+    white-space: normal;
+    top: 50px;
+    left: 13px;
+    color: #97767b;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#loctool p{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #97767b;
+    font-weight: bold;
+
+}
+
+#implementation{
+    position: relative;
+    float: left;
+}
+
+#viewimp{
+    position: relative;
+    float: left;
+    width: 1000px;
+    top: 50px;
+    padding-bottom: 10px;
+}
+
+#viewimp1{
+    position: relative;
+    float: left;
+    left: 10px;
+    top: 10px;
+}
+
+#imptool{
+    position: relative;
+    float: left;
+    width: 950px;
+    margin-bottom: -20px;
+}
+
+#imptool{
+    position: relative;
+    float: left;
+    width: 950px;
+    border: solid 2px black;
+    white-space: normal;
+    top: 50px;
+    left: 13px;
+    color: #97767b;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#imptool p{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #97767b;
+    font-weight: bold;
+
+}
+
+#activity{
+    position: relative;
+    float: left;
+}
+
+#viewact{
+    position: relative;
+    float: left;
+    width: 1000px;
+    top: 50px;
+    padding-bottom: 10px;
+}
+
+#viewact1{
+    position: relative;
+    float: left;
+    left: 10px;
+    top: 10px;
+}
+
+#acttool{
+    position: relative;
+    float: left;
+    width: 950px;
+    margin-bottom: -20px;
+}
+
+#acttool{
+    position: relative;
+    float: left;
+    width: 950px;
+    border: solid 2px black;
+    white-space: normal;
+    top: 50px;
+    left: 13px;
+    color: #97767b;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#acttool p{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #97767b;
+    font-weight: bold;
+
+}
+
+#StateList1{
+    position: relative;
+    float: left;
+    width: 750px;
+}
+
+#CountyList1{
+    position: relative;
+    float: left;
+    width: 750px;
+}
+
+#OwnerList1{
+    position: relative;
+    float: left;
+    width: 750px;
+}
+
+#ColCheckSel{
+    position: relative;
+    float: left;
+    width: 750px;
+}
+
+#ThrCheckSel{
+    position: relative;
+    float: left;
+    width: 750px;
+}
+
+#read{
+    position: relative;
+    float: left;
+    width: 1000px;
+    font-weight: bold;
+    font-size: 14;
+}
+</style>
+
+
+<body onload=" javascript:GoToEdit('errorcheckdiv'); javascript:LoadLists('State_Value', 'States Selected: ', 'StatesList'); javascript:LoadLists('County_Value', 'Counties Selected: ', 'CntsList'); javascript:LoadLists('Owner_Value', 'Ownership Selected: ', 'OwnerList'); javascript:GoToEdit('SandR'); ">
+
+
+
+<form id="editplan_Form" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+    
+ <div id="editmain">
+      
+ <div id="TN" class="edittop">
+          {% for fieldset in form.fieldsets %}
+            {% if fieldset.name == "Step 4: Activity Information" %}
+              {% for field in form %}
+                <div id="actdivmast">
+                  {% if field.label == "Effort Name*" %}
+                    <div><lab> Effort Name: </lab>{{ field.value }}</div>
+                    
+                     
+                  {% elif field.label == "Effort Type" %}
+                        <div id="eft"> Effort is a <prj id="getprjid">{{ field.value }}</prj></div>
+
+                  {% elif field.label == "Entry Type" %}
+                        <div id="effstatus">{{ field }}</div>
+
+                   {% elif field.label == "Mark This Effort for Deletion" %}
+
+                            
+
+                  {% endif %}
+
+                </div>
+                
+                
+              {% endfor %}
+
+            {% endif %}
+
+          {% endfor %} 
+          <div id="read">You cannot edit this record. View available, read only data on this record below.</div>
+    </div>
+
+
+<div id="readonly">
+    <div id='location'>
+        <div id="viewloc"> <input id='changeloc' type="button" class="button" value="+" onclick="javascript:DisplaySection('loctool', 'changeloc');"/><b id="viewloc1">Location Information</b></div>
+        <div id="loctool" style="display:none;">
+            <!-- <div id="MU">
+                <h2>Location Information</h2>
+            </div> -->
+
+            {% for fieldset in form.fieldsets %}
+                {% if fieldset.name == "Step 2: Location Information" %}
+                    {% if typeactval == "Spatial Project" %}
+                        <div id="map" style="height:100%" >
+                            <img id="loadingImg" src="{% static 'ced_main/images/ced_main/loading.gif' %}" style="position:fixed; right:50%; top:50%; z-index:100;" />
+                        </div>  
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+
+            <div id="actdiv1"> 
+                <lab id="sts">States:</lab><div id="StateList1">{{ stassel }}</div>
+            </div>
+
+            <div id="actdiv1"> 
+                <lab id="cnties">Counties:</lab><div id="CountyList1">{{ cntssel }}</div>
+            </div>
+
+            {% if typeactval != "Non-Spatial Plan" %}
+                <div id="actdiv1"> 
+                    <lab id="ownlab">Ownership:&nbsp;</lab><div id="OwnerList1">{{ ownssel }}</div>
+                </div>
+            {% endif %}
+
+
+            <div id="actdiv1" class="actdivcl"> 
+                <lab id="ColCheckLab">Collaborators:</lab><div id="ColCheckSel">{{ colabssel }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div id='implementation'>
+        <div id="viewimp"> <input id='changeimp' type="button" class="button" value="+" onclick="javascript:DisplaySection('imptool', 'changeimp');"/><b id="viewimp1">Implementation Information</b></div>
+        <div id="imptool" style="display:none;">
+            {% if subform4.non_field_errors %}{{ subform4.non_field_errors }}{% endif %}
+            
+                            <div id="actdiv2"> 
+                                <h4>Part 1: Status</h4>
+                            </div>
+                            {% for fieldset in subform4.fieldsets %}
+                                {% if fieldset.legend == "Step 3: Implementation" %}
+                                    {% for field in fieldset %}
+                                        {% if field.is_hidden %}
+                                            {{ field }}
+                                        {% else %}
+                                            {% if field.label == "1) What is the current implementation status of the activity?*" %}
+                                                <div id="actdiv2"> 
+                                                    <lab id="impstatrevlab">Implementation Status:</lab><div id="impval">{{ field.value }}</div>
+                                                </div>
+                                            {% else %}
+                                                <div id="hidden"  style="display:none;"> 
+                                                    {{ field.value }}
+                                                </div>
+                                            {% endif %}   
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+ 
+                                
+                                <div id='DisNotImp'>
+
+                                    <div id="actdiv2"> 
+                                        <h3>For actions not yet implemented, is there a high level of certainty that:</h3>
+                                    </div>
+
+                                        {% for fieldset in subform4.fieldsets %}
+                                            {% if fieldset.legend == "Step 3: Implementation" %}
+                                                {% for field in fieldset %}
+                                                    {% if field.is_hidden %}
+                                                        {{ field }}
+                                                    {% else %}
+                                                        {% if field.label == "a. The activity will be implemented:" %}
+                                                            <div id="actdiv2"> 
+                                                                <lab id="wbirevlab">Will be Implemented:</lab><div id="wbirev">{{ field.value }}</div>
+                                                            </div>
+                                                        {% elif field.label == "b. The implementing party has the legal authority to conduct the activity:" %}
+                                                            <div id="actdiv2"> 
+                                                                <lab id="larevlab">Legal Authority:</lab><div id="larev">{{ field.value }}</div>
+                                                            </div>
+                                                        {% elif field.label == "c. Financial, staffing, and administrative resources necessary to carry out the conservation effort are available:" %}
+                                                            <div id="actdiv2"> 
+                                                                <lab id="rarevlab">Resources Available:</lab><div id="rarev">{{ field.value }}</div>
+                                                            </div>
+                                                        {% elif field.label == "d. Regulatory and/or procedural mechanisms are in place to carry out the efforts:" %}
+                                                            <div id="actdiv2"> 
+                                                                <lab id="miprevlab">Mechanisms in Place:</lab><div id="miprev">{{ field.value }}</div>
+                                                            </div>
+                                                        {% elif field.label == "e. All Federal/State/Local legal project compliance requirements have been met or are reasonably certain to be met:" %}
+                                                            <div id="actdiv2"> 
+                                                                <lab id="crrevlab">Compliance Requirements:</lab><div id="crrev">{{ field.value }}</div>
+                                                            </div>
+                                                        {% elif field.label == "f. If voluntary participation is needed, are incentives adequate to ensure the level of participation necessary to carry out the conservation effort:" %}
+                                                            <div id="actdiv2"> 
+                                                                <lab id="vprevlab">Voluntary Participation:</lab><div id="vprev">{{ field.value }}</div>
+                                                            </div>
+                                                        {% else %}
+                                                            <div id="hidden"  style="display:none;"> 
+                                                                {{ field.value }}
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endif %}     
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                </div>
+
+                                        
+
+                                
+                                <div id="actdiv2"> 
+                                    <h4>Part 3: Effectiveness Information</h4>
+                                </div>
+                                {% for fieldset in subform4.fieldsets %}
+                                    {% if fieldset.legend == "Part 3: Effectiveness Information" %}
+                                        {% for field in fieldset %}
+                                            {% if field.is_hidden %}
+                                                {{ field }}
+                                            {% else %}
+                                                {% if field.label == "2) Has the activity been deemed effective?*" %}
+                                                    <div id="actdiv2"> 
+                                                        <lab id="deemeffrevlab">Deemed Effective:</lab><div id="deemeffrev">{{ field.value }}</div>
+                                                    </div>
+                                                {% elif field.label == "2a) Explain why the activity was deemed effective, is highly likely, uncertain, or unlikely to be effective*" %}
+                                                    <div id="actdiv2"> 
+                                                        <lab id="expeffrevlab">Explain Effectiveness:</lab><div id="expeffrevrev">{{ field.value }}</div>
+                                                    </div>
+                                                {% else %}
+                                                    <div id="hidden"  style="display:none;"> 
+                                                        {{ field.value }}
+                                                    </div>
+                                                {% endif %}  
+                                            {% endif %}   
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                
+                                <div id='DisNotEff'>
+                                    <div id="actdiv2"> 
+                                        <h3>For actions that have not been deemed effective (e.g. programs/actions only recently implemented), does the action:</h3>
+                                    </div>
+
+                                    {% for fieldset in subform4.fieldsets %}
+                                        {% if fieldset.legend == "Part 3: Effectiveness Information" %}
+                                            {% for field in fieldset %}
+                                                {% if field.is_hidden %}
+                                                    {{ field }}
+                                                {% else %}
+                                                    {% if field.label == "a. Describe how the conservation effort reduces the threats:" %}
+                                                        <div id="actdiv2"> 
+                                                            <lab id="dtrrevlab">Describe Threat Reduction:</lab><div id="dtrrev">{{ field.value }}</div>
+                                                        </div>
+                                                    {% elif field.label == "b. Provide incremental objectives and dates for achieving them:" %}
+                                                        <div id="actdiv2"> 
+                                                            <lab id="iorevlab">Provide Incremental Objectives:</lab><div id="iorev">{{ field.value }}</div>
+                                                        </div>
+                                                    {% elif field.label == "c. Provide quantifiable performance measures to monitor both implementation and effectiveness:" %}
+                                                        <div id="actdiv2"> 
+                                                            <lab id="iemrevlab">Provide Effectiveness Measures:</lab><div id="iemrev">{{ field.value }}</div>
+                                                        </div>
+                                                    {% elif field.label == "d.  Incorporate principles of adaptive management (e.g. a corrective management strategy):" %}
+                                                        <div id="actdiv2"> 
+                                                            <lab id="amrevlab">Incorporate Adaptive Management:</lab><div id="amrev">{{ field.value }}</div>
+                                                        </div>
+                                                    {% else %}
+                                                        <div id="hidden"  style="display:none;"> 
+                                                            {{ field.value }}
+                                                        </div>
+                                                    {% endif %}  
+                                                {% endif %}   
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                                
+                                </div>
+                        
+        </div>
+    </div>
+
+    <div id='activity'>
+        <div id="viewact"> <input id='changeact' type="button" class="button" value="+" onclick="javascript:DisplaySection('acttool', 'changeact');"/><b id="viewimp1">Activity Information</b></div>
+        <div id="acttool" style="display:none;">
+
+            {% for fieldset in form.fieldsets %}
+            {% if fieldset.name == "Step 4: Activity Information" %}
+              {% for field in form %}
+                
+                {% if field.is_hidden %}
+                  {{ field }}
+                {% else %}
+                    {% if field.label == "Effort Name*" %}
+
+                    {% elif field.label == "Seeding Type" %}
+                        {% if Activity == "RESTORATION: Post-Disturbance and/or Habitat Enhancement" %}
+                            <div id="actdiv1"> 
+                                <lab id="SeedingTypeLab">Seeding Type:</lab><div id="SeedingTypeVal">{{ field.value }}</div>
+                            </div>
+                        {% endif %}
+
+                    {% elif field.label == "Post Wildfire Related" %}
+                        {% if Activity == "RESTORATION: Post-Disturbance and/or Habitat Enhancement" %}
+                            <div id="actdiv1"> 
+                                <lab id="PostFireLab">Post Wildfire:</lab><div id="PostFireVal">{{ field.value }}</div>
+                            </div>
+                        {% endif %}
+
+
+                    {% elif field.label == "Type of Powerline*" %}
+                        {% if subact == "Powerline Burial" %}
+                            <div id="actdiv1"> 
+                                <lab id="TypePowerLab">Type of Powerline:</lab><div id="TypePowerVal">{{ field.value }}</div>
+                            </div>
+                        {% endif %}
+
+                    {% elif field.label == "# Permit Holders*" %}
+                        {% if subact == "Conservation Agreements (includes CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                            <div id="actdiv1"> 
+                                <lab id="PerHoldLab"># Permit Holders:</lab><div id="PerHoldVal">{{ field.value }}</div>
+                            </div>
+                        {% endif %}
+
+                    
+                    {% elif field.label == "Start Date*" %}
+                        <div id="actdiv1"> 
+                            <lab id="StartDateLab">Start Date:</lab><div id="StartSel">{{ field.value }}</div>
+                        </div>
+                  
+                    {% elif field.label == "End Date*" %}
+                        <div id="actdiv1"> 
+                            <lab id="FinishDateLab">End Date:</lab><div id="EndSel">{{ field.value }}</div>
+                        </div>
+
+
+                    {% elif field.label == "Metric Type*" %}
+                        {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (includes CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
+                            <div id="actdiv1" style="display:none;"> 
+                                <lab id="MetTypeLab">{{ field.label_tag }}</lab><div id="MetType">{{ field.value }}</div>
+                            </div>
+                        {% endif %}
+
+                    {% elif field.label == "Metric Value*" %}
+                        {% if subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Road and Trail closure" %}
+                            <div id="actdiv1"> 
+                                <lab id="MetValLab">Miles Treated</lab><div id="MetVal">{{ field.value }}</div>
+                            </div>
+                        {% elif typeactval == "Spatial Project" or subact == "Conservation Agreements (includes CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" %}
+                            <div id="actdiv1"> 
+                                <lab id="MetValLab">Acres Treated</lab><div id="MetVal">{{ field.value }}</div>
+                            </div>
+                        {% endif %}
+
+                    {% elif field.label == "GIS Acres*" %}
+                        {% if typeactval == "Spatial Project" %}
+                            <div id="actdiv1"> 
+                                <lab id="GISValLab">GIS Acres:</lab>{{ field.value }}
+                            </div>
+                        {% endif %}
+
+                    {% elif field.label == "Objectives*" %}
+                        {% if typeactval != "Non-Spatial Plan" %}
+                            <div id="actdiv1"> 
+                                <lab id="ObjectiveLab">Objectives:</lab><div id="ObjectiveSel">{{ field.value }}</div>
+                            </div>
+                        {% endif %}
+
+
+                    {% elif field.label == "Notes" %}
+                        <div id="actdiv1"> 
+                            <lab>Notes:&nbsp;</lab><div id="NotesSel">{{ field.value }}</div>
+                        </div>
+
+                        <!-- <div id="actdiv1">
+                            <lab id="docreviewlab">Documentation:</lab><div id=docreviewcnt></div>
+                        </div>
+                        <div id="docreview"></div>
+ -->
+                    
+                        <div id="actdiv1" class="actdivcl"> 
+                            <lab id="ThrCheckLab">Threats:</lab><div id="ThrCheckSel">{{thrssel}}</div>
+                        </div>
+
+                    {% elif field.label == "Ag Conversion Effectiveness*" %}
+                        <div id="AgCon1" class="actdivcl"> 
+                            <lab id="AgConLab">Ag Conversion Effectiveness:</lab><div id="AgConSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Conifers Effectiveness*" %}
+                        <div id="ConEncr1" class="actdivcl"> 
+                            <lab id="ConEncrLab">Conifers Effectiveness:</lab><div id="ConEncrSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Oil and Gas Effectiveness*" %}
+                        <div id="OilGas1" class="actdivcl"> 
+                            <lab id="OilGasLab">Oil and Gas Effectiveness:</lab><div id="OilGasSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Fire Effectiveness*" %}
+                        <div id="Fire1" class="actdivcl"> 
+                            <lab id="FireLab">Fire Effectiveness:</lab><div id="FireSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Feral Equids Effectiveness*" %}
+                        <div id="FeralEquids1" class="actdivcl"> 
+                            <lab id="FeralEquidsLab">Feral Equids Effectiveness:</lab><div id="FeralEquidsSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Improper Grazing Effectiveness*" %}
+                        <div id="ImpropGraze1" class="actdivcl"> 
+                            <lab id="ImpropGrazeLab">Improper Grazing Effectiveness:</lab><div id="ImpropGrazeSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Infrastructure Effectiveness*" %}
+                        <div id="Infra1" class="actdivcl"> 
+                            <lab id="InfraLab">Infrastructure Effectiveness:</lab><div id="InfraSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Isolated Populations Effectiveness*" %}
+                        <div id="Isolate1" class="actdivcl" class="actdivcl"> 
+                            <lab id="IsolateLab">Isolated Populations Effectiveness:</lab><div id="IsolateSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Mining Effectiveness*" %}
+                        <div id="Mining1" class="actdivcl"> 
+                            <lab id="MiningLab">Mining Effectiveness:</lab><div id="MiningSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Invasives Effectiveness*" %}
+                        <div id="Invasive1" class="actdivcl"> 
+                            <lab id="InvasiveLab">Invasives Effectiveness:</lab><div id="InvasiveSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Recreation Effectiveness*" %}
+                        <div id="Rec1" class="actdivcl"> 
+                            <lab id="RecLab">Recreation Effectiveness:</lab><div id="RecSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Sagebrush Loss Effectiveness*" %}
+                        <div id="SageLoss1" class="actdivcl"> 
+                            <lab id="SageLossLab">Sagebrush Loss Effectiveness:</lab><div id="SageLossSel">{{ field.value }}</div>
+                        </div>
+
+                    {% elif field.label == "Urban Development Effectiveness*" %}
+                        <div id="UrbDevel1" class="actdivcl"> 
+                            <lab id="UrbDevelLab">Urban Development Effectiveness:</lab><div id="UrbDevelSel">{{ field.value }}</div>
+                        </div>
+
+
+                    {% elif field.label == "Mark This Effort for Deletion" %}
+                    {% elif field.label == "Entry Type" %}
+                    {% elif field.label == "Effort Type" %}
+                    {% else %}
+                        <div id="actdiv1">
+                            <lab> {{ field.label_tag }}&nbsp;</lab> 
+                            {{ field.value }}
+                        </div>
+
+                    {% endif %}
+
+                {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+        
+</div>
+
+</div>
+
+</form>
+
+
+<script type="text/javascript">
+    var imp = document.getElementById('impval').innerHTML
+    var ipval
+    if(imp == 1){
+        ipval = "Planned"
+        document.getElementById('DisNotImp').style.display = "block";
+    }else if(imp == 2){
+        ipval = "In Progress"
+        document.getElementById('DisNotImp').style.display = "block";
+    }else if(imp ==3){
+        ipval = "Completed"
+        document.getElementById('DisNotImp').style.display = "none";
+    }else{
+        document.getElementById('DisNotImp').style.display = "none";
+        ipval = "Not specified"
+    }
+    document.getElementById('impval').innerHTML = ipval;
+
+    var eff = document.getElementById('deemeffrev').innerHTML;
+    var effval
+
+    if(eff == 1){
+        effval = "Yes: project is already effective"
+        document.getElementById('DisNotEff').style.display = "none";
+    }else if(eff == 3){
+        effval = "Highly Likely: project is reasonably certain to be effective given adequate time"
+        document.getElementById('DisNotEff').style.display = "block";
+    }else if(eff ==2){
+        effval = "Uncertain or Unlikely: effectiveness is uncertain or unlikely based on current information"
+        document.getElementById('DisNotEff').style.display = "block";
+    }else{
+        effval = "Not specified"
+        document.getElementById('DisNotEff').style.display = "none";
+    }
+
+    document.getElementById('deemeffrev').innerHTML = effval;
+
+
+    var yesno = ['wbirev', 'larev', 'rarev', 'miprev', 'crrev', 'vprev', 'dtrrev', 'iorev', 'iemrev', 'amrev'];
+
+    for (var i=0; i < yesno.length; i++) {
+
+        var yn = document.getElementById(yesno[i]).innerHTML
+
+        if(yn == 1){
+            ynval = 'Yes'
+        }else if(yn == 2){
+            ynval = 'No'
+        }else{
+            ynval = 'Not specified'
+        }
+        document.getElementById(yesno[i]).innerHTML = ynval
+    }
+
+    var fir = document.getElementById('PostFireVal').innerHTML;
+    var firval
+    if(fir == 0){
+        firval == "Non-Wildfire Effort"
+    }else if(fir == 1){
+        firval = "Post Wildfire Effort"
+    }else{
+        firval = "Not specified"
+    }
+    document.getElementById('PostFireVal').innerHTML = firval;
+
+    var hidelist = ['AgCon1', 'ConEncr1', 'OilGas1', 'Fire1', 'FeralEquids1', 'ImpropGraze1', 'Infra1', 'Isolate1', 'Mining1', 'Invasive1', 'Rec1', 'SageLoss1', 'UrbDevel1']
+    for (var i=0; i < hidelist.length; i++) {
+        document.getElementById(hidelist[i]).style.display = "none";
+    }
+
+    var thrs = String('{{thrssel}}')
+    thrs = thrs.split(" | ")
+    for (var i=0; i < thrs.length; i++) {
+        if(String(thrs[i]) == 'AGRICULTURAL CONVERSION (Tillage Risk)'){
+            document.getElementById('AgCon1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'CONIFER ENCROACHMENT'){
+            document.getElementById('ConEncr1').style.display = "block";
+        }
+        if(String(thrs[i]) == 'OIL &amp; GAS DEVELOPMENT'){
+            document.getElementById('OilGas1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'FIRE'){
+            document.getElementById('Fire1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'FERAL EQUIDS'){
+            document.getElementById('FeralEquids1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'IMPROPER GRAZING / RANGE MANAGEMENT'){
+            document.getElementById('ImpropGraze1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'INFRASTRUCTURE (Roads, Powerlines, Renewable Energy)'){
+            document.getElementById('Infra1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'ISOLATED / SMALL POPULATION SIZE'){
+            document.getElementById('Isolate1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'MINING'){
+            document.getElementById('Mining1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'INVASIVES (Annual Grasses and Noxious Weeds)'){
+            document.getElementById('Invasive1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'RECREATION'){
+            document.getElementById('Rec1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'SAGEBRUSH LOSS or DEGRADATION'){
+            document.getElementById('SageLoss1').style.display = "block";
+        }
+
+        if(String(thrs[i]) == 'URBAN DEVELOPMENT'){
+            document.getElementById('UrbDevel1').style.display = "block";
+        }
+
+    }
+    
+
+</script>
+
+
+
+<script type="text/javascript">
+  function DisplaySection(section, button){
+
+    var sectiontype = section
+    if (document.getElementById(sectiontype).style.display == "none"){
+        document.getElementById(sectiontype).style.display = "inline-block"
+        document.getElementById(button).value = "-"
+    }
+    else{
+        document.getElementById(sectiontype).style.display = "none"
+        document.getElementById(button).value = "+"
+    }
+    
+  }
+</script>
+
+<script type="text/javascript">
+
+  var radios = document.getElementsByName('Entry_Type');
+  for (var i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+        // do whatever you want with the checked radio
+        var status = radios[i].value;
+        // only one radio can be logically checked, don't check the rest
+        break;
+    }
+  }
+
+  if (status == 1){
+    var status1 = "Being Edited (Not Approved)";
+  }
+  if (status == 2){
+    var status1 = "Awaiting Approval";
+  }
+  if (status == 3){
+    var status1 = " That Has Been Approved";
+  }
+  if (status == 4){
+    var status1 = "Marked for Deletion";
+  }
+
+  // var status = document.getElementById('id_Entry_Type').text
+  
+   document.getElementById('effstatus').innerHTML = status1
+
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="https://js.arcgis.com/3.18/esri/css/esri.css"/>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://js.arcgis.com/3.18/"></script>
+
+
+<script type="text/javascript">
+
+    dojo.require("dijit.layout.TabContainer");
+    dojo.require("dijit.layout.ContentPane");
+    var app = {};
+
+    require([
+            "esri/map", "esri/layers/FeatureLayer", "esri/layers/KMLLayer", "dojo/dom-style", "esri/layers/WFSLayer", "esri/urlUtils", "dojo/_base/array", "dojo/parser", "esri/config", "dojo/dom", "dojo/dom-class", "dojo/on",
+            "esri/geometry/webMercatorUtils", "dojo/mouse", "dojo/promise/all", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol",
+            "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "dojo/_base/Color",
+            "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/arcgis/utils", "dojo/domReady!"
+        ],
+
+        //normal approved project poly      ?CEDID=486        //normal approved project point   ?CEDID=439        //normal approved project line    ?CEDID=7358
+        //not applicable poly (typeact: Project)    ?CEDID=377        //not applicable poly (typeact: )         ?CEDID=482        //not applicable poly (typeact: Plan)     ?CEDID=413
+        //not applicable line (project)         ?CEDID=812        //not applicable point (not prj or plan)      ?CEDID=942        //not applicable point (prj)          ?CEDID=601
+        //not applicable point (typeact: Project)   ?CEDID=468        //not applicable point (typeact: Plan)    ?CEDID=838
+
+    function (Map, FeatureLayer, KMLLayer, domStyle, WFSLayer, urlUtils, arrayUtils, parser, esriConfig, dom, domClass, on, webMercatorUtils, mouse, all, Point, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, Color) {
+        //var tokens = getTokens
+        // var iCEDID = getTokens()['CEDID'];
+        var iCEDID = "{{prid}}";
+
+        // Testing SB ID values....   //not in AGS Point strSBID = 54adc0e9e4b06a7b3c089459         //not in AGS Line strSBID = 54c5bd32e4b043905e019968        //not in AGS Poly strSBID = 54add6cbe4b0d5b127929189
+
+        //****************************************************************************************************************************************************
+        // var strSBID = "54add6cbe4b0d5b127929189"; //******************************************************Justin Change this to your Django SB id variable
+        //****************************************************************************************************************************************************
+
+        //for manual testing, after logginginto SB get the jossoSessionID value from https://www.sciencebase.gov/catalog/jossoHelper/sessionInfo?includeJossoSessionId=true
+        //****************************************************************************************************************************************************
+        // var strJOSSO = "39B76328E5564409CCE71F126BB411EE";//******************************************************Justin Change this to your Django session id variable
+        //****************************************************************************************************************************************************
+        var strSBID = "{{spatialid}}";
+
+        var strJOSSO = "{{josso}}";
+
+        parser.parse();
+
+        app.loading = dojo.byId("loadingImg");  //loading image. id
+        var customExtentAndSR = new esri.geometry.Extent(-14000000, 4595472, -11000000, 5943351, new esri.SpatialReference({ "wkid": 3857 }));
+        app.map = new esri.Map("map", { basemap: "topo", logo: false, extent: customExtentAndSR, sliderPosition: "bottom-left" });
+        dojo.connect(app.map, "onUpdateStart", showLoading); dojo.connect(app.map, "onUpdateEnd", hideLoading);
+
+        if ((typeof strSBID != 'undefined') & (typeof strJOSSO != 'undefined')) {
+            var kmlUrl = "https://www.sciencebase.gov/catalogMaps/mapping/ows/" + strSBID + "?mode=download&request=kml&service=wms&layers=footprint&josso=" + strJOSSO
+            var kmlLayer = new KMLLayer(kmlUrl);
+            app.map.addLayer(kmlLayer);
+
+            dojo.connect(kmlLayer, 'onLoad', function () {
+                //dojo.style(dojo.byId('loadingImg'), 'display', 'none');
+                //AutoExtent  
+                var ptempSR = new esri.SpatialReference({ "wkid": 3857 });
+                var kmlExtent, layers = kmlLayer.getLayers();
+                dojo.forEach(layers, function (lyr) {
+                    if (lyr.graphics && lyr.graphics.length > 0) {
+                        var lyrExtent = esri.geometry.geographicToWebMercator(esri.graphicsExtent(lyr.graphics));
+                        pExtent = lyrExtent;
+
+                        if ((pExtent.xmax == pExtent.xmin) & (pExtent.ymax == pExtent.ymin)) {
+                            mapPointKML = new Point(pExtent.xmax, pExtent.ymax, ptempSR);
+                            app.map.centerAndZoom(mapPointKML, 9);
+                        }
+                        pExtent = pExtent.expand(2.0);
+                    }
+                });
+                app.map.setExtent(pExtent);
+            });
+
+        }
+     
+        if (typeof iCEDID != 'undefined') {
+            app.strFSURL1 = "https://utility.arcgis.com/usrsvcs/servers/5d5fc053dd7e4de4b9765f7a6b6f1f61/rest/services/CEDfrontpage_map_v9_Restrict/FeatureServer/";  //Theme Layers
+            app.strFSURL2 = "https://utility.arcgis.com/usrsvcs/servers/3ffd269482224fa9a08027ef8617a44c/rest/services/NA_SRC_v2/FeatureServer/";  //Theme Layers
+
+            var CED_PP_point = new FeatureLayer(app.strFSURL1 + "0", { visible: true });
+            CED_PP_point.setDefinitionExpression("(project_id = " + iCEDID + ")  and ((sourcefeaturetype = 'point') OR (sourcefeaturetype = 'poly' AND wobbled_gis = 1) OR (sourcefeaturetype = 'line' AND wobbled_gis = 1))");
+            var CED_PP_line = new FeatureLayer(app.strFSURL1 + "1", { visible: true });
+            CED_PP_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_PP_poly = new FeatureLayer(app.strFSURL1 + "2", { "opacity": 0.8 }, { autoGeneralize: true, visible: true });
+            CED_PP_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
+
+            var CED_NA_point = new FeatureLayer(app.strFSURL2 + "0", { visible: true });
+            CED_NA_point.setDefinitionExpression("(project_id = " + iCEDID + ")  and ((sourcefeaturetype = 'point') OR (sourcefeaturetype = 'poly' AND wobbled_gis = 1) OR (sourcefeaturetype = 'line' AND wobbled_gis = 1))");
+            var CED_NA_line = new FeatureLayer(app.strFSURL2 + "2", { visible: true });
+            CED_NA_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_NA_poly = new FeatureLayer(app.strFSURL2 + "4", { "opacity": 0.8 }, { autoGeneralize: true, visible: true });
+            CED_NA_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
+
+            var CED_SRC_point = new FeatureLayer(app.strFSURL2 + "1", { visible: true });
+            CED_SRC_point.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_SRC_line = new FeatureLayer(app.strFSURL2 + "3", { visible: true });
+            CED_SRC_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_SRC_poly = new FeatureLayer(app.strFSURL2 + "5", { "opacity": 0.8 }, { autoGeneralize: true,  visible: true });
+            CED_SRC_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
+
+            app.map.addLayers([CED_PP_poly, CED_NA_poly, CED_SRC_poly, CED_PP_line, CED_NA_line, CED_SRC_line, CED_PP_point, CED_NA_point, CED_SRC_point]);
+            app.dblExpandNum = 3.75
+            qry_Zoom2FeatureLayerExtent(CED_PP_point, CED_PP_line, CED_PP_poly, CED_NA_point, CED_NA_line, CED_NA_poly, CED_SRC_point, CED_SRC_line, CED_SRC_poly);
+        }
+        
+        function showLoading() {
+            esri.show(app.loading);
+            app.map.disableMapNavigation();
+            app.map.hideZoomSlider();
+        }
+
+        function hideLoading(error) {
+            esri.hide(app.loading);
+            app.map.enableMapNavigation();
+            app.map.showZoomSlider();
+        }
+       
+        function returnEvents(results) {
+            var resultFeatures = [];
+            resultFeatures = resultFeatures.concat(results[0].features);
+            resultFeatures = resultFeatures.concat(results[1].features);
+            resultFeatures = resultFeatures.concat(results[2].features);
+            resultFeatures = resultFeatures.concat(results[3].features);
+            resultFeatures = resultFeatures.concat(results[4].features);
+            resultFeatures = resultFeatures.concat(results[5].features);
+            resultFeatures = resultFeatures.concat(results[6].features);
+            resultFeatures = resultFeatures.concat(results[7].features);
+            resultFeatures = resultFeatures.concat(results[8].features);
+
+            if (resultFeatures.length > 0) {
+                var pExtent;
+                pfeatureExtent1 = esri.graphicsExtent(resultFeatures);
+                var ptempSR = new esri.SpatialReference({ "wkid": 3857 });
+                if (pfeatureExtent1) {
+                    if ((pfeatureExtent1.xmin != pfeatureExtent1.xmax) & (pfeatureExtent1.ymin != pfeatureExtent1.ymax)){  //if not a multipoint feature then continue
+                        pExtent = new esri.geometry.Extent(pfeatureExtent1.xmin, pfeatureExtent1.ymin, pfeatureExtent1.xmax, pfeatureExtent1.ymax, new esri.SpatialReference({ "wkid": 3857 }));
+                    }
+                }
+                if (pExtent == undefined) {
+                    var pFeature1 = resultFeatures[0];
+                    mapPoint1 = new Point(pFeature1.geometry.points[0][0], pFeature1.geometry.points[0][1], ptempSR);
+                    app.map.centerAndZoom(mapPoint1, 9);
+                }
+                if (pExtent) {
+                    pExtent = pExtent.expand(app.dblExpandNum);
+                    app.map.setExtent(pExtent, true);
+                }
+                else { var strMessage = "hold it up here"; }
+
+                arrayUtils.forEach(results[0].features, function (feat) {//This section handles features with no symbology
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleMarkerSymbol().setColor(new Color([0, 255, 255, 0.4])));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[3].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleMarkerSymbol().setColor(new Color([0, 255, 255, 0.4])));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[1].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new Color([0, 255, 255]), 3));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[4].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new Color([0, 255, 255]), 3));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[2].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([255, 0, 0]), 2), new Color([0, 255, 255, 0.2])));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[5].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([255, 0, 0]), 2), new Color([0, 255, 255, 0.2])));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+            }
+            else {
+                // do nothing
+            }
+            return results;
+        }
+
+
+        function qry_Zoom2FeatureLayerExtent(pFeatureLayer1, pFeatureLayer2, pFeatureLayer3, pFeatureLayer4, pFeatureLayer5, pFeatureLayer6, pFeatureLayer7, pFeatureLayer8, pFeatureLayer9) {
+            var pQueryT1 = new esri.tasks.QueryTask(pFeatureLayer1.url);
+            var pQuery1 = new esri.tasks.Query();
+            var pQueryT2 = new esri.tasks.QueryTask(pFeatureLayer2.url);
+            var pQuery2 = new esri.tasks.Query();
+            var pQueryT3 = new esri.tasks.QueryTask(pFeatureLayer3.url);
+            var pQuery3 = new esri.tasks.Query();
+
+            var pQueryT4 = new esri.tasks.QueryTask(pFeatureLayer4.url);
+            var pQuery4 = new esri.tasks.Query();
+            var pQueryT5 = new esri.tasks.QueryTask(pFeatureLayer5.url);
+            var pQuery5 = new esri.tasks.Query();
+            var pQueryT6 = new esri.tasks.QueryTask(pFeatureLayer6.url);
+            var pQuery6 = new esri.tasks.Query();
+
+            var pQueryT7 = new esri.tasks.QueryTask(pFeatureLayer7.url);
+            var pQuery7 = new esri.tasks.Query();
+            var pQueryT8 = new esri.tasks.QueryTask(pFeatureLayer8.url);
+            var pQuery8 = new esri.tasks.Query();
+            var pQueryT9 = new esri.tasks.QueryTask(pFeatureLayer9.url);
+            var pQuery9 = new esri.tasks.Query();
+
+            pQuery1.returnGeometry = pQuery2.returnGeometry = pQuery3.returnGeometry = pQuery4.returnGeometry = pQuery5.returnGeometry = pQuery6.returnGeometry = pQuery7.returnGeometry = pQuery8.returnGeometry = pQuery9.returnGeometry = true;
+            pQuery1.outFields = pQuery2.outFields = pQuery3.outFields = pQuery4.outFields = pQuery5.outFields = pQuery6.outFields = ["objectid, typeact"];
+            pQuery7.outFields = pQuery8.outFields = pQuery9.outFields = ["objectid"];
+
+            var strQuery1 = pFeatureLayer1.getDefinitionExpression();
+            var strQuery2 = pFeatureLayer2.getDefinitionExpression();
+            var strQuery3 = pFeatureLayer3.getDefinitionExpression();
+            var strQuery4 = pFeatureLayer4.getDefinitionExpression();
+            var strQuery5 = pFeatureLayer5.getDefinitionExpression();
+            var strQuery6 = pFeatureLayer6.getDefinitionExpression();
+            var strQuery7 = pFeatureLayer7.getDefinitionExpression();
+            var strQuery8 = pFeatureLayer8.getDefinitionExpression();
+            var strQuery9 = pFeatureLayer9.getDefinitionExpression();
+            pQuery1.where = strQuery1;
+            pQuery2.where = strQuery2;
+            pQuery3.where = strQuery3;
+            pQuery4.where = strQuery4;
+            pQuery5.where = strQuery5;
+            pQuery6.where = strQuery6;
+            pQuery7.where = strQuery7;
+            pQuery8.where = strQuery8;
+            pQuery9.where = strQuery9;
+            //            this.strQuerySaved = strQuery
+            var FLayer1, FLayer2, FLayer3, FLayer4, FLayer5, FLayer6, FLayer7, FLayer8, FLayer9, pPromises
+            FLayer1 = pQueryT1.execute(pQuery1);
+            FLayer2 = pQueryT2.execute(pQuery2);
+            FLayer3 = pQueryT3.execute(pQuery3);
+            FLayer4 = pQueryT4.execute(pQuery4);
+            FLayer5 = pQueryT5.execute(pQuery5);
+            FLayer6 = pQueryT6.execute(pQuery6);
+            FLayer7 = pQueryT7.execute(pQuery7);
+            FLayer8 = pQueryT8.execute(pQuery8);
+            FLayer9 = pQueryT9.execute(pQuery9);
+            pPromises = new all([FLayer1, FLayer2, FLayer3, FLayer4, FLayer5, FLayer6, FLayer7, FLayer8, FLayer9]);
+            return pPromises.then(returnEvents, err);
+        }
+
+        function err(err) {
+            console.log("Failed to get stat results due to an error: ", err);
+        }
+
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
+        function getTokens() {
+            var tokens = [];
+            var query = location.search;
+            query = query.slice(1);
+            query = query.split('&');
+            $.each(query, function (i, value) {
+                var token = value.split('=');
+                var key = decodeURIComponent(token[0]);
+                var data = decodeURIComponent(token[1]);
+                tokens[key] = data;
+            });
+            return tokens;
+        }
+    });
+
+</script>
+
+{% endblock %}

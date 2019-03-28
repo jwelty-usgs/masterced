@@ -1,0 +1,39 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Approving{% endblock title %}
+
+
+{% block content %}
+
+    
+    <div id="regis">
+        <h3>Approving Officials</h3>
+
+    </div>
+    <div id="entrymenu">
+        <div id="loginhead2">
+              <p>APPROVING OFFICIAL MENU</p>
+        </div>
+
+        <div id="loginbody2">
+            <ul>
+                <li> <a href="/sgce/accounts/viewusers/">APPROVE USERS</a></li>
+                <li> <a href="/sgce/viewapprovalprojects/">APPROVE INDIVIDUAL PROJECTS</a></li>
+                <li> <a href="/sgce/viewbatchapprovalprojects/">BATCH APPROVE PROJECTS</a></li>
+                <li> <a href="/sgce/viewuserprojects/">VIEW ALL USER PROJECTS</a></li>
+                <!-- <li> <a href="/sgce/error_check_projects/">ERROR CHECK PROJECTS</a></li> -->
+            </ul>
+        </div>
+    </div>
+
+{% endblock content %}
+

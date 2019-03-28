@@ -1,0 +1,117 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+<link href="{% static 'ced_main/Styles/footeradjust.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}SGCE{% endblock title %}
+
+
+{% block content %}
+{% load django_tables2 %}
+
+    <link rel="stylesheet" href="https://js.arcgis.com/3.18/esri/css/esri.css"/>
+ 
+
+    <script src="https://js.arcgis.com/3.18/"></script>
+    <script>
+      var map;
+
+      require([
+        "esri/map",
+         "esri/layers/FeatureLayer",
+         "dojo/on",
+         "dojo/dom",
+         "dojo/ready",
+         "dojo/domReady!"
+      ],
+      function (Map, FeatureLayer, on, dom, ready) {
+          function init() {
+              loading = dom.byId("loadingImg");  //loading image. id
+
+              var customExtentAndSR = new esri.geometry.Extent(-14000000, 4595472, -11000000, 5943351, new esri.SpatialReference({ "wkid": 3857 }));
+              map = new esri.Map("mapDiv", { basemap: "topo", logo: false, extent: customExtentAndSR, sliderPosition: "bottom-right" });
+              on(map, "update-start", showLoading);
+              on(map, "update-end", hideLoading);
+
+              var strURL = "https://utility.arcgis.com/usrsvcs/servers/5d5fc053dd7e4de4b9765f7a6b6f1f61/rest/services/CEDfrontpage_map_v9_Restrict/FeatureServer/"
+              CED_PP_point = new FeatureLayer(strURL + "0", { id: "0", mode: FeatureLayer.MODE_ONDEMAND, visible: true });
+              CED_PP_point.setDefinitionExpression("(SourceFeatureType = 'point') OR ( SourceFeatureType = 'poly' AND Wobbled_GIS = 1)");
+              CED_PP_line = new FeatureLayer(strURL + "1", { id: "1", mode: FeatureLayer.MODE_ONDEMAND, visible: true });
+              CED_PP_poly = new FeatureLayer(strURL + "2", { id: "2", mode: FeatureLayer.MODE_ONDEMAND, "opacity": 0.6, visible: true });
+              map.addLayers([CED_PP_poly, CED_PP_line, CED_PP_point]);
+
+          }
+          function showLoading() {
+              esri.show(loading);
+              map.disableMapNavigation();
+              map.hideZoomSlider();
+          }
+          function hideLoading(error) {
+              esri.hide(loading);
+              map.enableMapNavigation();
+              map.showZoomSlider();
+          }
+          ready(init);
+      }
+ );
+
+
+    </script>
+
+
+        
+    <!--div id="sbdown1" style="max-width: 600px;">
+      <h3>Attention CED Users: Amazon Cloud Services are currently down for many sites across the country. CED email capability runs through these services and is currently not functioning. All registration, email, and password related activities will be down until Amazon restores service.  You can still log into the site with a currently functioning password. We apologize for any inconvience.</h3>
+  </div-->
+
+<div id="sgcemain">
+    <div id="mapDiv">
+        <img id="loadingImg" src="{% static 'ced_main/images/ced_main/loading.gif' %}">{% if user.is_authenticated %}<a href="/sgce/grsgmap/" target="_blank">View Larger Map (Opens in New Window)</a>{% endif %}
+    </div>
+
+      
+    <div id="AR">
+      {% if user.is_authenticated %}
+        <h2>Welcome {{ user.first_name }} {{ user.last_name }}</h2>
+      {% else %}
+        <h2>Welcome to CED Version 2.1</h2>
+      {% endif %}
+      <!-- <h1> Draft / Under Construction</h1> -->
+      {% if sbdown1 == 'True' %}
+          <div id="sbdown" style="width: 300px; margin-top: 10px; position: relative;">
+              <h3>Attention CED Users: Science Base/LC Map, the CED's spatial and document storage portal is currently undergoing maintence.  Therefore, data entry into the CED is unavailable at this time.  Please check the site again later by refreshing this page to determine if Science Base/LC Map functionality has been restored.  We apologize for any inconvience.</h3>
+          </div>
+      {% endif %}
+      <p> Please take some time to familiarize yourself with our new layout and menu options. All navigation tools are now located in the top menu. </p>
+    </div>
+      
+    {% if user.is_authenticated %}
+    <div id="alltables">
+      <div id="viewptbl">
+        <div id="title"><tx>My projects</tx> <ty><a href="/sgce/viewprojects/">View my projects</a></ty></div>
+         <table>
+             {% render_table table %}
+         </table>
+         
+      </div>
+      <div id="viewtbl1" class="wtftable">
+         <div id="title"><tx>Projects I Can Edit</tx> <ty><a href="/sgce/viewprojectsicanedit/">View projects I can edit</a></ty></div>
+         <table>
+             {% render_table table1 %}
+         </table>
+      </div>
+    </div>
+    {% endif %}
+
+</div>     
+
+{% endblock content%}
+
+     

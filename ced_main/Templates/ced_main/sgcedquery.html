@@ -1,0 +1,416 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+
+
+{% block title %}Query Data{% endblock title %}
+
+{% block content %}
+<script type="text/javascript" src="{% static 'ced_main/javascript/cedprjedit/cedqueries.js' %}"></script>
+<form id="query_Form" method="post" enctype="multipart/form-data" action="">{% csrf_token %} 
+  <body onload=" javascript:LoadLists('Agency', 'Agencies Selected: ', 'AgencyList'); javascript:LoadOffices(); javascript:LoadLists('Field_Office', 'Offices Selected: ', 'FOList'); javascript:LoadLists('Imp_Status', 'Implementation Status Selected: ', 'ImpList'); javascript:LoadLists('Effective_Determined', 'Effectiveness Selected: ', 'EffList'); javascript:LoadLists('Start_Year', 'Start Year Includes: ', 'SYearList'); javascript:LoadLists('End_Year', 'End Year Includes: ', 'EYearList'); javascript:LoadLists('TypeAct', 'Activity Types Selected: ', 'TypeActList'); javascript:LoadActivites(); javascript:LoadLists('Activity', 'Activities Selected: ', 'ActivityList'); javascript:LoadSubActivites(); javascript:LoadLists('SubActivity', 'SubActivities Selected: ', 'SubActivityList'); javascript:LoadLists('Threats', 'Threats Selected: ', 'ThreatList'); javascript:LoadLists('WAFWA_Zone', 'WAFWA Zones Selected: ', 'WAFWA_ZoneList'); javascript:LoadLists('Sage_Grouse_Population', 'Sage-Grouse Populations Selected: ', 'Sage_Grouse_PopulationList'); javascript:LoadLists('State', 'States Selected: ', 'StateList'); javascript:LoadCounties(); javascript:LoadLists('County', 'Counties Selected: ', 'CountyList'); javascript:LoadKWText();"> 
+ <div id="userquery">
+    <div id="submitquery">
+        <input type="submit" class="button1" name="submit" value="View Tabular Results" />
+        <!-- <input type="submit" class="button1" name="submitmap" value="View Map Results" /> -->
+        <!-- <input type="submit" class="button" name="submitdoc" value="View Documentation" /> -->
+        <!-- {% if authen == 'authenadmin' %}
+          <input type="submit" class="button1" name="exportcsv" value="Download Results as CSV" />
+          <input type="submit" class="button1" name="summarize" value="Download Summary Data" />
+        {% endif %} -->
+        <input id="clqu" type="button" class="button1" value="Clear Query" onClick="window.location.reload()"><br>
+        <p> <font color="black"> Note: The default for each list is all values. All selected parameters are taken into account when performing a query and filtering the final results, which means if users select counties that do not fall within a selected state only those values within the selected states AND counties will be returned (in this case no data). Only Approved projects can be queried from the data.</font></p>
+    </div>
+    <div id="querydb">
+    {% for field in form %}          
+      {% if field.is_hidden %}
+        {{ field }}
+      {% else %}
+        {% if field.name == "Agency" %}
+          <div class="buttonlength"><input id="agencyb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QAgencyVals','agencyb');"/></div><p class="labelclass">{{ field.label_tag }}</p><br>
+          <div id="agencywidth">
+            <label id="AgencyList">Agencies Selected: (Default All)</label><br>
+          </div>
+          <div id="QAgencyVals" style="display:none;" onchange="LoadLists('Agency', 'Agencies Selected: ', 'AgencyList'); LoadOffices();">
+              {{ field }}
+
+          </div>
+
+        {% elif field.name == "Field_Office" %}
+          <div id="dashed">
+            <input id="officeb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QFOVals','officeb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="FOList">Offices Selected: (Default All)  <b>*Select Agency(s) to view Field Office Selections</b></label><br>
+          </div>
+          <div id="QFOVals" style="display:none;" onchange="LoadLists('Field_Office', 'Offices Selected: ', 'FOList');">
+              {{ field }}                
+          </div>
+
+        {% elif field.name == "Entry_Type" %}
+          <div id="dashed">
+            <input id="etb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QETVals','etb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="EntryList">Entry Types Selected: (Default All)</label><br>
+          </div>
+          <div id="QETVals" style="display:none;" onchange="LoadLists('Entry_Type', 'Entry Types Selected: ', 'EntryList');">
+              {{ field }}                
+          </div>
+
+        {% elif field.name == "Imp_Status" %}
+          <div id="dashed">
+            <input id="isb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QImpVals','isb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="ImpList">Implementation Status Selected: (Default All)</label><br>
+          </div>
+          <div id="QImpVals" style="display:none;" onchange="LoadLists('Imp_Status', 'Implementation Status Selected: ', 'ImpList');">
+              {{ field }}                
+          </div>
+
+        {% elif field.name == "Effective_Determined" %}
+          <div id="dashed">
+            <input id="edb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QEffVals','edb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="EffList">Effectiveness Selected: (Default All)</label><br>
+          </div>
+          <div id="QEffVals" style="display:none;" onchange="LoadLists('Effective_Determined', 'Effectiveness Selected: ', 'EffList');">
+              {{ field }}            
+          </div>
+
+        {% elif field.name == "Start_Year"  or field.name == "StartSelect" %}
+          <div id="strtyr">
+            {%if field.name == "StartSelect" %}  
+                  <div id="dashed">
+                      <input id="syb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QSYearVals','syb'); javascript:DisplaySection('QSSYearVals','syb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+                    </div>
+             
+            <div id="officewidth">
+              <label id="SYearList">Start Year Includes: (Default All)</label><br>
+            </div>
+            {% endif %}
+            
+            {%if field.name == "StartSelect" %}
+
+            <div id="QSSYearVals" style="display:none;" onchange="LoadLists('Start_Year', 'Start Year Includes: ', 'SYearList');">
+                <b>Start Year Symbol</b><p>Defaults to "Equal to". Choosing "Greater Than or Equal to" will choose the lowest number selected while "Less Than or Equal to" will choose the highest number selected</p>
+                {{ field }}                
+            </div>
+            {% endif %}
+
+            {%if field.name == "Start_Year" %}
+            <div id="QSYearVals" style="display:none;" onchange="LoadLists('Start_Year', 'Start Year Includes: ', 'SYearList');">
+                <b>Select Start Year(s)</b>
+                {{ field }}                
+            </div>
+            {% endif %}
+          </div>
+
+        {% elif field.name == "End_Year"  or field.name == "EndSelect" %}
+          <div id="endyr">
+            {%if field.name == "EndSelect" %}  
+                  <div id="dashed">
+                      <input id="eyb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QEYearVals','eyb'); javascript:DisplaySection('QESYearVals','eyb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+                    </div>
+             
+            <div id="officewidth">
+              <label id="EYearList">End Year Includes: (Default All)</label><br>
+            </div>
+            {% endif %}
+            
+            {%if field.name == "EndSelect" %}
+            <div id="QESYearVals" style="display:none;" onchange="LoadLists('End_Year', 'End Year Includes: ', 'EYearList');">
+                <b>End Year Symbol</b><p>Defaults to "Equal to". Choosing "Greater Than or Equal to" will choose the lowest number selected while "Less Than or Equal to" will choose the highest number selected</p>
+                {{ field }}                
+            </div>
+            {% endif %}
+
+            {%if field.name == "End_Year" %}
+            <div id="QEYearVals" style="display:none;" onchange="LoadLists('End_Year', 'End Year Includes: ', 'EYearList');">
+                <b>Select End Year(s)</b>
+                {{ field }}                
+            </div>
+            {% endif %}
+          </div>
+        
+        {% elif field.name == "TypeAct" %}
+          <div id="dashed">
+            <input id="tab" type="button" class="button" value="+" onclick="javascript:DisplaySection('QTAVals','tab');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="TypeActList">Activity Types Selected: (Default All)</label><br>
+          </div>
+          <div id="QTAVals" style="display:none;" onchange="LoadLists('TypeAct', 'Activity Types Selected: ', 'TypeActList'); LoadActivites();">
+              {{ field }}                
+          </div>
+
+        {% elif field.name == "Activity" %}
+          <div id="dashed">
+            <input id="ab" type="button" class="button" value="+" onclick="javascript:DisplaySection('QAVals','ab');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="ActivityList">Activities Selected: (Default All)  <b>*Select Activity Type(s) to view Activity Selections</b></label><br>
+          </div>
+          <div id="QAVals" style="display:none;" onchange="LoadLists('Activity', 'Activities Selected: ', 'ActivityList'); LoadSubActivites();">
+              {{ field }}                
+          </div>
+
+        {% elif field.name == "MetType" or field.name == "MetEqu" or field.name == "MetValue" %}
+          {% if field.name == "MetType" %}
+            <div id="dashed">
+              <input id="met" type="button" class="button" value="+" onclick="javascript:DisplaySection('metty','met'); javascript:DisplaySection('meteq','met'); javascript:DisplaySection('metva','met');"/> <p class="labelclass">Metric Value</p>
+              <br>
+            </div>
+            <div id="officewidth">
+              <label id="MetList">Metric Selected: (Default All)</label><br>
+            </div>
+          {% endif %}
+          <div id="QAMet">
+            {% if field.name == "MetType" %}
+              <div id='metty' style="display:none;" onchange="LoadText();">
+                <div id='mettylab'>
+                  {{ field.label_tag }}<br>
+                </div>
+                <div id='mettyval'>
+                {{ field }} 
+                </div>
+              </div>
+            {% endif %}
+            {% if field.name == "MetEqu" %}
+              <div id='meteq' style="display:none;" onchange="LoadText();">
+                <div id='meteqlab'>
+                  {{ field.label_tag }}<br>
+                </div>
+                <div id='meteqfld'>
+                  {{ field }} 
+                </div>
+              </div> 
+            {% endif %}
+            {% if field.name == "MetValue" %}
+              <div id='metva' style="display:none;" onchange="LoadText();">
+                <div id='metvalab'>
+                  {{ field.label_tag }}<br>
+                </div>
+                <div id='metvafld'>
+                {{ field }} 
+                </div>
+              </div> 
+            {% endif %}
+
+          </div>
+
+        {% elif field.name == "SubActivity" %}
+          <div id="dashed">
+            <input id="sab" type="button" class="button" value="+" onclick="javascript:DisplaySection('QSAVals','sab');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="SubActivityList">SubActivities Selected: (Default All)  <b>*Select Activity(s) to view SubActivity Selections</b></label><br>
+          </div>
+          <div id="QSAVals" style="display:none;" onchange="LoadLists('SubActivity', 'SubActivities Selected: ', 'SubActivityList');">
+              {{ field }}                
+          </div>
+
+        {% elif field.name == "Threats" %}
+          <div id="dashed">
+            <input id="tb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QThreatVals','tb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="ThreatList">Threats Selected: (Default All)</label><br>
+          </div>
+          <div id="QThreatVals" style="display:none;" onchange="LoadLists('Threats', 'Threats Selected: ', 'ThreatList');">
+              {{ field }}                
+          </div>
+
+        {% elif field.name == "WAFWA_Zone" %}
+          <div id="dashed">
+            <input id="wafwab" type="button" class="button" value="+" onclick="javascript:DisplaySection('QWAFWAVals','wafwab');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="WAFWA_ZoneList">WAFWA Zones Selected: (Default All)</label><br>
+          </div>
+          <div id="QWAFWAVals" style="display:none;" onchange="LoadLists('WAFWA_Zone', 'WAFWA Zones Selected: ', 'WAFWA_ZoneList');">
+              {{ field }}                
+          </div>
+
+          {% elif field.name == "Sage_Grouse_Population" %}
+          <div id="dashed">
+            <input id="sgpb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QSGPVals','sgpb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="Sage_Grouse_PopulationList">Sage-Grouse Populations Selected: (Default All)</label><br>
+          </div>
+          <div id="QSGPVals" style="display:none;" onchange="LoadLists('Sage_Grouse_Population', 'Sage-Grouse Populations Selected: ', 'Sage_Grouse_PopulationList');">
+              {{ field }}                
+          </div>
+
+          {% elif field.name == "State" %}
+          <div id="dashed">
+            <input id="stb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QStateVals','stb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="StateList">States Selected: (Default All)</label><br>
+          </div>
+          <div id="QStateVals" style="display:none;" onchange="LoadLists('State', 'States Selected: ', 'StateList');  LoadCounties();">
+              {{ field }}                
+          </div>
+
+          {% elif field.name == "County" %}
+          <div id="dashed">
+            <input id="cb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QCountyVals','cb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="CountyList">Counties Selected: (Default All)  <b>*Select State(s) to view County Selections</b></label><br>
+          </div>
+          <div id="QCountyVals" style="display:none;" onchange="LoadLists('County', 'Counties Selected: ', 'CountyList');">
+              {{ field }}                
+          
+
+
+          {% elif field.name == "Key_Words" %}
+          </div>
+          <div id="dashed">
+            <input id="kwrb" type="button" class="button" value="+" onclick="javascript:DisplaySection('QKeyWords','kwrb');"/><p class="labelclass"> {{ field.label_tag }}</p><br>
+          </div>
+          <div id="officewidth">
+            <label id="KWList">Key Words Selected: (Default None)</label><br>
+            <div id='kwwarn'><b>Seperate each key word or phrase with a comma followed by a space (For Example [Do not use quotes in the actual query request]: 'Restoration, Sawtooth').Key words search many but not all of the fields in the CED and can return many values. Please use the specific fields above first and then refine your query based on Key Words if necessary.  If a word could be written as either one or two words consider adding both to the query (For Example [Do not use quotes in the actual query request]: 'medusa head, medusahead')</b></div>
+          </div>
+          <div id="QKeyWords" style="display:none;" onkeyup="LoadKWText();">
+              {{ field }}                
+          </div>
+          <div id="dashed">
+            <br>
+          </div>
+
+        {% else %}
+
+          {{ field.label_tag }}
+          <br>
+          {{ field }}
+        {% endif %}
+      <br>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</body>
+
+
+
+<script type="text/javascript">
+  var Control
+  var Control1
+  var UpdateControl
+  var UpdateControl1
+  var UpdateNum
+  var UpdateNum1
+  var UpdateNum2
+  var Outputlist = "" 
+  var val
+
+  // Hide all offices
+  var updatelist1 = []
+  var list = document.getElementsByName('Agency') 
+  var updatelist = document.getElementsByName('Field_Office')
+
+ 
+  var u = 0
+    
+  for(var j=0; j<updatelist.length;j++) {
+      UpdateControl = updatelist[j].parentNode.innerHTML;
+      UpdateControl1 = UpdateControl.split(">")[1];
+      UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
+      UpdateControl1 = UpdateControl1.substr(1);
+      updatelist1.push(UpdateControl1)
+      val = 'id_Field_Office_' + (u)
+      document.getElementById(val).style.display = "none";
+      var offi = document.getElementById("id_Field_Office")
+      offi.getElementsByTagName("li")[u].style.display = "none";
+ 
+      u = u + 1
+  }
+
+  // Hide all subactivites
+
+  var updatelist1 = []
+  var list = document.getElementsByName('Activity') 
+  var updatelist = document.getElementsByName('SubActivity')
+
+  var u = 0
+    
+  for(var j=0; j<updatelist.length;j++) {
+      UpdateControl = updatelist[j].parentNode.innerHTML;
+      UpdateControl1 = UpdateControl.split(">")[1];
+      UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
+      UpdateControl1 = UpdateControl1.substr(1);
+      updatelist1.push(UpdateControl1)
+      val = 'id_SubActivity_' + (u)
+      document.getElementById(val).style.display = "none";
+      var offi = document.getElementById("id_SubActivity")
+      offi.getElementsByTagName("li")[u].style.display = "none";
+
+      u = u + 1
+  }
+
+
+  // Hide all activites
+
+  var updatelist1 = []
+  var list = document.getElementsByName('TypeAct') 
+  var updatelist = document.getElementsByName('Activity')
+
+
+  var u = 0
+    
+  for(var j=0; j<updatelist.length;j++) {
+      UpdateControl = updatelist[j].parentNode.innerHTML;
+      UpdateControl1 = UpdateControl.split(">")[1];
+      UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
+      UpdateControl1 = UpdateControl1.substr(1);
+      updatelist1.push(UpdateControl1)
+      val = 'id_Activity_' + (u)
+      document.getElementById(val).style.display = "none";
+      var offi = document.getElementById("id_Activity")
+      offi.getElementsByTagName("li")[u].style.display = "none";
+
+      u = u + 1
+  }
+
+  // Hide all counties
+
+  var updatelist1 = []
+  var list = document.getElementsByName('State') 
+  var updatelist = document.getElementsByName('County')
+
+  var u = 0
+    
+  for(var j=0; j<updatelist.length;j++) {
+      UpdateControl = updatelist[j].parentNode.innerHTML;
+      UpdateControl1 = UpdateControl.split(">")[1];
+      UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
+      UpdateControl1 = UpdateControl1.substr(1);
+      updatelist1.push(UpdateControl1)
+      val = 'id_County_' + (u)
+      document.getElementById(val).style.display = "none";
+      var offi = document.getElementById("id_County")
+      offi.getElementsByTagName("li")[u].style.display = "none";
+ 
+      u = u + 1
+  }
+
+
+</script>
+
+
+
+{% endblock %}

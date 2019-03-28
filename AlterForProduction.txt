@@ -1,0 +1,29 @@
+##############################################################################################
+This settings and file paths need to be altered when switching from the local machine to 
+the Dev or Production sites.
+
+Justin Welty
+Last modified: July 30, 2018
+##############################################################################################
+
+File: CED2_2016\ced\settings.py
+	Line 26-27: Comment out Debug = True and uncomment Debug = False
+	INSTALLED_APPS - Comment out: 'sslserver',
+	DATABASES - Uncomment the sgce user MySQL access and comment out the root user access
+	Templates - Comment out the 'debug': DEBUG, line
+	
+File: CED2_2016\ced_main\views.py
+	Line 48-57 - Change Production and Local COmment Fields
+	
+File: CED2_2016\ced_main\UploadBatchData.py
+	Line 12 - Change localdb = 1 to localdb = 0
+	
+File: CED2_2016\ced_main\static\ced_main\javascript\footprinter\MH_Setup.js
+	Line 118-119 - Comment out Sandbox and uncomment Production
+	
+File: CED2_2016\grsgmap\views.py
+	Line 138-139 - Comment out Sandbox and uncomment Production
+	Line 145-146 - Comment out Sandbox and uncomment Production
+	
+File: CED2_2016\ced_main\Templates\ced_main\editproject.html
+	Line 1210-1211 - Comment out Sandbox and uncomment Production

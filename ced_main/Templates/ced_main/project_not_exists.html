@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+
+<title>CED Edit Data</title>
+
+
+{% block content %}
+ 
+	<h3> Project Does Not Exist </h3>
+	<br>
+	<h4>The project you are searching for does not exist within this database. </h4>
+	<a href="/sgce/viewprojects/">Go back to view my projects</a>
+
+{% endblock %}
+

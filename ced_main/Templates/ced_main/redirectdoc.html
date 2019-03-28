@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+
+<title>Batch Upload Data</title>
+
+{% block content %}
+
+<div id="map">
+	<div id="HE">
+		<h3>Redirect</h3>
+    </div>
+</div>
+		
+
+<script type="text/javascript">
+    var url = window.location.href
+    var prjidspl = url.split("=");
+    var prjid = prjidspl[1]
+    link = "/sgce/" + prjid + "/viewonlyproject/"
+    window.location.href = link
+</script>
+
+
+{% endblock %}

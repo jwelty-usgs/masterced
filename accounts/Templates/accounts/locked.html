@@ -1,0 +1,30 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Locked{% endblock title %}
+
+
+{% block content %}
+<form id="" method="post" action="">{% csrf_token %}
+<div id='lockbod'>
+	<h3> CED ACCOUNT LOCKED</h3>
+	<p> This account has been locked due to 3 incorrect passwords.  
+	<br> Click 'Unlock Account' below to email the Admin and unlock your account. <br>
+	If you are not responsible for locking your account please change your password immediately after regaining access.</font>
+	<br>
+	<br>
+	<input type="text" id="email" name="email"><b> Email Address</b></input>
+	<br><br>
+	<input type="submit" class="submitbutton" value="Unlock Account"/>
+</div>
+
+
+{% endblock %}

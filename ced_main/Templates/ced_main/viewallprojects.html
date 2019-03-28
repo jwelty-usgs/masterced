@@ -1,0 +1,33 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+<link href="{% static 'ced_main/Styles/footeradjust.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}All Projects{% endblock title %}
+
+
+{% block content %}
+{% load render_table from django_tables2 %}
+<div id="viewallp">
+	<div id="ret">Return to <a href="/sgce/sgadminmenu/">Administrators Menu</a></div>
+	<div id="regis">
+		
+		<h3>All Projects</h3>
+		<p> Entry Type Key: 1 = Draft Project, 2 = Awaiting Approval, 3 = Approved </p>
+	</div>
+	<div id="viewptbl">
+		<table>
+			{% render_table viewallprojects %}
+		</table>
+	</div>
+    
+</div>
+{% endblock content %}
+

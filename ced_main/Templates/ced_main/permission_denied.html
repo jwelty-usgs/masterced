@@ -1,0 +1,24 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+
+{% block title %}Query Data{% endblock title %}
+
+{% block content %}
+
+<div id="perdenied">
+	<h1> Permission Denied </h1>
+    <h4>Either this record has not been verified and approved for general viewing or you have not yet been approved for single record data entry.  Please contact one of the CED team members if you believe this is incorrect. </h4>
+</div>
+
+
+
+{% endblock %}

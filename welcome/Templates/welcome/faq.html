@@ -1,0 +1,279 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/welcomestyle.css' %}" rel="stylesheet" type="text/css" media="screen"/>
+
+{% endblock head_css_page %}
+
+{% block title %}FAQ{% endblock title %}
+
+{% block content %}
+<div id="faqtop"></div>
+<div id="faq">
+    <div id="tblofcontents">
+        <div id="tblofcontentshead">
+            <p>GREATER SAGE-GROUSE CED FAQ</p>
+        </div>
+        <ul>
+            <li>Technical FAQs</li>
+            <li><a href="#webb" target="_self">What web browsers does the CED support?</a></li>
+            <li><a href="#hdir" target="_self">How do I register?</a></li>
+            <li><a href="#testdrive" target="_self">Can I test the site without an “Office/Name of Agency or
+                Organization” or "Approving Official"?</a></li>
+            <li><a href="#noappoff" target="_self">What do I do if my “Office/Name of Agency or Organization” or
+                "Approving Official" isn't available?</a></li>
+            <li><a href="#batch" target="_self">What is the difference between ‘Single-Record Entry’ and the ‘Batch Upload’? How do
+                I determine what’s best for me?</a></li>
+            <li><a href="#cen" target="_self">Can I change the name of my project or plan? If so, how? </a></li>
+            <li><a href="#savauto" target="_self">Does my effort save automatically? </a></li>
+            <li><a href="#deleff" target="_self">Can I delete a CED effort? </a></li>
+            <li><a href="#batupl" target="_self">How can I tell if my existing geo-spatial database is a candidate for
+                ‘Batch Upload’?</a></li>
+            <li><a href="#prv" target="_self">Does the CED collect information about efforts on public and private lands?</a></li>
+            <li><a href="#protect" target="_self">How is private land owner information protected?</a></li>
+            <li><a href="#diff" target="_self">What is a(n) <i>Project</i>, <i>Effort</i>, and <i>Treatment</i> and how do they differ? How should it be represented spatially?</a></li>
+        </ul>
+    </div>
+
+    <div id="HELP">
+
+
+        <h3>TECHNICAL QUESTIONS</h3>
+        <div id="webb">
+            <br>
+            <h4 class="FAQQuestion">What web browsers does the CED support?</h4>
+            <p>The CED v2.1 currently supports the most resent versions of Google Chrome and Mozilla Firefox. Internet
+                Explorer and Apple Safari may work but have
+                not been fully tested. A warning to Internet Explorer users of version 9 and older; some severe graphic
+                distortions or erros will occur when using older
+                version of Internet Explorer. We recommend updating to the newest version or switching to a different
+                browser such as Google Chrome.</p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div id="hdir">
+            <br>
+            <h4 class="FAQQuestion">How do I register?</h4>
+            <p>If another user is logged into the site on the computer you are attempting to register from, log them
+                out. New users cannot register if another user
+                is logged in on the same computer. To access the registration page select the 'REGISTER for the CED”
+                button on the <a href="/">CED’s Home Page</a>.
+                Enter your information, and click “Submit”. The CED will send an email to the address you provided
+                within several minutes, containing a link that will
+                allow you to activate your account. Once your account has been activated (by following the link in the
+                email), please login and complete your profile
+                by entering in all the fields. If you are unsure of who your Approving Official is, you can <a
+                        href="mailto:fw1sagegrouseced@fws.gov">contact the CED Team</a>
+                for assistance. Note: If you do not see an email please check in your ‘junk’ or ‘spam’ folder. Ensure to
+                select that the sender (CED) is not spam.</p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="testdrive">
+            <br>
+            <h4 class="FAQQuestion">Can I test the site without an “Office/Name of Agency or Organization” or "Approving
+                Official"?</h4>
+            <p>Yes. You can register for a test account by going through the traditional registration process. When
+                completing your account select the appropriate
+                “Agency/Conservation Partner”. If no offices or approving officials exist the “Office/Name of Agency or
+                Organization” will default to ‘DEMONSTRATION USER ACCESS ONLY’
+                and the “Approving Official” will default to ‘Lief Wiechman’ (CED Team Lead). If other offices and
+                approving officials are available under your
+                “Agency/Conservation Partner” you can still select the ‘Demonstration User’ from the list of available
+                options.</p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faq" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="noappoff">
+            <br>
+            <h4 class="FAQQuestion">What do I do if my “Office/Name of Agency or Organization” or "Approving Official"
+                isn't available?</h4>
+            <p>Contact the CED Team via <a href="mailto:fw1sagegrouseced@fws.gov">email</a> to report the issue with a
+                subject heading, “NO OFFICE” or “NO APPROVING OFFICIAL”
+                respectively, and someone from the CED Team will contact you to discuss options (such as obtaining
+                access as a Demonstration User) or to obtain contact information
+                for the Approving Official for your office or agency/group. Once an office or approving official is
+                added, you will be able to complete your registration. After your
+                Approving Official has approved you (they will receive an email from the CED prompting them to do so),
+                you will have access to begin entering projects or plan
+                information into the CED.</p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="batch">
+            <br>
+            <h4 class="FAQQuestion">What is the difference between ‘Single-Record Entry’ and the ‘Batch Upload’? How do
+                I determine what’s best for me?</h4>
+            <p>Single-record entry and the batch upload template are the two approaches to populate the CED. The
+                single-record entry method guides the user, step-by-step, using the CED
+                user interface. Users can enter 1 record at a time. The Batch Upload approach utilizes a geodatabase
+                template that allows for easier migration of data from existing datasets.
+                The template is populated with all of the required fields, and is then submitted to the CED Team. The
+                CED Team then loads the information into the CED matching the fields in
+                the template with the fields in the CED. A user then uses the CED’s user interface to navigate through
+                and review all of the records submitted.
+                <br><br>
+                We suggest that if you have less than 100 records to enter, that the single-records entry is the
+                approach for you. If you have more than 100, using the Batch Upload
+                approach may save you time. The more records you have (i.e. 1,000) the more time it can save you. Using
+                the Batch Upload template will require some GIS skills and an
+                understanding of geodatabases. The single-record entry approach requires almost no GIS skills, aside
+                from uploading shapefiles and digitizing spatial information
+                (if applicable).
+            </p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div id="cen">
+            <br>
+            <h4 class="FAQQuestion">Can I change the name of my project or plan? If so, how?</h4>
+            <p>Yes. To change the name of your conservation effort, navigate to Step 3 of the <strong>Enter
+                Data</strong> page. The box at the top that says <i>Effort Name</i> may be edited to change the name of
+                your project or plan. Click <strong>Save and Exit</strong> or <strong>Save and Submit for
+                    Approval</strong> to save your changes.
+            </p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="savauto">
+            <br>
+            <h4 class="FAQQuestion">Does my effort save automatically?</h4>
+            <p>No. If you exit the CED, you MUST select <strong>Save and Exit</strong> or <strong>Save and Submit for
+                Approval</strong> in order to save your progress. Note, if you select <strong>Save and Submit for
+                Approval</strong>, the CED will send an email notifying your Approving Official that the record/entry is
+                awaiting their review. If you are not completed with your entry, we suggest selecting <strong>Save and
+                    Exit</strong>.</p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="deleff">
+            <br>
+            <h4 class="FAQQuestion">Can I delete a CED effort?</h4>
+            <p>Yes. When entering a project or plan, navigate to <strong>Step 1</strong>. You will see a small check box
+                in the upper right corner that says <strong>Mark This Effort for Deletion</strong>. To delete a project
+                or plan, check this box and then select <strong>Save and Exit</strong> or <strong>Save and Submit for
+                    Approval</strong>. An email will be sent to your Approving Official requesting this effort be
+                deleted. This will simply mark the effort for deletion. It will remain in our system and will remain
+                subject to FOIA. However, it will not be visible on any queries, maps, or reports. If you are an
+                Approving Official and wish to permanently delete an effort from the CED system select
+                <strong>Approve</strong> with the <strong>Mark This Effort for Deletion</strong> checkbox selected. This
+                will send an email to the CED Administration and the CED Team will delete the effort from the CED. As an
+                Approving Official, if you wish to leave the deleted effort in the CED system select <strong>Save and
+                    Exit</strong> to save the changes without requesting permanent deletion of the effort.</p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="batupl">
+            <br>
+            <h4 class="FAQQuestion">How can I tell if my existing geo-spatial database is a candidate for ‘Batch
+                Upload’?</h4>
+            <p>The CED has the ability to query from and upload existing datasets in batch format. While more efficient
+                than single record data entry there are still steps that need to be taken. Contact the CED Team via
+                email (<a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a>) to discuss feasibility
+                and next steps to conduct a batch upload.</p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="prv">
+            <br>
+            <h4 class="FAQQuestion">Does the CED collect information about efforts on public and private lands?</h4>
+            <p>Yes, the CED v2.1 is currently designed to collect spatially-explicit information (shapefiles, treatment
+                boundaries) for certain activity types (refer to user manual or quick start guide) on all lands and
+                jurisdictions. However, the CED Team understands that data providers may not want to or be authorized to
+                share that level of detail or explicit locations of efforts conducted on private lands. Therefore,
+                Private Lands Reporting Units can be used to obscure personally identifiable information (see next
+                question). By using these Units, the CED can summarize the contribution to sagebrush conservation
+                without explicitly identifying where the effort was implemented.
+            </p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="protect">
+            <br>
+            <h4 class="FAQQuestion">How is private land owner information protected?</h4>
+            <p>In cases where Personally Identifiable Information (PII) needs to be obscured, the CED asks that NO PII
+                tied to an effort is provided. The CED does not request names, phone numbers, or contact information
+                from private land owners, and the CED Team suggests that information such as ranch names or other
+                identifying details not be provided. To obscure the spatial location of efforts on private lands, we ask
+                that efforts be reported by ‘Private Lands Reporting Unit’, which is a polygon large enough to obscure
+                private land owner location, while being small enough to be biologically meaningful. Those units are
+                being developed in coordination with state and federal partners and will be available in the Spring of
+                2019. If you would like to provide information tied to efforts on private lands prior to Spring 2019,
+                please contact the CED Team to discuss options.
+            </p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="diff">
+            <br>
+            <h4 class="FAQQuestion">What is a(n) <i>Project</i>, <i>Effort</i>, and <i>Treatment</i> and how do they differ? How should
+                it be represented spatially?</h4>
+            <p>In the CED, the terms <i>project</i>, <i>effort</i>, and <i>treatment</i> are used in a general sense. The CED defines a
+                project, effort, or treatment as – the area on the ground where the treatment or action has been
+                implemented – and reporting to the CED is at the treatment level only. Because some management agencies
+                group treatments into 'projects' we use this term loosely to indicate a collection of treatments.
+                However, the acreage of treatments is the critical piece of information. Do NOT report acreage of
+                anything except actual area treated. The CED’s Interactive Map intersects spatial information with
+                various resource layers of interest for summary and for inclusion in reports. Entering spatial
+                information that is larger than the actual treated area will result in inflated totals, so it is
+                important to provide accurate information about treatment acres and not larger project areas.
+            </p>
+            <div id="back2top">
+                <ul>
+                    <li><a href="#faqtop" target="_self">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

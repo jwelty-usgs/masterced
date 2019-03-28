@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+{% block content %}
+
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Projects', 'Plans'],
+          ['2009',  1000,      400],
+          ['2010',  1170,      460],
+          ['2011',  660,       1120],
+          ['2012',  1030,      540],
+          ['2013',  900,      350],
+          ['2014',  464,      622]
+        ]);
+
+        var options = {
+          title: 'Count of CED Efforts by Activity Type',
+          vAxis: {title: 'Year',  titleTextStyle: {color: 'black'}},
+          hAxis: {title: 'Count of Efforts',  titleTextStyle: {color: 'black'}}
+
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+        // The select handler. Call the chart's getSelection() method
+        function selectHandler() {
+          var selectedItem = chart.getSelection()[0];
+          if (selectedItem) {
+            var value = data.getColumnLabel(selectedItem.column);
+            alert('Display specifc Activity count data for ' + value);
+          }
+        }
+
+        // Listen for the 'select' event, and call my function selectHandler() when
+        // the user selects something on the chart.
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+        chart.draw(data, options);
+      }
+    </script>
+
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Projects', 'Plans'],
+          ['2009',  10000,      152600],
+          ['2010',  51070,      16560],
+          ['2011',  60160,       16879],
+          ['2012',  71030,      167540],
+          ['2013',  90200,      150015],
+          ['2014',  46424,      12200]
+        ]);
+
+        var options = {
+          title: 'Acres of CED Efforts by Activity Type',
+          vAxis: {title: 'Year',  titleTextStyle: {color: 'black'}},
+          hAxis: {title: 'Count of Efforts',  titleTextStyle: {color: 'black'}}
+
+        };
+
+        var chart1 = new google.visualization.BarChart(document.getElementById('chart1_div'));
+
+        // The select handler. Call the chart's getSelection() method
+        function selectHandler() {
+          var selectedItem = chart1.getSelection()[0];
+          if (selectedItem) {
+            var value = data.getColumnLabel(selectedItem.column);
+            alert('Display specifc Activity Acreage data for ' + value);
+          }
+        }
+
+        // Listen for the 'select' event, and call my function selectHandler() when
+        // the user selects something on the chart.
+        google.visualization.events.addListener(chart1, 'select', selectHandler);
+
+        chart1.draw(data, options);
+      }
+    </script>
+  </head>
+<div id="map">
+  <body>
+    <p> <font color="black"> This is all made up data, it should not be used for anything other than visualization purposes.</p>
+    <div id="chart_div" style="width: 600px; height: 400px;"></div>
+    <div id="chart1_div" style="width: 600px; height: 400px;"></div>
+  </body>
+</div>
+<div id="login">
+    <img id="loginsg" src="{% static 'ced_main/images/ced_main/sg6.jpg' %}" alt="SG Image"/></img>
+    <div id="loginbox">
+    {% if user.is_authenticated %}
+      <iframe name='iframelogin' id="iframelogin" src="sgce/usermenu/" frameborder="0"></iframe>
+    {% else %}
+      <iframe name='iframelogin' id="iframelogin" src="/sgce/accounts/login/" frameborder="0"></iframe>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

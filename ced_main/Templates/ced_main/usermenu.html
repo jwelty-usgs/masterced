@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}"/>
+
+<base target="_self"/>
+<html>
+<body>
+<div id="usermenulogin">
+    <form id="" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+        <div id="loginhead">
+            <div id="loginhead">
+                <p>SAGE-GROUSE CED</p>
+            </div>
+
+            <div id="loginbody1">
+                <ul>
+                    <li><a href="/sgce/sgeditmenu/"
+                           title="Users can enter new projects or edit existing ones within the CED" target="_parent">ENTER
+                        DATA</a></li>
+                    <li><a href="/sgce/batch_upload/"
+                           title="Explore the possabilities of uploading data currently housed within a database"
+                           target="_parent">BATCH UPLOAD DATA</a></li>
+                    <li><a href="/sgce/sgcedquery/" title="CED Query Data" target="_parent">QUERY DATA</a></li>
+                    {% if authen == 'authenadmin' or userAgency == 'U.S. Fish and Wildlife Service' %}
+                    <li><a href="/sgce/fwsquery/" title="FWS Queries" target="_parent">FWS QUERIES</a></li>
+                    {% endif %}
+                    <li><a href="/sgce/grsgmap/" title="Interactive Map" target="_parent">INTERACTIVE MAP</a></li>
+
+
+                    <li><a href="/sgce/accounts/profile/"
+                           title="Make changes to your profile, change your approving official, and designate other users who can modify your records"
+                           target="_parent">USER PROFILE</a></li>
+                    <li><a href="/sgce/accounts/changepassword/" title="Change your CED login password"
+                           target="_parent">CHANGE PASSWORD</a></li>
+
+                    {% if authen == 'authenapp' or authen == 'authenadmin' %}
+                    <li><a href="/sgce/sgappmenu/"
+                           title="Access restricted data available only to approving officials including the ability to approve users and projects who designate you as their approving official"
+                           target="_parent">APPROVING OFFICIALS</a></li>
+                    {% endif %}
+
+                    {% if authen == 'authenadmin' %}
+                    <li><a href="/sgce/sgadminmenu/"
+                           title="Access highly restricted data available only to administrators including the ability to approve all users and projects"
+                           target="_parent">ADMINISTRATORS</a></li>
+                    {% endif %}
+
+                    <li><a href="/sgce/about/" title="Learn more about the CED" target="_parent">SAGE-GROUSE CED
+                        ABOUT</a></li>
+                    <li><a href="/sgce/help/"
+                           title="Download the help document, user's manual, or entity relationship diagram; learn how to request additions of field offices or approving officials to the CED; and reports bugs or ask questions the CED team"
+                           target="_parent">SAGE-GROUSE CED HELP</a></li>
+
+                    <li><a href="/sgce/" title="Return to the CED Sage-Grouse home page" target="_parent">SAGE-GROUSE
+                        CED HOME</a></li>
+                    <li><a href="/sgce/accounts/logout/" title="Log out of your account within the CED" target="_self">LOGOUT</a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+    </form>
+</div>
+</body>
+</html>
+        
+
+
+

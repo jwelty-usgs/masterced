@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+<base target="_parent" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+
+<title>CED Spatial Data</title>
+{% block content %}
+<style>
+#prossspatial p{
+  color: black;
+  font-size: 18px;  
+  font-weight: bold;
+  text-align: center;
+}
+
+#prossspatial h3{
+  color: black;
+  font-size: 26px;  
+  font-weight: bold;
+  text-align: center;
+}
+
+#loaderImage{
+  margin-left: 480px;
+}
+</style>
+<title>CED Spatial Data</title>
+
+{% if user.is_authenticated %}
+<h3>You spatial data is not a polygon feature</h3>
+<p>Only polygon features are allowed, you will be automatically redirected back to the footprint editor in 5 seconds</p>
+<p>{{logon}}
+<p>If the redirect fails you can click the link to return to the <a href='{{ logon }}' title="Return to footprinter" target="_parent">Footprint Editor</a></p>
+
+</div>
+
+{% endif %}
+
+<script type="text/javascript">
+    window.onload=function(){
+        // document.submitfrm.submit();
+        // // document.getElementById("spatial_Form").submit();
+        var auto = setTimeout(function(){ autoRefresh(); }, 500);
+
+        function submitform(){
+          window.location.replace("https://www.sciencebase.gov/footprinter/?josso=" + "{{josso}}" + "#/?itemId=" + "{{itemid}}" + "&returnTo=https%3A%2F%2Fconservationefforts.org%3A9000%2Fsgce%2F" + "{{prjid}}" + "%2Fspatialentry");
+        }
+
+        function autoRefresh(){
+           clearTimeout(auto);
+           auto = setTimeout(function(){ submitform(); autoRefresh(); }, 5000);
+        }
+    }
+</script>
+
+<script type="text/javascript">
+  var cSpeed=20;
+  var cWidth=40;
+  var cHeight=40;
+  var cTotalFrames=12;
+  var cFrameWidth=200;
+  var cImageSrc="{% static 'ced_main/images/ced_main/sprites1.gif' %}"
+  
+  var cImageTimeout=false;
+  var cIndex=0;
+  var cXpos=0;
+  var cPreloaderTimeout=false;
+  var SECONDS_BETWEEN_FRAMES=0;
+  
+  function startAnimation(){
+    
+    document.getElementById('loaderImage').style.backgroundImage='url('+cImageSrc+')';
+    document.getElementById('loaderImage').style.width=cWidth+'px';
+    document.getElementById('loaderImage').style.height=cHeight+'px';
+    
+    //FPS = Math.round(100/(maxSpeed+2-speed));//
+    FPS = Math.round(100/cSpeed);
+    SECONDS_BETWEEN_FRAMES = 1 / FPS;
+    
+    cPreloaderTimeout=setTimeout('continueAnimation()', SECONDS_BETWEEN_FRAMES/2000);
+    
+  }
+  
+  function continueAnimation(){
+    
+    cXpos += cFrameWidth;
+    //increase the index so we know which frame of our animation we are currently on//
+    cIndex += 1;
+     
+    //if our cIndex is higher than our total number of frames, we're at the end and should restart//
+    if (cIndex >= cTotalFrames) {
+      cXpos =0;
+      cIndex=0;
+    }
+    
+    if(document.getElementById('loaderImage'))
+      document.getElementById('loaderImage').style.backgroundPosition=(-cXpos)+'px 0';
+    
+    cPreloaderTimeout=setTimeout('continueAnimation()', SECONDS_BETWEEN_FRAMES*2000);
+  }
+  
+  function stopAnimation(){//stops animation//
+    clearTimeout(cPreloaderTimeout);
+    cPreloaderTimeout=false;
+  }
+  
+  function imageLoader(s, fun)//Pre-loads the sprites image//
+  {
+    clearTimeout(cImageTimeout);
+    cImageTimeout=0;
+    genImage = new Image();
+    genImage.onload=function (){cImageTimeout=setTimeout(fun, 0)};
+    genImage.onerror=new Function('alert(\'Could not load the image\')');
+    genImage.src=s;
+  }
+  
+  //The following code starts the animation//
+  new imageLoader(cImageSrc, 'startAnimation()');
+</script>
+{% endblock %}
+
+

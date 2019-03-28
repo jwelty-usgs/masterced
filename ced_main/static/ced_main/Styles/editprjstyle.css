@@ -1,0 +1,2033 @@
+#editmain{
+  position: relative;
+  float: left;
+  width: 1050px;
+  max-width: 1050px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+#TN{
+    position: fixed;
+    margin-left: 0px;
+    float: left;
+    top: 0px;
+    margin-right: 0px;
+    max-width: 1050px;
+    min-width: 1050px;
+    background-color: white;
+    z-index: 1;
+    padding-left: -10px;
+    max-height: 118px;
+    min-height: 118px;
+    border-bottom: thin dotted black;
+}
+
+#TN h3{
+    color: #7f7962;
+    font-family: Arial;
+    font-size: 15px;
+    position: relative;
+    float: left;
+    margin-right: 1px;
+    margin-top: 10px;
+}
+
+#TN h4{
+    color: black;
+    font-family: Arial;
+    font-size: 15px;
+    position: relative;
+    float: left;
+    top: -5px;
+    margin-top: 10px;
+}
+
+.edittop{
+    margin-top: 65px;
+    padding-bottom: 10px;
+}
+
+#actdivmast{
+    margin-bottom: -5px;
+    border: none;
+    font-weight: bold;
+    margin-top: 25px;
+    font-size: 18px;
+    max-width: 1050px;
+}
+
+#actdivmast lab{
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 120px;
+    text-align: left;
+    padding-right: 10px;
+    font-size: 18px;
+}
+
+#effstatus{
+    position: relative;
+    float: left;
+    color: blue;
+    font-size: 14px;
+    top: -10px;
+    left: 20px;
+
+}
+
+#eft{
+    position: relative;
+    float: left;
+    color: blue;
+    font-size: 14px;
+    top: -10px;
+    left: 15px;
+}
+
+#MFD{
+    position: relative;
+    float: right;
+    color: red;
+    font-size: 14px;
+    top: -10px;
+    right: 10px;
+}
+
+#sectype{
+    position: relative;
+    float: left;
+    color: #97767b;
+    font-size: 16px;  
+    font-family: Arial;
+    font-weight: bold;
+    min-width: 1050px;
+    max-width: 1050px;
+}
+
+#RequiredFlds p{
+    position: relative;
+    float: right;
+    color: black;
+    font-size: 16px;
+    right: 10px;
+    top: -30px;
+
+}
+
+#RequiredFlds p span{
+
+    color: red;
+    font-size: 16px;
+
+}
+
+#dismaps{
+    top: 10px;
+}
+
+
+
+#menuitems{
+    position: fixed;
+    float: right;
+    top: 85px;
+    margin-right: 0px;
+    background-color: white;
+    width: 1050px;
+    z-index: 5;
+    margin-top: 0px;
+    white-space: nowrap;
+    z-index: 5;
+}
+
+#menuitemsbottom{
+    position: fixed;
+    float: right;
+    bottom: 75px;
+    margin-right: 0px;
+    background-color: white;
+    width: 1050px;
+    z-index: 5;
+    margin-top: 0px;
+    white-space: nowrap;
+    z-index: 5;
+}
+
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    color: #7f697f;
+    font-weight: bold;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    color: #7f697f;
+    font-weight: bold;
+    filter: alpha(opacity=0);
+}
+
+#bttn{
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    float: right;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+#bttnbottom{
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    float: right;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+
+.button{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 5;
+}
+
+.button:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 11px;
+    z-index: 5;
+}
+
+
+.button5{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 5;
+}
+
+.button5:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 11px;
+    z-index: 5;
+}
+
+#Locationinfo{
+    position: relative;
+    float: left;
+    left: 5px;
+    top: 10px;
+}
+
+#map{
+    margin-top: 5px;
+    width: 900px;
+    height: 450px;
+    z-index: 1;
+}
+
+.button100{
+
+    background: #a4d4cb;
+    border-radius: 25px;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none;
+    margin-top: 20px;
+    margin-left: 0px;
+}
+
+.button100:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none
+}
+
+
+#statehead{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 1050px;
+    min-width: 1050px;
+}
+
+#statehead h3{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+    text-align: left;
+}
+
+#StatesList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+    font-weight: bold;
+}
+#StatesMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+}
+
+#statebody{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    max-width: 1050px;
+    min-width: 1050px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-bottom: 30px;
+    max-height: 20px;
+    min-height: 20px;
+    overflow-y: none;
+}
+
+#statebody ul{
+    margin-left: -1.5em;
+    color: #7f7962;
+    font-size: 12px;
+    margin-top: 2px;
+    position: relative;
+    float: left;
+
+}
+
+#statebody ul li{
+    font-size: 12px;
+    position: relative;
+    max-width: 55px;
+    min-width: 55px;
+    float: left;
+    display: inline-block;
+
+}
+
+
+#countyhead{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 1050px;
+    min-width: 1050px;
+}
+
+#countyhead h3{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+    text-align: left;
+}
+
+#CntsList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+    font-weight: bold;
+}
+#CntsMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+}
+
+#county{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    max-width: 1050px;
+    min-width: 1050px;
+    max-height: 200px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-bottom: 10px;
+    color: black;
+    overflow-y: auto;
+}
+
+#county ul{
+    margin-left: -2em;
+    margin-top: 0px;
+    color: #7f7962;
+    font-size: 12px;
+    position: relative;
+    float: left;
+    display: inline-block;
+    color: black;
+}
+
+#county ul li{
+    font-size: 12px;
+    min-width: 180px;
+    max-width: 180px;
+    position: relative;
+    float: left;
+    display: inline-block;
+
+    color: #7f7962;
+}
+
+#ownerhead{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 1050px;
+    min-width: 1050px;
+    text-align: left;
+}
+
+#ownerhead h3{
+    font-size: 14px;
+    color: #7f7962;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: -12px;
+}
+
+#OwnerList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+    font-weight: bold;
+}
+#OwnerMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+}
+
+#owner{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    max-width: 1050px;
+    min-width: 1050px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 60px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    overflow-y: auto;
+}
+
+#owner ul{
+    margin-left: -2em;
+    margin-top: 0px;
+    color: #7f7962;
+    font-size: 12px;
+    position: relative;
+    float: left;
+    display: inline-block;
+    margin-bottom: -7px;
+}
+
+#owner ul li{
+    font-size: 12px;
+    min-width: 220px;
+    max-width: 220px;
+    position: relative;
+    float: left;
+    display: inline-block;
+}
+
+#editform{
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+#collaball{
+    position: relative;
+    float: left;
+    top: 10px;
+    left: 38px;
+    width: 950px;
+}
+
+#collabhead{
+    position: relative;
+    float: left;
+    margin-top: -10px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 1050px;
+    min-width: 1050px;
+    left: -35px;
+    margin-bottom: -20px;
+    text-align: left;
+}
+
+#collabhead h3{
+    font-size: 14px;
+    font-weight: bold;
+    color: #7f7962;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+#collabwidth{
+    width: 1050px;
+    white-space: normal;
+}
+
+#agencywidth label{
+    position: relative;
+    float: left;
+    margin-top: 10px;
+    width: 1050px;
+    white-space: normal;
+}
+
+#officewidth label{
+    position: relative;
+    float: left;
+    margin-top: 10px;
+    width: 1050px;
+    white-space: normal;
+
+}
+
+#collabList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    font-weight: bold;
+    width: 1050px;
+    white-space: normal;
+    position: relative;
+    top: -20px;
+
+}
+#collabMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+}
+
+#collab{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    min-width: 1050px;
+    max-width: 1050px;
+    position: relative;
+    white-space: nowrap;
+
+    margin-bottom: 30px;
+    margin-left: -35px;
+}
+
+#collab ul{
+    margin-top: 0px;
+    margin-left: -15px;
+    margin-bottom: -10px;
+}
+
+#collab ul li{
+    position: relative;
+    float: left;
+    min-width: 260px;
+    padding-right: 5px;
+    font-size: 12px;
+    color: #7f7962;
+    
+}
+
+#implementation{
+    position: relative;
+    float: left;
+    min-width: 1050px;
+    max-width: 1050px;
+    left: 5px;
+    top: 10px;
+}
+
+#IMH h4{
+    color: #7f697f;
+    font-family: Arial;
+    font-size: 15px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+
+#impefttopL{
+    position: relative;
+    float: left;
+    min-width: 1050px;
+    max-width: 1050px;
+    top: 15px;
+}
+
+
+
+#impefttopR{
+    position: relative;
+    float: left;
+    top: 40px;
+}
+#pt2Label{
+    min-width: 1050px;
+    max-width: 1050px;
+    margin-top: 10px;
+}
+
+#pt2Label p{
+    margin-left: 20px;
+
+    margin-bottom: 0px;
+    min-width: 1050px;
+    max-width: 1050px;
+    font-weight: bold;
+}
+
+#pt2fields{
+    margin-bottom: 100px;
+    margin-top: 10px;
+}
+
+
+#pt2fields ul li span{
+    margin-left: 40px;
+}
+
+#pt1fields ul li span{
+    margin-left: 40px;
+}
+
+#Part1Label{
+    position: relative;
+    float: left;
+    left: 20px;
+    padding-right: 20px;
+    margin-right: 20px; 
+    min-width: 1050px;
+    max-width: 1050px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#Part2Label{
+    position: relative;
+    float: left;
+    left: 40px;
+    padding-right: 20px;
+    margin-right: 20px; 
+    min-width: 1050px;
+    max-width: 1050px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#impstatus{
+    margin-bottom: 0px;
+}
+
+#ImpStat ul{
+    
+    margin-left: -20px;
+}
+
+#ImpStat ul li{
+    
+    position: relative;
+    float: left;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+#impcolor{
+    font-weight: bold;
+}
+
+#statusqs{
+    margin-left: 35px;
+    margin-right: -39px;
+}
+
+#effectqs{
+    margin-left: 45px;
+}
+
+.required1{
+    position: relative;
+    left: -39px;
+    color: red;
+    font-size: 16px;
+}
+
+.required2{
+    color: red;
+    font-size: 16px;
+    position: relative;
+}
+
+
+.required3{
+    position: relative;
+    left: -10px;
+    color: red;
+    font-size: 16px;
+}
+
+#statquest ul{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    display: inline-block;
+
+}
+
+#statquest ul li{
+    position: relative;
+    float: left;
+    display: inline-block;
+    padding-right: 20px;
+
+}
+
+#effcolor{
+    font-weight: bold;
+}
+
+
+#EffectDeter{
+    font-weight: bold;
+}
+
+#EffectDeter ul{
+    font-weight: bold;
+    margin-left: -20px;
+    min-width: 900px;
+    max-width: 900px;
+}
+
+#EffectDeter ul li{
+    min-width: 900px;
+    max-width: 900px;
+}
+
+#eftexp{
+    margin-left: 40px;
+    margin-top: -10px
+    margin-bottom: 40px;
+}
+
+#Effect_Explained_Label{
+    position: relative;
+    float: left;
+    font-weight: bold;
+}
+
+#effexpwrdcnt{
+    position: relative;
+    float: right;
+    right: 150px;
+    color: black;
+    font-size: 12px;  
+    font-weight: bold;
+}
+
+#activityinfo{
+    margin-bottom: 70px;
+}
+
+#actinfo{
+    position: relative;
+    float: left;
+    top: 30px;
+    max-width: 1050px;
+    min-width: 1050px;
+    white-space: normal;
+}
+
+#actinfo lab{
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+#actinfo h4{
+    color: #7f697f;
+    font-family: Arial;
+    font-size: 15px;
+    margin-top: 5px;
+    text-align: left;
+}
+
+#actdivmain{
+    padding-bottom: 10px; 
+    margin-left: 10px;
+}
+
+#actdiv{
+    position: relative;
+    float: left;
+    margin-left: 10px;
+    width: 1050px;
+}
+
+#seedtype{
+    position: relative;
+    float: left;
+}
+
+#seedchoicecolor ul{
+    margin-top: -5px;
+}
+
+#pfirechoicecolor ul{
+    margin-top: -5px;
+}
+
+#seedchoicecolor ul li{
+    position: relative;
+    float: left;
+    display: inline-block;
+    padding-right: 20px;
+}
+
+
+#pfirelab{
+    position: relative;
+    float: left; 
+}
+
+#pfirechoicecolor{
+    position: relative;
+    float: left;
+    margin-left: -30px;
+    margin-top: 7px;
+}
+
+#enddatenote{
+    margin-top: 10px;
+}
+
+#pfirechoicecolor ul li{
+    position: relative;
+    float: left;
+    display: inline-block;
+    padding-right: 20px;
+}
+
+#pmitigationlab{
+    position: relative;
+    float: left; 
+}
+
+#pmitigationchoicecolor{
+    position: relative;
+    float: left;
+    margin-left: -30px;
+}
+
+#pmitigationchoicecolor ul li{
+    position: relative;
+    float: left;
+    display: inline-block;
+    padding-right: 20px;
+}
+
+#dates{
+    margin-top: 10px;
+}
+
+#startcolor{
+    position: relative;
+    float: left;
+    margin-right: 3px;
+    margin-top: 10px;
+}
+
+#strdtfld{
+   position: relative;
+    float: left;
+    margin-right: 3px; 
+    margin-top: 10px;
+}
+
+#endcolor{
+    position: relative;
+    float: left;
+    margin-right: 3px; 
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+#enddtfld{
+    position: relative;
+    float: left;
+    margin-right: 3px; 
+    margin-top: 10px;
+}
+
+#agreepen{
+    position: relative;
+    float: left;
+    margin-top: 5px;
+}
+
+#agreepencolor ul{
+    margin-top: -5px;
+}
+
+#agreepencolor ul li{
+    position: relative;
+    float: left;
+    display: inline-block;
+    padding-right: 20px;
+}
+
+.metrics{
+    position: relative;
+    float: left;
+    margin-top: 10px;
+}
+
+#metricleft{
+    position: relative;
+    float: left;
+}
+
+#lab66{
+   position: relative;
+    float: left; 
+}
+
+#gisfields{
+    position: relative;
+    float: left;
+    margin-top: 10px;
+}
+
+#giscolor{
+    position: relative;
+    float: left;
+    margin-right: 10px;
+}
+
+#GISWarnings{
+    position: relative;
+    float: left;
+    top: 0px;
+    left: -180px;
+    padding-bottom: 15px;
+}
+
+#spatlink1{
+    position: relative;
+    float: left;
+    font-family: arial;
+    font-size: 14px;
+    top: -5px;
+    right: -100px;
+
+}
+
+.button10{
+
+    background: #a4d4cb;
+    border-radius: 25px;
+    right: 10px;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none
+}
+
+.button10:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none
+}
+
+#GISAcres{
+    position: relative;
+    float: left;
+    margin-left: 230px;
+    color: red;
+    font-size: 11px; 
+    font-weight: bold;
+    margin-top: 0px;
+    max-width: 900px;
+    min-width: 900px;
+    padding-bottom: 10px;
+}
+
+#GISAcresMis{
+    position: relative;
+    float: left;
+    margin-left: 630px;
+    color: red;
+    font-size: 12px; 
+    font-weight: bold;
+    margin-top: -25px;
+    max-width: 300px;
+    min-width: 300px;
+}
+
+
+#GISAC{
+    position: relative;
+    float: left;
+    left: -5px;
+    font-size: 14px;
+    max-width: 200px;
+}
+
+#objcolor{
+    position: relative;
+    float: left;
+}
+
+#mtcolor{
+    position: relative;
+    float: left;
+}
+
+#obdesc{
+    position: relative;
+    float: left;
+    width: 1050px;
+    margin-left: 40px;
+    margin-bottom: -40px;
+}
+
+#mtdesc{
+    position: relative;
+    float: left;
+    width: 1050px;
+    margin-left: 40px;
+    margin-bottom: 0px;
+}
+
+
+#objwrdcnt{
+    position: absolute;
+    float: right;
+    color: black;
+    margin-top: -40px;
+    margin-left: 620px;
+    width: 400px;
+}
+
+#mthwrdcnt{
+    position: absolute;
+    float: right;
+    color: black;
+    margin-top: -40px;
+    margin-left: 620px;
+    width: 400px;
+}
+
+#objmargin{
+    position: relative;
+    float: left;
+    margin-left: 20px;
+}
+
+#mtmargin{
+    position: relative;
+    float: left;
+    margin-left: 20px;
+}
+
+#notesall{
+    position: relative;
+    float: left;
+    width: 1100px;
+}
+
+#notelabel{
+    position: relative;
+    float: left;
+    margin-top: 10px;
+}
+
+#notebox{
+    position: relative;
+    float: left;
+    margin-left: 80px;
+    margin-top: 10px;
+}
+
+#docall{
+    position: relative;
+    float: left;
+    max-width: 1100px;
+    white-space: normal;
+    margin-top: 20px;
+}
+
+#DocHead{
+    position: relative;
+    float: left;
+    max-width: 1100px;
+    white-space: normal;
+    margin-top: 0px;
+}
+
+#DocHead p{
+    position: relative;
+    float: left;
+    margin-left: 10px;
+}
+
+#doctextbody{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: nowrap;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 10px;
+    height: auto;
+    padding-right: 5px;
+    margin-left: 10px;
+}
+
+lido ul li{
+    border: none;
+    padding: 0.625em 0.625em;
+}
+
+#fileformhead{
+    border: solid 0.1em black;
+    padding: 0.25em 0.25em 0.25em 0.25em;
+    margin-top: 30px;
+    background-color:#7f7962;
+    color: white;
+    height: 25px;
+
+}
+
+#fileformhead head1{
+    position: absolute;
+    margin-left: 20px;
+    margin-top: -10px;
+}
+
+#fileformhead head1 h5{
+    color: white;
+}
+
+#fileformhead head2{
+    position: absolute;
+    margin-left: 290px;
+    margin-top: -10px;
+}
+
+#fileformhead head2 h5{
+    color: white;
+}
+
+#fileformhead head3{
+    position: absolute;
+    margin-left: 565px;
+    margin-top: -10px;
+}
+
+#fileformhead head3 h5{
+    color: white;
+}
+
+#myfile{
+   position: relative;
+    float: left; 
+}
+
+#subbutton{
+    position: relative;
+    float: left;
+    margin-top: -2px;
+}
+
+.submitbuttondoc{
+
+    background: #a4d4cb;
+    border-radius: 25px;
+    right: 10px;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none
+    margin-top: 5px;
+
+}
+
+.submitbuttondoc:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 0;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-decoration:none
+}
+
+
+#DocText{
+    background-color: black;
+    width: 350px;
+    height: 100px;
+    position: absolute;
+    top: 55px;
+    left: 200px;
+    z-index: 100;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+}
+
+#DocText h3{
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    top: 45px;
+    color: white;
+}
+
+#processingDiv1{
+    position: absolute;
+    background-color: #FFFFFF;
+    z-index: 100;
+    font-weight: bold;
+    max-height: 5px;
+    max-width: 10px;
+    margin-top: 100px;
+    left: 350px;
+    text-align: center;
+    color: white;
+}
+
+#DocText1{
+    background-color: black;
+    width: 350px;
+    height: 100px;
+    position: absolute;
+    top: 55px;
+    left: 200px;
+    z-index: 100;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#DocText1 h3{
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    top: 45px;
+}
+
+#DocText2{
+    background-color: black;
+    width: 350px;
+    height: 100px;
+    position: absolute;
+    top: 55px;
+    left: 200px;
+    z-index: 100;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#DocText2 h3{
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    top: 45px;
+}
+
+#downloaddata{
+    position: relative;
+    float: left;
+}
+
+#downdata{
+    position: relative;
+    float: left;
+}
+
+#fileforms{
+    margin-top: -0.1em;
+    position: relative;
+    float: left;
+    white-space: nowrap;
+    
+}
+
+#fileform{
+    padding-top: 5px;
+    margin-top: 1px;
+    border: dashed 1px black;
+    position: relative;
+    float: left;
+    display: inline-block;
+    font-size: 8px;
+    white-space: normal;
+    width: 1037px;
+    
+}
+
+#fileform li{
+    position: relative;
+    float: left;
+    display: inline-block;
+    font-size: 14px;
+    white-space: normal;
+    padding-right: 50px;
+    margin-left: 5px;
+    
+}
+
+#fileform li1{
+    position: relative;
+    float: left;
+    display: inline-block;
+    font-size: 14px;
+    white-space: normal;
+    padding-right: 50px;
+    margin-left: 5px;
+    margin-top: 3px;
+    
+}
+
+#ThrtBox{
+    position: relative;
+    float: left;
+    width: 1100px;
+    top: 10px;
+
+}
+
+#ThreatVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+#ThreatVals ul{
+    margin-top: 0px;
+    margin-left: -25px;
+}
+
+#ThreatVals ul li{
+    position: relative;
+    float: left;
+    min-width: 425px;
+    font-size: 12px;
+    color: #7f7962;
+
+}
+
+
+#thradd{
+    position: relative;
+    float: left;
+    margin-left: 0px;
+    white-space: normal;
+
+}
+
+#ExplainLab{
+    position: relative;
+    float: left;
+    width: 1000px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+
+
+
+#ddbutton{
+    display: inline-block;
+    position: relative;
+    float: right;
+    right: 5px;
+    white-space: normal;
+    padding-bottom: 5px;
+}
+
+
+.button6{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 12px;
+    z-index: 50;
+}
+
+.button6:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 50;
+}
+
+
+
+.threatsexplained{
+    padding-bottom: 10px;
+    border: none;
+    position: relative;
+    float: left;
+    margin-top: 10px;
+}
+
+
+
+.thrlbl{
+    position: relative;
+    float: left;
+    font-weight: bold;
+    max-width: 160px;
+    min-width: 160px;
+    word-wrap: break-word;
+    margin-left: 10px;
+}
+
+.thrwrdcnt{
+    position: absolute;
+    float: right;
+    color: black;
+    margin-top: -20px;
+    margin-left: 560px;
+    width: 400px;
+    font-weight: bold;
+}
+
+#createby{
+    margin-top: 10px;
+    position: relative;
+    float: left;
+    border-top: 2px solid black;
+    width: 1050px;
+}
+
+.crtbyval{
+    margin-left: 30px;
+}
+
+#padbottom{
+    position: relative;
+    float: left;
+    min-width: 1100px;
+    min-height: 80px;
+}
+
+#actdiv lab5{
+    margin-right: 10px;
+}
+
+
+
+
+
+.button7{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    font-size: 16px;
+    font-weight: bold;
+    color: #7f697f;
+
+}
+
+.button7:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+
+#errorcheckdiv{
+    margin-top: 10px;
+
+}
+
+#ReviewDir{
+    position: relative;
+    float: left;
+    margin-top: 90px;
+    width: 1100px;
+}
+
+#Reviewfield{
+    position: relative;
+    float: left;
+}
+
+#ReviewDir p{
+
+    width: 900px;
+    font-weight: bold;
+    color: red;
+}
+
+#actdiv1{
+    position: relative;
+    float: left;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    width: 1100px;
+}
+
+#actdiv1 lab{
+    font-weight: bold;
+    color: black;
+}
+
+
+#actdiv2{
+    position: relative;
+    float: left;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    width: 1100px;
+}
+
+#actdiv2 h4{
+    font-weight: bold;
+    font-size: 18px;
+    text-align: left;
+    margin-left: 0px;
+}
+
+#actdiv2 h5{
+    font-weight: bold;
+    font-size: 14px;
+    text-align: left;
+    margin-left: 10px;
+    font-style: italic;
+    width: 900px;
+}
+
+#actdiv2 lab{
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+#actdiv3{
+    position: relative;
+    float: left;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    width: 1100px;
+}
+
+#actdiv3 lab{
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+
+.actdivcl{
+    position: relative;
+    float: left;
+    font-weight: bold;
+    margin-left: 40px;
+    width: 1100px;
+}
+
+.actdivcl{
+    margin-bottom: 20px;
+}
+
+.reviewlabel{
+    position: relative;
+    float: left;
+    color: black;
+}
+
+.reviewval{
+    position: relative;
+    float: left;
+    margin-left: 10px;
+    margin-top: 4px;
+    width: 850px;
+    font-weight:normal;
+}
+
+.reviewval1{
+    position: relative;
+    float: left;
+    margin-left: 10px;
+    margin-top: 4px;
+    width: 550px;
+    font-weight:normal;
+}
+
+#docreview{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    width: 1100px;
+}
+
+
+.buttonapp{
+    background: #0000ff;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 50;
+    margin-top: 5px;
+    padding: 5px, 5px, 5px, 5px
+}
+
+.buttonapp:hover{
+    background: #ccccff;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+    z-index: 50;
+    margin-top: 5px;
+    padding: 5px, 5px, 5px, 5px
+}
+
+#delapp{
+    position: relative;
+    float: left;
+}
+
+.deletebttn{
+    background: red;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 50;
+    padding: 5px, 5px, 5px, 5px
+}
+
+.deletebttn:hover{
+    background: red;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+    z-index: 50;
+    padding: 5px, 5px, 5px, 5px
+}
+
+#obj{
+    position: relative;
+    float: left;
+    margin-top: 80px;
+}
+
+#objhead{
+    position: relative;
+    float: left;
+    margin-top: -20px;
+    margin-left: 5px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 900px;
+    min-width: 900px;
+}
+
+#objhead h3{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+    text-align: left;
+}
+
+#objList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+    font-weight: bold;
+}
+#objMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+}
+
+#objbody{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    margin-left: 20px;
+    max-width: 1050px;
+    min-width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 30px;
+    padding-left: 5px;
+    overflow-y: none;
+}
+
+#objbody ul{
+    margin-left: -1.5em;
+    color: #7f7962;
+    font-size: 12px;
+    margin-top: 2px;
+    position: relative;
+    float: left;
+
+}
+
+#objbody ul li{
+    margin-left: -20px;
+    font-size: 12px;
+    position: relative;
+    max-width: 1000px;
+    min-width: 1000px;
+    float: left;
+    display: inline-block;
+    word-wrap: normal;
+
+}
+
+#method{
+    position: relative;
+    float: left;
+    margin-top: 40px;
+}
+
+#methodhead{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    margin-left: 5px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 900px;
+    min-width: 900px;
+}
+
+#methodhead h3{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+    text-align: left;
+}
+
+#methodList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+    font-weight: bold;
+}
+#methodMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+}
+
+#methodbody{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    margin-left: 20px;
+    max-width: 1030px;
+    min-width: 1030px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 30px;
+    padding-left: 5px;
+    overflow-y: none;
+}
+
+#methodbody ul{
+    margin-left: -1.5em;
+    color: #7f7962;
+    font-size: 12px;
+    margin-top: 2px;
+    position: relative;
+    float: left;
+
+}
+
+#methodbody ul li{
+    font-size: 12px;
+    position: relative;
+    max-width: 240px;
+    min-width: 240px;
+    float: left;
+    display: inline-block;
+    word-wrap: normal;
+
+}
+
+#methodbody ul li span{
+    max-width: 220px;
+    min-width: 220px;
+    display: inline-block;
+    word-wrap: normal;
+    position: relative;
+    float: left;
+
+}
+
+#effstat{
+    position: relative;
+    float: left;
+    margin-top: 0px;
+    margin-left: 20px;
+}
+
+#effstathead{
+    position: relative;
+    float: left;
+    margin-top: -20px;
+    margin-left: 5px;
+    font-size: 16px;
+    z-index: 0;
+    max-width: 900px;
+    min-width: 900px;
+}
+
+#effstathead h3{
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #7f7962;
+    font-weight: bold;
+    text-align: left;
+}
+
+#effstatList{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+    font-weight: bold;
+}
+#effstatMod{
+    font-size: 12px;
+    margin-left: 1em;
+    color: black;
+    white-space: normal;
+    min-width: 1050px;
+}
+
+#effstatbody{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    margin-left: 20px;
+    max-width: 980px;
+    min-width: 980px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 30px;
+    padding-left: 5px;
+    overflow-y: none;
+}
+
+#effstatbody ul{
+    margin-left: -40px;
+    color: #7f7962;
+    font-size: 12px;
+    margin-top: 2px;
+    position: relative;
+    float: left;
+
+}
+
+#effstatbody ul li{
+    margin-left: -30px;
+    font-size: 12px;
+    position: relative;
+    max-width: 960px;
+    min-width: 960px;
+    word-wrap: normal;
+    float: left;
+    display: inline-block;
+
+}
+
+.noteshead{
+    position: relative;
+    float: left;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.plussign{
+    position: relative;
+    float: left;
+    font-size: 12px;
+    color: blue;
+}
+
+.noteslabel{
+    position: relative;
+    float: left;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.notetext{
+    position: relative;
+    float: left;
+    width: 90%;
+    font-size: 12px;
+    margin-left: 40px;
+}
+
+
+
+

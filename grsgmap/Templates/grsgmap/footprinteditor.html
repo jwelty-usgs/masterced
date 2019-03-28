@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Created By:  Matt Heller, U.S. Fish and Wildlife Service, Region 6 Science Applications
+Date:        February 2018, updated Oct 2018-->
+
+{% load staticfiles %}
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>CED Footprinter</title>
+   
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/esri/css/esri.css" />
+    <!--<link rel="stylesheet" type="text/css" href="Styles/panelFootprinter.css" />-->
+    <link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/panelFootprinter.css' %}" />
+    
+    <!--<script type="text/javascript">var dojoConfig = {paths: { extras: location.pathname.replace(/\/[^/]+$/, "") + "/extras" }};</script>-->      
+    <script type="text/javascript"> var dojoConfig = { paths: { extras: "{% static 'ced_main/javascript/grsgmap/extras' %}" } };</script>
+
+
+      <style>
+          #GISDocText {
+              position: fixed;
+              float: left;
+              margin-left: auto;
+              margin-right: auto;
+              bottom: 50px;
+              color: black;
+              z-index: 200;
+              text-align: center;
+              width: 100%;
+          }
+              #GISDocText h3 {
+                  font-family: Arial;
+                  font-weight: bold;
+                  text-align: center;
+                  font-size: 24px;
+              }
+          #processinggisdiv {
+              position: fixed;
+              float: left;
+              margin-left: 49%;
+              bottom: 20px;
+              color: black;
+              z-index: 200;
+              text-align: center;
+              width: 100%;
+          }
+      </style>
+
+
+    <script src="https://js.arcgis.com/3.23/"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+      //var map;
+      var editorWidget;
+      var pSrcFeatureLayer;
+      var pFCol;
+      var app = {};
+      require([
+        "extras/MH_SetupFootprinter",
+        "esri/arcgis/Portal", "esri/arcgis/OAuthInfo", "esri/IdentityManager",
+        "esri/config",
+        "esri/map",
+        "dojo/dom",
+        "dojo/dom-style", "dojo/dom-attr",
+        "dojo/dom-class",
+        "dojo/dom-construct",
+        "dojo/json",
+        "dojo/on",
+        "dojo/parser",
+        "esri/Color",
+        "dojo/_base/lang",
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+        "dojo/domReady!"
+      ],
+        function (MH_Setup, arcgisPortal, OAuthInfo, esriId,
+        esriConfig, Map, dom, domStyle, domAttr, domClass, domConstruct, JSON, on, parser,  Color, lang
+      ) {
+            parser.parse();
+            esriConfig.defaults.io.proxyUrl = "/proxy/";
+            app.pSup = new MH_Setup({}); // instantiate the class
+            app.pSup.Phase1();
+        });
+      </script>
+  </head>
+   
+  <body class="claro">   
+    <div id="map" style="height:100%;"  >
+        <div id="txt_xyCoords" style="position:absolute; left:25px; bottom:1px; color:#404040; z-index:50; font-size:11px"></div>
+        <div id="txt_Version" style="position:absolute; left:225px; bottom:1px; color:#404040; z-index:50; font-size:11px">CED Footprinter 2.1.1</div>
+        <!--<img id="loadingImg" src="images/loading.gif" style="position:fixed; right:40%; top:50%; z-index:100;" />-->
+        <img id="loadingImg" src="{% static 'ced_main/images/grsgmap/loading.gif' %}" style="position:fixed; right:40%; top:50%; z-index:100;" />
+    </div>
+
+
+    <div class="panelTitle bg rounded shadow">
+        <div style='margin-bottom:30px' ><h1>CED Footprinter</h1></div>
+
+        <div>      
+            <a class="alignright" href="extras/UserHelpDocument.pdf" target="_blank">
+                <img src="{% static 'ced_main/images/grsgmap/Help.png' %}" height="18" alt="Click for help" style='margin-right:5px;margin-Top:3px' />
+                <!--<img src="images/Help.png" height="18" alt="Click for help" style='margin-right:5px;margin-Top:3px' />-->
+            </a>   
+
+            <a class="alignright" style='margin-right:5px;margin-Top:10px' href="{% static 'ced_main/extras/UserHelpDocument.pdf" target="_blank">
+            <!--<a class="alignright" style='margin-right:5px;margin-Top:10px' href="extras/UserHelpDocument.pdf" target="_blank">-->
+                <b>Help</b> 
+            </a>   
+
+        </div>
+        <input class="alignleft" id="btn_PolyEdit" type="button" value="Start Drawing" style='margin-right:5px'/>
+        <br/>
+        <div id="templatePickerDiv"></div>
+        <br />
+        <div id="editorDiv"></div>
+        <div style='margin-top:15px'><hr /></div>
+
+        <!--<form enctype="multipart/form-data" method="post" id="uploadForm">-->  
+        <form enctype="multipart/form-data" method="post" id="uploadForm">{% csrf_token %}  <!--static-->
+            <div class="field" id="upload_Field" style='margin-top:15px'>
+                <label class="file-upload" id="upload_label">
+                    <span style='margin-right:5px'><strong>Add Zipped-up Shapefile</strong></span>
+                    <input type="file" name="file" id="inFile" style='margin-top:8px; width:100%' />
+                </label>
+            </div>
+            <span class="file-upload-status" style="opacity:1;margin-right:5px;" id="upload-status"></span>
+            <span class="file-upload-status" style="opacity:1;margin-right:5px;" id="userId"></span>
+        </form>
+    </div>
+
+    <div id="panelBasemaps" class="panelBasemaps bg rounded shadow"><!-- Panel Basemaps -->
+        <!--<div id="basemapTitle"><img src="images/basemaps.png" height="30" title="Switch Base Map" /></div>-->
+        <div id="basemapTitle"><img src="{% static 'ced_main/images/grsgmap/basemaps.png' %}" height="30" title="Switch Base Map" /></div>
+        <div id="basemapContent">
+            <div id="basemapGallery"></div>
+        </div>
+    </div>
+
+
+      <div id="panelLayers2Toggle" class="panelLayers2Toggle bg rounded shadow">
+          <!-- Panel Basemaps -->
+          <form id="toggleForm">
+              <div id="LayerToggleDiv" style="padding: 2px 2px"></div>
+          </form>
+      </div>
+
+      <div id="nextButtonPanel" class="nextButtonPanel bg rounded shadow">
+          <div id="nextButtonPanelDiv"></div>
+          <input id="btn_Next" type="button" value="Save and Go To the Next Step" />
+      </div>
+
+  </body class="claro">
+</html>
+
+
+
+<script type="text/javascript">
+  function showDiv() {
+     document.getElementById('processinggisdiv').style.display = "block";
+     document.getElementById('GISDocText').style.display = "block";
+  }
+</script>

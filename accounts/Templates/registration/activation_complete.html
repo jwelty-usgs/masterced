@@ -1,0 +1,25 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Activate{% endblock title %}
+
+
+{% block content %}
+
+<div id="acom">
+
+    <div id="actcom">
+        <h3>Activation complete! Your account is now active. </h3>
+        <h5> You can now <a href="/sgce/accounts/loginpage/" title="Log in" target="_parent">login</a></h5>
+    </div>
+</div>
+
+{% endblock %}

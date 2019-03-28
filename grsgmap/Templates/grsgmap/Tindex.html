@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Created By:  Matt Heller, Great Northern Landscape Conservation Cooperative / U.S. Fish and Wildlife Service
+Date:        Dec 2014-->
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+<title>Greater Sage Grouse: Conservation Efforts</title>
+
+<link rel="stylesheet" href="https://js.arcgis.com/3.9/js/dojo/dijit/themes/tundra/tundra.css"/>
+<link rel="stylesheet" href="https://js.arcgis.com/3.9/js/esri/css/esri.css"/>
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/panel.css' %}"/>
+<style>
+    html, body {height: 98%;width: 99.95%;margin: 0.00005%; background-color:rgb(127, 105, 127);}
+</style>
+
+<script type="text/javascript"> var dojoConfig = { paths: { extras: "{% static 'ced_main/images/grsgmap/extras' %}"} };</script>
+
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://js.arcgis.com/3.12/"></script>
+<script type="text/javascript">
+    dojo.require("dijit.layout.TabContainer");
+    dojo.require("dijit.layout.ContentPane");
+    var app = {};
+
+    require([
+            "esri/map", "esri/layers/FeatureLayer", "esri/urlUtils", "dojo/_base/array", "dojo/parser", "esri/config", "dojo/dom", "dojo/dom-class", "dojo/on",
+            "extras/MH_Zoom2FeatureLayer2", "esri/dijit/Scalebar", "esri/geometry/webMercatorUtils", "esri/dijit/BasemapGallery", "dojo/mouse", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/arcgis/utils", "dojo/domReady!"
+        ],
+
+    function (Map, FeatureLayer, urlUtils,
+                arrayUtils, parser, esriConfig, dom, domClass, on,
+                MH_Zoom2FeatureLayer2, Scalebar,
+                webMercatorUtils, BasemapGallery, mouse) {
+
+       urlUtils.addProxyRule({ urlPrefix: "https://www.sciencebase.gov", proxyUrl: "https://conservationefforts.org/Java/proxy.jsp" }); //static
+//        urlUtils.addProxyRule({ urlPrefix: "https://www.sciencebase.gov", proxyUrl: "proxy.ashx" });
+
+        var tokens = getTokens
+        document.getElementById("panelBasemaps").style.top = "15px";
+        var iCEDID = getTokens()['CEDID'];
+        var strSBID = getTokens()['SBID'];
+        var strAGSID = getTokens()['AGSID'];
+        var strAGSID2 = getTokens()['AGSID2'];
+        parser.parse();
+
+        app.loading = dojo.byId("loadingImg");  //loading image. id
+        var customExtentAndSR = new esri.geometry.Extent(-14000000, 4595472, -11000000, 5943351, new esri.SpatialReference({ "wkid": 3857 }));
+        app.map = new esri.Map("map", { basemap: "topo", logo: false, extent: customExtentAndSR });
+        dojo.connect(app.map, "onUpdateStart", showLoading); dojo.connect(app.map, "onUpdateEnd", hideLoading);
+
+
+        if (typeof iCEDID != 'undefined') {
+            app.strFSURL1 = "https://www.sciencebase.gov/arcgis/rest/services/Catalog/" + strAGSID + "/MapServer/";  //Theme Layers
+            app.strFSURL2 = "https://www.sciencebase.gov/arcgis/rest/services/Catalog/" + strAGSID2 + "/MapServer/";  //Theme Layers
+            var CED_PP_point = new FeatureLayer(app.strFSURL1 + "0", { mode: FeatureLayer.MODE_ONDEMAND, id: 0, visible: true });
+            CED_PP_point.setDefinitionExpression("(project_id = " + iCEDID + ")  and ((SourceFeatureType = 'point') OR ( SourceFeatureType = 'poly' AND Wobbled_GIS = 1) OR ( SourceFeatureType = 'line' AND Wobbled_GIS = 1))");
+            var CED_PP_line = new FeatureLayer(app.strFSURL1 + "1", { mode: FeatureLayer.MODE_ONDEMAND, id: 1, visible: true });
+            CED_PP_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_PP_poly = new FeatureLayer(app.strFSURL1 + "2", { "opacity": 0.8 }, { mode: esri.layers.FeatureLayer.MODE_ONDEMAND, autoGeneralize: true, id: 2, visible: true });
+            CED_PP_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
+
+            var CED_NA_point = new FeatureLayer(app.strFSURL2 + "0", { mode: FeatureLayer.MODE_ONDEMAND, id: 3, visible: true });
+            CED_NA_point.setDefinitionExpression("(project_id = " + iCEDID + ")  and ((SourceFeatureType = 'point') OR ( SourceFeatureType = 'poly' AND Wobbled_GIS = 1) OR ( SourceFeatureType = 'line' AND Wobbled_GIS = 1))");
+            var CED_NA_line = new FeatureLayer(app.strFSURL2 + "2", { mode: FeatureLayer.MODE_ONDEMAND, id: 4, visible: true });
+            CED_NA_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_NA_poly = new FeatureLayer(app.strFSURL2 + "4", { "opacity": 0.8 }, { mode: esri.layers.FeatureLayer.MODE_ONDEMAND, autoGeneralize: true, id: 5, visible: true });
+            CED_NA_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
+
+
+            var CED_SRC_point = new FeatureLayer(app.strFSURL2 + "1", { mode: FeatureLayer.MODE_ONDEMAND, id: 6, visible: true });
+            CED_SRC_point.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_SRC_line = new FeatureLayer(app.strFSURL2 + "3", { mode: FeatureLayer.MODE_ONDEMAND, id: 7, visible: true });
+            CED_SRC_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_SRC_poly = new FeatureLayer(app.strFSURL2 + "5", { "opacity": 0.8 }, { mode: esri.layers.FeatureLayer.MODE_ONDEMAND, autoGeneralize: true, id: 8, visible: true });
+            CED_SRC_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
+
+
+            app.map.addLayers([CED_PP_poly, CED_NA_poly, CED_SRC_poly, CED_PP_line, CED_NA_line, CED_SRC_line, CED_PP_point, CED_NA_point, CED_SRC_point]);
+
+            var pZoom2 = new MH_Zoom2FeatureLayer2({ pMap: app.map, dblExpandNum: 3.75 }); // instantiate the zoom class
+            var pZoom2Result = pZoom2.qry_Zoom2FeatureLayerExtent(CED_PP_point, CED_PP_line, CED_PP_poly, CED_NA_point, CED_NA_line, CED_NA_poly, CED_SRC_point, CED_SRC_line, CED_SRC_poly);
+        }
+        var scalebar = new Scalebar({ map: app.map, scalebarUnit: "dual" });
+        var basemapTitle = dom.byId("basemapTitle");
+        on(basemapTitle, "click", function () { domClass.toggle("panelBasemaps", "panelBasemapsOn"); });
+        on(basemapTitle, mouse.enter, function () { domClass.add("panelBasemaps", "panelBasemapsOn"); });
+        var panelBasemaps = dom.byId("panelBasemaps");
+        on(panelBasemaps, mouse.leave, function () { domClass.remove("panelBasemaps", "panelBasemapsOn"); });
+
+        if (app.map.loaded) { mapLoaded(); } 
+        else {app.map.on("load", function () { mapLoaded(); });}
+
+
+        function showLoading() {
+            esri.show(app.loading);
+            app.map.disableMapNavigation();
+            app.map.hideZoomSlider();
+        }
+
+        function hideLoading(error) {
+            esri.hide(app.loading);
+            app.map.enableMapNavigation();
+            app.map.showZoomSlider();
+        }
+
+        function mapLoaded() {        // map loaded//            // Map is ready
+            app.map.on("mouse-move", showCoordinates); //after map loads, connect to listen to mouse move & drag events
+            app.map.on("mouse-drag", showCoordinates);
+            app.basemapGallery = new BasemapGallery({ showArcGISBasemaps: true, map: app.map }, "basemapGallery");
+            app.basemapGallery.startup();
+            app.basemapGallery.on("selection-change", function () { domClass.remove("panelBasemaps", "panelBasemapsOn"); });
+            app.basemapGallery.on("error", function (msg) { console.log("basemap gallery error:  ", msg); });
+        }
+
+        function showCoordinates(evt) {
+            var mp = webMercatorUtils.webMercatorToGeographic(evt.mapPoint);  //the map is in web mercator but display coordinates in geographic (lat, long)
+            dom.byId("txt_xyCoords").innerHTML = "Latitude:" + mp.x.toFixed(4) + ", Longitude:" + mp.y.toFixed(4);  //display mouse coordinates
+        }
+
+        function getTokens() {
+            var tokens = [];
+            var query = location.search;
+            query = query.slice(1);
+            query = query.split('&');
+            $.each(query, function (i, value) {
+                var token = value.split('=');
+                var key = decodeURIComponent(token[0]);
+                var data = decodeURIComponent(token[1]);
+                tokens[key] = data;
+            });
+            return tokens;
+        }
+    });
+</script>
+</head>
+
+<body class="tundra">
+
+
+<div id="content" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters:false" 
+                    style="width: 100%; height: 100%; margin: 0; background-color:rgb(127, 105, 127); font-family: Arial;">
+    <div id="map"
+        data-dojo-type="dijit/layout/ContentPane"
+        data-dojo-props="region:'center'"
+        style="overflow:hidden; background-color:rgb(151, 118, 123);">
+            <div id="txt_xyCoords" style="position:absolute; left:25px; bottom:1px; color:#404040; z-index:50; font-size:11px"></div>
+            <!--<img id="loadingImg" src="images/loading.gif" style="position:fixed; right:40%; top:50%; z-index:100;" />-->
+            <img id="loadingImg" src="{% static 'ced_main/images/grsgmap/loading.gif' %}" style="position:fixed; right:40%; top:50%; z-index:100;" />
+        </div>
+    </div>
+
+    <div id="panelBasemaps" class="panelBasemaps bg rounded shadow" >		    <!-- Panel Basemaps -->
+	    <!--<div id="basemapTitle"><img src="images/basemaps.png" height="30" title="Switch Base Map"/></div>-->
+        <div id="basemapTitle"><img src="{% static 'ced_main/images/grsgmap/basemaps.png' %}" height="30" title="Switch Base Map"/></div>
+	    <div id="basemapContent">
+		    <div id="basemapGallery" ></div>
+	    </div>
+    </div>
+</body>
+</html>
+

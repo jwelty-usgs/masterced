@@ -1,0 +1,6 @@
+nbproject/
+.idea/
+*.pyc
+categories.json		
+confusables.json
+sgceConfig.json

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+
+<title>Bulk Upload Data</title>
+
+{% block content %}
+
+
+<div id="viewallp">
+	<h3>Your project has been successfully saved</h3>
+	{% if EmailSent == 'EmailSent' %}
+		<p>Your request to have the project submitted has been emailed to your approving official. </p>
+	{% endif %}
+
+	<h4><a id='cururl' href=''>Return To My Effort Where I Left Off</a></h4>
+
+	<h4><a href='.'>Return To My Effort At The Beginning</a></h4>
+
+	<h4><a href="/sgce/viewprojects/">View My Efforts</a></h4>
+
+	
+</div>
+
+<script type="text/javascript">
+	document.getElementById("cururl").href = document.URL
+</script>    
+{% endblock %}
+
+
+

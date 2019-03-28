@@ -1,0 +1,154 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+
+{% block title %}Query Data{% endblock title %}
+
+{% block content %}
+{% load render_table from django_tables2 %}
+
+{% if DataDown == 'True' %}
+	<body onload="submitdata();">
+{% endif %}
+<script type="text/javascript" src="{% static 'ced_main/javascript/cedprjedit/cedqueries.js' %}"></script>
+<form id="" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+<div id="fwsqry">
+	<div id="HE">
+		<h3>USFWS Query</h3>
+		<p><b> Query automatically filters for:<br>(1) Project Status = Completed<br>(2) Entry Status = Approved,<br>(3) Entry Type = Project, and<br> (4) Only efforts that were deemed effective.
+		</b></p>
+	</div>
+	<div id="submitqueryfws">
+        <input type="submit" id='viewresults' class="button" name="submit" value="View Results" />
+        <input type="submit" class="button" name="exportcsv" value="Download Excel" />
+        <input type="button" class="button" value="Clear Results" onClick="window.location.href='/sgce/fwsquery/'"><br>
+    </div>
+	<div id='selectlists'>
+
+		
+		<div id='fwsqueryflds'>
+			{% for field in form %}          
+		      	{% if field.is_hidden %}
+		        	{{ field }}
+		      	{% else %}
+		      		{% if field.name == "QueryType" %}
+		      			<div id='querytype' onchange="updatefields()"> <b>Query Type: </b>{{ field }} </div>
+		      		{% elif field.name == "State" %}
+			            <div id='statefws' style="display:none;" onchange="updatemz()"><b>State: </b>{{ field }} &nbsp;&nbsp;&nbsp;&nbsp; </div> 
+			        {% elif field.name == "WAFWA_Zone" %}
+	                    <div id='wafwafws' style="display:none;" onchange="updatethr()"><b>WAFWA Zone:</b> {{ field }}  &nbsp;&nbsp;&nbsp;&nbsp;</div>                 
+	          		{% elif field.name == "Threat" %}
+	              		<div id='showthr' style="display:none;"> <b>Threat:</b> {{ field }}</div>
+	              		<div id='SelectWaf' style="display:none;"> <b>Threat: </b> Select WAFWA Zone First</div> <br>
+	              	{% elif field.name == "Response" %}
+	                    <div id='fwsresponse' style="display:none;"><b>FWS Assessment:</b> {{ field }} </div>
+	              	{% elif field.name == "DateEqu" %}
+	              		<br><br><br><br><br><br><br><div id='dateeqfws' style="display:none;"> <b>Select Approved Date Range:</b> {{ field }}</div>
+	              	{% elif field.name == "First_Date" %}
+	              		<div id='sdfws' style="display:none;"> <b>Approved Date 1: </b>{{ field }}  &nbsp;&nbsp;&nbsp;&nbsp;</div>
+	              	{% elif field.name == "Second_Date" %}
+	              		<div id='fdfws' style="display:none;"> <b>Date 2 (Optional): </b>{{ field }}</div>
+
+	          		{% endif %}
+
+	          	{% endif %}
+	         {% endfor %}
+	    </div>
+        <div id='totrec'> 
+	        {% if showq == 'Show' %}
+				<b>Total Records Returned: {{ Cnt }}</b>
+			{% endif %}
+		</div>
+
+	</div>
+
+	{% if showq == 'Show' %}
+		<div id="fwsviewpqrs">
+	        <table id='fwstablefil'>
+	            {% render_table fwstable %}
+	        </table>
+	    </div>
+	{% endif %}
+	
+</div>
+</form>
+
+
+
+
+<script type="text/javascript">
+	var wafwaval = document.getElementById('id_WAFWA_Zone');
+	var strwa = wafwaval.options[wafwaval.selectedIndex].value;
+	var showthr = 0
+    
+	if (strwa != ""){
+		document.getElementById('showthr').style.display = "inline";
+		document.getElementById('SelectWaf').style.display = "none";
+	}
+	else{
+		document.getElementById('showthr').style.display = "none";
+		document.getElementById('SelectWaf').style.display = "inline";
+	}
+	if (document.getElementById("id_QueryType_0").checked == true){
+		document.getElementById('statefws').style.display = "inline";
+		document.getElementById('wafwafws').style.display = "inline";
+		document.getElementById('dateeqfws').style.display = "inline";
+		document.getElementById('sdfws').style.display = "inline";
+		document.getElementById('fdfws').style.display = "inline";
+		document.getElementById('fwsresponse').style.display = "none";
+
+		
+		showthr = 1
+	}
+	if (document.getElementById("id_QueryType_1").checked == true){
+		document.getElementById('statefws').style.display = "none";
+		document.getElementById('wafwafws').style.display = "inline";
+		document.getElementById('dateeqfws').style.display = "inline";
+		document.getElementById('sdfws').style.display = "inline";
+		document.getElementById('fdfws').style.display = "inline";
+		document.getElementById('fwsresponse').style.display = "inline";
+		document.getElementById("id_State").value = strst;
+		showthr = 1
+	}
+
+	if (showthr == 0){
+		document.getElementById('showthr').style.display = "none";
+		document.getElementById('SelectWaf').style.display = "none";
+	}
+
+	var datecheck = 0;
+
+	if (document.getElementById("id_DateEqu_0").checked == true){
+		datecheck = 1;
+	}
+
+	if (document.getElementById("id_DateEqu_1").checked == true){
+		datecheck = 1;
+	}
+	if (document.getElementById("id_DateEqu_2").checked == true){
+		datecheck = 1;
+	}
+
+	if (datecheck == 0){
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		m = m + 1
+		var y = date.getFullYear();
+		document.getElementById("id_First_Date_month").value = m;
+		document.getElementById("id_First_Date_day").value = d;
+		document.getElementById("id_First_Date_year").value = y;
+		document.getElementById("id_DateEqu_0").checked = true;
+	}
+</script>
+
+
+{% endblock %}

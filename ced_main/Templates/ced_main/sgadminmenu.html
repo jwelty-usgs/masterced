@@ -1,0 +1,37 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Administration{% endblock title %}
+
+
+{% block content %}
+
+    <div id="regis">
+        <h3>ADMINISTRATORS</h3>
+    </div>
+    <div id="entrymenu">
+        <div id="loginhead2">
+              <p>ADMINISTRATOR MENU</p>
+        </div>
+
+        <div id="loginbody2">
+            <ul>
+                <li> <a href="/sgce/accounts/viewallusers/">VIEW ALL USERS</a></li>
+                <li> <a href="/sgce/emailcedusers/">EMAIL SELECTED USERS</a></li>
+                <li> <a href="/sgce/viewallprojects/">VIEW ALL PROJECTS</a></li>
+                <!-- <li> <a href="/sgce/error_check_projects/">ERROR CHECK PROJECTS</a></li> -->
+            </ul>
+        </div>
+    </div>
+       
+
+{% endblock %}
+

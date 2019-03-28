@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+
+{% block content %}
+<form id="" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+<div id="map1">
+  <div id="MU">
+        <h3>DOCUMENTATION RETRIEVED VIA THE QUERY</h3>
+        <p> NAVIGATION PANE: The Navigation menu has been temporarily disabled to allow for more space for the table.</p>
+        
+        
+        <a class="button15" href='/sgce/sgcedquery/'>Return to the Query</a>
+    </div>
+  <div id="downdoc">  
+  {% if LCJasonDown == 'True' %}
+    <iframe id="downloaddata" width="1" height="1" frameborder="1" scrolling="no" marginheight="0" marginwidth="0" src="{{ LCJason }}">
+    </iframe>
+  {% endif %}
+</div>
+  <div id="doctable">
+    <b>Your query returned {{ Documents }} documents. Browse the selection below to download the data or view the effort.</b><br> 
+    <table id="dtable" BORDER="2" CELLPADDING="2" CELLSPACING="2">
+
+        {% for form in formset %}
+          <tr>
+          {% for field in form %}
+            {% if field.is_hidden %}
+              {{ field }}
+            {% else %}
+              {% if field.name = "Project_ID" %}
+                <td><input type="button" class="button" value="Go To" onclick="gotoeffort({{field.value}})" /></td>
+                <div style="display:none;">
+                  {{field}} 
+                </div>
+              {% elif field.name = "Project_Name" %}
+                <td colspan="2"><b>{{field.value}}</b> <input type="submit" class="buttonr" name="submitdoc_{{field.value}}" value="Download All Effort Documents" /></td>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          </tr>
+
+          <tr>
+          {% for field in form %}
+            {% if field.is_hidden %}
+              {{ field }}
+            {% else %}
+              {% if field.name = "Project_ID" %}
+                <td></td>
+              {% elif field.name = "Document_Description" %}
+                <td>{{field.value}}</td>
+              {% elif field.name = "Document_Name" %}
+                <td>{{field.value}}</td>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          </tr>
+        {% endfor %}
+      
+    </table>
+  </div>
+ 
+</div>
+</form>
+<script type="text/javascript">
+  var prjidold = "NONE"
+  var rn = 0
+  var rows = document.querySelectorAll('tr');
+  var nc = 1
+  for (i = 0; i < 100000; i++) { 
+    try{
+
+      var prjid = 'id_form-' + i.toString() + '-Project_ID' 
+      var pid = document.getElementById(prjid).value
+
+      // Build the table
+
+      if (pid == prjidold){
+        rows[rn].style.display = "none";
+      }
+
+      
+      rn = rn + 1
+      if (pid == prjidold){
+        if (nc == 1){
+
+          rows[rn].style.backgroundColor = '#CEE3F6';
+          nc = 2;
+        }
+        else{
+
+          rows[rn].style.backgroundColor = '#A9E2F3';
+          nc = 1;
+        }
+      }
+      else{
+          rows[rn].style.backgroundColor = '#A9E2F3';
+          nc = 1;
+      }
+
+      rn = rn + 1
+      prjidold = pid
+    }
+    catch(err) {
+      break;
+    }
+  }
+
+</script>
+
+<script type="text/javascript">
+  function gotoeffort(effortid){
+    var url = '/sgce/' + effortid + '/viewproject/'
+    window.location = url;
+  }
+</script>
+
+
+{% endblock %}
+

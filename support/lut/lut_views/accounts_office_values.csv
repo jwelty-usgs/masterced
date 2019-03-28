@@ -1,0 +1,102 @@
+"43","---Select an Agency---","",""
+"44","---Select an Office---","",""
+"45","Oregon Fish and Wildlife Office","OR","U.S. Fish and Wildlife Service",111
+"46","Idaho Fish and Wildlife Office","ID","U.S. Fish and Wildlife Service",111
+"47","Washington Fish and Wildlife Office","WA","U.S. Fish and Wildlife Service",111
+"48","Idaho Fisheries Resource Office","ID","U.S. Fish and Wildlife Service",111
+"49","Mid-Columbia River Fisheries Resource Office","WA","U.S. Fish and Wildlife Service",111
+"50","Western Washington Fisheries Resource Office","WA","U.S. Fish and Wildlife Service",111
+"51","Columbia River Fisheries Program Office","WA","U.S. Fish and Wildlife Service",111
+"52","Colorado Ecological Services Field Office","CO","U.S. Fish and Wildlife Service",111
+"53","Montana Ecological Services Field Office","MT","U.S. Fish and Wildlife Service",111
+"54","Kalispell Ecological Services Sub-Office","MT","U.S. Fish and Wildlife Service",111
+"55","Grizzly Bear Recovery Coordinator","MT","U.S. Fish and Wildlife Service",111
+"56","Missouri River Coordinator Office","ND","U.S. Fish and Wildlife Service",111
+"57","Wyoming Ecological Services Field Office","WY","U.S. Fish and Wildlife Service",111
+"58","Wyoming Ecological Services Sub-Office","WY","U.S. Fish and Wildlife Service",111
+"59","North Dakota Ecological Services Field Office","ND","U.S. Fish and Wildlife Service",111
+"60","South Dakota Ecological Services Field Office","SD","U.S. Fish and Wildlife Service",111
+"61","Upper Colorado River Endangered Fish Recovery Program","CO","U.S. Fish and Wildlife Service",111
+"62","Utah Ecological Services Field Office","UT","U.S. Fish and Wildlife Service",111
+"63","Western Colorado Ecological Services Field Office","CO","U.S. Fish and Wildlife Service",111
+"64","National Black-Footed Ferret Conservation Center","CO","U.S. Fish and Wildlife Service",111
+"65","Colorado River Fishery Project-Grand Junction","CO","U.S. Fish and Wildlife Service",111
+"66","Northern Rockies Fish and Wildlife Conservation Office","MT","U.S. Fish and Wildlife Service",111
+"67","Great Plains Fish and Wildlife Conservation Office","SD","U.S. Fish and Wildlife Service",111
+"68","Missouri River Fish and Wildlife Conservation Office","ND","U.S. Fish and Wildlife Service",111
+"69","Montana Native Fish Coordinator","MT","U.S. Fish and Wildlife Service",111
+"70","Lander Fish and Wildlife Conservation Office","WY","U.S. Fish and Wildlife Service",111
+"71","Montana Fish and Wildlife Conservation Office","MT","U.S. Fish and Wildlife Service",111
+"72","Utah Fish and Wildlife Conservation Office","UT","U.S. Fish and Wildlife Service",111
+"73","Colorado Fish and Wildlife Conservation Office","CO","U.S. Fish and Wildlife Service",111
+"74","Colorado River Fishery Project-Vernal","UT","U.S. Fish and Wildlife Service",111
+"75","Nevada Fish and Wildlife Office","NV","U.S. Fish and Wildlife Service",111
+"76","Carlsbad Fish and Wildlife Office","CA","U.S. Fish and Wildlife Service",111
+"77","Klamath Falls Fish and Wildlife Office","OR","U.S. Fish and Wildlife Service",111
+"78","San Francisco Bay-Delta Fish and Wildlife","CA","U.S. Fish and Wildlife Service",111
+"79","Sacramento Fish and Wildlife Office","CA","U.S. Fish and Wildlife Service",111
+"80","Ventura Fish and Wildlife Office","CA","U.S. Fish and Wildlife Service",111
+"81","Red Bluff Fish and Wildlife Office","CA","U.S. Fish and Wildlife Service",111
+"82","Yreka Fish and Wildlife Office","CA","U.S. Fish and Wildlife Service",111
+"83","Stockton Fish and Wildlife Office","CA","U.S. Fish and Wildlife Service",111
+"84","Arcata Fish and Wildlife Office","CA","U.S. Fish and Wildlife Service",111
+"85","Fort Collins Science Center","CO","U.S. Geological Survey",92
+"86","Snake River Field Station","ID","U.S. Geological Survey",1
+"87","National Operations Center","CO","Bureau of Land Management",310
+"88","DEMONSTRATION USER ACCESS ONLY","NA","NA",111
+"89","Lander Field Office","WY","Bureau of Land Management",310
+"90","Nevada Department of Conservation and Natural Resources","NV","State",0
+"91","Oregon Department of Fish and Wildlife","OR","State",345
+"92","Idaho Dept of Fish and Game","ID","State",164
+"93","Alberta Fish and Wildlife","AB","State"
+"94","American Colloid Company","WY","Nongovernmental Organization"
+"95","Thunder Basin Grasslands Prairie Ecosystem Association","WY","Nongovernmental Organization"
+"96","Wind River Agency","WY","Bureau of Indian Affairs"
+"97","Chesapeake Energy Company","WY","Nongovernmental Organization"
+"99","SWCA Environmental Consultants","CO","Nongovernmental Organization"
+"100","Idaho Department of Lands","ID","State",267
+"101","South Dakota Department of Game Fish and Parks","SD","State",144
+"102","Rocky Mountain Power","UT","Nongovernmental Organization"
+"103","BLM California State Office","CA","Bureau of Land Management"
+"104","BLM Colorado State Office","CO","Bureau of Land Management"
+"105","BLM  Idaho State Office","ID","Bureau of Land Management"
+"106","BLM Montana State Office","MT","Bureau of Land Management"
+"107","BLM Nevada State Office","NV","Bureau of Land Management"
+"108","BLM Oregon State Office","OR","Bureau of Land Management"
+"110","BLM Utah State Office","UT","Bureau of Land Management"
+"111","BLM Wyoming State Office","WY","Bureau of Land Management"
+"112","Oregon Watershed Enhancement Board","OR","State",216
+"113","Montana Fish Wildlife and Parks","MT","State",217
+"114","Nevada Department of Wildlife","NV","State",0
+"115","California Fish and Wildlife","CA","State",455
+"116","State of Utah","UT","State",450
+"117","Colorado Parks and Wildlife","CO","State",122
+"118","Sheldon-Hart NWRC","CA","U.S. Fish and Wildlife Service"
+"119","Mid-Columbia NWRC","OR","U.S. Fish and Wildlife Service"
+"120","Minidoka Refuge","ID","U.S. Fish and Wildlife Service"
+"121","Charles M Russell Refuge","MT","U.S. Fish and Wildlife Service"
+"122","Red Rock Lakes Refuge","MT","U.S. Fish and Wildlife Service"
+"123","Seedskadee Refuge","WY","U.S. Fish and Wildlife Service"
+"124","Arapaho Refuge","CO","U.S. Fish and Wildlife Service"
+"125","Browns Park Refuge","CO","U.S. Fish and Wildlife Service"
+"126","National Elk Refuge","WY","U.S. Fish and Wildlife Service"
+"127","Bowdoin Refuge","MT","U.S. Fish and Wildlife Service"
+"128","Region 1 RO","OR","U.S. Fish and Wildlife Service"
+"129","Region 6 RO","CO","U.S. Fish and Wildlife Service"
+"130","Region 8 RO","CA","U.S. Fish and Wildlife Service"
+"131","Wyoming Game and Fish Department","WY","State"
+"132","University of Wyoming","WY","University/Researcher",342
+"133","Harney SWCD","OR","Conservation District"
+"134","Two Birds - One Stone (Conoco-Phillips)","CO","Nongovernmental Organization"
+"135","Southern Nevada Water Authority","NV","State"
+"136","Oregon Dept of State Lands","OR","State",386
+"137","Hayden-Wing Associates LLC","WY","Nongovernmental Organization"
+"138","Yakima Training Center","WA","Department of Defense"
+"139","North Dakota Game and Fish Department","ND","State",0
+"140","Baker County SWCD","OR","Conservation District"
+"141","U.S. Forest Service","NV","U.S. Forest Service",199
+"142","Environmental Defense Fund","WY","Nongovernmental Organization"
+"143","High Lonesome Ranch","CO","Private"
+"144","Partners for Fish and Wildlife Program","OR","U.S. Fish and Wildlife Service"
+"145","Congress","DC","U.S. Government",111
+"146","Sage-Grouse Initiative","Natural Resource Conservation Service",460

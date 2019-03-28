@@ -1,0 +1,25 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}SB Unavailable{% endblock title %}
+
+
+{% block content %}
+
+	<div id="regis">
+		<h3> Science Base is currently unavailable </h3>
+        <h4>The CED is currently unable to connect to our data repository, Science Base. Please try back again later. If the problem persists, please contact the CED team for additional support. </h4>
+	</div>
+
+
+
+
+{% endblock %}

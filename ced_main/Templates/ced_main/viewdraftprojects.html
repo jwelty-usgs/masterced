@@ -1,0 +1,32 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+<link href="{% static 'ced_main/Styles/footeradjust.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}View Projects{% endblock title %}
+
+
+{% block content %}
+{% load django_tables2 %}
+<div id="viewdp">
+	<div id="ret">Return to <a href="/sgce/sgeditmenu/">Data Entry Menu</a></div>
+	<div id="regis">
+		
+		<h3>View and Edit Your Draft Projects</h3>
+        <p> You have {{ count }} draft projects </p>
+		<p> Entry Type Key: 1 = Draft Project, 2 = Awaiting Approval, 3 = Approved </p>
+	</div>
+    <div id="viewptbl">
+	   <table>
+	       {% render_table viewdraftprojects %}
+	   </table>
+    </div>
+</div>
+{% endblock %}

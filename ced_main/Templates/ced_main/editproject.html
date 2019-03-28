@@ -1,0 +1,2986 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+<link href="{% static 'ced_main/Styles/editprjstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+
+
+{% block title %}Edit Effort{% endblock title %}
+
+{% block content %}
+{% load render_table from django_tables2 %}
+
+
+
+<script type="text/javascript" src="{% static 'ced_main/javascript/cedprjedit/cededitprj.js' %}"></script>
+<script type="text/javascript">
+
+    var activ = "{{Activity}}"
+    var subactiv = "{{subact}}"
+    var tyacval = "{{typeactval}}"
+
+</script>
+
+
+
+<div id="editform">
+
+    <form id="editplan_Form" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+        
+    <div id="editmain">
+          
+        <div id="TN" class="edittop">
+              {% for fieldset in form.fieldsets %}
+                {% if fieldset.name == "Step 4: Activity Information" %}
+                  {% for field in form %}
+                    <div id="actdivmast">
+                      {% if field.label == "Effort Name*" %}
+                        <div><lab> Effort Name: </lab>{{ field.value }}</div>
+                        
+                         
+                      {% elif field.label == "Effort Type" %}
+                            <div id="eft"> Effort is a <prj id="getprjid">{{ field.value }}</prj></div>
+
+                      {% elif field.label == "Entry Type" %}
+                            <div id="effstatus">{{ field }}</div>
+
+                       {% elif field.label == "Mark This Effort for Deletion" %}
+                            <div id="MFD" >{{field.label}}{{ field }}</div>
+                                
+
+                      {% endif %}
+                    </div>
+                    
+                    
+                  {% endfor %}
+
+                {% endif %}
+
+              {% endfor %} 
+
+            <div id="sectype">
+                Step 2: Location Information            
+            </div> 
+            <div id='RequiredFlds'><p> <span class='required'>*</span> = Required Field </p></div>
+
+        </div>
+
+
+         <div id="dismaps" style="display:none;">
+           <div id="menuitems">
+            <div id="bttn">
+                <button type="button" class="button" onclick="GoToEdit('Activity')">Go to Step 3</button>
+                <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
+                
+            </div>
+          </div>
+
+          <div id="menuitemsbottom">
+            <div id="bttnbottom">
+                <button type="button" class="button" onclick="GoToEdit('Activity')">Go to Step 3</button>
+                <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
+                
+            </div>
+          </div>
+
+          <div id="Locationinfo" class="edittop">
+
+                {% for fieldset in form.fieldsets %}
+                {% if fieldset.name == "Step 2: Location Information" %}
+                {% if typeactval == "Spatial Project" %}
+                <input id='spatlink' class="button100" type="submit" name="spatlink" value="Edit Spatial Data" onclick="needToConfirm = false;">
+                <div id="map">
+                    <img id="loadingImg" src="{% static 'ced_main/images/ced_main/loading.gif' %}" style="position:fixed; right:50%; top:50%; z-index:10;" />
+
+                </div>
+                {% endif %}
+
+
+                <div id="state">
+                    <div id="processingDiv2" style="display:none;" class="answer_list">
+                    </div>
+                    {% if subform5.non_field_errors %}{{ subform5.non_field_errors }}
+                    {% endif %}
+                    <div id="statehead">
+                        <h3 id='statcolor'> States<span class='required'>*</span></h3>
+                        <label id="StatesList">States Selected:</label><br>
+                        <label id="StatesMod">Select all 'States' where your project occurs and is implemented</label>
+
+                    </div>
+                    <div id='statebody' onchange="LoadLists('State_Value', 'States Selected: ', 'StatesList'); SelectCounties(); LoadLists('County_Value', 'Counties Selected: ', 'CntsList');">
+                            <ul>
+                                {% for field in subform5.State_Value %}
+                                {% if field.is_hidden %}
+                                {{ field }}
+                                {% else %}
+                                <li>
+                                    {{ field.errors }}
+                                    {{ field.label_tag }}
+                                    <span>{{ field }}</span>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                    </div>
+                </div>
+
+                <div id="countyall">
+
+                    {% if subform6.non_field_errors %}{{ subform6.non_field_errors }}
+                    {% endif %}
+
+                    <div id="countyhead">
+                        <h3 id='cntycolor'> Counties<span class='required'>*</span></h3>
+                        <label id="CntsList">Counties Selected:</label><br>
+                        <label id="CntsMod">Select all 'Counties' where your project occurs and is implemented.</label>
+                    </div>
+                    <div id="county" onchange="LoadLists('County_Value', 'Counties Selected: ', 'CntsList');">
+                            <ul>
+                                {% for field in subform6.County_Value %}
+                                {% if field.is_hidden %}
+                                {{ field }}
+                                {% else %}
+                                <li>
+                                    {{ field.errors }}
+                                    {{ field.label_tag }}
+                                    <span>{{ field }}</span>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                    </div>
+                </div>
+
+                <div id="collaball">
+                    {% if subform3.non_field_errors %}{{ subform3.non_field_errors }}
+                    {% endif %}
+                    <div id="collabhead">
+                        <h3 id=colabcolor>Collaborators<span class='required'>*</span></h3><br>
+                        <label id="collabList">Collaborators Selected:</label><br>
+                    </div>
+                    <div id="collab" onchange="LoadLists('Collab_Party', 'Collaborators Selected: ', 'collabList'); checknull();">
+                        <ul>
+                            {% for field in subform3.Collab_Party %}
+                            {% if field.is_hidden %}
+                            {{ field }}
+                            {% else %}
+                            <li>
+                                {{ field.errors }}
+                                <lab>{{ field.label_tag }}</lab>
+                                <span>{{ field }}</span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                {% if typeactval != "Non-Spatial Plan" %}
+                <div id="ownerall">
+
+                    {% if subform10.non_field_errors %}{{ subform10.non_field_errors }}
+                    {% endif %}
+
+                    <div id="ownerhead">
+                        <h3> Land Ownership<span class='required'>*</span></h3><br>
+                        <label id="OwnerList">Ownership Selected:</label><br>
+                        <label id="OwnerMod">Select all 'Land Owners' where your project occurs and is implemented.</label>
+                    </div>
+                    <div id="owner" onchange="LoadLists('Owner_Value', 'Ownership Selected: ', 'OwnerList');">
+                        <ul>
+                            {% for field in subform10.Owner_Value %}
+                            {% if field.is_hidden %}
+                            {{ field }}
+                            {% else %}
+                            <li>
+                                {{ field.errors }}
+                                {{ field.label_tag }}
+                                <span>{{ field }}</span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                        
+                    </div>
+                </div>
+                {% endif %}
+
+
+
+
+                {% endif %}
+                {% endfor %}
+            </div>
+
+      </div>
+
+      
+        <div id="implementation" style="display:none;">
+          {% if typeactval != "Non-Spatial Plan" %}
+            <div id="menuitems">
+                <div id="bttn">
+                    <button type="button" class="button" onclick="GoToEdit('Activity')">Back to Step 3</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review')">Go to Step 5</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                    <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
+                </div>
+            </div>
+            <div id="menuitemsbottom">
+                <div id="bttnbottom">
+                    <button type="button" class="button" onclick="GoToEdit('Activity')">Back to Step 3</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review')">Go to Step 5</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                    <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
+                </div>
+            </div>
+
+          <div id="obj">
+            <div id="IMH">
+              <h4> Part 1: Objectives and Methods </h4>
+            </div>
+              <div id="processingDiv2" style="display:none;" class="answer_list">
+              </div>
+              {% if subform11.non_field_errors %}{{ subform11.non_field_errors }}
+              {% endif %}
+              <div id="objhead">
+                  <h3 id='objcolor1'> Objectives<span class='required'>*</span></h3>
+
+                  {% if subact == 'Conifer Removal (All Phases)' %}
+                    <div id='objnotes' class='noteshead'>
+                      <div id='objnoteslabel'><button type="button" class='plussign' id='objectivesplus' onclick="ExpandNotes('objtext', 'objectivesplus')">+</button><p class='noteslabel'> Conifer Objective Notes (Expand and read before making a Selection)</p></div>
+                      <div id='objtext' class='notetext' style="display:none;">
+                          <p>
+                              For the purposes of categorizing your efforts, we are relying on the definitions describing the
+                              successional phases of pinon-juniper woodland expansion contained in Miller et al. 2005
+                              <br><br>
+                              • Phase I is early successional where trees are present but shrubs and herbs are the dominant
+                              vegetation that influence ecological processes (hydrologic, nutrient, and energy cycles).
+                              <br><br>
+                              • Phase II is mid-successional where trees are codominant with shrubs and herbs and all
+                              three vegetation layers influence ecological processes.
+                              <br><br>
+                              • Phase III is late-successional where trees are the dominant vegetation and the primary
+                              plant layer influencing ecological processes.
+                              <br><br>
+                              Miller R.F., Bates J.D., Svejcar T.J., Pierson F.B., Eddleman L.E.. Biology, ecology,
+                              and management of western juniper (Juniperus occidentalis). Corvallis,
+                              Oregon: Agricultural Experiment Station, Oregon State University; 2005.
+                              Report No.: Technical Bulletin 152.
+                          </p>
+                      </div>
+                    </div>
+                  {% endif %}
+
+                  <label id="objMod">Select all 'Objectives' that you are attempting to meet.</label>
+
+              </div>
+              <div id='objbody' onchange="SelectMethods('{{subact}}'); UpdateEndDateLabel('{{subact}}');">
+                <ul>
+                    {% for field in subform11.Objective %}
+                    {% if field.is_hidden %}
+                    {{ field }}
+                    {% else %}
+                    <li>
+                        {{ field.errors }}
+                        {{ field.label_tag }}
+                        <span>{{ field }}</span>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+              </div>
+          </div>
+
+          {% for fieldset in form.fieldsets %}
+            {% if fieldset.name == "Step 4: Activity Information" %}
+              {% for field in form %}
+                {% if field.label == "Objectives*" %}
+                  {% if typeactval != "Non-Spatial Plan" %}
+                      <div id="actdiv">
+                          <div id="obdesc">
+                              <labwc id='objcolor'><b>Other<br>Objectives:</b><span id="objaster" style="display:none;" class='required'>*</span><wc id="objwrdcnt"></wc></labwc>
+
+                              <wc id="objmargin" onkeyup="KeyUpObjDesc()"> {{ field }}</wc>
+                          </div>
+                      </div>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+
+          <div id="method">
+              <div id="processingDiv2" style="display:none;" class="answer_list">
+              </div>
+              {% if subform12.non_field_errors %}{{ subform12.non_field_errors }}
+              {% endif %}
+              <div id="methodhead">
+                  <h3 id='methodcolor'> Methods<span class='required' id='mthidsel'>*</span></h3>
+                  <label id="methodMod">Select all methods used in conducting this activity</label>
+
+              </div>
+              <div id='methodbody' onchange="SelectOtherRequired();">
+                <ul>
+                    {% for field in subform12.Method %}
+                    {% if field.is_hidden %}
+                    {{ field }}
+                    {% else %}
+                    <li>
+                        {{ field.errors }}
+                        <span1>{{ field.label_tag }}</span1>
+                        <span>{{ field }}</span>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+              </div>
+          </div>
+
+
+
+          {% if subform4.non_field_errors %}{{ subform4.non_field_errors }}{% endif %}
+
+          <div id='pt1fields' class="edittop">
+            {% for fieldset in subform4.fieldsets %}
+              {% if fieldset.legend == "Part 3: Methods" %}
+                {% for field in fieldset %}
+                  <div id="actdiv">
+                      <div id="mtdesc">
+                          <labwc id='mtcolor'><b>Other<br>Methods:</b><span id="methaster" style="display:none;" class='required'>*</span><wc id="mthwrdcnt"></wc></labwc>
+
+                          <wc id="mtmargin" onkeyup="KeyUpMthDesc()"> {{ field }}</wc>
+                      </div>
+                  </div>
+                {% endfor %} 
+              {% elif fieldset.legend == "Step 3: Implementation" %}
+                <div id="impefttopL">
+                  <div id="IMH">
+                    <h4> Part 2: Status </h4>
+                  </div>
+                  {% for field in fieldset %}
+                    <ul>
+                      {% if field.is_hidden %}
+                        {{ field }}
+                      {% else %}
+                        {% if field.label == "1) What is the current implementation status of the activity?*" %}
+                          <div id="impstatus">
+                              <lab id='impcolor'>1) What is the current implementation status of the activity?:</lab><span class='required'>*</span>
+                            <br>
+                            <test id='ImpStat' name='ImpStatus' onclick="javascript:UpdateStat(); UpdateEndDateLabel('{{subact}}');">
+                              <ul>
+                                <li>
+                                  {{ field }} 
+                                </li>
+                              </ul>
+                            </test>
+                          </div>
+                          <div id='pt2Label'>
+                              <div id='Part1Label'></div>
+                          </div>
+                    
+                        {% else %}
+                          <div id="statusqs">
+                            <li id="{{field.name}}">
+                              {{ field.errors }}
+                                <lab id='{{ field.label_tag }}_color'>{{ field.label_tag }}<span class='required1'>*</span></lab>
+                                <br>
+                                <span id="statquest">{{ field }}</span>
+                            </li>
+                        </div>
+                        {% endif %}
+                      {% endif %}
+                    </ul>
+                  {% endfor %}                        
+                </div>
+              {% endif %}
+                       
+
+
+
+              {% if fieldset.legend == "Part 3: Effectiveness Information" %}
+                <div id="impefttopR">
+                  <div id="IMH">
+                      <h4>{{ fieldset.legend }}</h4>
+                  </div>
+                    
+                    <div id='pt2fields'>
+                      {% for field in fieldset %}
+                        <ul>
+                          {% if field.is_hidden %}
+                            {{ field }}
+                          {% else %}
+                            {% if field.name == "Effective_Determined" %}
+                              <div id='allnotes' class='noteshead'>
+                                <div id='allnoteslabel'><button type="button" class='plussign' id='allplus' onclick="ExpandNotes('alltext', 'allplus')">+</button><p class='noteslabel'> Implementation and Effectiveness Notes (Expand and read before making a Selection)</p></div>
+                                <div id='alltext' class='notetext' style="display:none;"><p>• Given that a number of treatments may take time (seasons, years) to establish and provide conservation benefit, desired plant communities, etc., the CED does not allow certain efforts to be classified if the effort implementation status is “in progress” (as opposed to completed), and does not allow for certain Subactivities to claim effectiveness until 3 years after the project has been completed.  This allows for appropriate post-treatment monitoring and adaptive management to be conducted so we can have certainty that an effort is effective.  However, there are some Subactivities/efforts that can be, and for the purposes of the CED, will be considered effective upon implementation, provided adequate information is included.  An example of these efforts would include: Conservation Easements, Phase I Conifer Removal, and certain Fuels Management efforts. <br><br>• For most of the treatment subactivities, the ‘Effectiveness Rating’ option of “Effort is already effective” will not be available until 3 years post completion (calculated from ‘End Date’ field in Step 3 of your record entry).  For certain treatment subactivities, the action could be considered effective upon implementation based on certain circumstances and effort objectives.  For those subactivity-objective combinations, that ‘Effectiveness Rating’ option will be available to select.<br><br>• Furthermore, if a treatment is monitored and has information after 3 years that supports a change in rating, a user can revisit and edit that record, provide any supporting information and resubmit to your ‘Approving Official’ for review.</p>
+                                </div>
+                              </div>
+                              {% if subact == 'Conifer Removal (All Phases)' %}
+                                <div id='effconnotes' class='noteshead'>
+                                  <div id='effconnoteslabel'><button type="button" class='plussign' id='effconplus' onclick="ExpandNotes('effcontext', 'effconplus')">+</button><p class='noteslabel'> Conifer Effectiveness Notes (Expand and read before making a Selection)</p></div>
+                                  <div id='effcontext' class='notetext' style="display:none;"><p>Publications including but not limited to Miller et al. (2005), Baruch-Mordo et al. (2013), Severson et al. (2017), and Kormos et al. (2017) provide information describing these impacts of conifer expansion into sagebrush and sage-grouse habitats, as well as additional information that may inform your assessment of effectiveness. </p>
+                                  </div>
+                                </div>
+                              {% endif %}
+
+                              {% if subact == 'Vegetation Management / Habitat Enhancement' %}
+                                <div id='vegmannotes' class='noteshead'>
+                                  <div id='vegmannoteslabel'><button type="button" class='plussign' id='vegmanplus' onclick="ExpandNotes('vegmantext', 'vegmanplus')">+</button><p class='noteslabel'> Vegetation Management / Habitat Enhancement Effectiveness Notes (Expand and read before making a Selection)</p></div>
+                                  <div id='vegmantext' class='notetext' style="display:none;"><p>The CED Team suggests you include additional details about techniques that bolster success such as seed coating, as well as seed source, and other things the CED may not capture explicitly.  Subject matter experts have identified these techniques as way to increase likelihood of success. </p>
+                                  </div>
+                                </div>
+                              {% endif %}
+
+                              {% if subact == 'Annual Grass Treatments' %}
+                                <div id='anngrasnotes' class='noteshead'>
+                                  <div id='anngrasnoteslabel'><button type="button" class='plussign' id='anngrasplus' onclick="ExpandNotes('anngrastext', 'anngrasplus')">+</button><p class='noteslabel'> Annual Grass Treatments Notes (Expand and read before making a Selection)</p></div>
+                                  <div id='anngrastext' class='notetext' style="display:none;"><p>‘Targeted Grazing’ is used in this respect as a technique or method to address Annual Grasses. Other uses for targeted grazing (treating weeds) or other improved grazing practices can be entered under the ‘ANNUAL WEED TREATMENT’ Subactivity (found in this same Activity) or under the 'Livestock and Rangeland Management' Activity >> ‘Improved Grazing Practices’ Subactivity. </p>
+                                  </div>
+                                </div>
+                              {% endif %}
+
+                              {% if subact == 'Riparian, Wet Meadow or Spring Restoration' %}
+                                <div id='ripnotes' class='noteshead'>
+                                  <div id='ripnoteslabel'><button type="button" class='plussign' id='ripplus' onclick="ExpandNotes('riptext', 'ripplus')">+</button><p class='noteslabel'> Riparian, Wet Meadow or Spring Restoration Notes (Expand and read before making a Selection)</p></div>
+                                  <div id='riptext' class='notetext' style="display:none;"><p>Examples of “in-channel structures” include, but are not limited to, Beaver Dam Analogs (BDAs) and Zeedykes.</p>
+                                  </div>
+                                </div>
+                              {% endif %}
+
+                              
+
+                              <div id="eftdet">
+                                  <lab id='effcolor'>2) Has the activity been deemed effective?:</lab><span class='required'>*</span>
+
+                                <br>
+                                <test id='EffectDeter' name='EffectDeter' onclick="javascript:UpdateEffect(); SelectEffStat('{{subact}}');"> 
+                                 
+                                      <font size="2" style="font-family:arial;">{{ field }} </font><br>
+                                  
+                                </test>
+                              </div>
+                            {% elif field.name == "Effective_Explained" %}
+                                <div id="effstat">
+                                  <div id="processingDiv2" style="display:none;" class="answer_list">
+                                  </div>
+                                  {% if subform13.non_field_errors %}{{ subform13.non_field_errors }}
+                                  {% endif %}
+                                  <div id="effstathead">
+                                      <h3 id='effstatcolor'> Effectiveness Statements<span class='required'>*</span></h3>
+                                      <label id="effstatMod">Select all 'Effectiveness Statements' that explain your effectiveness rating.</label>
+
+                                  </div>
+                                  <div id='effstatbody' onchange="SelectOtherRequiredEff();">
+                                      <ul>
+                                          {% for field in subform13.Effectiveness_Statement %}
+                                          {% if field.is_hidden %}
+                                          {{ field }}
+                                          {% else %}
+                                          <li>
+                                              {{ field.errors }}
+                                              {{ field.label_tag }}
+                                              <span>{{ field }}</span>
+                                          </li>
+                                          {% endif %}
+                                          {% endfor %}
+                                      </ul>
+                                  </div>
+                              </div>
+
+                                <div id="eftexp">
+
+                                       <labwc>
+                                            <div id="Effect_Explained_Label"></div><span class='required2' id="effreqlabel">*</span>
+                                                <wc id="effexpwrdcnt"></wc>
+                                        </labwc>
+                                       <wc id="effmargin" onkeyup="KeyUpEffectExplain()"> {{ field }}</wc>
+
+                                </div>
+
+                                <div id='pt2Label'>
+                                    <div id='Part2Label'></div>
+                                </div>
+
+                            {% else %}
+                              <div id="effectqs">
+                                <li id="{{field.name}}">
+                                    <lab id='{{ field.label_tag }}_color'>{{ field.label_tag }}<span class='required1'>*</span></lab>
+                                    <br>
+                                    <span id="statquest">{{ field }}</span>
+                                </li>
+                              </div>
+                            {% endif %}
+                          {% endif %}
+                        </ul>
+                      {% endfor %}
+                    </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        </div>
+        
+        <div id="activityinfo" style="display:none;">
+            <div id="menuitems">
+                <div id="bttn">
+                    <button type="button" class="button" onclick="GoToEdit('Location')">Back to Step 2</button>
+                    {% if typeactval != "Non-Spatial Plan" %}
+                      <button type='button' class="button5" onclick="GoToEdit('Implementation')">Go to Step 4</button>
+                    {% endif %}
+                    <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                    <input type="submit" class="button5" name="SandE" value="Save and Exit" onclick="needToConfirm = false;"/>
+                </div>
+            </div>
+
+            <div id="menuitemsbottom">
+                <div id="bttnbottom">
+                    <button type="button" class="button" onclick="GoToEdit('Location')">Back to Step 2</button>
+                    {% if typeactval != "Non-Spatial Plan" %}
+                      <button type='button' class="button5" onclick="GoToEdit('Implementation')">Go to Step 4</button>
+                    {% endif %}
+                    <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                    <input type="submit" class="button5" name="SandE" value="Save and Exit" onclick="needToConfirm = false;"/>
+                </div>
+            </div>
+          {% for fieldset in form.fieldsets %}
+            {% if fieldset.name == "Step 4: Activity Information" %}
+
+                <div id="actinfo" class="edittop">
+                    <h4> Activity Info</h4>
+                  {% for field in form %}
+                    
+                    {% if field.is_hidden %}
+                      {{ field }}
+                    {% else %}
+
+                      
+                      {% if field.label == "Effort Name*" %}
+                        <div id="actdivmain">
+                            <lab id='effnamcolor'><b>Edit Name:</b></lab>{{ field }}
+                        </div>
+                      
+                             
+                      {% elif field.label == "Activity" %}
+                        <div id="actdiv">
+                            <lab  id='actcolor'>{{ field.label_tag }}</lab>{{ field.value }}
+                        </div>
+
+                        {% elif field.label == "Subactivity" %}
+                            <div id="actdiv">
+                                <lab id='subactcolor'>{{ field.label_tag }}</lab>{{ field.value }}
+                            </div>
+
+                        {% elif field.label == "Agreement Length" %}
+                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %} 
+                                <div id="actdiv">
+                                   <div id="agreelen"><lab id="agreelenlab"><b>Agreement Length:</b><span class='required'>*</span></lab><span id='agreelencolor'>{{ field }}</span></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Agreement Penalty" %}
+                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %} 
+                                <div id="actdiv">
+                                    <div id="agreepen"><lab id="agreepenlab"><b>Agreement Penalty:</b><span class='required'>*</span></lab><span id='agreepencolor'>{{ field }}</span></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Seeding Type" %}
+                            {% if subact == "Vegetation Management / Habitat Enhancement" or subact == "Energy development reclamation with the goal of sagebrush restoration" %}
+                                <div id="actdiv">
+                                    <div id="seedtype"><lab id="seedtypelab"><b>Seeding Type:</b><span class='required'>*</span></lab><span id='seedchoicecolor'>{{ field }}</span></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Post Wildfire Related" %}
+                            {% if Activity == "RESTORATION: Post-Disturbance and/or Habitat Enhancement" %}
+                                <div id="actdiv">
+                                    <div id="pfire"><lab id="pfirelab"><b>Post Wildfire:</b><span class='required'>*</span></lab><span id='pfirechoicecolor'>{{ field }}</span></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Mitigation Treatment" %}
+                              <div id="actdiv">
+                                  <div id="pmitigation"><lab id="pmitigationlab"><b>Mitigation Treatment:</b><span class='required'>*</span></lab><span id='pmitigationchoicecolor'>{{ field }}</span></div>
+                              </div>
+
+                        {% elif field.label == "Type of Powerline*" %}
+                            {% if subact == "Powerline Burial" %} 
+                                <div id="actdiv">
+                                    <div id="tyofpo"><lab id="tyofpolab"><b>Type of Powerline</b><span class='required'>*</span></lab>{{ field }}</div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "# Permit Holders*" %}
+                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %} 
+                                <div id="actdiv">
+                                    <div id="perhold"><lab id='perholdcolor'><b># Permit Holders:</b><span class='required'>*</span></lab><span id='perholdcolor'>{{ field }}</span></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Start Date*" %}
+                            <div id="actdiv" class="dates">
+                                <lab id='startcolor'><b>Start Date:</b><span class='required'>*</span></lab><div onchange="isValidDate();" id="strdtfld">{{ field }}</div>
+                        {% elif field.label == "End Date*" %}
+                                <lab id='endcolor'><b id="endlabel">End Date:</b><span class='required'>*</span></lab><div id="enddtfld" onchange="UpdateEndDateLabel('{{subact}}'); isValidDate();">{{ field }}</div><p id="enddatenote">**If there is no end date (e.g. In Perpetuity), select January 1, 2100.</p>
+                            </div>
+
+                        {% elif field.label == "Metric Type*" %}
+                            {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
+                                <div id="actdiv" style="display:none;">
+                                    <lab id='mettypecolor'>{{ field.label_tag }}</lab>
+                                    <select id="mettypeid" name="Metric" {{ field }} </>
+                                </div>
+                            {% endif %}
+                            
+                        {% elif field.label == "Metric Value*" %}
+                            {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
+                                <div id="actdiv" class="metrics">
+                                    <b><lab id="lab66">{{ field.label_tag }}</lab></b>
+                                    <div id="metricleft" onchange="CheckAcDiff();">{{ field }} <i>(User Defined)</i></div>
+                                </div>
+                            {% endif %}
+
+                        
+                            <br>
+                        {% elif field.label == "GIS Acres*" %}
+                            {% if typeactval == "Spatial Project" %}
+                                <div id="actdiv">
+                                    <div id="gisfields">
+                                        <lab id='giscolor'><b>GIS Acres Treated:</b></lab>
+                                        <div id="GISAC"><span id="GISACVAL">{{ field.value }}</span> <i>{% if field.value > 0 %}(GIS Calculated){% endif %}</i></div>
+
+                                        <input id='spatlink1' class="button10" type="submit" name="spatlink" value="Edit Spatial Data" onclick="needToConfirm = false;">    
+                                        <div id="GISWarnings">
+                                            {% if field.value > 0 %}
+                                                <div id="GISAcres"></div>
+                                            {% else %}
+                                                <div id="GISAcresMis"> <p>***Spatial data are required</p></div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                      
+                            {% elif field.label == "Created By" %}
+                                <hr>
+                                <div id="actdiv">
+                                    <div id="createby">
+                                    <lab5>{{ field.label_tag }}</lab5>{{ field.value }}
+                            {% elif field.label == "User Email" %}     
+                                <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                            {% elif field.label == "Date Created" %}     
+                                <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                            {% elif field.label == "Implementing Party" %}
+                                    <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                                    </div>
+                                </div>
+                                <div id="actdiv">    
+                            {% elif field.label == "Office" %}     
+                                <lab5>{{ field.label_tag }}</lab5>{{ field.value }}
+                            {% elif field.label == "Updating User" %}
+                                    <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                            {% elif field.label == "Last Updated" %}     
+                                <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                                </div>
+                                <div id="actdiv">
+                            {% elif field.label == "Approving Official" %}
+                                    <lab5>{{ field.label_tag }}</lab5>{{ field.value }}
+                            {% elif field.label == "Date Approved" %}     
+                                <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                                </div>
+                    
+                        
+
+                        {% elif field.label == "Objectives*" %}
+      
+                        {% elif field.label == "Notes" %}
+                            <div id="actdiv">
+                                <div id="notesall">
+                                    <lab id="notelabel">
+                                      {{ field.label_tag }}
+                                    </lab>
+                                    <span  id="notebox">
+                                        {{ field }}
+                                    </span>
+                                </div>
+                            </div>
+
+                        <lido id="docall">
+                            <div id="DocHead">
+                                <h4 id='doccolor'>Documentation:</h4>
+                                  <p> Select files you wish to upload.  Multiple files can be uploaded by using the 'Crtl' and 'Shift' commands. Select 'Upload' to load the files then fill in the remaining attributes for each file. Upload time can be slow, please be patient and wait for your files to appear below before continuing.</p>  
+                                  {% if DocFailed == "DocFailed" %}    
+                                    <h3> The document failed to upload, please try again. </h3>
+                                  {% endif %}               
+                            </div>
+                              
+                            <div id="doctextbody">
+
+                                <input id="myfile" style="color:black;" type="file" name="myfiles" multiple onchange="showsubmit()">
+                                <input id="subbutton" class="submitbuttondoc" type="submit" style="display:none;" name="upload" value="Upload" onclick="needToConfirm = false; showDiv()">
+                                <div id="DocText" style="display:none;"> <h5> Loading Documents...Please wait </h5></div>
+                                    <div id="processingDiv1" style="display:none;" class="answer_list">
+                                          <div id="loaderImage"> </div> 
+                                    </div>
+
+                                    <div id="fileformhead">
+                                        <head1>
+                                            <h5> File Type </h5>
+                                        </head1>
+
+                                        <head2>
+                                            <h5> Document Description</h5>
+                                        </head2>
+
+                                        <head3>
+                                            <h5> Document Name </h5>
+                                        </head3>
+
+
+                                        <div id="DocText1" style="display:none;"> <h3> Accessing Secure Data...Please wait </h3></div>
+                                        <div id="DocText2" style="display:none;"> <h3> Deleting Secure Data...Please wait </h3></div>
+                                    </div>
+                              
+                                    <div id="fileforms">
+                                        {{ formset.management_form }}
+                                        {% for form in formset %}
+                                        <div id="fileform">
+                                            {% for field in form %}
+                                        
+                                                {% if field.label != "Document_Name" %}
+                                            
+                                                    {% if field.is_hidden %}
+                                                        {{ field }}
+                                                    {% else %}
+                                                        <li>
+                                                            {{ field.errors }}
+                                                            <span class='required'>*&nbsp;&nbsp;</span>{{ field }}
+                                                        </li>
+                                                    {% endif %}
+                                            
+                                                {% else %}
+                                                    <li1>
+                                                        {{ field.value }} <a id="DownDoc" href="{{ LCJason }}" download="{{ LCJason }}"></a>
+                                                        <div style="display:none;">{{ field }}</div>
+                                                    </li1>
+                                                    <div id="ddbutton">
+
+                                                        <input id='Downloadsb' class="button6" type="submit" name="Download_{{ field.value }}" value="Download" onclick="checklink('{{ field.value }}'); needToConfirm = false; showDiv1()">
+                                                      
+                                                        <input class="button6" type="submit" name="Delete_{{ field.value }}" value="Delete" onclick="needToConfirm = false; showDiv2()">
+                                                    </div>                        
+                                                {% endif %}
+                                              
+                                            {% endfor %}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </lido>
+
+                            <div id="ThrtBox">     
+                              {% if subform2.non_field_errors %}{{ subform2.non_field_errors }}{% endif %}
+                                <div id="field-checks"> 
+                                  <acat>
+                                    <div id="thradd">
+                                        <h4 id='thrtcolor'>Threats Addressed:<span class='required'>*</span></h4>
+                                    </div>
+                                  <div id="ThreatVals">
+                                    <ul>
+                                      {% for field in subform2.Threat %}
+                                        {% if field.is_hidden %}
+                                          {{ field }}
+                                        {% else %}
+                                          <li><span>
+                                            {{ field.errors }}
+                                            {{ field.label_tag }}
+                                            {{ field }}</span>                       
+                                          </li>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </ul>
+                                  </div> 
+                                </acat>
+                              </div> 
+                            </div>
+                            <div id="actdiv2"> 
+                              <h5>For each threat selected above, please provide rationale explaining why the action was/is/will be effective at addressing and reducing the threat and the impact on sagebrush/sage-grouse. This needs to be completed in Step 4: Effectiveness Information. Either Select the appropriate Effectiveness Statement(s) or explain in further detail in the 'Explain why the activity was deemed effective' text box.</h5>
+                          </div>
+                        
+                           
+                        {% elif field.label == "Mark This Effort for Deletion" %}
+                        {% elif field.label == "Entry Type" %}
+                        {% elif field.label == "Effort Type" %}
+                        {% else %}
+                            <div id="actdiv">
+                                <lab>
+                                  {{ field.label_tag }}
+                                </lab>
+                                {{ field.value }}
+                            </div>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                  {% endfor %}
+                </div>   
+
+                {% endif %}
+              {% endfor %}
+
+    </div>
+
+ 
+
+    <div id="errorcheckdiv" style="display:none;">
+        <div id="menuitems">
+            <div id="bttn">
+                {% if typeactval != "Non-Spatial Plan" %}
+                  <button type="button" class="button" onclick="GoToEdit('Implementation')">Back to Step 4</button>
+                {% else %}
+                  <button type="button" class="button" onclick="GoToEdit('Activity')">Back to Step 3</button>
+                {% endif %}
+                <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
+                <input id='saveandsubmit' type="submit" class="button" name="emailapp" value="Save and Submit for Approval" onclick="needToConfirm = false; javascript:DisplayEC();"/>
+            </div> 
+        </div>
+        <div id="menuitemsbottom">
+            <div id="bttnbottom">
+                {% if authen == 'authenapp' or authen == 'authenadmin' %}
+                    <input id="ApprovePrj" type="submit" class="buttonapp" name="approveapp" value="Approve Effort" onclick="needToConfirm = false; javascript:DisplayEC()"/>
+                {% endif %}
+                {% if typeactval != "Non-Spatial Plan" %}
+                  <button type="button" class="button" onclick="GoToEdit('Implementation')">Back to Step 4</button>
+                {% else %}
+                  <button type="button" class="button" onclick="GoToEdit('Activity')">Back to Step 3</button>
+                {% endif %}
+                <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
+                <input id='saveandsubmit' type="submit" class="button" name="emailapp" value="Save and Submit for Approval" onclick="needToConfirm = false; javascript:DisplayEC();"/>
+            </div>
+        </div> 
+
+
+        <div id="ReviewDir" class="edittop">
+
+            <p> Please review all data entered below.  Anything highlighted in red is required and missing. You cannot submit for approval until all required data are complete. Click 'Save and Exit' to save the data without submitting the record for approval.  Click 'Save and Submit for Review' to submit the record for approval.</p>
+                    
+            <div id="Reviewfield">
+
+                <div id="MU">
+                    <h3></h3><button type='button' class="button7" onclick="GoToEdit('Location')">Step 2: Location Information</button><h3></h3>
+                </div>
+                <div id="actdiv1"> 
+                    <lab class='reviewlabel' id="sts">States:<span class='required'>*</span></lab><div class='reviewval' id="StateList1"></div>
+                </div>
+                <div id="actdiv1"> 
+                    <lab class='reviewlabel' id="cnties">Counties:<span class='required'>*</span></lab><div class='reviewval' id="CountyList1"></div>
+                </div>
+                {% if typeactval != "Non-Spatial Plan" %}
+                    <div id="actdiv1"> 
+                        <lab class='reviewlabel' id="ownlab">Ownership:&nbsp;</lab><div class='reviewval' id="OwnerList1"></div>
+                    </div>
+                {% endif %}
+
+                {% if subform3.non_field_errors %}{{ subform3.non_field_errors }}{% endif %}
+                    <div id="actdiv1" class="actdivcl"> 
+                        <lab class='reviewlabel' id="ColCheckLab">Collaborators:<span class='required'>*</span></lab><div class='reviewval' id="ColCheckSel"></div>
+                    </div>
+
+                <div id="MU">
+               
+                    <h3></h3><button type='button' class="button7" onclick="GoToEdit('Activity')">Step 3: Activity Information</button><h3></h3>
+                </div>
+
+
+
+
+
+
+              {% for fieldset in form.fieldsets %}
+                {% if fieldset.name == "Step 4: Activity Information" %}
+                  {% for field in form %}
+                    
+                    {% if field.is_hidden %}
+                      {{ field }}
+                    {% else %}
+                      {% if field.label == "Effort Name*" %}
+                                <div id="actdiv1"> 
+                                    <lab class='reviewlabel' id="ActNameLab">Effort Name:<span class='required'>*</span></lab><div class='reviewval' id="ActNameVal"></div>
+                                </div>
+
+                        {% elif field.label == "Seeding Type" %}
+                            {% if subact == "Vegetation Management / Habitat Enhancement" or subact == "Energy development reclamation with the goal of sagebrush restoration" %}
+                                <div id="actdiv">
+                                    <div id="seedtype"><lab id="seedtypelab"><b>Seeding Type:</b><span class='required'>*</span></lab><span id='seedchoicecolor'>{{ field }}</span></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Post Wildfire Related" %}
+                            {% if Activity == "RESTORATION: Post-Disturbance and/or Habitat Enhancement" %}
+                                <div id="actdiv1"> 
+                                    <lab class='reviewlabel' id="PostFireLab">Post Wildfire:<span class='required'>*</span></lab><div class='reviewval' id="PostFireVal"></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Mitigation Treatment" %}
+                              <div id="actdiv1"> 
+                                  <lab class='reviewlabel' id="MitigationLab">Mitigation Treatment:<span class='required'>*</span></lab><div class='reviewval' id="MitigationVal"></div>
+                              </div>
+
+
+
+                        {% elif field.label == "Type of Powerline*" %}
+                            {% if subact == "Powerline Burial" %}
+                                <div id="actdiv1"> 
+                                    <lab class='reviewlabel' id="TypePowerLab">Type of Powerline:<span class='required'>*</span></lab><div class='reviewval' id="TypePowerVal"></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Agreement Length" %}
+                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                                <div id="actdiv1"> 
+                                    <lab class='reviewlabel' id="AgreeLenLab">Agreement Length:<span class='required'>*</span></lab><div class='reviewval' id="AgreeLenVal"></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Agreement Penalty" %}
+                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                                <div id="actdiv1"> 
+                                    <lab class='reviewlabel' id="AgreePenLab">Agreement Penalty:<span class='required'>*</span></lab><div class='reviewval' id="AgreePenVal"></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "# Permit Holders*" %}
+                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                                <div id="actdiv1"> 
+                                    <lab class='reviewlabel' id="PerHoldLab"># Permit Holders:<span class='required'>*</span></lab><div class='reviewval' id="PerHoldVal"></div>
+                                </div>
+                            {% endif %}
+
+                        
+                        {% elif field.label == "Start Date*" %}
+                            <div id="actdiv1"> 
+                                <lab class='reviewlabel' id="StartDateLab">Start Date:<span class='required'>*</span></lab><div class='reviewval' id="StartSel"></div>
+                            </div>
+                      
+                        {% elif field.label == "End Date*" %}
+                            <div id="actdiv1"> 
+                                <lab class='reviewlabel' id="FinishDateLab">End Date:<span class='required'>*</span></lab><div class='reviewval' id="EndSel"></div>
+                            </div>
+
+
+                        {% elif field.label == "Metric Type*" %}
+                            {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
+                                <div id="actdiv1" style="display:none;"> 
+                                    <lab class='reviewlabel' id="MetTypeLab">Miles Treated<span class='required'>*</span></lab><div class='reviewval' id="MetType"></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Metric Value*" %}
+                            {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
+                                <div id="actdiv1"> 
+                                    <lab class='reviewlabel' id="MetValLab">Acres Treated<span class='required'>*</span></lab><div class='reviewval' id="MetVal"></div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "GIS Acres*" %}
+                            {% if typeactval == "Spatial Project" %}
+                                <div id="actdiv1"> 
+                                    <lab class='reviewlabel' id="GISValLab">GIS Acres:<span class='required'>*</span></lab><div class='reviewval'>{{ field.value }}</div>
+                                </div>
+                            {% endif %}
+
+                        {% elif field.label == "Objectives*" %}
+
+                        {% elif field.label == "Notes" %}
+                            <div id="actdiv1"> 
+                                <lab class='reviewlabel'>Notes:&nbsp;</lab><div class='reviewval' id="NotesSel"></div>
+                            </div>
+
+                            <div id="actdiv1">
+                                <lab class='reviewlabel' id="docreviewlab">Documentation:</lab><div class='reviewval' id=docreviewcnt></div>
+                            </div>
+                            <div id="docreview"></div>
+
+                        
+                            <div id="actdiv1" class="actdivcl"> 
+                                <lab class='reviewlabel' id="ThrCheckLab">Threats:<span class='required'>*</span></lab><div class='reviewval' id="ThrCheckSel"></div>
+                            </div>
+
+
+                        {% elif field.label == "Mark This Effort for Deletion" %}
+                        {% elif field.label == "Entry Type" %}
+                        {% elif field.label == "Effort Type" %}
+                        {% else %}
+                            <div id="actdiv1">
+                                <lab> {{ field.label_tag }}&nbsp;</lab> 
+                                {{ field.value }}
+                            </div>
+
+                        {% endif %}    
+
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+
+
+
+
+
+
+
+
+
+            {% if typeactval != "Non-Spatial Plan" %}
+                <div id="MU">
+                    <h3></h3><button type='button' class="button7" onclick="GoToEdit('Implementation')">Step 4: Implementation Information</button><h3></h3>
+                </div>
+
+                <div id="actdiv2"> 
+                    <h4>Part 1: Objectives and Methods</h4>
+                </div>
+
+                <div id="actdiv2"> 
+                    <lab class='reviewlabel' id="objreview">Objectives:<span class='required'>*</span></lab><div class='reviewval' id="ObjectiveList1"></div>
+                </div>
+
+                <div id="actdiv2"> 
+                    <lab class='reviewlabel' id="ObjectiveLab">Other Objectives:<span class='required' id='objidsel'>*</span></lab><div class='reviewval' id="ObjectiveSel1"></div>
+                </div>
+
+                <div id="actdiv2"> 
+                    <lab class='reviewlabel' id="mthreview">Methods:<span class='required'>*</span></lab><div class='reviewval' id="MethodList1"></div>
+                </div>
+
+                <div id="actdiv2"> 
+                    <lab class='reviewlabel' id="mthtxtreview">Other Methods:<span class='required' id='mthidsel1'>*</span></lab><div class='reviewval' id="MethodText1"></div>
+                </div>
+
+                <div id="actdiv2"> 
+                    <h4>Part 2: Status</h4>
+                </div>
+
+                <div id="actdiv2"> 
+                    <lab class='reviewlabel' id="impstatrevlab">Implementation Status:<span class='required'>*</span></lab><div class='reviewval' id="impstatrev"></div>
+                </div>
+
+                <div id='DisNotImp'>
+                    <div id="actdiv2"> 
+                        <h5>For actions not yet implemented, is there a high level of certainty that:</h5>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="wbirevlab">Will be Implemented:<span class='required'>*</span></lab><div class='reviewval' id="wbirev"></div>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="larevlab">Legal Authority:<span class='required'>*</span></lab><div class='reviewval' id="larev"></div>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="rarevlab">Resources Available:<span class='required'>*</span></lab><div class='reviewval' id="rarev"></div>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="miprevlab">Mechanisms in Place:<span class='required'>*</span></lab><div class='reviewval' id="miprev"></div>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="crrevlab">Compliance Requirements:<span class='required'>*</span></lab><div class='reviewval' id="crrev"></div>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="vprevlab">Voluntary Participation:<span class='required'>*</span></lab><div class='reviewval' id="vprev"></div>
+                    </div>
+                </div>
+                <div id="actdiv2"> 
+                    <h4>Part 3: Effectiveness Information</h4>
+                </div>
+                <div id="actdiv2"> 
+                    <lab class='reviewlabel' id="deemeffrevlab">Deemed Effective:<span class='required'>*</span></lab><div class='reviewval' id='deemeffrev1'></div>
+                </div>
+
+                <div id="actdiv2"> 
+                    <lab class='reviewlabel' id="effreview">Effectiveness:<span class='required'>*</span></lab><div class='reviewval' id="EffectiveList1"></div>
+                </div>
+
+                <div id="actdiv2"> 
+                    <lab class='reviewlabel' id="expeffrevlab">Other Effectiveness:<span class='required' id="effidsel1">*</span></lab><div class='reviewval' id="expeffrevrev"></div>
+                </div>
+
+                <div id='DisNotEff'>
+                    <div id="actdiv2"> 
+                        <h5>For actions that have not been deemed effective (e.g. programs/actions only recently implemented), does the action:</h5>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="dtrrevlab">Describe Threat Reduction:<span class='required'>*</span></lab><div class='reviewval1' id="dtrrev"></div>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="iorevlab">Provide Incremental Objectives:<span class='required'>*</span></lab><div class='reviewval1' id="iorev"></div>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="iemrevlab">Provide Implementation and Effectiveness Measures:<span class='required'>*</span></lab><div class='reviewval1' id="iemrev"></div>
+                    </div>
+
+                    <div id="actdiv3"> 
+                        <lab class='reviewlabel' id="amrevlab">Incorporate Adaptive Management:<span class='required'>*</span></lab><div class='reviewval1' id="amrev"></div>
+                    </div>
+                </div>
+              {% endif %}
+            </div> 
+            
+            {% if authen == 'authenadmin' %}
+                <div id="delapp">
+                    
+                  <input id="deleteprj" type="submit" class="deletebttn" name="deleteapp" value="Delete Effort" onclick="needToConfirm = false; javascript:DeleteProject();"/>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    
+
+    </div>
+
+
+    </form> 
+</div>
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="https://js.arcgis.com/3.18/esri/css/esri.css"/>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js">
+</script>
+<script type="text/javascript" src="https://js.arcgis.com/3.18/">
+</script>
+
+<script type="text/javascript">
+  UpdateEndDateLabel(subactiv)
+  LoadLists('State_Value', 'States Selected: ', 'StatesList');
+  LoadLists('County_Value', 'Counties Selected: ', 'CntsList');
+  if("{{typeactval}}" != "Non-Spatial Plan"){
+    LoadLists('Owner_Value', 'Ownership Selected: ', 'OwnerList');
+  }
+  var loc = window.location.href 
+  var vars = loc.split("step=");
+  if (String(vars[1]) == 'undefined'){
+    GoToEdit('Location')
+  } else {
+    GoToEdit(vars[1])
+  }
+  
+</script>
+
+
+<script type="text/javascript">
+  list = document.getElementsByName('Imp_Status') 
+  for(var i=0; i<list.length;i++) {
+    if (list[i].checked) {
+      var statusval = list[i].value
+      if (statusval == 2){
+        document.getElementById('endlabel').innerHTML = "Proposed End Date:"
+      } 
+    }
+  }
+  
+</script>
+
+<script type="text/javascript">
+  function isValidDate() {
+    impstat = document.getElementById('id_Imp_Status_1').checked
+    styear = document.getElementById('id_Start_Date_year').value
+    if(styear > 1980){
+      stmonth = document.getElementById('id_Start_Date_month').value
+      stday = document.getElementById('id_Start_Date_day').value
+
+      if(stmonth == 4 | stmonth == 6 | stmonth == 9 | stmonth == 11){
+        if(stday > 30){
+          alert('This month only has 30 days in it, not 31')
+          document.getElementById('id_Start_Date_year').value = 0
+          document.getElementById('id_Start_Date_month').value = 0
+          document.getElementById('id_Start_Date_day').value = 0
+        }
+      }
+
+      if(stmonth == 2){
+        if(stday > 28){
+            alert('February only has 28 days in it. If the effort started on the leap day please indicate March 1st as the start date.')
+            document.getElementById('id_Start_Date_year').value = 0
+            document.getElementById('id_Start_Date_day').value = 0
+            document.getElementById('id_Start_Date_month').value = 0
+        }
+      }
+
+      var stdate = new Date(styear, stmonth, stday);
+      var curdate = new Date()
+
+      if(impstat == true & stdate > curdate){
+        alert('Your effort is marked Complete, your start date cannot occur after today')
+        document.getElementById('id_Start_Date_year').value = 0
+        document.getElementById('id_Start_Date_day').value = 0
+        document.getElementById('id_Start_Date_month').value = 0
+      }
+      
+    }
+
+    enyear = document.getElementById('id_End_Date_year').value
+    if(enyear > 1980){
+      enmonth = document.getElementById('id_End_Date_month').value
+      enday = document.getElementById('id_End_Date_day').value
+      
+      if(enmonth == 4 | enmonth == 6 | enmonth == 9 | enmonth == 11){
+        if(stday > 30){
+          alert('This month only has 30 days in it, not 31')
+          document.getElementById('id_End_Date_year').value = 0
+          document.getElementById('id_End_Date_month').value = 0
+          document.getElementById('id_End_Date_day').value = 0
+        }
+      }
+
+      if(enmonth == 2){
+        if(enday > 28){
+            alert('February only has 28 days in it. If the effort started on the leap day please indicate March 1st as the start date.')
+            document.getElementById('id_End_Date_year').value = 0
+            document.getElementById('id_End_Date_month').value = 0
+            document.getElementById('id_End_Date_day').value = 0
+        }
+      }
+
+      var endate = new Date(enyear, enmonth, enday);
+      var curdate = new Date()
+
+      if(impstat == true & endate > curdate){
+        alert('Your effort is marked Complete, your end date cannot occur after today')
+        document.getElementById('id_End_Date_year').value = 0
+        document.getElementById('id_End_Date_day').value = 0
+        document.getElementById('id_End_Date_month').value = 0
+      }
+    }
+    if(styear > 1980 & enyear > 1980){
+      if(endate < stdate){
+        alert("WARNING: End date cannot occur before the start date.")
+        document.getElementById('id_End_Date_year').value = 0
+        document.getElementById('id_End_Date_month').value = 0
+        document.getElementById('id_End_Date_day').value = 0
+      }
+    }
+
+  }
+</script>
+
+
+
+<script type="text/javascript">
+  subact = subactiv
+  var list = document.getElementsByName('Effective_Determined') 
+  var updatelist = document.getElementsByName('Effectiveness_Statement') 
+  var updatelist1 = []
+  var labels
+
+  var optionlist = []
+
+  var u = 0
+  for(var j=0; j<updatelist.length;j++) {
+      UpdateControl = updatelist[j].parentNode.innerHTML;
+      UpdateControl1 = UpdateControl.split(">")[1];
+      UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
+      UpdateControl1 = UpdateControl1.substr(1);
+
+      updatelist1.push(UpdateControl1)
+      effstval = 'id_Effectiveness_Statement_' + (u)
+      document.getElementById(effstval).style.display = "none";
+      var mthd = document.getElementById("effstatbody")
+      mthd.getElementsByTagName("li")[u].style.display="none";
+      u = u + 1
+  }
+
+  for(var i=0; i<list.length;i++) {
+    if (list[i].checked) {
+      var EffectStat = list[i].value
+      var u = 0
+
+      // Set effectiveness statement select boxes for subactivity Conservation Easement
+      if(subact == 'Conservation Easement'){
+        for(var u=0; u<4; u++){
+          if (EffectStat == 1 & (u == 0 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 2 & (u == 1 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 3 & (u == 2 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Land Acquisition
+      if(subact == 'Land Acquisition'){
+        for(var u=0; u<4; u++){
+          if (EffectStat == 4 & (u == 0 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 5 & (u == 1 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 6 & (u == 2 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Fuel Breaks
+      if(subact == 'Fuel Breaks'){
+        for(var u=0; u<7; u++){
+          if (EffectStat == 7 & (u == 0 | u == 6)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 8 & (u == 1 | u == 2 | u == 3 | u == 4 | u == 6)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 9 & (u == 5 | u == 6)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Conifer Removal (All Phases)
+      if(subact == 'Conifer Removal (All Phases)'){
+        for(var u=0; u<10; u++){
+          if (EffectStat == 10 & (u == 1 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 11 & (u == 0 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 12 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 6 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 13 & (u == 7 | u == 8 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Vegetation Management / Habitat Enhancement
+      if(subact == 'Vegetation Management / Habitat Enhancement'){
+        for(var u=0; u<10; u++){
+          if (EffectStat == 14 & (u == 0 | u == 1 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 15 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 16 & (u == 6 | u == 7 | u == 8 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Fuels Management
+      if(subact == 'Fuels Management'){
+        for(var u=0; u<10; u++){
+          if (EffectStat == 17 & (u == 1 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 18 & (u == 0 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 19 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 20 & (u == 6 | u == 7 | u == 8 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Annual Grass Treatments
+      if(subact == 'Annual Grass Treatments'){
+        for(var u=0; u<10; u++){
+          if (EffectStat == 21 & (u == 0 | u == 1 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 22 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 23 & (u == 6 | u == 7 | u == 8 | u == 9)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Noxious Weed Treatments
+      if(subact == 'Noxious Weed Treatments'){
+        for(var u=0; u<9; u++){
+          if (EffectStat == 24 & (u == 0 | u == 8)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 25 & (u == 1 | u == 2 | u == 3 | u == 4 | u == 8)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 26 & (u == 5 | u == 6 | u == 7 | u == 8)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Riparian, Wet Meadow or Spring Restoration
+      if(subact == 'Riparian, Wet Meadow or Spring Restoration'){
+        for(var u=0; u<9; u++){
+          if (EffectStat == 27 & (u == 0 | u == 8)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 28 & (u == 1 | u == 2 | u == 3 | u == 4 | u == 8)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 29 & (u == 5 | u == 6 | u == 7 | u == 8)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Energy development reclamation with the goal of sagebrush restoration
+      if(subact == 'Energy development reclamation with the goal of sagebrush restoration'){
+        for(var u=0; u<9; u++){
+          if (EffectStat == 30 & (u == 0 | u == 1 | u == 8)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 31 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 8)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 32 & (u == 6 | u == 7 | u == 8)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Area Closure
+      if(subact == 'Area Closure'){
+        for(var u=0; u<5; u++){
+          if (EffectStat == 33 & (u == 0 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 34 & (u == 1 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 35 & (u == 2 | u == 3 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Improved Grazing Practices (Rest, Rotation, Etc.)
+      if(subact == 'Improved Grazing Practices (Rest, Rotation, Etc.)'){
+        for(var u=0; u<7; u++){
+          if (EffectStat == 36 & (u == 0 | u == 6)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 37 & (u == 1 | u == 2 | u == 3 | u == 6)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 38 & (u == 4 | u == 5 | u == 6)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Road and Trail closure OR Rerouted Roads and/or Trails
+      if(subact == 'Road and Trail closure' | subact == 'Rerouted Roads and/or Trails'){
+        for(var u=0; u<5; u++){
+          if ((EffectStat == 39 | EffectStat == 42) & (u == 0 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if ((EffectStat == 40 | EffectStat == 43) & (u == 1 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if ((EffectStat == 41 | EffectStat == 44) & (u == 2 | u == 3 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Powerline Retrofitting / Modification
+      if(subact == 'Powerline Retrofitting / Modification'){
+        for(var u=0; u<6; u++){
+          if (EffectStat == 45 & (u == 0 | u == 5)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 46 & (u == 1 | u == 2 | u == 5)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 47 & (u == 3 | u == 4 | u == 5)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Powerline Burial OR Structure Removal
+      if(subact == 'Powerline Burial' | subact == 'Structure Removal'){
+        for(var u=0; u<4; u++){
+          if ((EffectStat == 48 | EffectStat == 51) & (u == 0 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if ((EffectStat == 49 | EffectStat == 52) & (u == 1 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if ((EffectStat == 50 | EffectStat == 53) & (u == 2 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Fence Marking
+      if(subact == 'Fence Marking'){
+        for(var u=0; u<5; u++){
+          if (EffectStat == 54 & (u == 0 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 55 & (u == 1 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 56 & (u == 2 | u == 3 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Fence Modification
+      if(subact == 'Fence Modification'){
+        for(var u=0; u<4; u++){
+          if (EffectStat == 57 & (u == 0 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 58 & (u == 1 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 59 & (u == 2 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Fence Removal
+      if(subact == 'Fence Removal'){
+        for(var u=0; u<4; u++){
+          if (EffectStat == 60 & (u == 0 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 61 & (u == 1 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 62 & (u == 2 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Wild Equid Population Control
+      if(subact == 'Wild Equid Population Control'){
+        for(var u=0; u<5; u++){
+          if (EffectStat == 63 & (u == 0 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 64 & (u == 1 | u == 2 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 65 & (u == 3 | u == 4)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Wild Equid Gather
+      if(subact == 'Wild Equid Gather'){
+        for(var u=0; u<4; u++){
+          if (EffectStat == 66 & (u == 0 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 67 & (u == 1 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 68 & (u == 2 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+
+      // Set effectiveness statement select boxes for subactivity Translocation
+      if(subact == 'Translocation'){
+        for(var u=0; u<4; u++){
+          if (EffectStat == 69 & (u == 0 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 70 & (u == 1 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+
+          if (EffectStat == 71 & (u == 2 | u == 3)) {
+              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              var effst = document.getElementById("effstatbody")
+              effst.getElementsByTagName("li")[u].style.display="inline-block";
+          }
+        }
+      }
+    }
+  }
+</script>
+
+<script type="text/javascript">
+  subact = subactiv
+  list = document.getElementsByName('Imp_Status') 
+  for(var i=0; i<list.length;i++) {
+    if (list[i].checked) {
+      var statusval = list[i].value
+      if (statusval == 2){
+        document.getElementById('endlabel').innerHTML = "Proposed End Date:"
+        document.getElementById('id_Effective_Determined_0').style.display = "none";
+        var efft = document.getElementById("EffectDeter")
+        efft.getElementsByTagName("li")[0].style.display="none";
+      } else {
+        if(subact == 'Vegetation Management / Habitat Enhancement' | subact == 'Fuels Management' | subact == 'Riparian, Wet Meadow or Spring Restoration' | subact == 'Conifer Removal (All Phases)' | subact == 'Fuel Breaks' | subact == 'Annual Grass Treatments' | subact == 'Noxious Weed Treatments' | subact == 'Energy development reclamation with the goal of sagebrush restoration' | subact == 'Improved Grazing Practices (Rest, Rotation, Etc.)' | subact == 'Wild Equid Population Control' | subact == 'Wild Equid Gather' | subact == 'Translocation'){
+          document.getElementById('endlabel').innerHTML = "End Date:"
+          var listey = document.getElementsByName("End_Date_year")
+          for(var k=0; k<listey.length;k++) {
+            var ddl = document.getElementById("id_End_Date_year");
+            var yearend = ddl.options[ddl.selectedIndex].value;
+            timeelapsed = (new Date()).getFullYear() - yearend
+            if (timeelapsed < 3){
+              document.getElementById('id_Effective_Determined_0').style.display = "none";
+              var efft = document.getElementById("EffectDeter")
+              efft.getElementsByTagName("li")[0].style.display="none";
+            } else {
+              document.getElementById('id_Effective_Determined_0').style.display = "inline-block";
+              var efft = document.getElementById("EffectDeter")
+              efft.getElementsByTagName("li")[0].style.display="inline-block";
+            }
+          }
+        }else {
+              document.getElementById('id_Effective_Determined_0').style.display = "inline-block";
+              var efft = document.getElementById("EffectDeter")
+              efft.getElementsByTagName("li")[0].style.display="inline-block";
+        }
+      }
+    }
+  }
+</script>
+
+<script type="text/javascript">
+  var list = document.getElementsByName('Method') 
+  for(var i=0; i<list.length;i++) {
+    if (list[i].checked) {
+
+        Control = list[i].parentNode.innerHTML;
+        Control1 = Control.split(">");
+        Control2 = String(Control1[1])
+        Control2 = Control2.replace(/[\n\r]/g, '');
+        Control2 = Control2.substr(1);
+        var Method = Control2
+
+        if (Method == 'Other - Please specify in text box'){
+          document.getElementById('methaster').style.display = "inline-block"
+        }
+    }
+  }
+</script>
+
+<script type="text/javascript">
+  var subact = subactiv
+  if(subact == 'Vegetation Management / Habitat Enhancement' | subact == 'Fuels Management' | subact == 'Riparian, Wet Meadow or Spring Restoration'){
+
+    var Control
+    var Control1
+    var UpdateControl
+    var UpdateControl1
+    var UpdateNum
+    var UpdateNum1
+    var UpdateNum2
+    var Outputlist = "" 
+    var CountState   
+    var innerhtm
+    var list = document.getElementsByName('Objective') 
+    var updatelist = document.getElementsByName('Method') 
+    var updatelist1 = []
+    var labels
+
+    var optionlist = []
+
+    var u = 0
+
+    
+
+    for(var j=0; j<updatelist.length;j++) {
+        UpdateControl = updatelist[j].parentNode.innerHTML;
+        UpdateControl1 = UpdateControl.split(">")[1];
+        UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
+        UpdateControl1 = UpdateControl1.substr(1);
+
+        updatelist1.push(UpdateControl1)
+        methodval = 'id_Method_' + (u)
+        document.getElementById(methodval).style.display = "none";
+        var mthd = document.getElementById("methodbody")
+        mthd.getElementsByTagName("li")[u].style.display="none";
+        u = u + 1
+    }
+
+    for(var i=0; i<list.length;i++) {
+        if (list[i].checked) {
+
+            Control = list[i].parentNode.innerHTML;
+            Control1 = Control.split(">");
+            Control2 = String(Control1[1])
+            Control2 = Control2.replace(/[\n\r]/g, '');
+            Control2 = Control2.substr(1);
+            Objective = Control2
+            var u = 0
+
+            // Set select boxes for subactivity Vegetation Management / Habitat Enhancement
+            if(subact == 'Vegetation Management / Habitat Enhancement'){
+              for(var j=0; j<updatelist1.length;j++) {
+                if (Objective == 'Increase native bunchgrass density and/or diversity (local scale)' | Objective == 'Improve and/or restore habitat quality through planting of sagebrush or other shrubs providing habitat (local scale)' | Objective == 'Increase forb density or diversity in understory (local scale)') {
+                    for(var u=0; u<7; u++){
+                      if(u == 0 | u == 1 | u == 5 | u == 6){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("methodbody")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Reduce or remove shrubs that may contribute to sagebrush habitat loss or degradation (local scale)'){
+                    for(var u=0; u<7; u++){
+                      if(u == 2 | u == 3 | u == 4){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("methodbody")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Other - Please specify in text box'){
+                  for(var u=0; u<7; u++){
+                      document.getElementById('id_Method_' + u).style.display = "inline-block";
+                      var mthd = document.getElementById("methodbody")
+                      mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                  }
+                  document.getElementById('objaster').style.display = "inline-block"
+                }
+
+                document.getElementById('id_Method_7').style.display = "inline-block";
+                var mthd = document.getElementById("methodbody")
+                mthd.getElementsByTagName("li")[7].style.display="inline-block";
+
+                document.getElementById('id_Method_8').style.display = "inline-block";
+                var mthd = document.getElementById("methodbody")
+                mthd.getElementsByTagName("li")[8].style.display="inline-block";
+
+              }
+            }
+
+            // Set select boxes for Fuels Management
+            if(subact == 'Fuels Management'){
+              for(var j=0; j<updatelist1.length;j++) {
+                if (Objective == 'Reduce woody fuels (slash) following conifer removal (local scale)') {
+                    for(var u=0; u<5; u++){
+                      if(u == 0 | u == 3 | u == 4){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("methodbody")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Reduce fuel continuity by thinning shrubs (local scale)') {
+                    for(var u=0; u<5; u++){
+                      if(u == 0 | u == 1 | u == 2){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("methodbody")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Other - Please specify in text box'){
+                  for(var u=0; u<5; u++){
+                      document.getElementById('id_Method_' + u).style.display = "inline-block";
+                      var mthd = document.getElementById("methodbody")
+                      mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                  }
+                  document.getElementById('objaster').style.display = "inline-block"
+                }
+
+                document.getElementById('id_Method_5').style.display = "inline-block";
+                var mthd = document.getElementById("methodbody")
+                mthd.getElementsByTagName("li")[5].style.display="inline-block";
+
+                document.getElementById('id_Method_6').style.display = "inline-block";
+                var mthd = document.getElementById("methodbody")
+                mthd.getElementsByTagName("li")[6].style.display="inline-block";
+
+              }
+            }
+
+            // Set select boxes for Riparian
+            if(subact == 'Riparian, Wet Meadow or Spring Restoration'){
+              for(var j=0; j<updatelist1.length;j++) {
+                if (Objective == 'Restore hydroligic function to floodplain/wet meadow (local scale)'){
+                    for(var u=0; u<11; u++){
+                      if(u == 0 | u == 2 | u == 3 | u == 4 | u == 6){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("methodbody")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Raise floodplain/wet meadow water table (local scale)'){
+                    for(var u=0; u<11; u++){
+                      if(u == 3 | u == 4 | u == 6){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("methodbody")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Restore riparian vegetation (local scale)'){
+                    for(var u=0; u<11; u++){
+                      if(u == 7 | u == 8 | u == 9 | u == 10){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("methodbody")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Reduce bank erosion to improve riparian function (local scale)'){
+                    for(var u=0; u<11; u++){
+                      if(u == 1 | u == 6 | u == 7 | u == 8 | u == 9 | u == 10){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("methodbody")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Spring enhancement (local scale)'){
+                    for(var u=0; u<11; u++){
+                      if(u == 7 | u == 8 | u == 9 | u == 10){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("methodbody")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Playa restoration (local scale)'){
+                    for(var u=0; u<11; u++){
+                      if(u == 5){
+                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        var mthd = document.getElementById("objaster")
+                        mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                      }
+                    }
+                }
+
+                if (Objective == 'Other - Please specify in text box'){
+                  for(var u=0; u<11; u++){
+                      document.getElementById('id_Method_' + u).style.display = "inline-block";
+                      var mthd = document.getElementById("methodbody")
+                      mthd.getElementsByTagName("li")[u].style.display="inline-block";
+                  }
+                  document.getElementById('objaster').style.display = "inline-block"
+                }
+
+                document.getElementById('id_Method_11').style.display = "inline-block";
+                var mthd = document.getElementById("methodbody")
+                mthd.getElementsByTagName("li")[11].style.display="inline-block";
+
+                document.getElementById('id_Method_12').style.display = "inline-block";
+                var mthd = document.getElementById("methodbody")
+                mthd.getElementsByTagName("li")[12].style.display="inline-block";
+
+              }
+            }
+
+        }
+    }
+  }
+</script>
+
+<script type="text/javascript">
+    
+      var needToConfirm = true;
+      var stopdoc = "Go";
+      window.onbeforeunload = confirmExit;
+      function confirmExit(){
+        if (needToConfirm){
+           return "You are attempting to leave this page.  If you have made any changes to the fields without clicking the 'Save and Exit' or 'Submit for Approval' buttons, your changes will be lost.  Are you sure you want to exit this page?";
+        } else {
+
+            if (document.getElementById("deleteprj").name == "deleteapp"){
+            
+              if (confirm('Deleting the project will erase all data, GIS, and documentation for this project.  Are you sure you want to continue?')) {
+                document.getElementById("deleteprj").name = "deleteapp"; 
+                document.forms.editplan_Form.submit();
+              } else {
+                window.alert("The delete has been cancelled")
+                event.preventDefault();
+              }
+            }
+
+          
+        }
+        
+      }
+</script>
+
+<script type="text/javascript">
+  if("{{typeactval}}" == "Spatial Project"){
+    var repAcre = document.getElementById('id_Metric_Value').value;
+
+    var GISAcre = document.getElementById('GISACVAL').innerHTML;
+    var AcreDiff = repAcre - GISAcre;
+
+    if(AcreDiff >= 0){
+        var diffthan = "greater than"
+    }else{
+        var diffthan = "less than"
+    }
+    AcreDiff = Math.abs(AcreDiff)
+    var AcrePer = repAcre / GISAcre * 100;
+    AcrePer = Math.round(AcrePer)
+
+    if(AcreDiff >= 100){
+        document.getElementById('GISAcres').innerHTML = "*Reported acreage ('Metric Value') is " + AcreDiff + "ac (" + AcrePer +"%) " + diffthan + " the GIS-calculated acreage (represented by your spatial input).  Please ensure these values represent the correct area where the conservation action was implemented. We caution including adjacent acres that may receive indirect benefit, if they are not included in the project/treatment area.";
+    }else{
+        document.getElementById('GISAcres').innerHTML = ""
+    }
+  }
+</script>
+
+
+
+<script type="text/javascript">
+  if("{{typeactval}}" == "Spatial Project"){
+    dojo.require("dijit.layout.TabContainer");
+    dojo.require("dijit.layout.ContentPane");
+    var app = {};
+
+    require([
+            "esri/map", "esri/layers/FeatureLayer", "esri/layers/KMLLayer", "dojo/dom-style", "esri/layers/WFSLayer", "esri/urlUtils", "dojo/_base/array", "dojo/parser", "esri/config", "dojo/dom", "dojo/dom-class", "dojo/on",
+            "esri/geometry/webMercatorUtils", "dojo/mouse", "dojo/promise/all", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol",
+            "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "dojo/_base/Color",
+            "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/arcgis/utils", "dojo/domReady!"
+        ],
+
+        //normal approved project poly      ?CEDID=486        //normal approved project point   ?CEDID=439        //normal approved project line    ?CEDID=7358
+        //not applicable poly (typeact: Project)    ?CEDID=377        //not applicable poly (typeact: )         ?CEDID=482        //not applicable poly (typeact: Plan)     ?CEDID=413
+        //not applicable line (project)         ?CEDID=812        //not applicable point (not prj or plan)      ?CEDID=942        //not applicable point (prj)          ?CEDID=601
+        //not applicable point (typeact: Project)   ?CEDID=468        //not applicable point (typeact: Plan)    ?CEDID=838
+
+    function (Map, FeatureLayer, KMLLayer, domStyle, WFSLayer, urlUtils, arrayUtils, parser, esriConfig, dom, domClass, on, webMercatorUtils, mouse, all, Point, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, Color) {
+        //var tokens = getTokens
+        // var iCEDID = getTokens()['CEDID'];
+        var iCEDID = "{{prid}}";
+
+        parser.parse();
+
+        app.loading = dojo.byId("loadingImg");  //loading image. id
+        var customExtentAndSR = new esri.geometry.Extent(-14000000, 4595472, -11000000, 5943351, new esri.SpatialReference({ "wkid": 3857 }));
+        app.map = new esri.Map("map", { basemap: "topo", logo: false, extent: customExtentAndSR, sliderPosition: "bottom-left" });
+      
+        dojo.connect(app.map, "onUpdateStart", showLoading); dojo.connect(app.map, "onUpdateEnd", hideLoading);
+
+            
+        if (typeof iCEDID != 'undefined') {
+            app.strFSURL1 = "https://utility.arcgis.com/usrsvcs/servers/5d5fc053dd7e4de4b9765f7a6b6f1f61/rest/services/CEDfrontpage_map_v9_Restrict/FeatureServer/";  //Theme Layers
+            app.strFSURL2 = "https://utility.arcgis.com/usrsvcs/servers/3ffd269482224fa9a08027ef8617a44c/rest/services/NA_SRC_v2/FeatureServer/";  //Production
+            
+            //Production
+            var CED_PP_point = new FeatureLayer(app.strFSURL1 + "0", { visible: true });
+            CED_PP_point.setDefinitionExpression("(project_id = " + iCEDID + ")  and ((sourcefeaturetype = 'point') OR (sourcefeaturetype = 'poly' AND wobbled_gis = 1) OR (sourcefeaturetype = 'line' AND wobbled_gis = 1))");
+            var CED_PP_line = new FeatureLayer(app.strFSURL1 + "1", { visible: true });
+            CED_PP_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_PP_poly = new FeatureLayer(app.strFSURL1 + "2", { "opacity": 0.8 }, { autoGeneralize: true, visible: true });
+            CED_PP_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
+
+            var CED_NA_point = new FeatureLayer(app.strFSURL2 + "0", { visible: true });
+            CED_NA_point.setDefinitionExpression("(project_id = " + iCEDID + ")  and ((sourcefeaturetype = 'point') OR (sourcefeaturetype = 'poly' AND wobbled_gis = 1) OR (sourcefeaturetype = 'line' AND wobbled_gis = 1))");
+            var CED_NA_line = new FeatureLayer(app.strFSURL2 + "2", { visible: true });
+            CED_NA_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_NA_poly = new FeatureLayer(app.strFSURL2 + "4", { "opacity": 0.8 }, { autoGeneralize: true, visible: true });
+            CED_NA_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
+
+            var CED_SRC_point = new FeatureLayer(app.strFSURL2 + "1", { visible: true });
+            CED_SRC_point.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            var CED_SRC_line = new FeatureLayer(app.strFSURL2 + "3", { visible: true });
+            CED_SRC_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
+
+            if(document.location.host == "conservationefforts.org"){
+              var CED_SRC_poly = new FeatureLayer(app.strFSURL2 + "5", { "opacity": 0.8 }, { autoGeneralize: true,  visible: true }); //Production
+            }else{
+              var CED_SRC_poly = new FeatureLayer("https://utility.arcgis.com/usrsvcs/servers/e09a9437e03d4190a3f3a8f2e36190b4/rest/services/Development_Src_v2/FeatureServer/0", { "opacity": 0.8 }, { autoGeneralize: true,  visible: true }); //Sandbox
+            }
+
+            CED_SRC_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
+            //Production
+
+
+            app.map.addLayers([CED_PP_poly, CED_NA_poly, CED_SRC_poly, CED_PP_line, CED_NA_line, CED_SRC_line, CED_PP_point, CED_NA_point, CED_SRC_point]); //Production
+            
+            app.dblExpandNum = 1.5
+            qry_Zoom2FeatureLayerExtent(CED_PP_point, CED_PP_line, CED_PP_poly, CED_NA_point, CED_NA_line, CED_NA_poly, CED_SRC_point, CED_SRC_line, CED_SRC_poly);
+        }
+        
+        function showLoading() {
+            esri.show(app.loading);
+            app.map.disableMapNavigation();
+            app.map.hideZoomSlider();
+        }
+
+        function hideLoading(error) {
+            esri.hide(app.loading);
+            app.map.enableMapNavigation();
+            app.map.showZoomSlider();
+        }
+       
+        function returnEvents(results) {
+            var resultFeatures = [];
+            resultFeatures = resultFeatures.concat(results[0].features);
+            resultFeatures = resultFeatures.concat(results[1].features);
+            resultFeatures = resultFeatures.concat(results[2].features);
+            resultFeatures = resultFeatures.concat(results[3].features);
+            resultFeatures = resultFeatures.concat(results[4].features);
+            resultFeatures = resultFeatures.concat(results[5].features);
+            resultFeatures = resultFeatures.concat(results[6].features);
+            resultFeatures = resultFeatures.concat(results[7].features);
+            resultFeatures = resultFeatures.concat(results[8].features);
+
+            if (resultFeatures.length > 0) {
+                var pExtent;
+                pfeatureExtent1 = esri.graphicsExtent(resultFeatures);
+                var ptempSR = new esri.SpatialReference({ "wkid": 3857 });
+                if (pfeatureExtent1) {
+                    if ((pfeatureExtent1.xmin != pfeatureExtent1.xmax) & (pfeatureExtent1.ymin != pfeatureExtent1.ymax)){  //if not a multipoint feature then continue
+                        xmax = (((pfeatureExtent1.xmax - pfeatureExtent1.xmin) * 2.1) * -1) + pfeatureExtent1.xmax
+                        pExtent = new esri.geometry.Extent(pfeatureExtent1.xmin, pfeatureExtent1.ymin, xmax, pfeatureExtent1.ymax, new esri.SpatialReference({ "wkid": 3857 }));
+                    }
+                }
+                if (pExtent == undefined) {
+                    var pFeature1 = resultFeatures[0];
+                    mapPoint1 = new Point(pFeature1.geometry.points[0][0], pFeature1.geometry.points[0][1], ptempSR);
+                    app.map.centerAndZoom(mapPoint1, 9);
+                }
+                if (pExtent) {
+                    pExtent = pExtent.expand(app.dblExpandNum);
+                    app.map.setExtent(pExtent, true);
+                }
+                else { var strMessage = "hold it up here"; }
+
+                arrayUtils.forEach(results[0].features, function (feat) {//This section handles features with no symbology
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleMarkerSymbol().setColor(new Color([0, 255, 255, 0.4])));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[3].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleMarkerSymbol().setColor(new Color([0, 255, 255, 0.4])));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[1].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new Color([0, 255, 255]), 3));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[4].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new Color([0, 255, 255]), 3));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[2].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([255, 0, 0]), 2), new Color([0, 255, 255, 0.2])));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+                arrayUtils.forEach(results[5].features, function (feat) {
+                    var attr = feat.attributes;
+                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                        feat.setSymbol(new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([255, 0, 0]), 2), new Color([0, 255, 255, 0.2])));
+                        app.map.graphics.add(feat);
+                    }
+                }); // add the results to the map
+            }
+            else {
+                // do nothing
+            }
+            return results;
+        }
+
+
+        function qry_Zoom2FeatureLayerExtent(pFeatureLayer1, pFeatureLayer2, pFeatureLayer3, pFeatureLayer4, pFeatureLayer5, pFeatureLayer6, pFeatureLayer7, pFeatureLayer8, pFeatureLayer9) {
+            var pQueryT1 = new esri.tasks.QueryTask(pFeatureLayer1.url);
+            var pQuery1 = new esri.tasks.Query();
+            var pQueryT2 = new esri.tasks.QueryTask(pFeatureLayer2.url);
+            var pQuery2 = new esri.tasks.Query();
+            var pQueryT3 = new esri.tasks.QueryTask(pFeatureLayer3.url);
+            var pQuery3 = new esri.tasks.Query();
+
+            var pQueryT4 = new esri.tasks.QueryTask(pFeatureLayer4.url);
+            var pQuery4 = new esri.tasks.Query();
+            var pQueryT5 = new esri.tasks.QueryTask(pFeatureLayer5.url);
+            var pQuery5 = new esri.tasks.Query();
+            var pQueryT6 = new esri.tasks.QueryTask(pFeatureLayer6.url);
+            var pQuery6 = new esri.tasks.Query();
+
+            var pQueryT7 = new esri.tasks.QueryTask(pFeatureLayer7.url);
+            var pQuery7 = new esri.tasks.Query();
+            var pQueryT8 = new esri.tasks.QueryTask(pFeatureLayer8.url);
+            var pQuery8 = new esri.tasks.Query();
+            var pQueryT9 = new esri.tasks.QueryTask(pFeatureLayer9.url);
+            var pQuery9 = new esri.tasks.Query();
+
+            pQuery1.returnGeometry = pQuery2.returnGeometry = pQuery3.returnGeometry = pQuery4.returnGeometry = pQuery5.returnGeometry = pQuery6.returnGeometry = pQuery7.returnGeometry = pQuery8.returnGeometry = pQuery9.returnGeometry = true;
+            pQuery1.outFields = pQuery2.outFields = pQuery3.outFields = pQuery4.outFields = pQuery5.outFields = pQuery6.outFields = ["objectid, typeact"];
+            pQuery7.outFields = pQuery8.outFields = pQuery9.outFields = ["objectid"];
+
+            var strQuery1 = pFeatureLayer1.getDefinitionExpression();
+            var strQuery2 = pFeatureLayer2.getDefinitionExpression();
+            var strQuery3 = pFeatureLayer3.getDefinitionExpression();
+            var strQuery4 = pFeatureLayer4.getDefinitionExpression();
+            var strQuery5 = pFeatureLayer5.getDefinitionExpression();
+            var strQuery6 = pFeatureLayer6.getDefinitionExpression();
+            var strQuery7 = pFeatureLayer7.getDefinitionExpression();
+            var strQuery8 = pFeatureLayer8.getDefinitionExpression();
+            var strQuery9 = pFeatureLayer9.getDefinitionExpression();
+            pQuery1.where = strQuery1;
+            pQuery2.where = strQuery2;
+            pQuery3.where = strQuery3;
+            pQuery4.where = strQuery4;
+            pQuery5.where = strQuery5;
+            pQuery6.where = strQuery6;
+            pQuery7.where = strQuery7;
+            pQuery8.where = strQuery8;
+            pQuery9.where = strQuery9;
+            //            this.strQuerySaved = strQuery
+            var FLayer1, FLayer2, FLayer3, FLayer4, FLayer5, FLayer6, FLayer7, FLayer8, FLayer9, pPromises
+            FLayer1 = pQueryT1.execute(pQuery1);
+            FLayer2 = pQueryT2.execute(pQuery2);
+            FLayer3 = pQueryT3.execute(pQuery3);
+            FLayer4 = pQueryT4.execute(pQuery4);
+            FLayer5 = pQueryT5.execute(pQuery5);
+            FLayer6 = pQueryT6.execute(pQuery6);
+            FLayer7 = pQueryT7.execute(pQuery7);
+            FLayer8 = pQueryT8.execute(pQuery8);
+            FLayer9 = pQueryT9.execute(pQuery9);
+            pPromises = new all([FLayer1, FLayer2, FLayer3, FLayer4, FLayer5, FLayer6, FLayer7, FLayer8, FLayer9]);
+            return pPromises.then(returnEvents, err);
+        }
+
+        function err(err) {
+            console.log("Failed to get stat results due to an error: ", err);
+        }
+
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
+        function getTokens() {
+            var tokens = [];
+            var query = location.search;
+            query = query.slice(1);
+            query = query.split('&');
+            $.each(query, function (i, value) {
+                var token = value.split('=');
+                var key = decodeURIComponent(token[0]);
+                var data = decodeURIComponent(token[1]);
+                tokens[key] = data;
+            });
+            return tokens;
+        }
+    });
+  }
+</script>
+
+
+<script type="text/javascript">
+
+  var ua = window.navigator.userAgent;
+  var msie = ua.indexOf("MSIE ");
+
+
+
+  if("{{NotPoly}}" == "NotPoly"){
+    alert("Only polygons can be uploaded into the CED. Please upload the correct spatial type.")
+  }
+
+    try{
+          var objwrdcntval = document.getElementById('id_Objectives_Desc').value
+          var objchacntval1 = objwrdcntval.length
+          var objwrdcntval1 = objwrdcntval.split(' ').length
+          if(objchacntval1 == 0){
+                objwrdcntval1 = 0
+            }
+          var objwrdval = "Words: " + objwrdcntval1 + "; Characters: " + objchacntval1
+          document.getElementById("objwrdcnt").innerHTML = objwrdval 
+    }catch(err){
+    }
+
+    try{
+          var mthwrdcntval = document.getElementById('id_Methods_Explained').value
+          var mthchacntval1 = mthwrdcntval.length
+          var mthwrdcntval1 = mthwrdcntval.split(' ').length
+          if(mthchacntval1 == 0){
+                mthwrdcntval1 = 0
+            }
+          var mthwrdval = "Words: " + mthwrdcntval1 + "; Characters: " + mthchacntval1
+          document.getElementById("mthwrdcnt").innerHTML = mthwrdval 
+    }catch(err){
+    }
+
+    try{
+        var effexpwrdcntval = document.getElementById('id_Effective_Explained').value
+        var effexpchacntval1 = effexpwrdcntval.length
+        var effexpwrdcntval1 = effexpwrdcntval.split(' ').length
+        if(effexpchacntval1 == 0){
+            effexpwrdcntval1 = 0
+        }
+        var effexpwrdval = "Words: " + effexpwrdcntval1 + "; Characters: " + effexpchacntval1 + " out of 5000"
+        document.getElementById("effexpwrdcnt").innerHTML = effexpwrdval
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Ag_Conversion_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("acwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Conifer_Encroach_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("cwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Oil_Gas_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("ogwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Fire_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("fwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Feral_Equids_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("fewrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Improper_Grazing_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("igwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Infrastructure_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("infwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Isolated_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("ipwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Mining_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("mwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Invasives_Explained').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("invwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Recreation_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("rwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Sagebrush_Loss_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("slwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+    try{
+          var acwrdcntval = document.getElementById('id_Urban_Devel_Explain').value
+          var acchacntval1 = acwrdcntval.length
+          var acwrdcntval1 = acwrdcntval.split(' ').length
+          if(acchacntval1 == 0){
+                acwrdcntval1 = 0
+            }
+          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+          document.getElementById("udwrdcnt").innerHTML = acwrdval 
+    }catch(err){
+    }
+
+  if (msie > 0){      // If Internet Explorer, return version number
+      document.getElementById('map').style.width='610px';
+  }  
+
+  var radios = document.getElementsByName('Entry_Type');
+  for (var i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+        // do whatever you want with the checked radio
+        var status = radios[i].value;
+        // only one radio can be logically checked, don't check the rest
+        break;
+    }
+  }
+
+  if (status == 1){
+    var status1 = "Being Edited (Not Approved)";
+  }
+  if (status == 2){
+    var status1 = "Awaiting Approval";
+  }
+  if (status == 3){
+    var status1 = " That Has Been Approved";
+  }
+  if (status == 4){
+    var status1 = "Marked for Deletion";
+  }
+
+  // var status = document.getElementById('id_Entry_Type').text
+  
+   document.getElementById('effstatus').innerHTML = status1
+
+    if ("{{ LCJasonDown }}" == "True"){
+        document.getElementById('DownDoc').click();
+    }
+
+    if("{{subact}}" == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)"){
+        document.getElementById('lab66').innerHTML = 'Acres Enrolled:<span class="required">*</span>'
+        document.getElementById('MetValLab').innerHTML = 'Acres Enrolled:<span class="required">*</span>'
+    }else if("{{subact}}" == "Powerline Burial"){
+        document.getElementById('lab66').innerHTML = 'Miles Buried:<span class="required">*</span>'
+        document.getElementById('MetValLab').innerHTML = 'Miles Buried:<span class="required">*</span>'
+    }else if("{{subact}}" == "Fence Marking"){
+        document.getElementById('lab66').innerHTML = 'Miles Marked:<span class="required">*</span>'
+        document.getElementById('MetValLab').innerHTML = 'Miles Marked:<span class="required">*</span>'
+    }else if("{{subact}}" == "Fence Removal"){
+        document.getElementById('lab66').innerHTML = 'Miles Removed:<span class="required">*</span>'
+        document.getElementById('MetValLab').innerHTML = 'Miles Removed:<span class="required">*</span>'
+    }else if("{{subact}}" == "Road and Trail closure"){
+        document.getElementById('lab66').innerHTML = 'Miles Closed:<span class="required">*</span>'
+        document.getElementById('MetValLab').innerHTML = 'Miles Closed:<span class="required">*</span>'
+    }else if ("{{subact}}" == 'Improved Grazing Practices (Rest, Rotation, Etc.)'){
+        document.getElementById('lab66').innerHTML = 'Acres Improved:<span class="required">*</span>'
+        document.getElementById('MetValLab').innerHTML = 'Acres Improved:<span class="required">*</span>'
+    }else if ("{{typeactval}}" == 'Spatial Project'){
+        document.getElementById('lab66').innerHTML = 'Acres Treated:<span class="required">*</span>'
+        document.getElementById('MetValLab').innerHTML = 'Acres Treated:<span class="required">*</span>'
+    }
+
+
+    if("{{typeactval}}" == 'Spatial Project'){
+        var repAcre = document.getElementById('id_Metric_Value').value;
+    repAcre = Math.round(repAcre)
+    var GISAcre = document.getElementById('GISACVAL').innerHTML;
+    GISAcre = Math.round(GISAcre)
+    var AcreDiff = repAcre - GISAcre;
+
+    if(GISAcre > 0){
+      if(AcreDiff >= 0){
+          var diffthan = "greater than"
+          AcreDiff = Math.abs(AcreDiff)
+          var AcrePer = repAcre / GISAcre * 100;
+          AcrePer = Math.round(AcrePer)
+          AcrePer = AcrePer - 100
+          AcrePer = Math.abs(AcrePer)
+          if(AcrePer >= 1){
+            document.getElementById('GISAcres').innerHTML = "ATTENTION: *Reported acreage (User Defined -' Metric Value')  is " + AcreDiff + "ac (" + AcrePer +"%) " + diffthan + " aathe GIS-calculated acreage (represented by your spatial input).  Please ensure these values represent the correct area where the conservation action was implemented. We caution including adjacent acres that may receive indirect benefit, if they are not included in the project/treatment area.";
+          }
+      }else{
+          var diffthan = "less than"
+          AcreDiff = Math.abs(AcreDiff)
+          var AcrePer = repAcre / GISAcre * 100;
+          AcrePer = Math.round(AcrePer)
+          AcrePer = AcrePer - 100
+          AcrePer = Math.abs(AcrePer)
+          if(AcrePer < 25 & AcrePer >= 1){
+            document.getElementById('GISAcres').innerHTML = "ATTENTION: *Reported acreage (User Defined -' Metric Value')  is " + AcreDiff + "ac (" + AcrePer +"%) " + diffthan + " the GIS-calculated acreage (represented by your spatial input).  Please ensure these values represent the correct area where the conservation action was implemented. We caution including adjacent acres that may receive indirect benefit, if they are not included in the project/treatment area.";
+          }else if(AcrePer >= 25){
+            document.getElementById('GISAcres').innerHTML = "ATTENTION: *Reported acreage (User Defined -' Metric Value') is less than 75% of the “GIS-Calculated” acreage (represented by your spatial input). Please adjust your spatial input to accurately represent the area(s) treated.";
+          }
+          
+      }
+      
+
+      
+    }
+    }
+
+    // var Control
+    // var Control1
+    // var Outputlist = ""    
+    // var list = document.getElementsByName('Threat')
+    // for(var i=0; i<list.length;i++) {
+    //   if (list[i].checked) {
+    //     Control = list[i].parentNode.innerHTML;
+    //     Control1 = Control.split(">");
+    //     var Control2 = String(Control1[1])
+    //     Control2 = Control2.replace(/[\n\r]/g, '');
+    //     Control2 = Control2.substr(1);
+
+
+    //     if (Control2 == "AGRICULTURAL CONVERSION (Tillage Risk)"){
+    //       document.getElementById('threatdivac').style.display = "block";
+    //     }
+    //     if (Control2 == "CONIFER ENCROACHMENT"){
+    //       document.getElementById('threatdivce').style.display = "block";
+    //     }
+
+    //     if (Control2 == "OIL &amp; GAS DEVELOPMENT"){
+    //       document.getElementById('threatdivog').style.display = "block";
+    //     }
+
+    //     if (Control2 == "FIRE"){
+    //       document.getElementById('threatdivfi').style.display = "block";
+    //     }
+
+    //     if (Control2 == "FERAL EQUIDS"){
+    //       document.getElementById('threatdivfe').style.display = "block";
+    //     }
+
+    //     if (Control2 == "IMPROPER GRAZING / RANGE MANAGEMENT"){
+    //       document.getElementById('threatdivig').style.display = "block";
+    //     }
+
+    //     if (Control2 == "INFRASTRUCTURE (Roads, Powerlines, Renewable Energy)"){
+    //       document.getElementById('threatdivin').style.display = "block";
+    //     }
+
+    //     if (Control2 == "ISOLATED / SMALL POPULATION SIZE"){
+    //       document.getElementById('threatdivip').style.display = "block";
+    //     }
+
+    //     if (Control2 == "MINING"){
+    //       document.getElementById('threatdivmi').style.display = "block";
+    //     }
+
+    //     if (Control2 == "INVASIVES (Annual Grasses and Noxious Weeds)"){
+    //       document.getElementById('threatdiviv').style.display = "block";
+    //     }
+
+    //     if (Control2 == "RECREATION"){
+    //       document.getElementById('threatdivre').style.display = "block";
+    //     }
+
+    //     if (Control2 == "SAGEBRUSH LOSS or DEGRADATION"){
+    //       document.getElementById('threatdivsl').style.display = "block";
+    //     }
+        
+    //     if (Control2 == "URBAN DEVELOPMENT"){
+    //       document.getElementById('threatdivud').style.display = "block";
+    //     }
+    //   }
+    // }
+
+
+
+
+    var Control
+    var Control1
+    var UpdateControl
+    var UpdateControl1
+    var UpdateNum
+    var UpdateNum1
+    var UpdateNum2
+    var Outputlist = "" 
+    var CountState   
+    var State
+    var countyval
+    var countyvallabel
+    var innerhtm
+    var list = document.getElementsByName('State_Value') 
+    var updatelist = document.getElementsByName('County_Value') 
+    var updatelist1 = []
+    var labels
+
+    var optionlist = []
+
+    var u = 0
+
+    for(var j=0; j<updatelist.length;j++) {
+        UpdateControl = updatelist[j].parentNode.innerHTML;
+        UpdateControl1 = UpdateControl.split(">")[1];
+        UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
+        UpdateControl1 = UpdateControl1.substr(1);
+
+        updatelist1.push(UpdateControl1)
+        countyval = 'id_County_Value_' + (u)
+        document.getElementById(countyval).style.display = "none";
+        var cnty = document.getElementById("county")
+        cnty.getElementsByTagName("li")[u].style.display="none";
+        u = u + 1
+    }
+
+    for(var i=0; i<list.length;i++) {
+        if (list[i].checked) {
+
+            Control = list[i].parentNode.innerHTML;
+            Control1 = Control.split(">");
+            State = Control1[1]
+            State = State.substr(State.length - 2);
+
+            var u = 0
+
+            for(var j=0; j<updatelist1.length;j++) {
+                CountState  = updatelist1[j].substr(updatelist1[j].length - 2);
+                countyval = 'id_County_Value_' + (u)
+
+                if (CountState == State) {
+                    
+                    document.getElementById(countyval).style.display = "inline-block";
+                    var cnty = document.getElementById("county")
+                    cnty.getElementsByTagName("li")[u].style.display="inline-block";
+
+                }
+
+                u = u + 1
+
+            }
+
+        }
+    }
+
+
+      
+</script>
+
+
+
+<script type="text/javascript">
+var fulleftlist = []
+var fullactlist = []
+var fullsubactlist = []
+var fullmetlist = []
+
+
+  list = document.getElementsByName('Imp_Status')
+    for(var i=0; i<list.length;i++) {
+      if (document.getElementsByName('Imp_Status')[i].checked) {
+        if (document.getElementsByName('Imp_Status')[i].value < 3){
+            var str = "***REQUIRED*** For efforts not yet implemented, is there a high level of certainty that:";
+            var result = str.fontcolor("red");
+            document.getElementById('Part1Label').innerHTML = result;
+            document.getElementById('Reas_Certain').style.display = "inline-block";
+            document.getElementById('Legal_Authority').style.display = "inline-block";
+            document.getElementById('Staff_Available').style.display = "inline-block";
+            document.getElementById('Regulatory_Mech').style.display = "inline-block";
+            document.getElementById('Compliance').style.display = "inline-block";
+            document.getElementById('Vol_Incentives').style.display = "inline-block";
+
+        }
+
+        if (document.getElementsByName('Imp_Status')[i].value == 3){
+            var str = "With your effort complete, no additional questions required for Part 1";
+            document.getElementById('Part1Label').innerHTML = str;
+            document.getElementById('Reas_Certain').style.display = "none";
+            document.getElementById('Legal_Authority').style.display = "none";
+            document.getElementById('Staff_Available').style.display = "none";
+            document.getElementById('Regulatory_Mech').style.display = "none";
+            document.getElementById('Compliance').style.display = "none";
+            document.getElementById('Vol_Incentives').style.display = "none";
+
+        }
+      }
+    }
+
+    list = document.getElementsByName('Effective_Determined')
+    for(var i=0; i<list.length;i++) {
+      if (document.getElementsByName('Effective_Determined')[i].checked) {
+        
+        
+        var effval = document.getElementsByName('Effective_Determined')[i].value
+        if (effval == 1 | effval == 4 | effval == 10 | effval == 17 | effval == 33 | effval == 39 | effval == 42 | effval == 45 | effval == 48 | effval == 51 | effval == 54 | effval == 57 | effval == 60 | effval == 7 | effval == 11 | effval == 14 | effval == 18 | effval == 21 | effval == 24 | effval == 27 | effval == 30 | effval == 36 | effval == 63 | effval == 66 | effval == 69){
+
+          var str = "With your effort fully effective, no additional questions required for Part 2";
+          document.getElementById('Part2Label').innerHTML = str;
+          var str1 = 'Explain why the activity was deemed effective:';
+          document.getElementById('Effect_Explained_Label').innerHTML = str1;
+          document.getElementById('Part1Label').innerHTML = str;
+          document.getElementById('Reduce_Threats').style.display = "none";
+          document.getElementById('Incremental_Objectives').style.display = "none";
+          document.getElementById('Quantifiable_Measures').style.display = "none";
+          document.getElementById('AD_Strategy').style.display = "none";
+        } else {
+          var str = "***REQUIRED*** For efforts not deemed effective (e.g. programs/actions only recently implemented), does the effort:";
+          str = str.fontcolor("red");
+          document.getElementById('Part2Label').innerHTML = str;
+          var str1 = 'Explain why the activity is highly likely to be effective:';
+          document.getElementById('Effect_Explained_Label').innerHTML = str1;
+          document.getElementById('Reduce_Threats').style.display = "inline-block";
+          document.getElementById('Incremental_Objectives').style.display = "inline-block";
+          document.getElementById('Quantifiable_Measures').style.display = "inline-block";
+          document.getElementById('AD_Strategy').style.display = "inline-block";
+        }
+      }
+    }
+
+
+</script>
+
+
+
+
+<script type="text/javascript">
+  var cSpeed=20;
+  var cWidth=40;
+  var cHeight=40;
+  var cTotalFrames=12;
+  var cFrameWidth=200;
+  var cImageSrc="{% static 'ced_main/images/ced_main/sprites1.gif' %}"
+  
+  var cImageTimeout=false;
+  var cIndex=0;
+  var cXpos=0;
+  var cPreloaderTimeout=false;
+  var SECONDS_BETWEEN_FRAMES=0;
+  
+  function startAnimation(){
+    
+    document.getElementById('loaderImage').style.backgroundImage='url('+cImageSrc+')';
+    document.getElementById('loaderImage').style.width=cWidth+'px';
+    document.getElementById('loaderImage').style.height=cHeight+'px';
+    
+    //FPS = Math.round(100/(maxSpeed+2-speed));//
+    FPS = Math.round(100/cSpeed);
+    SECONDS_BETWEEN_FRAMES = 1 / FPS;
+    
+    cPreloaderTimeout=setTimeout('continueAnimation()', SECONDS_BETWEEN_FRAMES/2000);
+    
+  }
+  
+  function continueAnimation(){
+    
+    cXpos += cFrameWidth;
+    //increase the index so we know which frame of our animation we are currently on//
+    cIndex += 1;
+     
+    //if our cIndex is higher than our total number of frames, we're at the end and should restart//
+    if (cIndex >= cTotalFrames) {
+      cXpos =0;
+      cIndex=0;
+    }
+    
+    if(document.getElementById('loaderImage'))
+      document.getElementById('loaderImage').style.backgroundPosition=(-cXpos)+'px 0';
+    
+    cPreloaderTimeout=setTimeout('continueAnimation()', SECONDS_BETWEEN_FRAMES*2000);
+  }
+  
+  function stopAnimation(){//stops animation//
+    clearTimeout(cPreloaderTimeout);
+    cPreloaderTimeout=false;
+  }
+  
+  function imageLoader(s, fun)//Pre-loads the sprites image//
+  {
+    clearTimeout(cImageTimeout);
+    cImageTimeout=0;
+    genImage = new Image();
+    genImage.onload=function (){cImageTimeout=setTimeout(fun, 0)};
+    genImage.onerror=new Function('alert(\'Could not load the image\')');
+    genImage.src=s;
+  }
+  
+  //The following code starts the animation//
+  new imageLoader(cImageSrc, 'startAnimation()');
+</script>
+
+
+{% endblock %}

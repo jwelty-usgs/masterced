@@ -1,0 +1,516 @@
+
+#loginbody {
+ 
+   font-family: Arial;
+   font-weight: bold; 
+   height: 10px;
+   right: 0px;
+   font-size: 12px;
+   position: relative;
+   min-width: 1000px;
+   margin-top: 20px;
+   margin-left: 20px;
+}
+
+
+.submitbutton{
+    background: #7f697f;
+    border-radius: 35px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 16px;
+    position: relative;
+    float: left;
+    margin-right: 25px;
+    color: white;
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 2em;
+
+}
+
+.submitbutton:hover{
+    background: #7f697f;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    position: relative;
+    float: left;
+    margin-right: 25px;
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 2em;
+}
+
+.submitbuttonUP{
+    background: #7f697f;
+    border-radius: 35px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 16px;
+    position: relative;
+    float: left;
+    margin-left: 35px;
+    color: white;
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 2em;
+
+}
+
+.submitbuttonUP:hover{
+    background: #7f697f;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    position: relative;
+    float: left;
+    margin-left: 35px;
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 2em;
+}
+
+#forgot{
+    position: relative;
+    float: left;
+    width: 500px;
+    top: -12px;
+    left: -120px;
+}
+
+
+#forgot h3{
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+#forpass1{
+    margin-left: 30px;
+}
+
+#regis h3{
+    text-align: left;
+    margin-left: 20px;
+}
+
+#regis h4{
+    text-align: left;
+    margin-left: 20px;
+}
+
+#regis p{
+    text-align: left;
+    margin-left: 30px;
+}
+
+#regform{
+    position: relative;
+    float: left;
+    text-align: left;
+    margin-left: -20px;
+}
+
+#regformPC{
+    position: relative;
+    float: left;
+    text-align: left;
+    margin-left: 0px;
+}
+
+#regformMU b{
+    position: relative;
+    float: left;
+    text-align: left;
+    margin-left: 0px;
+    width: 1100px;
+}
+
+#newp1{
+    margin-top: 10px;
+}
+
+#newp2{
+    margin-top: 10px;
+}
+
+.label{
+    position: relative;
+    float: left;
+    text-align: left;
+    margin-left: 30px;
+    font-weight: bold;
+    font-size: 17px;
+    color: black;   
+    width: 185px;
+}
+
+.labelPC{
+    position: relative;
+    float: left;
+    text-align: left;
+    margin-left: 30px;
+    font-weight: bold;
+    font-size: 14px;
+    color: black;   
+    width: 150px;
+}
+
+
+#subbutton{
+    position: relative;
+    float: left;
+    margin-top: 135px;
+    margin-left: 20px;
+}
+
+#subCPbutton{
+    position: relative;
+    float: left;
+    margin-top: 70px;
+    margin-left: 20px;
+}
+
+#subbuttonreset{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+#acom{
+    position: relative;
+    float: left;
+    text-align: left;
+}
+
+#acom h3{
+    position: relative;
+    float: left;
+    text-align: left;
+    margin-left: 20px;
+    width: 1100px;
+}
+
+#acom h5{
+    position: relative;
+    float: left;
+    text-align: left;
+    margin-left: 30px;
+    width: 1100px;
+    color: black;
+}
+
+#acom p{
+    position: relative;
+    float: left;
+    text-align: left;
+    margin-left: 30px;
+    width: 1100px;
+}
+
+#submitlog{
+    z-index: 50;
+}
+
+#profilebody{
+    position: relative;
+    float: left;
+  width: 800px;
+  margin-left: 30px;
+
+}
+
+#PR{
+    position: relative;
+    float: left;
+    left: 5px;
+    width: 950px;
+    white-space: normal;
+}
+
+#PR h3{
+    color: #7f7962;
+    font-family: Arial;
+}
+
+#req p{
+    margin-top: 10px;
+    font-size: 12px;
+    padding-bottom: 10px;
+    color: black;
+    font-weight: bold;
+}
+
+#emailprof{
+    position: relative;
+    float: left;
+    width: 50%;
+    min-width: 950px;
+    top: -10px;
+}
+
+#emailprof1{
+    position: relative;
+    float: right;
+    width: 150px;
+    height: 20px;
+    border-radius: 25px;
+    background: #a4d4cb;
+    font-weight: bold;
+    font-size: 10px;
+    padding-top: 5px;
+    font-family: Arial;
+    z-index: 5;
+
+}
+
+#emailprof1 a{
+    margin-left: 22px;
+
+    text-decoration: none;
+    color: #7f697f;
+    font-weight: bold;
+}
+
+#emailprof1:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 20px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 11px;
+    z-index: 50;
+
+}
+
+.profilebutton{
+    position: relative;
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.profilebutton:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+#profall{
+    position: relative;
+    float: left;
+    width: 1100px;
+}
+
+#ferrorsp{
+    background-color: #E0E6F8;
+    color: red;
+    font-size: 1.5em;
+    margin-top: -1em;
+}
+
+
+#CI h3{
+    text-align: center;
+}
+
+#useri{
+    position: relative;
+    border: solid 0.125em #103B7F; 
+    width: 1040px;
+    float: left;
+}
+
+#userinfo fld{
+    margin-left: 10px;
+    padding-right: 7px;
+    white-space:nowrap;
+    padding-bottom: 0.5em;
+    display: inline-block;
+    min-width: 130px;
+
+}
+
+
+#disset{
+    margin-top: 20px;
+    position: relative;
+    border: solid 0.125em #103B7F; 
+    width: 1040px;
+    float: left;
+}
+
+#disset1{
+    position: relative;
+    float: right;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#appdate{
+    position: relative;
+    float: left;
+    font-weight: bold;
+    left: 10px;
+    top: 0px;
+    font-family: Arial;
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+
+#disset1 lab ul{
+    list-style-type: none;
+}
+
+#datedis{
+    position: relative;
+    float: left;
+    margin-left: 20px;
+}
+
+#othereditors{
+    margin-top: 20px;
+    position: relative;
+    border: solid 0.125em #103B7F; 
+    width: 1040px;
+    float: left;
+    margin-bottom: 100px;
+}
+
+#field-checksua ul{
+    list-style-type: none;
+}
+
+#otheruse{
+    margin-left: 20px;
+}
+
+#regis a{
+    position: relative;
+    float: left;
+    width: 1100px;
+    margin-left: 30px;
+}
+
+#regis b{
+    position: relative;
+    float: left;
+    width: 1100px;
+    margin-left: 30px;
+}
+
+#RetOrSub{
+    position: relative;
+    float: left;
+    width: 1000px;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+#lockbod{
+    position: relative;
+    float: left;
+    width: 1100px;
+    margin-left: 30px;
+    text-align: left;
+}
+
+#lockbod h3{
+
+    text-align: left;
+}
+
+#usertable{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+}
+
+#userprofset{
+    padding-bottom: 10px;
+}
+
+#userprofset1{
+    position: relative;
+    float: left;
+    width: 1100px;
+    padding-bottom: 10px;
+}
+
+#usnm{
+    position: relative;
+    float: left;
+    margin-bottom: 20px;
+}
+
+#un{
+    margin-left: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#un ul{
+    list-style-type: none;
+}
+
+#em{
+    margin-top: -20px;
+}
+
+#seluseper{
+    margin-left: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#seluseper ul{
+    list-style-type: none;
+    margin-left: -20px;
+    margin-top: -10px;
+    font-size: 14px;
+}
+
+#manageusers{
+    position: relative;
+    float: left;
+    margin-left: 40px;
+}
+
+#appuserfld{
+    width: 1100px;
+    position: relative;
+    float: left;
+    margin-left: 40px;
+}
+
+#appuserfld ul{
+    list-style-type: none;
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load i18n %}
+{% block breadcrumbs %}{% endblock %}
+
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>CED {% block title %}Home{% endblock title %}</title>
+
+<link href="{% static 'ced_main/Styles/style.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+{% block head_css_page %}{% endblock head_css_page %}
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<!--  -->
+{% block head_script_page %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+{% endblock head_script_page %}
+
+{% bootstrap_javascript %}
+</head>
+
+<body>
+  <div class="container">
+    {% if user.is_authenticated %}
+      <form id="" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+    {% else %}
+      <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+    {% endif %}
+    <header>
+      <div id="topbanner">
+          <div id="cedlogo">
+              <a href="/welcome/" title="CED">
+              <img id="cedlogo2" src="{% static 'ced_main/images/ced_main/White_CED_logo_small.png' %}" alt="CED Home"
+              title="CED Home"/></img></a>
+          </div>
+
+          <div id="usgs">
+              <a href="https://www.usgs.gov/" target="_blank" title="CED">
+              <img id="usgs" src="{% static 'ced_main/images/ced_main/USGS_117x31.png' %}" alt="USGS"
+              title="US Geological Survey" /></img></a>
+          </div>
+
+          <div id="usfws"> 
+              <a href="https://www.fws.gov/" target="_blank" title="CED">
+              <img id="usfws" src="{% static 'ced_main/images/ced_main/USFWS_150x31.png' %}" alt="USFWS"
+              title="US Fish and Wildlife Service" /></img></a>
+          </div>
+
+      </div>
+
+      <div id="topmenu">
+          <ul>
+            {% if user.is_authenticated %}
+              <li class="dropdown"><a class="dropbtn" href="/sgce/">{{ user.first_name }}'s CED HOME</a>
+
+              <!-- Drop Down Menu -->
+              <a class="dropdown-content" href="/sgce/" title="Go to your personal home page" target="_parent">USER HOME PAGE</a>
+
+              <a class="dropdown-content" href="/sgce/sgeditmenu/" title="Users can enter new projects or edit existing ones within the CED" target="_parent">ENTER DATA</a>
+
+              <a class="dropdown-content" href="/sgce/viewprojects/" title="Users can enter new projects or edit existing ones within the CED" target="_parent">VIEW/EDIT MY RECORDS</a>
+                
+              <a class="dropdown-content" href="/sgce/batch_upload/" title="Explore the possabilities of uploading data currently housed within a database" target="_parent">UPLOAD BATCH DATA</a>
+
+              <!-- <a class="dropdown-content" href="/sgce/batch_upload_available/" title="See what batch upload data is available for you to edit" target="_parent">VIEW/EDIT BATCH UPLOADED DATA</a> -->
+                
+              <!-- <a class="dropdown-content" href="/sgce/sgcedquery/" title="CED Query Data" target="_parent">QUERY DATA</a> -->
+                
+              <!-- {% if authen == 'authenadmin' or userAgency == 'U.S. Fish and Wildlife Service' %}
+                <a class="dropdown-content" href="/sgce/fwsquery/" title="FWS Queries" target="_parent">FWS QUERIES</a>
+              {% endif %} -->
+                
+              <a class="dropdown-content" href="/sgce/grsgmap/" title="Interactive Map" target="_parent">INTERACTIVE MAP</a>
+                
+                
+              <a class="dropdown-content" href="/sgce/accounts/profile/" title="Make changes to your profile, change your approving official, and designate other users who can modify your records" target="_parent">USER PROFILE</a>
+
+
+              {% if authen == 'authenapp' or authen == 'authenadmin' %}
+                <a class="dropdown-content" href="/sgce/sgappmenu/" title="Access restricted data available only to approving officials including the ability to approve users and projects who designate you as their approving official" target="_parent">APPROVING OFFICIALS</a>
+              {% endif %}
+
+              {% if authen == 'authenadmin' %}
+                <a class="dropdown-content" href="/sgce/sgadminmenu/" title="Access highly restricted data available only to administrators including the ability to approve all users and projects" target="_parent">ADMINISTRATORS</a>
+              {% endif %}
+            
+              <a class="dropdown-content" href="/sgce/accounts/logout/" title="Log out of your account within the CED" target="_self">LOGOUT</a>
+              <!-- End Drop Down Menu -->
+              </li>
+            {% else %}
+              <li><a href="/sgce/">ENTER CED DATA</a></li>
+            {% endif %}
+              <li><a href="/sgce/grsgmap/">INTERACTIVE MAP</a></li> 
+              <li><a href="/welcome/about/">ABOUT CED</a></li>
+              <li><a href="/welcome/faq/">FAQ</a></li>
+              <li><a href="/welcome/help/">HELP</a></li>
+              <li><a href="/welcome/">HOME</a></li>
+              
+          </ul>
+
+      </div>
+    </header>
+    <section> 
+        {% block content %}
+
+        {% endblock %}
+    </section>
+        
+        
+    
+
+    <footer>
+      <div id="footline">
+      </div>
+      <div id="footlinks">
+          <ul>
+              <li><a href="https://www.fws.gov/" target="_blank">U.S. Fish &#38; Wildlife Service</a></li>
+              <li><a href="https://www.usgs.gov/" target="_blank">U.S. Geological Survey</a></li>
+              <li><a href="mailto:fw1sagegrouseced@fws.gov?subject=Question for the CED team">Contact Us</a></li>
+          </ul>
+      </div>
+    </footer> 
+
+    </form>
+
+  </div>
+
+
+</body>
+</html>
+
+
+<!--script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-53701063-1', 'auto');
+  ga('send', 'pageview');
+
+</script-->

@@ -1,0 +1,32 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Login{% endblock title %}
+
+
+{% block content %}
+
+<base target="_parent" />
+
+<div id="acom">
+	<h3>Registration Complete</h3>
+
+	<p>You will receive an email to activate your account at the email address you specified.</p>
+	<p>Please check your spam and junk folders in case the email is directed there and be sure to list the CED as an acceptable source. </p>
+	<p>Please close this window. Your activation email link will automatically open the CED in a new window and activate your account.</p>
+</div>
+
+
+{% endblock content %}  
+
+{% block body_script_page %}
+{% endblock body_script_page %}
+        

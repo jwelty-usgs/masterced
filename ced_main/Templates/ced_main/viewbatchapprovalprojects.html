@@ -1,0 +1,132 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+<link href="{% static 'ced_main/Styles/footeradjust.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Manage User{% endblock title %}
+
+
+{% block content %}
+{% load render_table from django_tables2 %}
+<div id="vbap">
+    <form id="batch_approve_form" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+
+      
+      <div id="regis">
+          <h3> Batch Approve Projects </h3>
+
+          {% if approved == 'approved' %}
+            <h3> Batch Approval Successful, Remaining Records Awaiting Approval Are Below</h2>
+          {% endif %}
+          <p> <b> A maximum of 100 efforts are returned, if your batch includes more than that please approve your selection and then return to this page to see additional projects</b> <br>Below is a list of all projects that are awaiting your approval.  <br>
+         Look through each project and check the boxes of the projects you wish to approve at this time.
+         <br> Once you have selected all projects click the 'Approve Selected Efforts' button to approve the selected efforts. </p>
+      
+       </div>
+
+       <!-- <input id="savappr" class="button" type="" name="approveapp" value="Select All" /> -->
+       <button type='button' id="selall" class="submitbutton" onclick="checkall()">Select All</button>
+       <button type='button' id="deselall" class="submitbutton" onclick="uncheckall()">Uncheck All</button>
+       <input id="savappr" class="submitbutton" type="submit" name="approveapp" value="Approve Selected Efforts" />
+
+      <div id="fileformheadba">
+
+        <head1>
+          <h5> Project Name </h5>
+        </head1>
+
+        <head2>
+          <h5> Project Status </h5>
+        </head2>
+
+        <head3>
+          <h5> User </h5>
+        </head3>
+
+        <head4>
+          <h5> SubActivity </h5>
+        </head4>
+
+        <head5>
+          <h5> Office </h5>
+        </head5>
+
+        <head6>
+          <h5> Approve </h5>
+        </head6>
+
+      </div>
+
+      <div id="fileformsba">
+        {{ formset.management_form }}
+        {% for form in formset.forms %}
+            <div id="fileformba">
+            {% for field in form %}
+                {% if field.is_hidden %}
+                  {{ field }}
+                {% else %}
+                  <li{{ field.row_attrs }}>
+                      {{ field.errors }}
+                      {% if field.name == "ID" %}
+                        <div id="gotoid"> 
+                        <p> Go to: <br><a href='/sgce/{{ field.value }}/editproject/' target="_blank">Project</a></p>
+                        </div>
+                      
+                      {% else %}
+                        <div id="idfield">
+                          {{ field }}
+                        </div>
+                      {% endif %}
+                  </li>
+              {% endif %}
+            {% endfor %}
+            </div>
+            <br>
+
+        {% endfor %}
+
+        
+      </div>
+      <div id="ret">Return to <a href="/sgce/sgappmenu/">Approving Official Menu</a></div>
+</div>
+
+<script type="text/javascript">
+  function checkall(){
+    for(var k=0; k<(20000);k++) {
+      var prjid = "id_form-" + k.toString() + "-ApprovePrj"
+      try{  
+        document.getElementById(prjid).checked = true;
+      }
+      catch(err){
+        var Test = "Test"
+      }
+    }
+  }
+</script>
+
+
+<script type="text/javascript">
+  function uncheckall(){
+    for(var k=0; k<(20000);k++) {
+      var prjid = "id_form-" + k.toString() + "-ApprovePrj"
+      try{  
+        document.getElementById(prjid).checked = false;
+      }
+      catch(err){
+        var Test = "Test"
+      }
+    }
+  }
+</script>
+
+{% endblock content %}
+  
+                    
+                    

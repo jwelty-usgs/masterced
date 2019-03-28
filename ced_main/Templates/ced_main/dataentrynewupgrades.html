@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}"/>
+
+{% block content %}
+
+
+<style>
+    #CEProj {
+        position: relative;
+        float: left;
+        left: 0px;
+        top: -10px;
+        min-width: 900px;
+    }
+
+    #CEProj h3 {
+        color: #7f7962;
+        font-family: Arial;
+    }
+
+    #CEProj p {
+        color: black;
+        font-family: Arial;
+        font-weight: bold;
+    }
+
+    #CEProj p1 {
+        color: red;
+        font-family: Arial;
+        font-weight: bold;
+    }
+
+    #bttnnew {
+        position: relative;
+        float: left;
+        top: 10px;
+
+    }
+
+    #newprjdiv {
+        position: relative;
+        top: 15px;
+        min-width: 900px;
+        max-width: 900px;
+    }
+
+    #fld1 {
+        position: relative;
+        float: left;
+        list-style: none;
+        font-weight: bold;
+        color: #7f697f;
+        font-size: 16px;
+        white-space: nowrap;
+        margin-bottom: 15px;
+        min-width: 900px;
+        max-width: 900px;
+
+    }
+
+    .lab {
+        font-weight: bold;
+        color: #7f697f;
+        font-size: 16px;
+        min-width: 300px;
+        max-width: 300px;
+    }
+
+    #fld1 p {
+        color: black;
+        font-style: italic;
+        font-size: 12px;
+        margin-top: 2px;
+        margin-bottom: 5px;
+    }
+
+    .button {
+        background: #a4d4cb;
+        border-radius: 35px;
+        position: relative;
+        height: 35px;
+        font-family: Arial;
+        color: #7f697f;
+        font-weight: bold;
+        font-size: 20px;
+        z-index: 50;
+    }
+
+    .button:hover {
+        background: #85c0b5;
+        border-radius: 35px;
+        position: relative;
+        height: 35px;
+        font-family: Arial;
+        color: #97767b;
+        font-weight: bold;
+        font-size: 21px;
+        z-index: 50;
+    }
+
+    #creating {
+        color: black;
+        font-size: 16px;
+        font-family: Arial;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    #effcolor {
+        position: relative;
+        float: left;
+        font-size: 14px;
+        font-family: Arial;
+
+        color: black;
+    }
+
+    lab {
+        position: relative;
+        float: left;
+        padding-right: 10px;
+        min-width: 180px;
+        max-width: 180px;
+        text-align: right;
+    }
+
+    .required {
+        font-size: 18px;
+        font-family: Arial;
+
+        color: red;
+    }
+
+    #example {
+        margin-left: 190px;
+    }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+    function LoadActivity() {
+        document.getElementById('actlen').selectedIndex = 1;
+
+        var fullsubactlist = [];
+        var act = document.getElementById('actlen');
+
+        var stract = act.options[act.selectedIndex].value;
+        var sa = document.getElementById('subactlen');
+
+
+        for (var i = 0; i < sa.length; i++) {
+            var saval = sa.options[i].value;
+            fullsubactlist.push([saval, sa.options[i].text])
+        }
+        localStorage.setItem("fullsubactlist1", JSON.stringify(fullsubactlist));
+
+
+        optionlist = [];
+        optionlist.push([1, "---Select an Activity---"]);
+        //Erase the current full list and build a new one//
+
+        $('#subactlen').empty();
+        for (var j = 0; j < optionlist.length; j++) {
+            var option = document.createElement("option");
+            option.text = optionlist[j][1];
+            option.value = optionlist[j][0];
+            sa.appendChild(option)
+        }
+
+        sa.value = 1;
+
+    }
+</script>
+
+<script>
+    function UpdateActivity() {
+
+        var act = document.getElementById('actlen');
+        var stract = act.options[act.selectedIndex].value;
+        var sa = document.getElementById('subactlen');
+        //Set the SubActivity values//
+
+        optionlist = [];
+        var fullsubactlist = JSON.parse(localStorage.getItem("fullsubactlist1"));
+
+        for (var i = 0; i < fullsubactlist.length; i++) {
+            var option = document.createElement("option");
+            var sbval = fullsubactlist[i][0];
+            var sbtxt = fullsubactlist[i][1];
+
+            //Create the SubActivity lists//
+            if (stract == 1 & (sbval == 2)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 2 & (sbval == 1 || sbval == 3 || sbval == 4)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 3 & (sbval == 1 || sbval == 5 || sbval == 6 || sbval == 7 || sbval == 8 || sbval == 9 || sbval == 10 || sbval == 11 || sbval == 12 || sbval == 13 || sbval == 14 || sbval == 15 || sbval == 16)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 4 & (sbval == 1 || sbval == 18 || sbval == 19 || sbval == 20 || sbval == 21 || sbval == 22 || sbval == 23)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 5 & (sbval == 24)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 6 & (sbval == 25)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 7 & (sbval == 1 || sbval == 26 || sbval == 27)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 8 & (sbval == 1 || sbval == 28 || sbval == 29)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 9 & (sbval == 17)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 10 & (sbval == 30 || sbval == 31 || sbval == 32 || sbval == 33 || sbval == 37)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+            if (stract == 11 & (sbval == 1 || sbval == 34 || sbval == 35 || sbval == 36)) {
+                optionlist.push([sbval, sbtxt])
+            }
+
+
+        }
+
+        if (stract == false) {
+            optionlist.push([2, "---Select an Activity---"])
+        }
+
+
+        //Erase the current full list and build a new one//
+
+        $('#subactlen').empty();
+
+        for (var j = 0; j < optionlist.length; j++) {
+            var option = document.createElement("option");
+            option.text = optionlist[j][1];
+            option.value = optionlist[j][0];
+            sa.appendChild(option)
+        }
+
+        checksubmit();
+    }
+</script>
+
+
+<script>
+    function checksubmit() {
+
+        var act = document.getElementById('actlen');
+        var stract = act.options[act.selectedIndex].value;
+
+        var sa = document.getElementById('subactlen');
+        var strsa = sa.options[sa.selectedIndex].value;
+        var spattype = [['3', 'Non-Spatial Plan'], ['4', 'Non-Spatial Plan'], ['5', 'Non-Spatial Plan'], ['6', 'Non-Spatial Plan'], ['7', 'Non-Spatial Plan'],
+            ['8', 'Non-Spatial Plan'], ['9', 'Non-Spatial Plan'], ['10', 'Non-Spatial Plan'], ['11', 'Non-Spatial Plan'], ['12', 'Non-Spatial Plan'],
+            ['13', 'Non-Spatial Plan'], ['14', 'Non-Spatial Plan'], ['15', 'Non-Spatial Plan'], ['16', 'Non-Spatial Plan'], ['18', 'Non-Spatial Project'],
+            ['19', 'Non-Spatial Project'],['20', 'Non-Spatial Project'],['21', 'Non-Spatial Project'],['22', 'Non-Spatial Project'],['23', 'Non-Spatial Project'],
+            ['24', 'Non-Spatial Project'],['25', 'Non-Spatial Project'],['26', 'Non-Spatial Project'],['27', 'Non-Spatial Project'],['28', 'Non-Spatial Project'],
+            ['29', 'Non-Spatial Project'], ['17', 'Spatial Project'], ['30', 'Spatial Project'], ['31', 'Spatial Project'], ['32', 'Spatial Project'],
+            ['33', 'Spatial Project'], ['34', 'Spatial Project'], ['35', 'Spatial Project'], ['36', 'Spatial Project'], ['37', 'Spatial Project']];
+
+
+        fLen = spattype.length;
+        var spty = "0";
+        for (i = 0; i < fLen; i++) {
+            if (spattype[i][0] == strsa) {
+                spty = spattype[i][1]
+            }
+        }
+
+        var req = "";
+        if (strsa > 2 & spty != "0") {
+            if (spty == "Spatial Project") {
+                req = ". Spatial data is required"
+            } else {
+                req = ". You can only load spatial data as pdf maps in documentation"
+            }
+        }
+
+        var vis = document.getElementById('bttnnew');
+        if (stract > 1 & strsa > 2) {
+            document.getElementById('creating').innerHTML = "You are creating a " + spty + req;
+            vis.style.display = "block";
+        } else {
+            document.getElementById('creating').innerHTML = "";
+            vis.style.display = "none"
+        }
+
+    }
+
+</script>
+
+<script type="text/javascript">
+    function pleasewait() {
+        var pro = document.getElementById('processing');
+        pro.style.display = "block";
+    }
+</script>
+
+
+<body onload="LoadActivity();">
+<form id="newprj_Form" method="post" action="/sgce/dataentrynew/">{% csrf_token %}
+    <div id="CEProj">
+        <h3>STEP 1 - CREATE NEW PROJECT/EFFORT</h3>
+        <p><span class='required'>*</span> = Required Field </p>
+        <p1> ATTENTION: You cannot return to this page, any updates to the fields below will need to be made in upcoming
+            steps
+        </p1>
+        <br>
+        <p1> ATTENTION: Option to Save and Continue will not appear until all fields are complete</p1>
+        <br>
+        <p1> ATTENTION: Please avoid using private land owner names in the CED Effort Name</p1>
+        <br>
+        <p1> ATTENTION: For Spatial Projects, if your feature fails to upload within the footprint editor, it is likely
+            due to overlapping verticies. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Try
+            buffering your feature by 0.1m and trying again
+        </p1>
+
+    </div>
+
+    <div id="newprjdiv">
+        {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+        {% for field in form %}
+        {% if field.is_hidden %}
+        {{ field }}
+        {% else %}
+        <div id="fld1">
+            {% if field.label == "CED Effort Name" %}
+            {{field.errors}}
+            <p id='example'> Please use the following format: 'Agency/Group - State - Year - Type of effort' <br> For
+                example: BLM - Idaho - 2016 - Soda Fire Restoration Seeding</p>
+            <lab>{{field.label}}:<span class='required'>*</span></lab>
+            <input type="text" id="prjname" {{field}}</
+        >
+
+
+        {% elif field.label == "Activity" %}
+        {% if ActivityEr == "ActivityEr" %}
+        <labred style="color:red">
+            {{ field.label_tag }}<span class='required'>*</span>
+        </labred>
+        {% else %}
+        <lab>
+            Activity<span class='required'>*</span>
+        </lab>
+
+        {% endif %}
+        <select id="actlen" onchange="UpdateActivity()" name="Activity" {{ field }}</
+    >
+
+    {% elif field.label == "Subactivity" %}
+    {% if SubactivityEr == "SubactivityEr" %}
+    <labred style="color:red">
+        {{ field.label_tag }}<span class='required'>*</span>
+    </labred>
+    {% else %}
+    <lab>
+        {{ field.label_tag }}<span class='required'>*</span>
+    </lab>
+    {% endif %}
+    <select id="subactlen" onchange="checksubmit()" name="SubActivity" {{ field }}</
+>
+
+{% elif field.label == "Subactivity" %}
+{% if SubactivityEr == "SubactivityEr" %}
+<labred style="color:red">
+    {{ field.label_tag }}<span class='required'>*</span>
+</labred>
+{% else %}
+<lab>
+    {{ field.label_tag }}<span class='required'>*</span>
+</lab>
+{% endif %}
+<select id="subactlen" onchange="checksubmit();" name="SubActivity" {{ field }}</>
+
+{% elif field.label == "Effort Status" %}
+{% if Project_StatusEr == "Project_StatusEr" %}
+<labred style="color:red">
+    {{ field.label_tag }}<span class='required'>*</span>
+</labred>
+{% else %}
+<lab>
+    {{ field.label_tag }}<span class='required'>*</span>
+</lab>
+{% endif %}
+<div id="effcolor">{{ field }}</div>
+
+
+{% else %}
+{{field.errors}}
+
+<lab>{{field.label}}:<span class='required'>*</span></lab>
+{{field}}
+
+{% endif %}
+</div>
+
+{% endif %}
+{% endfor %}
+<div id="creating"></div>
+<div id="bttnnew" style="display:none;">
+    <input class="button" type="submit" onclick="pleasewait();" name="submit" value="Save and Continue"/>
+</div>
+<div id="processing" style="display:none;">
+    <h3>Creating CED effort, please be patient...</h3>
+</div>
+</div>
+
+</form>
+
+</body>
+
+
+{% endblock %}
+ 
+ 

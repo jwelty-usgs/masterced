@@ -1,0 +1,101 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/welcomestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}News{% endblock title %}
+
+
+{% block content %}
+
+<script type="text/javascript">
+  function DisplaySection(section, button){
+    var sectiontype = section
+    if (document.getElementById(sectiontype).style.display == "none"){
+        document.getElementById(sectiontype).style.display = "inline-block"
+        document.getElementById(button).value = "-"
+    }
+    else{
+        document.getElementById(sectiontype).style.display = "none"
+        document.getElementById(button).value = "+"
+    }
+    
+  }
+</script>
+
+<div id="newsandevents">
+    <div id="welcome"><h1>CED NEWS AND UPCOMMING EVENTS</h1></div>
+    <div id="calendarloc"><input id="viewcal" type="button" class="aboutbutton" value="+" onclick="javascript:DisplaySection('calendar', 'viewcal');"/><b id="viewcal1">View the CED calendar to find webinars and other events</b></div>
+    <div id="calendar" style="display:none;">
+        <object id='calobject' data="https://calendar.google.com/calendar/embed?src=doi.gov_cd0o9ssu3vjoc0esgqctcnh1gs%40group.calendar.google.com&ctz=America/Denver"></object>
+    </div>
+
+    <div id="upcomeevents"> 
+            
+            <h4> TERMS OF AGREEMENT LANGUAGE CHANGING IN VERSION 2.0 </h4>
+
+            <p>
+            New and returning users alike will have to sign our new CED Version 2.1 user agreement below within your profile page.<br><br>
+
+            The information, documents, and other materials (collectively, “information”) you submit to this website will become part of the public record and may be publicly disclosed as part of the U.S. Fish and Wildlife Service’s administrative record or in response to a request under the Freedom of Information Act (FOIA). To extent possible, we ask that you do not include personal identifying information (PII; such as a home address, home/personal phone number, or home/personal email address), however, if you submit PII, you may ask us to withhold it from such public disclosure, however we cannot guarantee that we will be able to do so under applicable law. You may ask us to withhold from public disclosure any personal identifying information you submit by promptly sending a letter that specifically identifies the information you would like us to withhold, as well as where the information is specifically located in your submission, to the following email address: fw1sagegrouseced@fws.gov. With respect to any information you believe should be protected from disclosure as trade secret or confidential business information under Exemption 4 of FOIA, we will deem your submission of the information as your consent to publicly disclose it. Accordingly, do not submit any trade secret or confidential business information you wish to protect from public disclosure. To increase and facilitate data sharing, the CED may create web service features that allows partner agencies to use the data in their decision support tools to display or illustrate spatial and other high-level information (such as implementing agency and subactivity type) for use in project planning. You will not be approved to enter data until you accept the terms of the agreement.
+
+            <br><br>
+            Summary of changes:<br>
+            •   A stronger emphasis on guidance for excluding personal identifying information (PII) in any data entry.<br>
+            •   In response to Secretarial Order 3353, the subsequent report, and feedback from our data-providing partners, we will now create service features to make spatial dat viewable (not downloadable) in other compatible, decision support tools, that aid in conservation planning.
+
+            </p>
+
+    </div>
+
+    <div id="upcomeevents"> 
+            
+    		<h4> BETTER SCIENCE THROUGH DATA SHARING </h4>
+
+    		<p>
+    		The Conservation Efforts Database (CED) is a joint effort by the U.S. Fish &#38; Wildlife Service and U.S. Geological Survey to collect data related to conservation plans and actions aimed at conserving and restoring sagebrush habitats as well as those that address the threats driving sagebrush habitat loss, degradation, and fragmentation.  Your participation through sharing your data is critical and greatly appreciated. By pooling our collective knowledge of the conservation efforts taking place and sharing that information among all conservation stakeholders, we will take our combined efforts further, faster.
+    		</p>
+
+    </div>
+
+    <div id="upcomeevents">
+    	<h4>WELCOME TO CED VERSION 2.0!</h4>
+    	
+    	<p>Do you want to register and explore  the CED but you aren't sure if your agency and office are available in the system yet? You can still register and sign up for a demonstration account.  You can also contact us at fw1sagegrouseced@fws.gov to get your agency/office information added to the available options in the CED.</p>
+
+        <p>The CED is designed for optimal use in Google Chrome or Mozilla FireFox. In addition, Internet Explorer 10.0+ and Apple Safari are supported. If the website visuals are not correct try updating your web browser to the newest version.</p> 
+
+        <p>For those of you familiar with the CED v1.0, below we’ve highlighted some of the updates and improvements we’ve made:</p>
+        <p>·         The scope of version 2.0.0 has been broadened to capture actions that conserve, restore, and improve sagebrush habitat range-wide for all sagebrush-dependent species, not just the greater sage-grouse as per version 1.0.</p>
+        <p>·         Several improvements have been made to the interactive map and associated query/filter functions.</p>
+        <p>·         We’ve added more layers to the background of the interactive map to provide some additional context to the efforts, as well as a new reporting feature to summarize metrics based on your query.</p>
+
+    	</p>
+    </div>
+
+    <div id="upcomeevents">
+
+    	<h4>WEBINARS ON HOW TO USE THE CED</h4>
+
+    	<p>All formal webinars are complete. Webinars for individuals or groups can be scheduled on an individual basis upon request by contacting the CED Team at <a href="mailto:fw1sagegrouseced@fws.gov?Subject=Schedule%20a%20CED%20webinar" target="_top">fw1sagegrouseced@fws.gov</a>.</p> 
+
+    </div> 
+</div>
+{% endblock content %}  
+
+
+
+
+
+
+
+
+
+
+ 

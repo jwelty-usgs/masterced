@@ -1,0 +1,81 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Manage User{% endblock title %}
+
+
+{% block content %}
+    <div id="regis">
+    <h3>Edit profile for your user</h3>
+
+    <p>Approving officials, if you approve of the user listed below please check the box approving the user and assign their group status in the User Status field before saving. </p>
+    </div>
+    
+        <form action="" id="ProfUp" method="post">
+        <div id="manageusers">
+            {% csrf_token %}
+            <div id="regformMU">
+                {% for field in form %}
+                    {% if field.errors %}
+                        <b> The user must complete all required fields first and submit the document.</b>
+                    {% endif %}
+                {% endfor %}
+                {% for field in subform1 %}
+                    {% if field.errors %}
+                        <b> The following field is required: {{field.label}}</b> <br><br>
+                        
+                    {% endif %}
+                {% endfor %}
+            {% for field in form %}
+                <div id="userprofset">
+                    <lab class="label">{{field.label}}</lab>
+                    {{field}}
+                </div>
+            {% endfor %}
+            {% for field in subform1 %}
+                {% if field.label == "Approving Officials Only: Do You Approve This User?*" %}
+                    <lab class="label">{{field.label}}</lab>
+                    <div id="appuserfld">{{field}}</div>
+                {% else %}
+                    <div id="userprofset">
+                        <lab class="label">{{field.label}}</lab>
+                        {{field}}
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+            {% if subform2.non_field_errors %}{{ subform2.non_field_errors }}{% endif %}
+            <div id="seluseper">
+                  <lab>Select all user permissions that apply*</lab>
+                  <ul>
+                  {% for field in subform2 %}
+                    {% if field.is_hidden %}
+                      {{ field }}
+                    {% else %}
+                      <li>
+                        {{ field.errors }}
+                        {{ field.label_tag }}
+                        {{ field }}
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+                </div> 
+            
+            <input id="submit" class="submitbutton" type="submit" name="save" value="Update User's Profile"/>
+            </div>
+        </div>
+        </form>
+
+
+
+{% endblock %}
+

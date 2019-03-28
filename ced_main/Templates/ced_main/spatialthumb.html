@@ -1,0 +1,17 @@
+<html>
+<head>
+  <title>OpenLayers Example</title>
+    <script src="https://openlayers.org/api/OpenLayers.js"></script>
+    </head>
+    <body>
+      <div id="minimap" style='width: 300px; height: 300px;'></div>
+	  <div id="coords" style="height: 1.5em;"></div>
+      <script defer="defer" type="text/javascript">
+        var minimap = new OpenLayers.Map('minimap', {controls: [] });
+		var agslayer = new OpenLayers.Layer.ArcGIS93Rest( "ArcGIS Server Layer", "https://services.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer/export", {layers: "show:0"});
+        var sb_wms = new OpenLayers.Layer.WMS("footprint", "{{ logonpysb }}", {layers: "footprint", transparent: "true", format: "image/png"}, {isBaseLayer: false});
+        minimap.addLayers([agslayer, sb_wms]);
+		minimap.setCenter(new OpenLayers.LonLat({{ xmid }},{{ ymid }}),{{ zoom }});;
+      </script>
+</body>
+</html>

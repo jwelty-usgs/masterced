@@ -1,0 +1,59 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/welcomestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Help{% endblock title %}
+
+{% block content %}
+
+
+    <div id="welcome">
+        <h1>GREATER SAGE-GROUSE CED HELP</h1>
+        <div id="HELPMess">
+            <p>Warning to users of CED 2.0: We are still working on updating all of the help documents, videos, and the FAQ page. Therefore, information contained within these pages may be disabled or out of date. We are working as quickly as we can to update all documentation and help information. Links that start with "***" indicate an outdated document that will be updated.</p>
+        </div>
+    </div>
+<div id='help'>
+    <div id="entrymenu">
+        <div id="loginbody3">
+
+            <p> Products </p>
+            <ul>
+                <li><a href="{% static 'ced_main/images/ced_main/CED Fact Sheet (2017.06.14).pdf' %}" target="_blank">CED Published Fact Sheet (PDF Document)</a></li>
+            </ul>
+
+            <p> Help Documentation </p>
+            <ul>
+                
+                <!-- <li><a href="/sgce/helpvideo/" target="_blank">SG CED Help Videos (Opens in New Tab)</a></li> -->
+                <li><a href="{% static 'ced_main/images/ced_main/CED Beta Testing Request v2.0.0 (2017.02.20).pdf' %}" target="_blank">CED Beta Testing Request v2.0.0 (2017.02.20) (PDF Document)</a></li>
+                <li><a href="{% static 'ced_main/images/ced_main/CED Technical Help Documentation Version 2.0.0 (Draft 2017.02.20).pdf' %}" target="_blank">CED Technical Help Documentation Version 2.0.0 (Draft 2017.02.20) (PDF Document)</a></li>
+                <li><a href="{% static 'ced_main/images/ced_main/CED User Manual v2.0.0 (2017.10.24).pdf' %}" target="_blank">CED User Manual v2.0.0 (2017.10.24) (PDF Document)</a></li>
+                <!-- <li><a href="{% static 'ced_main/images/ced_main/Overview of the Conservation Efforts Database.pptx' %}" target="_blank">CED Overview Presentation (PowerPoint Slideshow)</a></li> -->
+            </ul>
+            <p>Tools for the User</p>
+            <ul>
+                <li><a href="{% static 'ced_main/images/ced_main/CED Add Field Offices Template 8-8-2014.xlsx' %}" download>Add Field Offices to CED (Excel Template)</a></li>
+                <li><a href="{% static 'ced_main/images/ced_main/CED Add Approving Officials Template 8-8-2014.xlsx' %}" download>Request CED Approving Official Status (Excel Template)</a></li>
+                <li> <a href="https://docs.google.com/a/usgs.gov/forms/d/e/1FAIpQLSfSKyeJVmFvRtGr-YQcFWa2z-IXrWS2drYbj1HCZw11_ltSfw/viewform?c=0&#38;w=1&#38;token" target="_blank">Help Us Review CED 2.0 (Google Form)</a></li>
+                <!-- <li> <a href="https://docs.google.com/a/usgs.gov/forms/d/1ugrfzbkNutUJda3LU2iyAYprvdl-Je_Ug9UGSCjfT_4/viewform?sid&#38;c=0&#38;w=1&#38;token" target="_blank"> Ask a Question (Google Form) </a></li> -->
+            </ul>
+            <p> Data Structure and Table Information</p>
+            <ul>
+                <li><a href="{% static 'ced_main/images/ced_main/CED Data Structure and Table Inforamtion Version 1.2 11-12-2014.xlsx' %}" target="_blank">***SG CED Data Structure and Table Information Version 1.1 (Excel Document)</a></li>
+                <li><a href="{% static 'ced_main/images/ced_main/SageGrouse Consv Efforts System Options -ERD - DRAFT_v2.5.pdf' %}" download>***SG Entity Relationship Diagram Version 1.1 (PDF Document)</a></li>
+                
+                <!-- <li><a href="/sgce/under_construction/">View Bug Reports and Responses</a></li> -->
+            </ul>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

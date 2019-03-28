@@ -1,0 +1,26 @@
+select distinct subactivity, count(*) from ced_main_project_info 
+where activity = 'Non-regulatory Conservation Strategies' group by subactivity;
+
+select distinct subactivity, count(*) from ced_main_project_info 
+where activity = 'Regulatory Mechanisms, Plans, Policy' group by subactivity;
+
+select distinct subactivity, count(*) from ced_main_project_info where 
+activity = 'Restoration: Habitat Reclamation Efforts' group by subactivity;
+
+select distinct subactivity, count(*) from ced_main_project_info 
+where activity = 'Restoration: Habitat Restoration' group by subactivity;
+
+select distinct subactivity, count(*) from ced_main_project_info 
+where activity = 'Restoration: Infrastructure Removal and Modification' group by subactivity;
+
+select distinct subactivity, count(*) from ced_main_project_info 
+where activity like 'Restoration: Livestock & Rangeland M%' group by subactivity;
+
+select distinct subactivity, count(*) from ced_main_project_info 
+where activity = 'Restoration: Habitat Reclamation Efforts' group by subactivity;
+
+select distinct subactivity, count(*) from ced_main_project_info 
+where activity = 'Restoration: Habitat Restoration' group by subactivity;
+
+select distinct subactivity, count(*) from ced_main_project_info 
+where activity = 'Wildfire: Interagency Pre-suppression Plan' group by subactivity;

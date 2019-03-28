@@ -1,0 +1,1541 @@
+li{
+  list-style-type: none;
+}
+
+
+#AR{
+  position: relative;
+  float: left;
+  max-width: 350px;
+  min-width: 350px;
+  top: 40px;
+  margin-left: 40px
+}
+
+#AR h3{
+  color: #7f7962;
+  font-family: Arial;
+  margin-bottom: -10px;
+}
+
+#AR h2{
+  margin-top: -10px;
+  color: #7f7962;
+  font-family: Arial;
+  margin-bottom: -10px;
+  margin-left: -70px;
+  padding-bottom: 20px;
+
+}
+
+.textblack{
+  color: black;
+  font-family: Arial;
+}
+
+#mapDiv{
+  width: 590px; 
+  height: 400px; 
+  margin-top: 10px;
+  position: relative;
+  float: left;
+  margin-left: 20px;
+}
+
+#viewptbl{
+  position: relative;
+  float: left;
+  max-width: 1050px;
+  min-width: 1050px;
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+
+#viewptbl table{
+    color: black;
+    font-weight: bold;
+    max-width: 1050px;
+    min-width: 1050px;
+    white-space: normal;
+    position: relative;
+    float: left;
+}
+
+
+#title1{
+  max-width: 1050px;
+    min-width: 1050px;
+    white-space: normal;
+    position: relative;
+    float: left;
+    margin-left: 20px;
+}
+
+#viewptbl1{
+  position: relative;
+  float: left;
+  max-width: 1050px;
+  min-width: 1050px;
+  margin-left: 40px;
+  margin-top: 5px;
+
+}
+
+#alltables{
+  position: relative;
+  float: left;
+  max-width: 1050px;
+  min-width: 1050px;
+}
+
+.wtftable{
+  margin-left: 20px;
+}
+
+#title{
+  position: relative;
+  float: left;
+  margin-top: 20px;
+  max-width: 950px;
+  min-width: 950px;
+  font-family: Arial;
+  font-size: 16px;
+}
+
+#title tx{
+  font-weight: bold;
+}
+
+#title ty{
+  float: right;
+  margin-right: 20px;
+}
+
+#sgcemain{
+  position: relative;
+  float: left;
+  overflow: hidden;
+}
+
+#entrymenu{
+    position: relative;
+    float: left;
+    margin-left: 50px;
+}
+
+#loginhead2{
+    background-color: #7f7962;
+    width: 400px;
+    margin-left: 0px;
+    height: 43px;
+}
+
+#loginhead2 p{
+   color: #FFFFFF;
+   font-family: Arial;
+   font-weight: bold; 
+   margin-left: 10px;
+   padding-top: 2px;
+   font-size: 18px;
+}
+
+#loginbody2{
+   background-color: #a4d4cb;
+   font-family: Arial;
+   width: 400px;
+   font-weight: bold; 
+   margin-left: 0px;
+   margin-top: -16px;
+   font-size: 16px;
+}
+
+#loginbody2 ul{
+    list-style-type: none;
+    margin-left: -15px;
+    min-width: 400px;
+}
+
+#loginbody2 ul li{
+  border-top: 1px solid black;
+  margin-left: -25px;
+}
+
+#loginbody2 ul li a{
+  margin-left: 25px;
+}
+
+#regis{
+  position: relative;
+  float: left;
+  margin-left: 20px;
+  width: 1100px;
+  text-align: left;
+  margin-right: -20px;
+}
+
+#regis h3{
+  text-align: left;
+  width: 1000px;
+}
+
+#regis h4{
+  text-align: left;
+  width: 1000px;
+  color: black;
+  margin-left: 20px;
+}
+
+#regis p{
+  text-align: left;
+  width: 1000px;
+}
+
+
+
+#regis1{
+  position: relative;
+  float: left;
+  margin-left: 20px;
+  width: 1100px;
+  text-align: left;
+  margin-right: -20px;
+}
+
+#regis1 h3{
+  text-align: left;
+  width: 1000px;
+}
+
+#regis1 p{
+  text-align: left;
+  width: 1000px;
+  color: red:;
+}
+
+.required {
+  font-size: 18px;
+  font-family: Arial;
+  color: red;
+}
+
+#colorred{
+  color: red;
+  font-weight: bold;
+}
+
+#ret{
+  position: relative;
+  float: left;
+  width: 1100px;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.submitbutton{
+    background: #7f697f;
+    border-radius: 35px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 16px;
+    position: relative;
+    float: left;
+    margin-left: 25px;
+    color: white;
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 2em;
+
+}
+
+.submitbutton:hover{
+    background: #7f697f;
+    border-radius: 25px;
+    position: relative;
+    height: 25px;
+    font-family: Arial;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    position: relative;
+    float: left;
+    margin-left: 25px;
+    padding-right: 15px;
+    padding-left: 15px;
+    height: 2em;
+}
+
+#fileformheadba{
+    border: solid 0.1em black;
+    padding: 0.25em 0.25em 0.25em 0.25em;
+    height: 1.5em;
+    width: 1050px;
+    margin-top: 10px;
+    background-color:#CEE3F6;
+    position: relative;
+    float: left;
+    margin-left: 20px;
+    z-index: 10
+    font-size: 12px;
+    height: 30px;
+}
+
+#fileformheadba head1{
+    position: absolute;
+    margin-left: 293px;
+    margin-top: -0.7em
+}
+
+#fileformheadba head2{
+    position: absolute;
+    margin-left: 725px;
+    margin-top: -0.7em
+}
+
+#fileformheadba head3{
+    position: absolute;
+    margin-left: 860px;
+    margin-top: -0.7em
+}
+
+#fileformheadba head4{
+    position: absolute;
+    margin-left: 520px;
+    margin-top: -0.7em
+}
+
+#fileformheadba head5{
+    position: absolute;
+    margin-left: 65px;
+    margin-top: -0.7em
+}
+
+#fileformheadba head6{
+    position: absolute;
+    margin-left: 960px;
+    margin-top: -0.7em
+
+}
+
+#fileformsba{
+
+    background-color:#FFFFFF;
+    position: relative;
+    float: left;
+    display: inline-block;
+    width: 1050px;
+    overflow: auto;
+    margin-left: 20px;
+
+
+}
+
+#ecu{
+  margin-top: -40px;
+}
+
+#fileformba{
+    border: solid 0.1em black;
+    background-color:#CEE3F6;
+    padding-top: 10px;
+    margin-top: -0.1em;
+    position: relative;
+    float: left;
+    display: inline-block;
+    width: 1050px;
+    padding-left: 10px;
+}
+
+#gotoid{
+    position: relative;
+    float: left;
+    display: inline-block;
+    padding-right: 16px;
+}
+
+#idfield{
+    position: relative;
+    float: left;
+    display: inline-block;
+    padding-right: 30px;
+}
+
+
+#submitqueryfws{
+    position: relative;
+    float: left;
+    width: 950px;
+    margin-top: 10px;
+}
+#emaildb{
+    margin-top: 50px;
+    top: 70px;
+    padding-top: 70px;
+    width: 1100px;
+    margin-left: 20px;
+    white-space: normal;
+
+}
+
+#agencywidth label{
+    position: relative;
+    float: left;
+    margin-top: 10px;
+    width: 1050px;
+    white-space: normal;
+}
+
+#officewidth label{
+    position: relative;
+    float: left;
+    margin-top: 10px;
+    width: 1050px;
+    white-space: normal;
+
+}
+
+#QAgencyVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+}
+
+#QAgencyVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QAgencyVals ul li{
+    width: 300px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QAgencyVals ul li label{
+    width: 300px;
+}
+
+#QFOVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#QFOVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QFOVals ul li{
+    width: 500px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+    color: black
+
+}
+
+#QFOVals ul li label{
+    width: 500px;
+    color: black
+}
+
+#EmailVals{
+    margin-top: 10px;
+    top: 10px;
+}
+
+#QEmailVals label{
+    width: 1000px;
+}
+
+#QEmailVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 20px;
+    top: 15px;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#QEmailVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+
+#QEmailVals1 label{
+    min-width: 1000px;
+}
+
+#QEmailVals1{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 20px;
+    top: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+
+
+
+
+
+#EmailVals{
+    margin-top: 10px;
+    top: 10px;
+}
+
+#EmailVals{
+  position: relative;
+  float: left;
+  width: 1100px;
+}
+
+#subbutton{
+  position: relative;
+  float: left;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+#dataprephead1{
+    background: #a4d4cb;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    width: 300px;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    top: -10px;
+    margin-top: 30px;
+}
+
+#dataprephead1:hover{
+    background: #85c0b5;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#dataprephead3{
+    background: #a4d4cb;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    width: 300px;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#dataprephead3:hover{
+    background: #85c0b5;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#dataprephead2{
+    background: #a4d4cb;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    width: 300px;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#dataprephead2:hover{
+    background: #85c0b5;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#dataprephead3:hover{
+    background: #85c0b5;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+
+#dataprephead p:hover{
+    background: #85c0b5;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#dataprephead{
+    background: #a4d4cb;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    width: 300px;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+#dataprephead:hover{
+    background: #85c0b5;
+    border-radius: 5px;
+    position: relative;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#dataprephead a{
+    color: #7f697f;
+    font-family: Arial;
+    text-decoration: none;
+}
+
+
+
+#dataprep{
+    margin-top: 0px;
+    margin-left: 10px;
+}
+
+#dataprep p{
+    font-size: 14px;
+}
+
+#attributes{
+    margin-top: -10px;
+    margin-left: 10px;
+}
+
+#attributes p{
+    font-size: 14px;
+}
+
+#afterprep{
+    margin-left: 10px;
+    padding-bottom: 20px;
+}
+
+#afterprep p{
+    font-size: 14px;
+}
+
+.button11{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    width: 190px;
+    color: #610B0B;
+    font-weight: bold;
+    font-size: 10px;
+    text-align: center;
+}
+
+.button11:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    font-family: Arial;
+    color: #610B0B;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+
+#comstatus{
+    position: relative;
+    top: -10px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+#conpartner{
+    margin-top: -20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.indent1{
+    margin-left: 20px;
+}
+
+.indent2{
+    position: relative;
+    float: left;
+    margin-left: 50px;
+    min-width: 975px;
+    max-width: 975px;
+}
+
+.indent3{
+    position: relative;
+    float: left;
+    margin-left: 90px;
+    min-width: 975px;
+    max-width: 975px;
+
+}
+
+#batchname{
+  position: relative;
+  float: left;
+}
+
+#upbatch{
+  position: relative;
+  float: left;
+}
+
+#newprjdiv {
+    position: relative;
+    top: 15px;
+    min-width: 1050px;
+    max-width: 1050px;
+    margin-left: 20px;
+    font-size: 12px;
+}
+
+#effcolor ul{
+  position: relative;
+  float: left;
+  margin-top: -23px;
+  margin-left: 55px;
+  margin-bottom: -20px;
+}
+
+#effcolor ul li{
+  position: relative;
+  float: left;
+  padding-right: 30px;
+}
+
+#fld1 {
+    position: relative;
+    float: left;
+    list-style: none;
+    font-weight: bold;
+    color: #7f697f;
+    white-space: nowrap;
+    margin-bottom: 15px;
+    min-width: 1050px;
+    max-width: 1050px;
+
+}
+
+#fld1 p {
+    color: black;
+    font-style: italic;
+    font-size: 12px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+
+#bttnnew{
+  margin-top: 20px;
+  margin-left: -30px;
+}
+
+#creating {
+  color: black;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+#userquery{
+  position: relative;
+  float: left;
+  margin-left: 20px;
+}
+
+#submitquery{
+    position: fixed;
+    width: 1080px;
+    background-color: white;
+    z-index: 5;
+     white-space: normal;
+     padding-top: 20px;
+     padding-left: 0px;
+     border-bottom:2px dotted black;
+}
+
+#submitquery p{
+    position: relative;
+    float: left;
+    width: 900px;
+    background-color: white;
+    z-index: 5;
+     white-space: normal;
+     font-weight: bold;
+     padding-top: 10px;
+}
+
+.button{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    float: left;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 0;
+}
+
+.button:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    float: left;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 11px;
+    z-index: 0;
+}
+
+.button1{
+    background: #a4d4cb;
+    border-radius: 25px;
+    position: relative;
+    float: left;
+    height: 25px;
+    font-family: Arial;
+    color: #7f697f;
+    font-weight: bold;
+    font-size: 10px;
+    z-index: 0;
+    margin-right: 20px;
+}
+
+.button1:hover{
+    background: #85c0b5;
+    border-radius: 25px;
+    position: relative;
+    float: left;
+    height: 25px;
+    font-family: Arial;
+    color: #97767b;
+    font-weight: bold;
+    font-size: 11px;
+    z-index: 0;
+    margin-right: 20px;
+}
+
+#querydb{
+    position: relative;
+    float: left;
+    margin-top: 145px;
+    max-width: 1050px;
+
+}
+
+#dashed{
+  position: relative;
+  float: left;
+  margin-top: 20px;
+  width: 1050px;
+}
+
+
+#querydb p{
+    position: relative;
+    float: left;
+    margin-top: 15px;
+    color: black;
+    font-size: 16px;
+}
+
+.labelclass{
+  position: relative;
+  float: left;
+  left: 10px;
+  top: -10px;
+  margin-bottom: -5px;
+  font-weight: bold;
+
+}
+
+.buttonlength{
+  position: relative;
+  float: left;
+
+}
+
+#strtyr{
+  margin-bottom: -7px;
+}
+
+#endyr{
+  margin-bottom: -7px;
+}
+
+
+#QSYearVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+}
+
+#QSYearVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QSYearVals ul li{
+    width: 300px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QSYearVals ul li label{
+    width: 100px;
+}
+
+
+#QEYearVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+}
+
+#QEYearVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QEYearVals ul li{
+    width: 300px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QEYearVals ul li label{
+    width: 100px;
+}
+
+#QAVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+}
+
+#QAVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QAVals ul li{
+    width: 1000px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QAVals ul li label{
+    width: 1000px;
+}
+
+#QSAVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+#QSAVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QSAVals ul li{
+    width: 1000px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QSAVals ul li label{
+    width: 1000px;
+}
+
+
+
+#QThreatVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+#QThreatVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QThreatVals ul li{
+    width: 450px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QThreatVals ul li label{
+    width: 450px;
+}
+
+
+#QWAFWAVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+#QWAFWAVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QWAFWAVals ul li{
+    width: 50px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QWAFWAVals ul li label{
+    width: 50px;
+}
+
+#QSGPVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+#QSGPVals ul{
+    width: 1130px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QSGPVals ul li{
+    width: 530px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QSGPVals ul li label{
+    width: 530px;
+}
+
+#QStateVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+#QStateVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QStateVals ul li{
+    width: 50px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QStateVals ul li label{
+    width: 50px;
+}
+
+#QCountyVals{
+    border: solid 0.125em #7f697f;   
+    border-radius: 0.25em;
+    float:left;
+    width: 1050px;
+    position: relative;
+    white-space: normal;
+    margin-bottom: 10px;
+    top: 15px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+#QCountyVals ul{
+    width: 1050px; 
+    margin-top: -0.05em;
+    margin-bottom: 0.05em;
+    margin-left: -30px;
+    white-space: nowrap;
+    position: relative;
+    white-space: normal;
+
+}
+
+#QCountyVals ul li{
+    width: 150px; 
+    position: relative;
+    white-space: normal;
+    display: inline;
+    color: #7f7962;
+    font-size: 12px;
+    padding:0.125em 0.625em;
+
+}
+
+#QCountyVals ul li label{
+    width: 150px;
+}
+
+#map1{
+  position: relative;
+  float: left;
+  margin-left: 20px;
+}
+
+#qreshead{
+  position: relative;
+  float: left;
+  width: 1100px;
+}
+
+#qreshead h3{
+  text-align: left;
+}
+#qreshead p{
+  text-align: left;
+}
+
+#qResults{
+  position: relative;
+  float: left;
+  width: 1100px;
+}
+#qResults h3{
+  text-align: left;
+  font-size: 14px;
+}
+
+#qResults p{
+  text-align: left;
+  margin-left: 10px;
+}
+
+#viewptblqresults{
+  position: relative;
+  float: left;
+  max-width: 1050px;
+  min-width: 1050px;
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+
+#viewptblqresults table{
+    color: black;
+    font-weight: bold;
+    max-width: 1050px;
+    min-width: 1050px;
+    white-space: normal;
+    position: relative;
+    float: left;
+}
+
+#perdenied{
+  position: relative;
+  float: left;
+  margin-left: 10px;
+}
+
+#perdenied h1{
+  text-align: left;
+  margin-left: 10px;
+}
+
+#perdenied h4{
+  text-align: left;
+  margin-left: 20px;
+  color: black;
+  font-size: 16px;
+}
+
+#fwsqry{
+  position: relative;
+  float: left;
+  width: 1050px;
+  margin-left: 20px;
+  margin-top: 0px;
+}
+
+#HE{
+  position: relative;
+  float: left;
+  width: 1050px;
+}
+
+#HE h3{
+  text-align: left;
+}
+
+#HE p{
+  text-align: left;
+  margin-left: 10px;
+}
+
+#submitqueryfws{
+  position: relative;
+  float: left;
+  width: 1100px;
+}
+
+#querytype{
+  position: relative;
+  float: left;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+
+#querytype ul{
+  margin-left: -20px;
+}
+
+#statefws{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+#wafwafws{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+#showthr{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+#SelectWaf{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+#fwsresponse{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+#dateeqfws{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+    width: 300px;
+}
+
+#sdfws{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+#fdfws{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+#fuelbreaknotes{
+  position: relative;
+  float: left;
+  width: 100%;
+  margin-left: 80px;
+}
+
+#fuelbreaknoteslabel{
+  position: relative;
+  float: left;
+  color: red;
+  font-weight: bold;
+}
+
+#fuelbreaknotestext{
+  position: relative;
+  float: left;
+  width: 800px;
+  margin-left: 10px;
+  margin-top: -2px;
+  word-wrap: normal;
+  white-space: normal;
+}
+
+.noteshead{
+    position: relative;
+    float: left;
+    margin-left: 0px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.plussign{
+    position: relative;
+    float: left;
+    font-size: 12px;
+    color: blue;
+}
+
+.noteslabel{
+    position: relative;
+    float: left;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.notetext{
+    position: relative;
+    float: left;
+    width: 90%;
+    font-size: 12px;
+    margin-left: 40px;
+}
+
+#actsubImg{
+  width: 900px;
+  height: 450px;
+}
+
+.blue{
+  color: blue;
+  position: relative;
+  float: left;
+}
+
+

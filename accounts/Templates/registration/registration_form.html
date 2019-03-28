@@ -1,0 +1,70 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Register{% endblock title %}
+
+
+{% block content %}
+
+<form id="registration_form11" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+
+    <div id="regis">
+        <h3>Register to Enter CED Data</h3>
+        <p>Your username must not contain spaces or special characters</p>
+        <div id="passchange">
+            <h4>Password Strength</h4>
+            <p>The Conservation Efforts Database requires a strong password in order to be able to enter data.</p>
+            <h4>Your password must:</h4>
+            <p>Be at least 12 characters in length.</p>
+            <p>Contain at least one upper case letter (A)</p>
+            <p>Contain at least one lowercase letter (a)</p>
+            <p>Contain at least one number (1)</p>
+            <p>Contain at least one special character (#)</p>
+        </div>
+        <p>Fill out all information and click submit.</p>
+    </div>
+
+    <div id="regform">
+        {% for field in form %}
+            {% if field.label == "Username" %}
+                <div id="usnm">
+                    <lab class="label">Username*:</lab>{{ field }}{{ field.errors }}
+                </div><br>
+            {% elif field.label == "Email" %}
+                <div id="em">
+                    <lab class="label">Email*:</lab>{{ field }}
+                </div><br>
+            {% elif field.label == "Password" %}
+                <div id="pw1">
+                    <lab class="label">Password*:</lab>{{ field }}{{ field.errors }}
+                </div><br>
+            {% elif field.label == "Password confirmation" %}
+                <div id="pw1">
+                    <lab class="label">Confirm Password*:</lab>{{ field }}{{ field.errors }}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
+    <div id="subbutton">
+        <input type="submit" class="submitbutton" value="Submit Registration" onclick="checkpass();" />
+    </div>
+</form>
+
+
+
+<script type="text/javascript" src="{% static 'ced_main/javascript/cedprjedit/cedaccounts.js' %}"></script>
+
+
+{% endblock content %}
+
+ 

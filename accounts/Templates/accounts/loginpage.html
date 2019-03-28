@@ -1,0 +1,61 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Login{% endblock title %}
+
+
+{% block content %}
+  
+<form enctype="multipart/form-data" method="post" id="login">{% csrf_token %}
+  <div id="mapdivlocwid">
+
+    <div id="loginall">
+      <div><h3> Only registered and approved users can log in to the Conservation Efforts Database</h3></div>
+      <div id="loginbody">
+        
+        <div id="loginboxuser">
+          <label id="usernamelabel">Username: </label>
+          <input type="text" style="width:200px;" name="username" id="id_username" />
+        </div>
+
+        <div id="loginboxpass">
+          <label id="passwordlabel">Password: </label>
+          <input type="password" style="width:200px;" name="password" id="id_password" />
+          <input type="hidden" name="this_is_the_login_form" value="1" /><br></br>
+        </div>
+
+        <input type="submit" name="submit" class="submitbutton" value="Login" id="submitlog" />
+
+        <div id='forgot'>
+          <h3 id="regist"> <a href="/sgce/accounts/register" target="_parent">Register</a>
+          <span id="forpass1"> <a href="/sgce/accounts/password/reset" target="_parent">Forgot Password</a> </span> </h3>
+        </div>
+        
+      </div>
+    </div>
+     <div id="reg">
+      {% if usepass != 'None' %}
+        <div id='passwarning'><h5>{{ usepass }}</h5></div>
+      {% endif %}
+      
+      
+      
+    </div>
+  </div>
+</form>
+
+
+
+{% endblock content %}  
+
+{% block body_script_page %}
+
+{% endblock body_script_page %}

@@ -1,0 +1,114 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Administration{% endblock title %}
+
+
+{% block content %}
+<form id="emailcedusers_Form" method="post" enctype="multipart/form-data" action="">{% csrf_token %} 
+<div id="ecu">
+  
+    <div id="regis">
+        <h3> Email Selected CED Users</h3>
+        <br>
+        <p> Select the user or users you wish to email. <br>Enter and subject and the text of the email. <br>Then click Email Users to send the email.</p>
+    </div>
+    <div id="emaildb">
+    {% for field in form %}          
+      {% if field.is_hidden %}
+        {{ field }}
+      {% else %}
+        {% if field.name == "GroupUsers" %}
+          <div id="agencywidth">
+            <label id="GroupList">Group Email Addresses Selected:</label><br>
+          </div>
+          <div id="QEmailVals1" onchange="LoadLists('GroupUsers', 'Group Email Addresses Selected: ', 'GroupList');">
+              <label>{{ field.errors }}
+              {{ field.label_tag }}
+              {{ field }}</label>                
+          </div>
+        {% elif field.name == "AgencyUsers" %}
+          <div id="agencywidth">
+            <label id="AgencyList">Agencies Selected:</label><br>
+          </div>
+          <div id="QEmailVals" onchange="LoadLists('AgencyUsers', 'Agencies Selected: ', 'AgencyList');">
+              {{ field.errors }}
+              {{ field.label_tag }}
+              {{ field }}                
+          </div>
+        {% elif field.name == "OfficeUsers" %}
+          <div id="agencywidth">
+            <label id="OfficeList">Offices Selected:</label><br>
+          </div>
+          <div id="QEmailVals" onchange="LoadLists('OfficeUsers', 'Offices Selected: ', 'OfficeList');">
+              {{ field.errors }}
+              {{ field.label_tag }}
+              {{ field }}                
+          </div>
+        {% elif field.name == "CEDUsers" %}
+          <div id="agencywidth">
+            <label id="EmailList">Email Addresses Selected:</label><br>
+          </div>
+          <div id="QEmailVals" onchange="LoadLists('CEDUsers', 'Email Addresses Selected: ', 'EmailList');">
+              {{ field.errors }}
+              {{ field.label_tag }}
+              {{ field }}                
+          </div>
+        {% elif field.name == "Subject" or field.name == "Email_Body" %}
+          <div id="EmailVals">
+            {{ field.errors }}
+            {{ field.label }}<br>          
+            {{ field }}<br>
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div id="subbutton"><input type="submit" class="submitbutton" name="submit" value="Email Users" /></div>
+</div>
+
+<script type="text/javascript">
+  function LoadLists(ListName, ListTitle, ListID) {
+
+    var list
+    var Control;
+    var Control1;
+    var Outputlist
+    var cnt
+
+
+    Outputlist = ListTitle
+
+    cnt = 0
+    list = document.getElementsByName(ListName)
+
+    for(var i=0; i<list.length;i++) {
+      if (document.getElementsByName(ListName)[i].checked) {
+
+        Control = document.getElementsByName(ListName)[i].parentNode.innerHTML;
+        Control1 = Control.split("> ");
+
+        if (cnt == 0){
+          Outputlist =  Outputlist + Control1[1]
+          cnt = cnt + 1
+        }
+        else {
+          Outputlist = Outputlist + ", " + Control1[1]
+        }
+      }
+    }
+
+
+  document.getElementById(ListID).innerHTML = Outputlist
+  }
+</script>
+
+{% endblock %}

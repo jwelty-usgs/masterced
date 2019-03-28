@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+
+<base target="_parent" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+<title> Deletion Request </title>
+{% block content %}
+
+	<div id="HE">
+		<h3>Your effort has been submitted for deletion </h3>
+    <p>An email has been sent to the CED administration to delete this effort. </p>
+    <p>If you do not get a response or your effort does not disappear for your records in 5 business days please contact the CED team at <a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a></p>
+	</div>
+
+{% endblock %}

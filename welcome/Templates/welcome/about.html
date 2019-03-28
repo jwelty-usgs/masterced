@@ -1,0 +1,131 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/welcomestyle.css' %}" rel="stylesheet" type="text/css" media="screen"/>
+
+{% endblock head_css_page %}
+
+{% block title %}About{% endblock title %}
+
+{% block content %}
+
+<div id="aboutbox">
+    <div id="viewver"><input id='changever' type="button" class="aboutbutton" value="+"
+                             onclick="javascript:DisplaySection('vertool', 'changever');"/><b id="viewver1">VERSION</b>
+    </div>
+    <div id="vertool" style="display:none;">
+        <p>CED 2.1.0</p>
+        <p>Release Date: November 1, 2018</p>
+    </div>
+
+
+    <div id="viewatc"><input id='changeatc' type="button" class="aboutbutton" value="+"
+                             onclick="javascript:DisplaySection('atctool', 'changeatc');"/><b id="viewatc1">ABOUT THE
+        CED</b></div>
+    <div id="atctool" style="display:none;">
+
+        <p>The sagebrush ecosystem is the largest ecosystem type in the continental U.S., providing habitat for more
+            than 350 associated fish and wildlife species. In recognition of the need to conserve a healthy sagebrush
+            ecosystem to provide for the long-term conservation of its inhabitants, the US Fish and Wildlife Service
+            (Service) and United States Geological Survey (USGS) developed the Conservation Efforts Database version
+            2.1.0 (CED). The purpose of the CED is to efficiently capture the unprecedented level of conservation plans
+            and actions being implemented throughout the sagebrush ecosystem and designed to capture actions not only
+            for its most famous resident, the greater sage-grouse (Centrocercus urophasianus; hereafter, sage-grouse)
+            but for the other species that rely on sagebrush habitats. Understanding the distribution and type of
+            conservation actions happening across the landscape will allow visualization and quantification of the
+            extent to which threats are being addressed. </p>
+
+        <p>The spatially explicit, web-based Conservation Efforts Database is capable of (1) allowing multiple-users to
+            enter data from different locations, (2) uploading and storing documents, (3) linking conservation actions
+            to one or more threats (one-to-many relationships), (4) reporting functions that would allow summaries of
+            the conservation actions at multiple scales (e.g., management zones, populations, or priority areas for
+            conservation), and (5) accounting for actions at multiple scales from small easements to statewide planning
+            efforts.</p>
+    </div>
+
+
+    <div id="viewicc">
+        <input id='changeicc' type="button" class="aboutbutton" value="+"
+                             onclick="javascript:DisplaySection('icctool', 'changeicc');"/><b id="viewicc1">INTERESTED
+        IN A CUSTOMIZED CED?</b></div>
+
+    <div id="icctool" style="display:none;">
+
+        <p> The CED is interested in working with you to capture and store your data on your terms. With proper funding,
+            we can create a customized CED module that will allow you to track and store your data. We will work with
+            you to create a customized layout and add fields that meet your organisaztion's needs. This would all
+            seamless integration with the USFWS CED when efforts are related to the sagebrush ecosystem. If the CED does
+            no the the features or layout you are looking for, we encourage you to visit our sister database, the Land
+            Treatment Digitial Library <a href="https://ltdl.wr.usgs.gov/">https://ltdl.wr.usgs.gov/</a> to determine if
+            they better suite your needs. The LTDL has a more complex, treatment focused data entry system that can
+            still be synced with the CED. If you have questions on either the CED or ltdl feel free to contact us at <a
+                    href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a></p>
+    </div>
+
+
+    <div id="viewtct"><input id='changetct' type="button" class="aboutbutton" value="+"
+                             onclick="javascript:DisplaySection('tcttool', 'changetct');"/><b id="viewtct1">THE CED
+        TEAM</b></div>
+    <div id="tcttool" style="display:none;">
+        <p><b>Lief Wiechman - CED Team Leader, U.S. Fish &amp; Wildlife Service</b></p>
+        <p><b>Justin Welty - CED Lead Website Designer, U.S. Geological Survey</b></p>
+        <p><b>Matt Heller - Interactive Map Design and Support, U.S. Fish &amp; Wildlife Service</b></p>
+        <p><b>Sean Finn - CED Design and Outreach, U.S. Fish &amp; Wildlife Service</b></p>
+        <p><b>Tim Kern - IT Support, U.S. Geological Survey</b></p>
+        <p><b>Don Brown - IT Support, U.S. Geological Survey</b></p>
+        <p><b>Jessica Sanow - IT Support, U.S. Geological Survey</b></p>
+        <p><b>David Wild - IT Support, Contractor to the U.S. Geological Survey</b></p>
+    </div>
+
+
+    <div id="viewcqs"><input id='changecqs' type="button" class="aboutbutton" value="+"
+                             onclick="javascript:DisplaySection('cqstool', 'changecqs');"/><b id="viewcqs1">COMMENTS,
+        QUESTIONS, and SUPPORT</b></div>
+    <div id="cqstool" style="display:none;">
+
+        <div id="AC">
+            <p><b><a href="https://docs.google.com/forms/d/1lWLioihCa351ai4DknYphJvp13NhSUGYGeZCLmb6RNI/edit?usp=sharing target=_new">Report an issue</a></b></p>
+        </div>
+
+        <div id="AC">
+            <p><b>For comments and questions related to the website interface, contact: <a
+                    href="mailto:jwelty@usgs.gov">Justin Welty</a>, U.S. Geological Survey</b></p>
+        </div>
+        <br>
+        <div id="AC">
+            <p><b>For comments and questions related to the CED and data collection, contact: <a
+                    href="mailto:lief_wiechman@fws.gov">Lief Wiechman</a>, U.S. Fish &amp; Wildlife Service</b></p>
+        </div>
+        <br>
+        <div id="AC">
+            <p><b>For comments and questions related to the interactive map, contact: <a href="matthew_heller@fws.gov ">Matt
+                Heller</a>, U.S. Fish &amp; Wildlife Service</b></p>
+        </div>
+        <div id="AC">
+            <p><b>For general information please email us at <a href="mailto:fw1sagegrouseced@fws.gov">
+                fw1sagegrouseced@fws.gov</a></b></p>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    function DisplaySection(section, button) {
+
+        var sectiontype = section
+        if (document.getElementById(sectiontype).style.display == "none") {
+            document.getElementById(sectiontype).style.display = "inline-block"
+            document.getElementById(button).value = "-"
+        }
+        else {
+            document.getElementById(sectiontype).style.display = "none"
+            document.getElementById(button).value = "+"
+        }
+
+    }
+</script>
+{% endblock %}

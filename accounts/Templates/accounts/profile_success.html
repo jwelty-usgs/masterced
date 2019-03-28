@@ -1,0 +1,25 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Profile Success{% endblock title %}
+
+
+{% block content %}
+
+	<div id="regis">
+		{% if user.is_authenticated %}
+		    <h3>Your profile has been successfully updated </h3>
+        <a  href="/sgce/accounts/profile/" title="Make changes to your profile, change your approving official, and designate other users who can modify your records" target="_parent">Return to User Profile</a>
+		{% endif %}
+	</div>
+
+
+{% endblock %}

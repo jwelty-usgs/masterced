@@ -1,0 +1,98 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/welcomestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}FAQ{% endblock title %}
+
+{% block content %}
+<div id="faqtop"></div>
+<div id="faq">
+    <div id="tblofcontents">
+        <div id="tblofcontentshead">
+            <p>GREATER SAGE-GROUSE CED FAQ</p>
+        </div>
+        <ul>
+
+            <li>Technical FAQs</li>
+            <li><a href="#hdir" target="_self">How do I register?</a></li>
+            <li><a href="#testdrive" target="_self">Can I test the site without an “Office/Name of Agency or Organization” or "Approving Official"?</a></li>
+            <li><a href="#noappoff" target="_self">What do I do if my “Office/Name of Agency or Organization” or "Approving Official" isn't available?</a></li>
+            <li><a href="#cen" target="_self">Can I change the name of my project or plan?  If so, how? </a></li>
+            <li><a href="#savauto" target="_self">Does my effort save automatically? </a></li>
+            <li><a href="#deleff" target="_self">Can I delete a CED effort? </a></li>
+            <li><a href="#batupl" target="_self">How can I tell if my existing geo-spatial database is a candidate for ‘Batch Upload’?</a></li>
+            <li><a href="#webb" target="_self">What web browsers does the CED support?</a></li>
+                
+        </ul>
+    </div>
+
+    <div id="HELP">
+        
+
+        <h3>TECHNICAL QUESTIONS</h3>
+        <div id="hdir">
+            <br>
+            <h4 class="FAQQuestion" >How do I register?</h4>
+            <p>If another user is logged into the site on the computer you are attempting to register from, log them out.  New users cannot register if another user is logged in on the same computer.  To access the registration page select the 'Register' link below the login information (lower right side of the page) on any publically accessible CED webpage, enter your information, and click ‘Submit.’ You will receive an email within several minutes, containing a link that will allow you to activate your account. Once your account has been activated, login and proceed to enter your profile information.</p>
+            <div id="back2top"><ul><li><a href="#faqtop" target="_self">Back to Top</a></li></ul></div>
+        </div>
+
+        <div id="testdrive">
+            <br>
+            <h4 class="FAQQuestion" >Can I test the site without an “Office/Name of Agency or Organization” or "Approving Official"?</h4>
+            <p>Yes. You can register for a test account by going through the traditional registration process.  When completing your account select the appropriate “Agency/Conservation Partner”. If no offices or approving officials exist the “Office/Name of Agency or Organization” will default to ‘DEMONSTRATION USER ACCESS ONLY’ and the “Approving Official” will default to ‘Lief Wiechman’. If other offices and approving officials are available under your “Agency/Conservation Partner” you can still select the demonstration user and Kathy Hollar from the list of available options.</p>
+            <div id="back2top"><ul><li><a href="#faq" target="_self">Back to Top</a></li></ul></div>
+        </div>
+
+        <div id="noappoff">
+            <br>
+            <h4 class="FAQQuestion" >What do I do if my “Office/Name of Agency or Organization” or "Approving Official" isn't available?</h4>
+            <p>Contact the CED Team via email (<a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a>) to report the issue with a subject heading, “NO OFFICE” or “NO APPROVING OFFICIAL” respectively, and someone from the CED will contact you to discuss options (such as obtaining access as a Demonstration User) or to obtain contact information for the approving official for your office or agency/group.  Once an office or approving official is added, you will be able to complete your registration.  After your approving official has approved you (they will receive an email to do so), you will have access to begin entering projects or plan information into the CED.</p>
+            <div id="back2top"><ul><li><a href="#faqtop" target="_self">Back to Top</a></li></ul></div>
+        </div>
+
+
+        <div id="cen">
+            <br>
+            <h4 class="FAQQuestion" >Can I change the name of my project or plan?  If so, how?</h4>
+            <p>Yes. To change the name of your conservation effort, navigate to Step 2 of the ‘Enter Data’ page. The box at the top that says ‘Effort Name’ may be edited to change the name of your project or plan. Click "SAVE AND EXIT" or "SAVE AND SUBMIT FOR APPROVAL”  to save your changes.</p>
+            <div id="back2top"><ul><li><a href="#faqtop" target="_self">Back to Top</a></li></ul></div>
+        </div>
+
+        <div id="savauto">
+            <br>
+            <h4 class="FAQQuestion" >Does my effort save automatically?</h4>
+            <p>No.  If you exit the CED, you MUST select "SAVE AND EXIT" or "SAVE AND SUBMIT FOR APPROVAL” in order to save your progress. </p>
+            <div id="back2top"><ul><li><a href="#faqtop" target="_self">Back to Top</a></li></ul></div>
+        </div>
+
+        <div id="deleff">
+            <br>
+            <h4 class="FAQQuestion" >Can I delete a CED effort?</h4>
+            <p>Yes.  When entering a project or plan, navigate to the ‘Step 1’. You will see a small check box in the upper right corner that says “Mark This Effort for Deletion”. To delete a project or plan, check this box and then select "SAVE AND EXIT" or "SAVE AND SUBMIT FOR APPROVAL”.  An email will be sent to your approving official requesting this effort be deleted.  This will simply mark the effort for deletion.  It will remain in our system and be subject to FOIA.  However, it will not be visible on any queries, maps, or reports.  If you are an approving official and wish to permanently delete an effort from the CED system select “Approve” with the “Mark This Effort for Deletion” checkbox selected.  This will send an email to the CED administration and we will delete the effort from the CED. As an approving official, if you wish to leave the deleted effort in the CED system select "SAVE AND EXIT" to save the changes without requesting permanent deletion of the effort.</p>
+            <div id="back2top"><ul><li><a href="#faqtop" target="_self">Back to Top</a></li></ul></div>
+        </div>
+
+        <div id="batupl">
+            <br>
+            <h4 class="FAQQuestion" >How can I tell if my existing geo-spatial database is a candidate for ‘Batch Upload’?</h4>
+            <p>The CED has the ability to query from and upload existing datasets in batch format. While more efficient than single record data entry there are still steps that need to be taken.  Contact the CED Team via email (<a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a>) to discuss feasibility and next steps to conduct a batch upload.</p>
+            <div id="back2top"><ul><li><a href="#faqtop" target="_self">Back to Top</a></li></ul></div>
+        </div>
+
+        <div id="webb">
+            <br>
+            <h4 class="FAQQuestion" >What web browsers does the CED support?</h4>
+            <p>The CED 2.0 is currently in testing phase and fully supports the most resent versions of Google Chrome and Mozilla Firefox. Internet Explorer and Apple Safari may work but have not been fully tested.  A warning to Internet Explorer users version 9 and below.  Some severe visiual imparments will occur when using older version of Internet Explorer.  We reccomend updating to the newest version or switching to a different browser such as Chrome.</p>
+            <div id="back2top"><ul><li><a href="#faqtop" target="_self">Back to Top</a></li></ul></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

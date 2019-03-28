@@ -1,0 +1,125 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/welcomestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}DST{% endblock title %}
+
+{% block content %}
+
+
+
+<script type="text/javascript">
+  function DisplaySection(section, button){
+
+    var sectiontype = section
+    if (document.getElementById(sectiontype).style.display == "none"){
+        document.getElementById(sectiontype).style.display = "inline-block"
+        document.getElementById(button).value = "-"
+    }
+    else{
+        document.getElementById(sectiontype).style.display = "none"
+        document.getElementById(button).value = "+"
+    }
+    
+  }
+</script>
+<div id="dstpage">
+    <div id="welcome"><h1>DECISION SUPPORT TOOL and DATA CATALOG LIBRARY</h1></div>
+
+    <div id="upcomeevents"> 
+            
+    		<h4>DEPARTMENT OF INTERIOR DECISION SUPPORT TOOLS</h4>
+
+    		<p>The Department of Interior is currently working on multiple decisions support tools to aid in both land treatment record keeping and decision support regarding future land treatments. Below you can find a short description of each tool. We encourage you to visit all of our sister tools  </p>
+            <p>If you are interested adding your tool to this list <a href="mailto:fw1sagegrouseced@fws.gov?subject=Decision Support Tools">Contact Us</a> and let us know what your tool is all about.
+    		</p>
+
+    </div>
+
+    <div id="dst">
+        <div id="viewced" class="viewdst"> <input id='changeced' type="button" class="aboutbutton" value="+" onclick="javascript:DisplaySection('cedtool', 'changeced');"/><b id="viewced1" class="dstlabel">Conservation Efforts Database</b></div>
+        <div id="cedtool" class="dsttext" style="display:none;">
+
+                <p>
+                The sagebrush ecosystem is the largest ecosystem type in the continental U.S., providing habitat for more than 350 associated fish and wildlife species. In recognition of the need to conserve a healthy sagebrush ecosystem to provide for the long-term conservation of its inhabitants, the US Fish and Wildlife Service (USFWS) and United States Geological Survey (USGS) developed the Conservation Efforts Database version 2.0.0 (CED). The purpose of the CED is to efficiently capture the unprecedented level of conservation plans and actions being implemented throughout the sagebrush ecosystem and designed to capture actions not only for its most famous resident, the greater sage-grouse (Centrocercus urophasianus) but for the other species that rely on sagebrush habitats. Understanding the distribution and type of conservation actions happening across the landscape will allow visualization and quantification of the extent to which threats are being addressed.
+                <br><br>
+                The spatially explicit, web-based CED is capable of (1) allowing multiple-users to enter data from different locations, (2) uploading and storing documents, (3) linking conservation actions to one or more threats (one-to-many relationships), (4) providing summaries of the conservation actions at multiple scales (e.g., management zones, populations, or priority areas for conservation), and (5) accounting for actions at multiple scales from small conservation easements to statewide planning efforts.
+                <br><br>
+                Visit and explore the CED here <a href="https://conservationefforts.org/">https://conservationefforts.org/</a> or contact the CED at <a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov for more information.  The CED is open to the public upon registering for a user account.
+
+                </p>
+
+            <p> You can visit the CED here <a href="https://conservationefforts.org/">https://conservationefforts.org/</a> or contact the CED at <a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a> for more information.
+        </div>
+
+        <div id="viewltdl" class="viewdst"> <input id='changeltdl' type="button" class="aboutbutton" value="+" onclick="javascript:DisplaySection('ltdltool', 'changeltdl');"/><b id="viewltdl1" class="dstlabel">Land Treatment Digital Library</b></div>
+        <div id="ltdltool" class="dsttext" style="display:none;">
+            <p>In 2008, the Land Treatment Digital Library (LTDL) was created by the U.S. Geological Survey (USGS) to catalog information about land treatments on federal lands in the western United States. The flexible framework of the library allows for the storage of a wide variety of data in different formats. The library contains data in text, tabular, spatial, and image formats. Specific examples include project plans and implementation reports, monitoring data, spatial data files from geographic information systems, digitized paper maps, and digital images of land treatments. The LTDL can be used to respond to information requests, conduct analyses and other forms of information syntheses, produce maps, and generate reports for federal managers, scientists, and other authorized users.</p>
+
+            <p>Currently, the data are entered by USGS employees and are accessible through a searchable website. However, an effort is currently underway to allow any user to register and enter treatment data through the web. If you are interested in learning more about remote data entry feel free to contact the LTDL.</p>
+
+            <p> You can visit the LTDL here <a href="https://ltdl.wr.usgs.gov/">https://ltdl.wr.usgs.gov/</a> or contact the LTDL at <a href="mailto:LTDL_Project@usgs.gov">LTDL_Project@usgs.gov</a> for more information.
+        </div>
+
+        <div id="viewltpt" class="viewdst"> <input id='changeltpt' type="button" class="aboutbutton" value="+" onclick="javascript:DisplaySection('ltpttool', 'changeltpt');"/><b id="viewltpt1" class="dstlabel">Land Treatment Planning Tool</b></div>
+        <div id="ltpttool" class="dsttext" style="display:none;">
+            <p>In 2017, the U.S. Geological Survey, along with the Bureau of Land Management, conceived of and created the Land Treatment Planning Tool (hereafter Planning Tool) to assist land managers in planning and designing treatments that are more likely to succeed by providing the land managers with additional information about their planned treatment and planned treatment area. Users (1) upload or digitize their planned treatment area via an interactive web map, (2), calculate spatial characteristics (for example average precipitation and temperature) of their planned treatment site, (3) identify overlapping past treatments and wildfires, (4) use similarity statistics to identify past treatments that have statistically similar climate and topography regimes to learn what has been successful in the past, and (5) create custom reports that can be attached to any plan or other documentation. The goal of the Planning Tool is to allow land managers to make more informed decisions about both their planned treatment and planned treatment site to improve the likelihood of a successful treatment.</p>
+
+            <p> This site is still undergoing Beta testing and is not yet live. For more information please contact the Planning Tool at <a href="mailto:LTDL_Project@usgs.gov">LTDL_Project@usgs.gov</a></p>.
+        </div>
+
+        <div id="viewcnr" class="viewdst"> <input id='changecnr' type="button" class="aboutbutton" value="+" onclick="javascript:DisplaySection('cnrtool', 'changecnr');"/><b id="viewcnr1" class="dstlabel">Conservation and Restoration Tool</b></div>
+        <div id="cnrtool" class="dsttext" style="display:none;">
+            <p>The Science Framework for Conservation and Restoration of the Sagebrush Biome: Linking the Department of the Interior’s Integrated Rangeland Fire Management Strategy to Long-Term Strategic Conservation Actions(C&amp;R Strategy), was recently published (Chambers et al. 2017) and provides a strategic approach that supports management decisions across the sagebrush biome.  U.S. Geological Survey scientists along with Federal and State partners are developing a core set of data, models, and a web-based geospatial tool for the C&amp;R Strategy to support resource planning needs in the sagebrush biome.  Initial efforts are focused on making data and derived products associated with the C&amp;R Strategy available and useable by a wide audience, ranging from managers and decision makers to GIS professionals and resource specialists.  Key functions associated with the web application include: 1) spatial data discovery and exploration; 2) desktop analysis of predefined or user-defined areas of interest; and 3) data summarization and generation of reports.  This work is capitalizing on previous and ongoing research and development projects that are focused on large landscape conservation.  The initial public release of the application is planned for December 2017.</p>
+
+            <p>Citation: Chambers, Jeanne C.; Beck, Jeffrey L.; Campbell, Steve; Carlson, John; Christiansen, Thomas J.; Clause, Karen J.; Crist, Michele R.; Dinkins, Jonathan B.; Doherty, Kevin E.; Espinosa, Shawn; Griffin, Kathleen A.; Hanser, Steven E.; Havlina, Douglas W.; Henke, Kenneth F.; Hennig, Jacob D.; Kurth, Laurie L.; Maestas, Jeremy D.; Manning, Mary; Mayer, Kenneth E.; Mealor, Brian A.; McCarthy, Clinton; Pellant, Mike; Perea, Marco A.; Prentice, Karen L.; Pyke, David A.; Wiechman, Lief A.; Wuenschel, Amarina. 2016. Science Framework for the Conservation and Restoration Strategy of the Department of the Interior, Secretarial Order 3336: Using resilience and resistance concepts to assess threats to sagebrush ecosystems and sage-grouse, prioritize conservation and restoration actions, and inform management strategies. Version I, August 5, 2016. Unnumbered Publication. Fort Collins, CO: U.S. Department of Agriculture, Forest Service, Rocky Mountain Research Station. 202 p.</p>
+
+            <p> This site is still undergoing Beta testing and is not yet live. For more information please contact <a href="mailto:bowenz@usgs.gov">Zack Bowen</a></p>.
+        </div>
+
+        <div id="viewlap" class="viewdst"> <input id='changelap' type="button" class="aboutbutton" value="+" onclick="javascript:DisplaySection('laptool', 'changelap');"/><b id="viewlap1" class="dstlabel">Landscape Approach Portal</b></div>
+        <div id="laptool" class="dsttext" style="display:none;">
+                <p>The BLM's Landscape Approach Data Portal (LADP) is a one-stop source for geospatial data, maps, models and reports produced by BLM's landscape initiatives including the (select initiative to access topic-specific pages):<br><br>
+                &nbsp;&nbsp;·   Assessment, Inventory &amp; Monitoring (AIM) strategy<br>
+                &nbsp;&nbsp;·   BLM National Data<br>
+                &nbsp;&nbsp;·   Fire &amp; Invasives Assessment (FIAT) program<br>
+                &nbsp;&nbsp;·   Greater Sage-Grouse (GRSG) efforts<br>
+                &nbsp;&nbsp;·   Integrated Rangeland Fire Management Strategy (IRFMS)<br>
+                &nbsp;&nbsp;·   Rapid Ecoregional Assessments (REAs)<br><br>
+            The BLM provides public access to their landscape-level and initiative-focused datasets via the LADP. Some of the information that BLM submits into the CED can be found on the LADP along with some of the layers displayed in the CED’s interactive map.  Additionally, you can view some of these spatial layers in the Sagebrush Assessment &amp; Geospatial Evaluation (SAGE) Data Viewer also found via the LADP.</p>
+
+            <p>
+            You can visit the LADP here <a href="https://landscape.blm.gov/">https://landscape.blm.gov/</a> or contact the LADP team directly at <a href="https://landscape.blm.gov/geoportal/catalog/identity/feedback.page">https://landscape.blm.gov/geoportal/catalog/identity/feedback.page</a> for more information.
+            </p>
+
+           
+        </div>
+
+    </div>
+    <div id="upcomeevents"> 
+
+        <h4>*** COMING SOON ***</h4>
+        
+        <h4>PARTNER DECISION SUPPORT TOOLS</h4>
+
+        <p>Many of our Federal, State, and NGO partners have also developed various Decision Support Tools and we provide information and links for a subset of them below.</p>
+
+        <p>If you are interested adding your tool to this list <a href="mailto:fw1sagegrouseced@fws.gov?subject=Decision Support Tools">Contact Us</a> and let us know what your tool is all about.
+        </p>
+
+    </div>
+</div>
+{% endblock %}  
+
+
+
+
+
+ 

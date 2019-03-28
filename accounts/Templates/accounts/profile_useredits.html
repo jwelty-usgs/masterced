@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<h1>Enter/Edit profile for  for {{ user.username }} </h1>
+
+<p>All fields with and * are required! </p>
+
+    <form action="" id="ProfUp" method="post">
+
+        {% csrf_token %}
+        <div id="ferrorsp">
+        {% for field in form %}
+            {% if field.errors %}
+                <p> The following field is required: {{field.label}} </p>
+            {% endif %}
+        {% endfor %}
+        {% for field in subform1 %}
+            {% if field.errors %}
+                <p> The following field is required: {{field.label}}</p>
+                
+            {% endif %}
+        {% endfor %}
+        </div>
+        {% for field in form %}
+            <lab>{{field.label}}</lab>
+            {{field}}
+        <br>
+        <br>
+        {% endfor %}
+        {% for field in subform1 %}
+            {% if field.label == "Accept the terms of the agreement" %}
+                <lab>{{field.label}}</lab>
+                <p> The information, documents, and other materials (collectively, “information”) you submit to this website will become part of the public record and may be publicly disclosed as part of the Service’s administrative record or in response to a request under the Freedom of Information Act (FOIA).  If you submit personal identifying information, such as a home address, phone number, or email address, you may ask us to withhold it from such public disclosure, but we cannot guarantee that we will be able to do so under applicable law.  You may ask us to withhold from public disclosure any personal identifying information you submit by promptly sending a letter that specifically identifies the information you would like us to withhold, as well as where the information is located in your submission, to the following email address:  Kathy_Hollar@fws.gov.  With respect to any information you believe should be protected from disclosure as trade secret or confidential business information under Exemption 4 of FOIA, we will deem your submission of the information as your consent to publicly disclose it.  Accordingly, do not submit any trade secret or confidential business information you wish to protect from public disclosure.</p>
+                {{field}}
+            {% else %}
+                
+                <lab>{{field.label}}</lab>
+                {{field}}
+            {% endif %}
+            <br>
+            <br>
+        {% endfor %}
+        <input id="submit" type="submit" name="emailapp" value="Email Approving Official to enter data"/>
+        <input id="submit" type="submit" name="save" value="Save Profile"/>
+        

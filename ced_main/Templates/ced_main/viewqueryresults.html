@@ -1,0 +1,52 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+
+{% block title %}Query Data{% endblock title %}
+
+{% block content %}
+{% load render_table from django_tables2 %}
+
+<div id="map1">
+    <div id="qreshead">
+        <h3>Query Results</h3>
+        <p> Entry Type Key: 1 = Draft Project, 2 = Awaiting Approval, 3 = Approved <br>
+        <a class="button15" href="javascript:history.back()">Return to the Query</a>
+    </div>
+    <div id="qResults">
+        <h3>Your query returned {{Records}} records based on the following parameters:</h3>
+        <p><b> Agency </b>= {{AgencyVal}}<br>
+        and <b> Office </b>= {{OfficeVal}}<br>
+        and <b> Entry Type </b>= {{EntryVal}}<br>
+        and <b> Implementation Status </b>= {{ImpStatVal}}<br>
+        and <b> Effectiveness Status </b>= {{EffStatVal}}<br>
+        and <b> Start Years </b>= {{startYearVal}}<br>
+        and <b> Finish Years </b>= {{endYearVal}}<br>
+        and <b> Activity Type </b>= {{ActTypeVal}}<br>
+        and <b> Activity </b>= {{ActivityVal}}<br>
+        and <b> SubActivity </b>= {{SubActVal}}<br>
+        and <b> Metric </b>= {{MetricVal}}<br>
+        and <b> Threats </b>= {{ThreatsVal}}<br>
+        and <b> WAFWA Zones </b>= {{WAFWAVal}}<br>
+        and <b> Sage-Grouse Populations </b>= {{SGPopVal}}<br>
+        and <b> States </b>= {{StateVal}}<br>
+        and <b> Counties </b>= {{CountyVal}}<br>
+        and <b> Key Words </b>= {{KeyWordVal}}<br>
+        </p>
+
+    </div>
+    <div id="viewptblqresults">
+       <table>
+           {% render_table viewprojects %}
+       </table>
+    </div>
+</div>
+{% endblock %}

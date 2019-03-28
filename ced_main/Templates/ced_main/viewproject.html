@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+{% block content %}
+
+
+<div id="map">
+    <form id="" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+    <div id="submitquery">
+        <a class="buttonret" onclick="javascript:goback()">Return to the CED Query</a>
+
+        {% if userAgency = 'U.S. Fish and Wildlife Service' %}
+          <a class="buttonret" onclick="javascript:goback()">Return to the FWS Query</a>
+        {% endif %}
+        <h2> <font color="black"> CED Effort Summary Data </h3>
+        <p> <font color="black"> Note: The data presented below are in a read only format.  Any edits to this effort must be made by an authorized user through the <a href='/sgce/sgeditmenu/'>Data Entry Menu</a></font></p>
+    </div>
+    
+
+    <div id="downdoc">  
+      {% if LCJasonDown = 'True' %}
+        <iframe id="downloaddata" width="1" height="1" frameborder="1" scrolling="no" marginheight="0" marginwidth="0" src="{{ LCJason }}" >
+        </iframe>
+      {% endif %}
+    </div>
+
+    <div id="qSummary">
+        <p>
+        <div id='qspsummary'> <input id="aibut" type="button" class="button" value="+" onclick="javascript:DisplaySection('qspsummary1','aibut');"/> <b> Activity Information </b> </div>
+        <div id='qspsummary1' style="display:none;">
+          <div id='qsp'> <b> Project ID: </b>{{prjid}} </div>
+          <div id='qsp'> <b> Project Name: </b>{{prjname}} </div>
+          <div id='qsp'> <b> Entry Status: </b>{{entrystat}} </div>
+          <div id='qsp'> <b> Activity Type: </b>{{typact}} </div>
+          <div id='qsp'> <b> Activity: </b>{{activity}} </div>
+          <div id='qsp'> <b> SubActivity: </b>{{subactivity}} </div>
+          {% if metric != 'None' %}
+            <div id='qsp'> <b> Metric: </b> {{metrictxt}} = {{metric}} </div>
+          {% endif %}
+          <div id='qsp'> <b> Threats: </b>{{threatsf}} </div>
+        </div>
+
+        <div id='qspsummary'> <input id="libut" type="button" class="button" value="+" onclick="javascript:DisplaySection('qspsummary2','libut');"/> <b> Location Information </b> </div>
+        <div id='qspsummary2' style="display:none;">
+
+          <div id='qsp'>
+            <iframe width="640px" height="450px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="/grsgmap/Tindex?CEDID={{prjid}}&AGSID=53d6d123e4b00d9e8ffa6124&AGSID2=54ac060ce4b01a5a27556303"></iframe>
+          </div>
+
+          <div id='qsp'> <b> WAFWA Zones: </b>{{wafwaz}} </div>
+          <div id='qsp'> <b> Sage-Grouse Populations: </b>{{sgpops}} </div>
+          <div id='qsp'> <b> States: </b> {{states1}} </div>
+          <div id='qsp'> <b> Counties: </b>{{counties1}} </div>
+          <div id='qsp'> <b> Ownership: </b>{{ownership1}} </div>
+        </div>
+
+        <div id='qspsummary'> <input id="iibut" type="button" class="button" value="+" onclick="javascript:DisplaySection('qspsummary3','iibut');"/> <b> Implementation Information </b> </div>
+        <div id='qspsummary3' style="display:none;">
+          <div id='qsp'> <b> Effort Status: </b>{{effortstat}} </div>
+          <div id='qsp'> <b> Start Date: </b>{{strtdate}} </div>
+          {% if fnshdate != 'None' %}
+            <div id='qsp'> <b> Finish Date: </b> {{fnshdate}} </div>
+          {% endif %}
+          {% if inperp = 'None' or inperp = 'False' %}
+          {% else %}
+            <div id='qsp'> <b> No Finish Date, In Perpetuity </b></div>
+          {% endif %}
+          <div id='qsp'> <b> Has the activity been deemed effective? </b>{{actdeemeff}} </div>
+          <div id='qsp'> <b> Objectives Description: </b>{{objsexp}} </div>
+          <div id='qsp'> <b> Activity Effectiveness Explained: </b>{{expleff}} </div>
+
+          {% if reascert != 'None' %}
+            <div id='qsp'> <b> For actions not yet implemented, is there a high level of certainty that the activity will be implemented: </b> {{reascert}} </div>
+          {% endif %}
+
+          {% if legauth != 'None' %}
+            <div id='qsp'> <b> For actions not yet implemented, is there a high level of certainty that the implementing party has the legal authority to conduct the activity: </b> {{legauth}} </div>
+          {% endif %}
+
+          {% if staffav != 'None' %}
+            <div id='qsp'> <b> For actions not yet implemented, is there a high level of certainty that financial, staffing, and administrative resources necessary to carry out the conservation effort are available: </b> {{staffav}} </div>
+          {% endif %}
+
+          {% if regmech != 'None' %}
+            <div id='qsp'> <b> For actions not yet implemented, is there a high level of certainty that regulatory and/or procedural mechanisms are in place to carry out the efforts: </b> {{regmech}} </div>
+          {% endif %}
+          
+          {% if comp != 'None' %}
+            <div id='qsp'> <b> For actions not yet implemented, is there a high level of certainty that all Federal/State/Local legal project compliance requirements have been met or are reasonably certain to be met: </b> {{comp}} </div>
+          {% endif %}
+
+          {% if volinc != 'None' %}
+            <div id='qsp'> <b> For actions not yet implemented, is there a high level of certainty that if voluntary participation is needed, are incentives adequate to ensure the level of participation necessary to carry out the conservation effort: </b> {{volinc}} </div>
+          {% endif %}
+
+          {% if redthr != 'None' %}
+            <div id='qsp'> <b> For actions that have not been deemed effective (e.g. programs/actions only recently implemented), does the action describe how the conservation effort reduces the threats: </b> {{redthr}} </div>
+          {% endif %}
+
+          {% if incobj != 'None' %}
+            <div id='qsp'> <b> For actions that have not been deemed effective (e.g. programs/actions only recently implemented), does the action provide incremental objectives and dates for achieving them: </b> {{incobj}} </div>
+          {% endif %}
+
+          {% if quantmea != 'None' %}
+            <div id='qsp'> <b> For actions that have not been deemed effective (e.g. programs/actions only recently implemented), does the action provide quantifiable performance measures to monitor both implementation and effectiveness: </b> {{quantmea}} </div>
+          {% endif %}
+
+          {% if adst != 'None' %}
+            <div id='qsp'> <b> For actions that have not been deemed effective (e.g. programs/actions only recently implemented), does the action incorporate principles of adaptive management (e.g. a corrective management strategy): </b> {{adst}} </div>
+          {% endif %}
+
+
+        </div>
+
+        {% if docus != 'None' %}        
+          <div id='qspsummary'> <input id="dbut" type="button" class="button" value="+" onclick="javascript:DisplaySection('qspsummary4','dbut');"/> <b> Documentation </div>
+          <div id='qspsummary4' style="display:none;">
+            <div id='dqsp'>
+              <table id="list" style="table-layout: fixed;" border="1" cellspacing= "1px" cellpadding="5px" text-align ="left" width="100%">
+                <col style="width:20%">
+                <col style="width:20%">
+                <col style="width:45%">
+                <col style="width:15%">
+
+                <thead>
+                  <tr>
+                      <td style="font-size: 16px;"><b>File Type</b></td>
+                      <td style="font-size: 16px;"><b>Document Description</b></td>
+                      <td style="word-wrap: break-word; font-size: 16px;"><b>File Name</b></td>
+                      <td style="font-size: 16px;"><b>Download</b></td>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        {% endif %}
+
+        <div id='qspsummary'> <input id="cibut" type="button" class="button" value="+" onclick="javascript:DisplaySection('qspsummary5','cibut');"/> <b> Contact Information </b></div>
+        <div id='qspsummary5' style="display:none;">
+          <div id='qsp'> <b> Creating User: </b>{{cuser}} </div>
+          <div id='qsp'> <b> Creating User Email: </b>{{cuseremail}} </div>
+          <div id='qsp'> <b> Updating User: </b> {{upuser}} </div>
+          <div id='qsp'> <b> Updating User Email: </b> {{upuseremail}} </div>
+          <div id='qsp'> <b> Approving Official: </b>{{approvoff}} </div>
+          <div id='qsp'> <b> Approving Official Email: </b>{{approvoffemail}} </div>
+        </div>
+
+        <div id='qspsummary'> <input id="sibut" type="button" class="button" value="+" onclick="javascript:DisplaySection('qspsummary6','sibut');"/> <b> Supplemental Information </b></div>
+        <div id='qspsummary6' style="display:none;">
+          {% if notes2 != 'None' and notes2 != "" %}
+            <div id='qsp'> <b> Notes: </b> {{notes2}} </div>
+          {% endif %}
+          {% if agreelength != 'None' %}
+            <div id='qsp'> <b> Agreement Length: </b> {{agreelength}} </div>
+          {% endif %}
+          {% if earlyterm != 'None' %}
+            <div id='qsp'> <b> Early Termination Penalty: </b> {{earlyterm}} </div>
+          {% endif %}
+          {% if agproval != 'None' %}
+            <div id='qsp'> <b> The Percentage the Agreement Protects Against: </b> {{agproval}} </div>
+          {% endif %}
+        </div>
+
+        {% if userAgency = 'U.S. Fish and Wildlife Service' %}
+          <div id='qspsummary'> <input id="fibut" type="button" class="button" value="+" onclick="javascript:DisplaySection('qspsummary7','fibut');"/> <b> FWS Review </b></div>
+          <div id='qspsummary7' style="display:none;">
+            {% for form in formset %}
+                  {% for field in form %}
+                      {% if field.is_hidden or field.name = 'Project_ID' %}
+                      {% else %}
+                        {% if field.name = 'Threat' %}
+                          <h2><b>Certified for Threat:</b> {{ field.value }}</h2>
+                        {% endif %}
+                        {% if field.name = 'Service_Assessment' %}
+                          <p><b>Service Assessment:</b> {{ field.value }}</p>
+                        {% endif %}
+                        {% if field.name = 'Service_Assessment_Explained' %}
+                          <p><b>Service Assessment Explained:</b> {{ field.value }}</p>
+                        {% endif %}
+
+                        {% if field.name = 'Certifier_Name' %}
+                          <p><b>Certified by:</b> {{ field.value }}
+                        {% endif %}
+                        {% if field.name = 'Date_Certified' %}
+                          <b> On:</b> {{ field.value }}</p>
+                        {% endif %}
+
+                      {% endif %}
+                  {% endfor %}
+              {% endfor %}
+          </div>
+        {% endif %}
+        </p>
+  
+    </div>
+</div> 
+
+<div id="login">
+    <img id="loginsg" src="{% static 'ced_main/images/ced_main/sg6.jpg' %}" alt="SG Image"/></img>
+    <div id="loginbox">
+    {% if user.is_authenticated %}
+      <iframe name='iframelogin' id="iframelogin" src="sgce/usermenu/" frameborder="0"></iframe>
+      
+    {% else %}
+      <iframe name='iframelogin' id="iframelogin" src="/sgce/accounts/login/" frameborder="0"></iframe>
+    {% endif %}
+    </div>
+</div> 
+
+<script type="text/javascript">
+  var opn = {{LCJasonDown}}
+  if (opn == 'True'){
+    DisplaySection('qspsummary4','dbut');
+  }
+</script>
+
+<script type="text/javascript">
+  function goback(){
+
+    window.history.back()
+  }
+
+</script> 
+
+<script type="text/javascript">
+    var doclist = "{{docus}}"
+
+    var docitems = doclist.split(",;,");
+    for (i = 0; i < docitems.length; i++) {
+      var docitem = docitems[i].split(";,;");
+
+      var filet = 'No Data'
+      var filed = 'No Data'
+      var filen = 'No Data'
+      var fileid = 'No Data'
+
+      for (j = 0; j < docitem.length; j++) {
+        
+        if (j == 0){
+          filet = docitem[0];
+        }
+        if (j == 1){
+          filed = docitem[1];
+        }
+
+        if (j == 2){
+          filen = docitem[2];
+        }
+
+        if (j == 3){
+          fileid = docitem[3];
+        }
+        var rows = "";
+
+        var link = '<input type="submit" name="Download_' + fileid + '" value="Download">'
+      }
+      rows += "<tr><td>" + filet + "</td><td>" + filed + "</td><td>" + filen + "</td><td>" + link + "</td></tr>";
+      $(rows).appendTo("#list tbody");
+      
+    }
+
+</script>
+
+<script type="text/javascript">
+  function DisplaySection(section, button){
+
+    var sectiontype = section
+    if (document.getElementById(sectiontype).style.display == "none"){
+        document.getElementById(sectiontype).style.display = "inline-block"
+        document.getElementById(button).value = "-"
+    }
+    else{
+        document.getElementById(sectiontype).style.display = "none"
+        document.getElementById(button).value = "+"
+    }
+    
+  }
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+
+<base target="_parent" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+<title> Deletion Successful </title>
+{% block content %}
+
+	<div id="HE">
+		<h3>Your effort has been marked for deletion </h3>
+    <p>An email has been sent to your approving official to confirm this effort should be deleted. </p>
+    <p>Note: If you are your own approving official, no email will be sent. <br>Approving officials, to permanently delete an effort enter the effort of interest and select “Approve”.  <br>Your request will be emailed to an administrator for consideration.</p>
+	</div>
+
+{% endblock %}

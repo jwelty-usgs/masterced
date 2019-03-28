@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+<base target="_parent" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+
+{% block content %}
+<title>CED is down</title>
+
+
+<div id="map">
+	<div id="MU">
+		<h3> CED is having issues </h3>
+        <h4>
+        Your current project has been saved. Once the the problems are corrected you can access this project using the user menu on the left side and continue entering the project.
+        <br>
+        We apologize for any inconvenience this may cause.
+        </h4>
+	</div>
+</div>
+
+<div id="login">
+  <div>
+    <img id="loginsg" src="{% static 'ced_main/images/ced_main/sg6.jpg' %}" alt="SG Image"/></img>
+      <div id="loginbox">
+        {% if user.is_authenticated %}
+          <iframe name='iframelogin' id="iframelogin" src="sgce/usermenu/" frameborder="0"></iframe>
+        {% else %}
+          <iframe name='iframelogin' id="iframelogin" src="/sgce/accounts/login/" frameborder="0"></iframe>
+        {% endif %}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

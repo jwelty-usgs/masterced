@@ -1,0 +1,204 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+  var ua = window.navigator.userAgent;
+  var msie = ua.indexOf("MSIE ");
+
+  if (msie > 0){      // If Internet Explorer, return version number
+      document.getElementById('map').style.width='610px';
+  }
+</script>
+
+<script type="text/javascript">
+    fullfldlist = []
+    fullappofflist = []
+
+  $('#id_Agency option[value=10]').remove();
+</script>
+
+<script type="text/javascript" src="{% static 'ced_main/javascript/accounts/profileSelection.js' %}"></script>
+
+<body onload=" javascript:LoadOffices(); javascript:LoadAppOffs(); ">
+<div id="welcome"><h1>CED User Profile</h1>
+<div id="profilebody">
+	<form action="" id="ProfUp_Main" method="post">{% csrf_token %}
+
+	<div id="PR">
+
+		<div id="req">
+        	<p>***ALL NEW AND RETURNING USERS MUST SIGN THE CED VERSION 2.0 TERMS OF THE AGREEMENT BELOW BEFORE ENTERING DATA***<br><br>1) All fields with an * are required! <br>2) Users must complete the profile, click 'EMAIL APPROVING OFFICIAL', and be approved before data entry can begin. <br>3) Hover over field labels to display tool tips when available (Approving Official and Date Approved currently). <br>4) NOTE:  Individuals working for agencies or organizations that have not yet provided their list of approving officials will be allowed demonstration access only. Please select your agency to determine if your agency has supplied offices and approving officials for our records. <br>5) If agency offices exist within the CED but no approving officials exist users will automatically default to Lief Wiechman as their approving official.<br>6) Select DEMONSTRATION USER ACCESS ONLY for an office if your field office does not exist for a test account.</p>
+        </div>
+	</div>
+
+	<div id="emailprof">
+      <input class="profilebutton" id="submit" type="submit" name="emailapp" value="EMAIL APPROVING OFFICIAL"/>
+      <input class="profilebutton" id="submit" type="submit" name="save" value="SAVE PROFILE"/>
+      <div id="emailprof1"><a href="/sgce/accounts/password_change/" title="Change your CED login password" target="_parent">CHANGE PASSWORD</a></div>
+
+  </div>
+
+    <div id="profall">
+        <div id="ferrorsp">
+	        {% for field in form %}
+	            {% if field.errors %}
+	                <p> The following field is required: {{field.label}} </p>
+	            {% endif %}
+	        {% endfor %}
+	        {% for field in subform1 %}
+	            {% if field.errors %}
+	                <p> The following field is required: {{field.label}}</p>
+
+	            {% endif %}
+	        {% endfor %}
+
+	        {% for field in subform2 %}
+	            {% if field.errors %}
+	                <p> The following field is required: {{field.label}}</p>
+
+	            {% endif %}
+	        {% endfor %}
+        </div>
+
+        <div id="useri">
+        	<div id="CI"><h3> CONTACT INFORMATION </h3></div>
+	        <div id="userinfo">
+		        {% for field in form %}
+		            {% if field.is_hidden %}
+		                {{ field }}
+		            {% endif %}
+		        {% endfor %}
+			        {% for field in form %}
+
+		                {% if field.label == "First Name*" or field.label == "Last Name*" or field.label == "Email Address*" %}
+		                	<fld>
+		                    <lab style="color: #7f7962; font-weight: bold; font-size: 14px;">{{field.label}}</lab>
+		                    <fld1>
+		                    {{field}}
+		                    </fld1>
+		                    </fld>
+		                {% endif %}
+
+			        {% endfor %}
+
+			        {% for field in subform1 %}
+			            {% if field.is_hidden %}
+			                {{ field }}
+			            {% else %}
+
+				                {% if field.name == "User_Phone_Number" or field.label == "Agency/Conservation Partner*" or field.label == "Office/Name of Agency or Organization*" or field.label == "Approving Official*" or field.label == "Date User Approved" %}
+
+				                    {% if field.label == "Approving Official*" %}
+										<fld>
+				                        <lab style="color: #7f7962; font-weight: bold; font-size: 14px;" title="Your approving official is an individual within your agency responsible for verifying each user.  Please select your approving official and email them using the Email Approving Official to Enter Data' button below">{{field.label}}</lab><br>
+                                            {{field}}
+										</fld>
+				                    {% elif field.label == "Date User Approved"%}
+				                    	<fld>
+				                        <lab style="color: #7f7962; font-weight: bold; font-size: 14px;" title="This field is not editable by the user. You cannot enter data until an approving official has approved your data entry status.  When you are approved this field will be stamped with the date.">{{field.label}}</lab>
+				                        {{field}}
+				                        </fld>
+				                    {% elif field.label == "Agency/Conservation Partner*"%}
+                              			<br>
+				                    	<fld>
+				                        <lab style="color: #7f7962; font-weight: bold; font-size: 14px;">{{field.label}}</lab><br>
+				                        <select id="AgencyID" name='Agency' onchange='javascript:UpdateOffices();'{{field}}</></select>
+				                        </fld>
+                            		{% elif field.label == "Office/Name of Agency or Organization*"%}
+                              			<fld>
+                                		<lab style="color: #7f7962; font-weight: bold; font-size: 14px;">{{field.label}}</lab><br>
+                                		<select id="Field_OfficeID" name='Field_Office' onchange='javascript:UpdateAppOff();'{{field}}</></select>
+										</fld>
+				                    {% else %}
+				                    	<fld>
+				                        <div><lab style="color: #7f7962; font-weight: bold; font-size: 14px;">{{field.label}}</lab>
+				                        {{field}}</div>
+				                        </fld>
+				                    {% endif %}
+				                {% endif %}
+			            {% endif %}
+			        {% endfor %}
+        	</div>
+        </div>
+
+        <div id="disset">
+	        {% for field in subform1 %}
+	            {% if field.is_hidden %}
+	                {{ field }}
+	            {% else %}
+	                {% if field.label == "Terms of the CED V2.1 Agreement*" or field.label == "Date CED Version 2.1 Waiver Accepted" or field.label == "CED Version 1 Waiver Approved" or field.label == "Date CED Version 1 Waiver Accepted" %}
+
+	                    {% if field.label == "Terms of the CED V2.1 Agreement*" %}
+	                    <div id="disset1">
+	                        <div id="TA"><h3>CED VERSION 2.1 TERMS OF THE AGREEMENT* </h3>
+	                        </div>
+                            <b>***New and returning CED users all must accept our new waiver agreement in order to enter data. All CED Version 1 users, your original acception of the CED Terms of the Agreement has been archived and will not be erased. If you have any questions please contact the CED team. </b><br><br>
+	                        <p> The information, documents, and other materials (collectively, “information”) you submit to this website will become part of the public record and may be publicly disclosed as part of the U.S. Fish and Wildlife Service’s administrative record or in response to a request under the Freedom of Information Act (FOIA). To extent possible, we ask that you do not include personal identifying information (PII; such as a home address, home/personal phone number, or home/personal email address), however, if you submit PII, you may ask us to withhold it from such public disclosure, however we cannot guarantee that we will be able to do so under applicable law. You may ask us to withhold from public disclosure any personal identifying information you submit by promptly sending a letter that specifically identifies the information you would like us to withhold, as well as where the information is specifically located in your submission, to the following email address: fw1sagegrouseced@fws.gov. With respect to any information you believe should be protected from disclosure as trade secret or confidential business information under Exemption 4 of FOIA, we will deem your submission of the information as your consent to publicly disclose it. Accordingly, do not submit any trade secret or confidential business information you wish to protect from public disclosure. To increase and facilitate data sharing, the CED may create web service features that allows partner agencies to use the data in their decision support tools to display or illustrate spatial and other high-level information (such as implementing agency and subactivity type) for use in project planning. <br><br>
+                            You will not be approved to enter data until you accept the terms of the agreement.
+
+                            </p>
+	                        <lab>{{field}}</lab>
+	                    </div>
+	                    {% elif field.label == "Date CED Version 2.1 Waiver Accepted" %}
+	                        <div id="appdate">
+		                        {{field.label}}
+		                        <lab>{{field}}
+
+	                        </div>
+
+	                    {% endif %}
+
+	                {% endif %}
+	            {% endif %}
+
+	        {% endfor %}
+            <p id="datedis">*Date will automatically populate once you save and update your user profile.</p>
+        </div>
+
+        <div id="othereditors">
+            <div id="TA"><h3>Alternate User Access</h3>
+            </div>
+            <b id="otheruse"> Indicate which users within your Agency or Conservation Partner group may edit your projects:</b><br><br>
+
+            <div id="field-checksua">
+
+                  <ul>
+                  {% for field in subform2.editinguser %}
+                    {% if field.is_hidden %}
+                      {{ field }}
+                    {% else %}
+                      <li>
+                        {{ field.errors }}
+
+                        {{ field.label_tag }}
+                        <lab1>
+                        {{ field }}
+                        </lab1>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+             </div>
+
+        </div>
+
+</div>
+
+
+
+
+{% endblock %}

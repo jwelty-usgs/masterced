@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+
+<html>
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}"/>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Language" content="en-us"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+
+
+    <script>
+        function myFunction() {
+            var w = window.outerWidth;
+            var h = window.outerHeight;
+            var txt = "Window size: width=" + w + ", height=" + h;
+            window.alert("txt");
+        }
+    </script>
+
+
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <script>
+
+        $(function () {
+            $(document).tooltip();
+        });
+    </script>
+    <style>
+        label {
+            display: inline-block;
+            width: 5em;
+        }
+
+        div.container {
+            min-width: 1000px;
+            max-width: 1000px;
+            height: 93vh;
+            margin-top: 80px;
+            margin-bottom: -60px;
+            box-shadow: 5px 0 15px 0px rgba(0, 0, 0, 0.5), -5px 0 15px 0px rgba(0, 0, 0, 0.5);
+            overflow-x: hidden;
+            overflow-y: hidden;
+            font-family: Arial;
+        }
+
+        header {
+            background-color: #7f697f;
+            max-width: 1000px;
+            min-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            position: fixed;
+            top: 0px;
+            z-index: 10;
+            font-family: Arial;
+            max-height: 80px;
+            min-height: 80px;
+            box-shadow: 5px 0 15px 0px rgba(0, 0, 0, 0.5), -5px 0 15px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            overflow-x: hidden;
+            overflow-y: hidden;
+
+        }
+
+        #section {
+            max-width: 990px;
+            min-width: 990px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow-x: hidden;
+            position: absolute;
+            overflow-y: auto;
+            margin-left: 10px;
+            font-family: Arial;
+        }
+
+        footer {
+            max-width: 1000px;
+            min-width: 1000px;
+            min-height: 30px;
+            max-height: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            position: fixed;
+            bottom: 20px;
+            z-index: 10;
+            font-family: Arial;
+            background-color: white;
+            bottom: 0px;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
+
+        #regtext p {
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            color: #7f7962;
+        }
+
+        #reg {
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        #reg {
+            color: #7f7962;
+            text-decoration: none;
+            font-family: Arial;
+        }
+
+        #reg a {
+            color: #0000ff;
+            text-decoration: none;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #reg a:hover {
+            color: #97767b;
+            text-decoration: none;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        #weluser p {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #forpass {
+            position: absolute;
+            color: black;
+            top: 10px;
+            left: 195px;
+        }
+
+        #forpass1 {
+            position: absolute;
+            color: black;
+            top: 20px;
+            left: 10px;
+        }
+
+        #topmenu {
+            background-color: #7f697f;
+            max-height: 32px;
+            min-height: 32px;
+            position: fixed;
+            z-index: 5;
+            margin-top: 0.5em;
+            display: inline-block;
+            font-family: Arial;
+        }
+
+        #topmenu ul {
+            float: left;
+            left: -20px;
+
+        }
+
+        #topmenu ul li {
+            left: -40px;
+            z-index: 10;
+            float: left;
+            top: -12px;
+            border-left: 1px solid #7f697f;
+            padding-right: 10px;
+            padding-left: 10px;
+            text-align: center;
+            font-size: 22px;
+            list-style: none;
+            position: relative;
+            display: inline-table;
+            max-width: 290px;
+            text-align: left;
+            font-family: Arial;
+        }
+
+        #topmenu ul li a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-family: Arial;
+        }
+
+        #topmenu ul li a:hover {
+            color: #a4d4cb;
+            text-decoration: none;
+            font-family: Arial;
+        }
+
+        /* Dropdown Button */
+        .dropbtn {
+
+            border: none;
+            cursor: pointer;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            z-index: 20;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: relative;
+            background-color: #7f697f;
+            font-size: 16px;
+            padding-left: 10px;
+            z-index: 20;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #f1f1f1
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {
+            background-color: #7f697f;
+        }
+
+        #loginissues {
+            position: absolute;
+            white-space: normal;
+            font-weight: bold;
+            color: red;
+            max-width: 400px;
+            min-width: 400px;
+            font-size: 12px;
+            top: 40px;
+            left: 10px;
+        }
+
+        #loginall {
+            position: absolute;
+            float: right;
+            right: 0px;
+            max-width: 400px;
+            min-width: 400px;
+            top: 2px;
+            z-index: 10;
+
+        }
+
+        #loginbody {
+            background-color: #a4d4cb;
+            font-family: Arial;
+            max-width: 400px;
+            min-width: 400px;
+            font-weight: bold;
+            height: 70px;
+            right: 0px;
+            font-size: 12px;
+            position: relative;
+            top: 0px;
+        }
+
+        #loginboxuser {
+            position: absolute;
+            color: black;
+            float: left;
+            top: 0px;
+            left: 5px;
+
+        }
+
+        #loginboxpass {
+            position: absolute;
+            left: 205px;
+            top: 0px;
+            max-width: 175px;
+            min-width: 175px;
+        }
+
+        #srow {
+            top: 35px;
+            position: absolute;
+            left: 325px;;
+        }
+
+        #submitlog {
+            background: #97767b;
+            color: white;
+            position: relative;
+            float: left;
+            top: -5px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+    </style>
+
+
+</head>
+
+<div class="clear"></div>
+<title>CED</title>
+
+<body>
+<div class="container">
+    {% if user.is_authenticated %}
+    <div id="" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+        {% else %}
+        <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+            {% endif %}
+            <header>
+                <div id="topbanner">
+                    <div id="cedlogo">
+                        <a href="/welcome/" title="CED">
+                            <img id="cedlogo2" src="{% static 'ced_main/images/ced_main/CEDlogo_white_180x31.png' %}"
+                                 alt="CED Home"
+                                 title="CED Home"/></img></a>
+                    </div>
+
+                    <div id="lcc">
+                        <a href="https://lccnetwork.org/" target="_blank" title="LCC">
+                            <img id="usgs" height="40" width="120"
+                                 src="{% static 'ced_main/images/ced_main/lcc_logo_centered_white_small.png' %}"
+                                 alt="LCC"
+                                 title="US Geological Survey"/></img></a>
+                    </div>
+
+                    <div id="usgs">
+                        <a href="https://www.usgs.gov/" target="_blank" title="CED">
+                            <img id="usgs" src="{% static 'ced_main/images/ced_main/USGS_117x31.png' %}" alt="USGS"
+                                 title="US Geological Survey"/></img></a>
+                    </div>
+
+                    <div id="usfws">
+                        <a href="https://www.fws.gov/" target="_blank" title="CED">
+                            <img id="usfws" src="{% static 'ced_main/images/ced_main/USFWS_150x31.png' %}" alt="USFWS"
+                                 title="US Fish and Wildlife Service"/></img></a>
+                    </div>
+
+                </div>
+
+                <div id="topmenu">
+                    <ul>
+                        {% if user.is_authenticated %}
+                        <li class="dropdown"><a class="dropbtn" href="/sgce/">{{ user.first_name }}'s CED HOME</a>
+
+                            <!-- Drop Down Menu -->
+                            <a class="dropdown-content" href="/sgce/" title="Go to your personal home page"
+                               target="_parent">USER HOME PAGE</a>
+
+                            <a class="dropdown-content" href="/sgce/sgeditmenu/"
+                               title="Users can enter new projects or edit existing ones within the CED"
+                               target="_parent">ENTER DATA</a>
+
+                            <a class="dropdown-content" href="/sgce/viewprojects/"
+                               title="Users can enter new projects or edit existing ones within the CED"
+                               target="_parent">VIEW/EDIT MY RECORDS</a>
+
+                            <a class="dropdown-content" href="/sgce/batch_upload/"
+                               title="Explore the possabilities of uploading data currently housed within a database"
+                               target="_parent">UPLOAD BATCH DATA</a>
+
+                            <a class="dropdown-content" href="/sgce/batch_upload_available/"
+                               title="See what batch upload data is available for you to edit" target="_parent">VIEW/EDIT
+                                BATCH UPLOADED DATA</a>
+
+                            <a class="dropdown-content" href="/sgce/sgcedquery/" title="CED Query Data"
+                               target="_parent">QUERY DATA</a>
+
+                            {% if authen == 'authenadmin' or userAgency == 'U.S. Fish and Wildlife Service' %}
+                            <a class="dropdown-content" href="/sgce/fwsquery/" title="FWS Queries" target="_parent">FWS
+                                QUERIES</a>
+                            {% endif %}
+
+                            <a class="dropdown-content" href="/sgce/grsgmap/" title="Interactive Map" target="_parent">INTERACTIVE
+                                MAP</a>
+
+
+                            <a class="dropdown-content" href="/sgce/accounts/profile/"
+                               title="Make changes to your profile, change your approving official, and designate other users who can modify your records"
+                               target="_parent">USER PROFILE</a>
+
+
+                            {% if authen == 'authenapp' or authen == 'authenadmin' %}
+                            <a class="dropdown-content" href="/sgce/sgappmenu/"
+                               title="Access restricted data available only to approving officials including the ability to approve users and projects who designate you as their approving official"
+                               target="_parent">APPROVING OFFICIALS</a>
+                            {% endif %}
+
+                            {% if authen == 'authenadmin' %}
+                            <a class="dropdown-content" href="/sgce/sgadminmenu/"
+                               title="Access highly restricted data available only to administrators including the ability to approve all users and projects"
+                               target="_parent">ADMINISTRATORS</a>
+                            {% endif %}
+
+                            <a class="dropdown-content" href="/sgce/accounts/logout/"
+                               title="Log out of your account within the CED" target="_self">LOGOUT</a>
+                            <!-- End Drop Down Menu -->
+                        </li>
+                        {% else %}
+                        <li><a href="/sgce/">ENTER CED DATA</a></li>
+                        {% endif %}
+                        <li><a href="/sgce/grsgmap/">INTERACTIVE MAP</a></li>
+                        <li><a href="/sgce/about/">ABOUT CED</a></li>
+                        <li><a href="/sgce/faq/">FAQ</a></li>
+                        <li><a href="/sgce/help/">HELP</a></li>
+                        <li><a href="/welcome/">HOME</a></li>
+
+                    </ul>
+
+                </div>
+            </header>
+            <div id="section">
+                {% if user.is_authenticated %}{% else %}
+                <div id="loginall">
+
+                    <div id="loginbody">
+                        <div id="loginbox">
+                            <div id="loginboxuser">
+                                <label for="id_username">{% trans 'User or Email:' %}</label>
+                                <input type="text" style="width:100px;" name="username" id="id_username"/>
+                            </div>
+                            <div id="loginboxpass">
+                                <label for="id_password">{% trans 'Password:' %}</label>
+                                <input type="password" style="width:100px;" name="password" id="id_password"/>
+                                <input type="hidden" name="this_is_the_login_form" value="1"/>
+                            </div>
+                        </div>
+                        <div id="forpass">
+                            <p> Forgot <a href="/sgce/accounts/password_reset" target="_parent">Password</a></p>
+                        </div>
+                        <div id="forpass1">
+                            <p><a href="/sgce/accounts/register">Register</a> for a new account</p>
+                        </div>
+                        <div id="srow" class="submit-row">
+                            <input type="submit" name="submit" value="Submit" id="submitlog"/>
+                        </div>
+                    </div>
+                    <div id="loginissues">
+                        {% if loginfailed == 'userpass' %}
+                        <p> Incorrect password, {{ remaining }} attempts remaining.</p>
+                        {% elif loginfailed == 'userincor' %}
+                        <p> Your username was incorrect</p>
+                        {% elif loginfailed == 'activate' %}
+                        <p> Please check your email and activate your account. </p>
+                        {% elif loginfailed == 'userlock' %}
+                        <p> Account locked, contact the <a
+                                href="mailto:fw1sagegrouseced@fws.gov?subject=Locked Account">CED team</a> to unlock it.
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% block content %}
+
+                {% endblock %}
+            </div>
+
+
+            <footer>
+                <div id="footline">
+                </div>
+                <div id="footlinks">
+                    <ul>
+                        <li><a href="https://www.fws.gov/" target="_blank">U.S. Fish &#38; Wildlife Service</a></li>
+                        <li><a href="https://www.usgs.gov/" target="_blank">U.S. Geological Survey</a></li>
+                        <li><a href="https://lccnetwork.org/" target="_blank">Landscape Conservation Cooperatives</a>
+                        </li>
+                        <li><a href="mailto:fw1sagegrouseced@fws.gov?subject=Question for the CED team">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
+
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>
+
+<script>
+    function winResize(e) {
+        var h = window.outerHeight;
+        var hei = 0.0267 * h + 59
+        var height = hei + "vh"
+        document.getElementById('section').style.height = height;
+        document.getElementById('aside').style.height = height;
+    }
+
+    window.addEventListener("resize", winResize);
+
+    var w = window.outerWidth;
+    var h = window.outerHeight;
+    var hei = 0.0267 * h + 59.5
+    var height = hei + "vh"
+    document.getElementById('section').style.height = height;
+    document.getElementById('aside').style.height = height;
+
+</script>
+
+<!--script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-53701063-1', 'auto');
+    ga('send', 'pageview');
+
+</script-->
+
+<script>
+    var url = window.location.href;
+    var urlspl = url.split("/");
+    for (var i = 0; i < urlspl.length; i++) {
+        if (urlspl[i] > "") {
+            if (urlspl[i] == "register" | urlspl[i] == "complete" | urlspl[i] == "done") {
+                document.getElementById('loginall').style.display = "none";
+            } else {
+                document.getElementById('loginall').style.display = "block";
+            }
+        }
+    }
+
+</script>
+

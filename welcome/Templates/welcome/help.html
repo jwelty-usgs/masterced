@@ -1,0 +1,110 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/welcomestyle.css' %}" rel="stylesheet" type="text/css" media="screen"/>
+
+{% endblock head_css_page %}
+
+{% block title %}Help{% endblock title %}
+
+{% block content %}
+
+
+<div id="welcome">
+    <h1>GREATER SAGE-GROUSE CED HELP</h1>
+    <div id="HELPMess">
+        <p>We are still working on updating all of the help documents, videos, and the FAQ page. Thanks for your
+            patience.</p>
+    </div>
+</div>
+<div id='help'>
+    <div id="entrymenu">
+        <div id="loginbody3">
+
+            <h2> Products </h2>
+            <ul>
+                <li><a href="{% static 'ced_main/images/ced_main/CED Fact Sheet (2017.06.14).pdf' %}" target="_blank">CED
+                    Published Fact Sheet (PDF Document)</a></li>
+            </ul>
+
+            <h2> Help Documentation </h2>
+            <ul>
+                <li><a href="{% static 'ced_main/images/ced_main/CED User Manual v2.0.0 (2017.10.24).pdf' %}"
+                       target="_blank">CED v2.0 User Manual (October 2017)</a></li>
+                <li>CED v2.1 User Manual -- Coming Soon!</li>
+                <li><a href="{% static 'ced_main/images/ced_main/CED v2.1 Quick Start Guide (November 2018).pdf' %}"
+                       target="_blank">CED v2.1 Quick Start Guide (November 2018)</a></li>
+            </ul>
+
+            <h2>Instructional Videos</h2>
+            <ul>
+                <li><a href="https://youtu.be/OIAk81n3TWc" target="_blank">Registration and CED 101</a> --
+                    In this video, the CED Team guides you through the steps required to register for a user profile
+                    and provides an overview of the Conservation Efforts Database's features and supporting
+                    materials. Only by registering for a user profile, can you access all of the features of the
+                    CED. This video shows users where to access help documentation and how to contact the CED Team
+                    for additional support.<br>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/OIAk81n3TWc" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </li>
+
+                <li><a href="https://youtu.be/Cu5OoQxTZWI" target="_blank">Single-Record Data Entry</a> --
+                    In this video, the CED Team guides users through the process to provide data into the
+                    Conservation Efforts Database. This video can help answer questions a user may have as they
+                    upload data into the CED through the single-record entry process. The CED Team takes you through
+                    a demonstration, and highlights differences a user may encounter based on the different
+                    activities and types of data collected by the CED. The CED offers an alternative collection
+                    method known as Batch Upload for those users with existing databases, but that process is
+                    covered in a separate video.<br>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Cu5OoQxTZWI" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+
+                </li>
+
+                <li><a href="">Batch Upload Data Entry</a> --
+                    In this video, the CED Team guides users through the process to populate the Batch Upload
+                    Template with information from existing databases/datasets.
+                    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/rtZnIM9LtMk" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </li>
+
+                <li><a href="https://youtu.be/88mU8ZgZWm8" target="_blank">Interactive Map and Reporting</a> --
+                    In this video, the CED Team guides you through the features and functions of the Conservation
+                    Efforts Database's Interactive Map as well as options for generating reports. The Interactive
+                    Map allows registered users to query and filter the data entered in the CED. In addition to
+                    user-defined queries, registered users can select various spatial layers to provide additional
+                    context to the map and area of interest. Lastly, based on the filters and resource layers
+                    selected, the CED Team guides users through the steps to generate reports available for
+                    download.<br>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/88mU8ZgZWm8" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </li>
+            </ul>
+
+            <h2>Tools for the User</h2>
+            <ul>
+                <li><a href="{% static 'ced_main/images/ced_main/CED Add Field Offices Template 8-8-2014.xlsx' %}"
+                       download>Add Field Offices to CED (Excel Template)</a></li>
+                <li><a href="{% static 'ced_main/images/ced_main/CED Add Approving Officials Template 8-8-2014.xlsx' %}"
+                       download>Request CED Approving Official Status (Excel Template)</a></li>
+            </ul>
+
+            <h2> Data Structure and Table Information</h2>
+            <ul>
+                <li><a href="{% static 'ced_main/images/ced_main/CED_v2.1_Lookup_Tables_Nov_2018.xlsx' %}"
+                       download>Pick lists and look-up tables used by CED</a></li>
+                <li>Version 2.1 Data Structure and Entity-Relationship Diagram Coming Soon</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

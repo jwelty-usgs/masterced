@@ -1,0 +1,74 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/welcomestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Home{% endblock title %}
+
+
+
+{% block content %}
+
+
+
+
+<!-- <div id="sbdown1" style="display:none;">
+    <h3>Attention CED Users: Science Base/LC Map, the CED's spatial and document storage portal is currently undergoing maintence.  Therefore, data entry into the CED is unavailable at this time.  Please check the site again later to determine if Science Base/LC Map functionality has been restored.  We apologize for any inconvience.</h3>
+</div> -->
+<!--div id="sbdown1">
+    <h3>Attention CED Users: Amazon Cloud Services are currently down for many sites across the country. CED email capability runs through these services and is currently not functioning. All registration, email, and password related activities will be down until Amazon restores service.  You can still log into the site with a currently functioning password. We apologize for any inconvience.</h3>
+</div-->
+
+
+<div id="welcome"><h1>WELCOME TO THE CONSERVATION EFFORTS DATABASE</h1>
+<!-- <h2> Draft / Under Construction</h2></div> -->
+<!-- <div id="main">
+    <div id="pietitle" style="z-index: 1;"><h3 id="piecounttitle">CED Activity Counts</h3> <h3 id="pieacrestitle">CED Activity Acres</h3></div>
+    <div class="piecharts"><div id="piechartcount" style="width: 485px; height: 500px; z-index: 0;"></div></div>
+    <div class="piecharts"><div id="piechartacres" style="width: 485px; height: 500px; z-index: 0;"></div></div>
+    <div id="piechartlegend"><img id="pielegend" src="{% static 'ced_main/images/ced_main/PieChartLegend.png' %}" alt="CED Pie Chart Legend"</div>
+    
+</div> -->
+<div id="whattodo"><h4>WHAT WOULD YOU LIKE TO DO?</h4></div>
+<div id="Highlights"><p><b>*** CED HIGHLIGHTS: CED Information Webinars have been set, visit our <a href='/welcome/news/'">News and Upcoming Events</a> page for more information ***</b></p></div>
+<div id="Highlights"><p><b>The CED will be going through some maintenance and updates from Friday, March 8 through March 11th - which may cause delays in single-record entry through Monday, March 11. We apologize for any inconveniences this may cause.</b></p></div>
+<div id="bttn">
+    
+    {% if user.is_authenticated %}
+        <div class="alignbox"><button type="button" class="button" id="bttnmid1a" onclick="window.location.href='/sgce/accounts/logout/'">LOGOUT</button></div>
+    {% else %}
+        <div class="alignbox"><button type="button" class="button" id="bttnmid1a" onclick="window.location.href='/sgce/accounts/loginpage/'">LOGIN</button>
+    {% endif %}
+    <div class="alignbox"><button type="button" class="button" id="bttnmid1" onclick="window.location.href='/sgce/accounts/register/'">REGISTER for the CED</button></div>
+    <div class="alignbox"><button type="button" class="button" id="bttnmid1b" onclick="window.location.href='/welcome/news/'">NEWS and<br>UPCOMING EVENTS</button></div>
+
+    {% if user.is_authenticated %}
+        <div class="alignbox1"><button type="button" class="button" id="bttnmid2" onclick="window.location.href='/sgce/sgeditmenu/'">PROVIDE DATA<br>(Single Record Entry)</button></div>
+        <div class="alignbox1"><button type="button" class="button" id="bttnmid2a" onclick="window.location.href='/sgce/batch_upload/'">PROVIDE DATA<br>(Batch Upload)</button></div>
+        <!-- <div class="alignbox1"><button type="button" class="button" id="bttnmid2b" onclick="window.location.href='/sgce/sgcedquery/'">RUN QUERIES and<br>GENERATE REPORTS</button></div> -->
+        <div class="alignbox1"><button type="button" class="button" id="bttnmid2b" onclick="window.location.href='/'">COMING SOON: <br>RUN QUERIES AND REPORTS</button></div>
+    
+        <div class="alignbox1"><button type="button" class="button" id="bttnmid3" onclick="window.location.href='/sgce/grsgmap/'">VIEW<br>INTERACTIVE MAP</button></div>
+        <div class="alignbox1"><button type="button" class="button" id="bttnmid3a" onclick="window.location.href='/welcome/statemods/'">ACCESS STATE<br>SPECIFIC MODULES</button></div>
+        <div class="alignbox1"><button type="button" class="button" id="bttnmid3b" onclick="window.location.href='/welcome/dst/'">DECISION SUPPORT TOOL<br>and DATA CATALOG LIBRARY</button></div>
+        {% else %}
+        <div class="alignbox2"><button type="button" class="button" id="bttnmid3" onclick="window.location.href='/sgce/grsgmap/'">VIEW<br>INTERACTIVE MAP</button></div>
+        <div class="alignbox1"><button type="button" class="button" id="bttnmid3a" onclick="window.location.href='/welcome/statemods/'">ACCESS STATE<br>SPECIFIC MODULES</button></div>
+        <div class="alignbox1"><button type="button" class="button" id="bttnmid3b" onclick="window.location.href='/welcome/dst/'">DECISION SUPPORT TOOL<br>and DATA CATALOG LIBRARY</button></div>
+    {% endif %}
+    
+</div>
+
+{% endblock %}  
+
+
+
+
+
+ 

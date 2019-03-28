@@ -1,0 +1,48 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Edit Menu{% endblock title %}
+
+
+{% block content %}
+    
+  
+<div id="Sgeditmenu">
+    <div id="regis">
+        <h3>ENTER AND EDIT DATA IN THE CED</h3>
+
+    </div>
+    <div id="entrymenu">
+        {% if sbdown1 == 'True' %}
+            <div id="sbdown">
+                <h3 style="display:none;">Attention CED Users: Science Base/LC Map, the CED's spatial and document storage portal is currently undergoing maintence.  Therefore, data entry into the CED is unavailable at this time.  Please check the site again later by refreshing this page to determine if Science Base/LC Map functionality has been restored.  We apologize for any inconvience.</h3>
+            </div>
+        {% endif %}
+        <div id="loginhead2">
+              <p>DATA ENTRY MENU</p>
+        </div>
+
+        <div id="loginbody2">
+            <ul>
+                <li> <a href="/sgce/dataentrynew/" target="_parent">CREATE NEW PROJECT</a></li>
+                <li> <a href="/sgce/viewprojects/" target="_parent">VIEW MY PROJECTS</a></li>
+                <li> <a href="/sgce/viewdraftprojects/" target="_parent">VIEW DRAFT PROJECTS</a></li>
+                <li> <a href="/sgce/viewawaitingprojects/" target="_parent">VIEW PROJECTS AWAITING APPROVAL</a></li>
+                <li> <a href="/sgce/viewapprovedprojects/" target="_parent">VIEW APPROVED PROJECTS</a></li>
+                <li> <a href="/sgce/viewprojectsicanedit/" target="_parent">VIEW PROJECTS I CAN EDIT</a></li>
+                <!-- <li> <a href="/sgce/error_check_projects/" target="_parent">ERROR CHECK PROJECTS</a></li> -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

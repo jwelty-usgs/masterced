@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% extends "ced_main/base.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/userstyle.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/style.css' %}" />
+<title>CED SG ERD</title>
+
+<body>
+{% block content %}
+<div id="map">
+	<div id="HE">
+		<h3> CED ENTITY RELATIONSHIP DIAGRAM</h3>
+		<p>Below you will find a draft version of the Sage Grouse Conservation Efforts Database Entity Relationship Diagram current as of June 30 2014. 
+	<br>The relationships within this database are still in draft stage and may be changed without notice.</p>
+	</div>
+	<div id="bugsrpt">
+		<h3><a href="{% static 'ced_main/images/ced_main/SageGrouse Consv Efforts System Options -ERD - DRAFT_v2.2.pdf' %}" download>Download a pdf copy</a></h3>
+		<img id="bugs" src="{% static 'ced_main/images/ced_main/SageGrouseConsvEffortsSystemOptions-ERD-DRAFT_v2_2.png' %}" alt="Error Resolutions" width="640px"
+		title="Error Resolutions" /></img>
+
+	</div>
+</div>
+
+<div id="login">
+    <img id="loginsg" src="{% static 'ced_main/images/ced_main/sg6.jpg' %}" alt="SG Image"/></img>
+    <div id="loginbox">
+    {% if user.is_authenticated %}
+        <iframe name='iframelogin' id="iframelogin" src="sgce/usermenu/" frameborder="0"></iframe>
+    {% else %}
+        <iframe name='iframelogin' id="iframelogin" src="/sgce/accounts/login/" frameborder="0"></iframe>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

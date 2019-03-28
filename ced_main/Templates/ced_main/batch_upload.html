@@ -1,0 +1,214 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/sgcestyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Batch Upload{% endblock title %}
+
+
+{% block content %}
+     <body onload=" javascript: showsubmit()">
+    <form id="batchupload" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+	<div id="regis">
+		<h3>BATCH UPLOAD DATA</h3>
+        <p style="font-weight: bold;">Warning to users of this page: The batch upload process is currently being refined during the initial release phase. While the downloadable template and links are now up to date we highly reccomend working with the CED team to upload and enter your batch data as the process has not been throughly tested. If you have any questions please email us at  <a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a> </p>
+		<p>The CED program has the ability to upload existing datasets in batch format.  While more efficient for large datasets than single record data entry there are still steps that need to be taken. Click on each heading below to display or hide additional information for each heading.</p>
+        
+
+        <div id="dataprephead" onclick="javascript:DisplaySection('dataprep');"
+    	   <p>Data Preparation</p>
+        </div>
+        <div id="dataprep" style="display:none;">
+            <p><b>Step 1)</b> Download a copy of our geodatabase template: <a href="{% static 'ced_main/images/CED_2_Batch_Template.gdb.zip' %}" target="_blank"> Batch Template</a></p>
+
+            <p><b>Step 2)</b> There are three template tables for each of the three main CED categories: Spatial Projects, Non-Spatial Projects, and Non-Spatial Plans. Please ensure you are loading the correct effort to the correct template.</p>
+
+            <p><b>Step 3)</b> For Spatial Projects, the geometries associated with this database must be strictly OGC compliant geometries. You must assure that there are no self-intersecting polygons or other invalid geometries. We reccomend you run ArcGIS's repair geometry tool and buffer all polygons by 0.1m if you are unsure.</p>
+
+            <p><b>Step 4)</b> For Spatial Projects, the spatial database must also have an FGDC compliant metadata file and a well understood projection (SRID). Without these, the data cannot be fully understood or correctly processed.</p>
+
+             <p><b>Step 6)</b> For Spatial Projects, if your feature class consists of single part features where multiple rows in your GIS attribute table represent one effort, you must dissolve these seperate single part features into one multipart feature. In other words, there should be one row per effort in the template attribute table.</p>
+
+            <p><b>Step 7)</b> Populate the attributes available in the batch upload template. Utilize the tools within the Batch Upload Template to assist you in determining required fields.</p>
+
+        </div>
+
+        <!-- <div id="dataprephead">
+            <p><a id="batch" href="">Batch Spatial Template</a></p>
+        </div> -->
+
+        <div id="dataprephead1" onclick="javascript:DisplaySection('attributes');"
+           <p">Attributes</p>
+        </div>
+
+        <div id="attributes" style="display:none;">
+            <p>Nearly all fields are available in the Batch Upload Template. The template is designed to help walk you through the batch data entry process. A few of the most critical fields are defined below. To view a full set of all the fields, use the Batch Upload Template User Manual that comes with the download package.</p>
+
+            <p><b>Project_Name</b> (75 character limit) -- this applies to all polygons submitted in the batch</p>
+
+            <p><b>Start_Date</b> -- When did the effort take effect?</p>
+
+            <p><b>End_Date</b> -- When was the effort completed? This does not include followup monitoring.</p>
+
+            <p><b>Completion_Status</b> <button type="button" class="button11" onclick="javascript:DisplaySection('comstatus');">View Field Values</button> </p>
+                <div id="comstatus" style="display:none;">
+                    <p>2 = In Progress <br> 3 = Completed</p>
+                </div>
+
+            <p><b>Activity</b> -- Activites fall in to one of 3 categories: Spatial Projects, Non-Spatial Projects, and Non-Spatial Plans. Users can complete the Activity field within the template but more specific SubActivites will be completed within the batch editing mode. They are listed here to assist with data crosswalk capabilities.<button type="button" class="button11" onclick="javascript:DisplaySection('viewsppr');">View Activity Types</button></p>
+            <div id="viewsppr" style="display:none;">
+                <p class="indent1"><b>Spatial Project </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewplac');">View Spatial Project Activities</button></p>
+                    <div id="viewplac" style="display:none;">
+                        <p class="indent2"><b>4 = SAGEBRUSH PROTECTION </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewsp');">View Subactivities</button></p>
+                            <div class="indent3" id="viewsp" style="display:none;">
+                                <p>-Conservation Easement<br>-Land Acquisition</p>
+                            </div>
+
+                        <p class="indent2"><b>6 = RESTORATION: Livestock &amp; Rangeland Management </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewlrm');">View Subactivities</button></p>
+                            <div class="indent3" id="viewlrm" style="display:none;">
+                                <p>-Improved Grazing Practices (Rest, Rotation, Etc.)</p>
+                            </div>
+
+
+                        <p class="indent2"><b>10 = RESTORATION: Non-Fire Related: Habitat Improvement / Restoration </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewnfhr');">View Subactivities</button></p>
+                            <div class="indent3" id="viewnfhr" style="display:none;">
+                                <p>-Area Closure (Area and/or Seasonal)<br>-Vegetation Management / Habitat Enhancement<br>-Annual Grass (Cheatgrass) Treatments<br>-Non-fire restroration (only native seedings, plantings)<br>-Non-fire restroration (only non-native seedings, plantings)<br>-Non-fire restoration (native/non-native seeding mixes, plantings)</p>
+                            </div>
+
+                        <p class="indent2"><b>11 = RESTORATION: Fire-Related: Habitat Restoration and/or Pre-Supression Efforts </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewfrhr');">View Subactivities</button></p>
+                            <div class="indent3" id="viewfrhr" style="display:none;">
+                                <p>-Fuels Management / Cheatgrass Treatments<br>-Fire Breaks</p>
+                            </div>
+
+                        <p class="indent2"><b>12 = RESTORATION: Habitat Restoration (Fire) </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewhr');">View Subactivities</button></p>
+                            <div class="indent3" id="viewhr" style="display:none;">
+                                <p>-Post-fire restoration (only native seeding, plantings)<br>-Post-fire restoration (only non-native seeding, plantings)<br>-Post-fire restoration (native/non-native seeding mix)</p>
+                            </div>
+
+                        <p class="indent2"><b>13 = Conifer Removal (all phases) </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewcr');">View Subactivities</button></p>
+                            <div class="indent3" id="viewcr" style="display:none;">
+                                <p>-Conifer Removal (all phases)</p>
+                            </div>
+                    </div>
+
+                <p class="indent1"><b>Non-Spatial Project </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewnsppr');">View Non-Spatial Project Activities</button></p>
+                    <div id="viewnsppr" style="display:none;">
+                        <p class="indent2"><b>4 = SAGEBRUSH PROTECTION </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewsp2');">View Subactivities</button></p>
+                            <div class="indent3" id="viewsp2" style="display:none;">
+                                <p>-Conservation Agreements (includes CCAs, CCAAs, Farm Bill and other Incentive-based programs)</p>
+                            </div>
+
+                        <p class="indent2"><b>5 = RESTORATION:  Infrastructure Removal and Modification </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewirm');">View Subactivities</button></p>
+                            <div class="indent3" id="viewirm" style="display:none;">
+                                <p>-Structure Removal<br>-Powerline Burial<br>-Powerline Retrofitting / Modification<br>-Fence Modification<br>-Fence Marking<br>-Fence Removal</p>
+                            </div>
+
+
+                        <p class="indent2"><b>7 = RESTORATION: Travel Management </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewtm');">View Subactivities</button></p>
+                            <div class="indent3" id="viewtm" style="display:none;">
+                                <p>-Road and Trail closure<br>-Rerouted Roads and/or Trails (native/non-native seeding mixes, plantings)</p>
+                            </div>
+
+                        <p class="indent2"><b> = RESTORATION: Population Augmentation </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewpa');">View Subactivities</button></p>
+                            <div class="indent3" id="viewpa" style="display:none;">
+                                <p>-Translocation<br>-Fire Breaks</p>
+                            </div>
+
+                        <p class="indent2"><b> = RESTORATION: Wild Equid Management </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewem');">View Subactivities</button></p>
+                            <div class="indent3" id="viewem" style="display:none;">
+                                <p>-Wild Equid Population Control<br>-Wild Equid Gather</p>
+                            </div>
+
+  
+                    </div>
+
+                <p class="indent1"><b>Non-Spatial Plan </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewnsp');">View Non-Spatial Plan Activities</button></p>
+                    <div id="viewnsp" style="display:none;">
+                        <p class="indent2"><b>2 = NON-REGULATORY CONSERVATION PLANS (Strategies, BMPs) </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewnrcp');">View Subactivities</button></p>
+                            <div class="indent3" id="viewnrcp" style="display:none;">
+                                <p>-Non-regulatory Conservation Strategies<br>-Minimization  and Avoidance Strategies / BMPs<br>-Grazing and Rangeland Management Plans (Non-Regulatory)<br>-Grazing Management Practices and Avoidance</p>
+                            </div>
+
+                        <p class="indent2"><b>3 = REGULATORY MECHANISMS: Plans, Policies </b><button type="button" class="button11" onclick="javascript:DisplaySection('viewpp');">View Subactivities</button></p>
+                            <div class="indent3" id="viewpp" style="display:none;">
+                                <p>-Federal Land Use Plan<br>-State Conservation Plan<br>-County/Local Government Plan<br>-Programmatic Candidate Conservation Agreement<br>-Programmatic Candidate Conservation Agreement with Assurances<br>-Grazing and Rangeland Management Plans (Regulatory)<br>-Wild horse and burro control/removal strategy<br>-Compensatory Mitigation Plans<br>-Conservation Banking / Advanced Crediting Systems<br>-Reclamation Plan<br>-Fire Related Conservation Strategy (Pre-suppression Plans)<br>-Fire Mutual Aid Agreement<br>-Sage-grouse Harvest Regulation<br>-Zoning Regulation (Urban and Agriculture)</p>
+                            </div>
+
+  
+                    </div>
+                </div>
+
+        </div>
+
+        <div id="dataprephead3" type="button" class="button11" onclick="javascript:DisplaySection('afterprep');"
+           <p>After the data has been prepared</p>
+        </div>
+
+        <div id="afterprep" style="display:none;">
+    		<p> <b>Step 1)</b> Email the CED project <a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a> to inform the team you are preparing a batch upload. </p>
+    		<p> <b>Step 2)</b> Work with our batch upload specialists to ensure that the data are complete and ready for upload </p>
+    		<p> <b>Step 3)</b> After the data has been uploaded, check each project and complete any missing data as required. </p>
+        </div>
+
+        <div id="dataprephead2" type="button" class="button11" onclick="javascript:DisplaySection('uploadbatch');">
+           Upload Your Batch Data
+        </div>
+        <div id="uploadbatch" style="display:none;">
+            <p><b>Only the zipped file geodatabase template is accepted</b></p>
+            <input style="color:black;" type="file" accept=".zip" name="myfile" single onchange="showsubmit()">
+            <input id="subbutton" type="submit" name="upload" class="button11" value="Upload Zipped Geodatabase" onclick="DisplayEC(); showDiv()"><br><br><br>
+            <div id="batchname"><h3 id="upbatch">Batch Upload Name: </h3><input style="width: 300px;" id="batchfld" type="text" name="batchname"> <p2>Hint: choose a name you will remember and include today's date.</p2></div>
+            <div id="DocText" style="display:none;">  Loading Batch Spatial Data...Please wait </h3>
+        </div>
+	</div>
+
+
+<script type="text/javascript">
+  function DisplaySection(section){
+
+    var sectiontype = section
+    if (document.getElementById(sectiontype).style.display == "none"){
+        document.getElementById(sectiontype).style.display = "inline-block"
+    }
+    else{
+        document.getElementById(sectiontype).style.display = "none"
+    }
+    
+  }
+</script>
+
+<script type="text/javascript">
+    function DisplayEC(){
+
+        if(document.getElementById("batchfld").value == ""){
+            alert("Please provide a Batch Upload Name")
+        event.preventDefault();
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    function showsubmit(){
+        var docs = ""
+        var docs = document.getElementsByName('myfile');
+        var docsexist = 0
+        for(var i=0; i<docs.length;i++) {
+            if(docs[i].value > ""){
+                docsexist = 1
+            }
+        }
+
+        if(docsexist == 1){
+            document.getElementById("subbutton").style.display = "inline-block";
+        }else{
+            document.getElementById("subbutton").style.display = "none";
+        }
+    }
+</script>
+{% endblock %}

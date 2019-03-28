@@ -1,0 +1,23 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Profile Success{% endblock title %}
+
+
+{% block content %}
+
+	<div id="regis">
+        <h3>Your email has been successfully sent. </h3>
+        <p>You will be informed via email once the approving official has responded to your request. </p>
+     </div>
+
+{% endblock %}
+

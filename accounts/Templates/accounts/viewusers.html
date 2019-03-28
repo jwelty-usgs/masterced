@@ -1,0 +1,30 @@
+{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+<link href="{% static 'ced_main/Styles/footeradjust.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}View Users{% endblock title %}
+
+{% block content %}
+{% load render_table from django_tables2 %}
+
+	{% if user.is_authenticated %}
+		<div id="regis">
+        	<h3>MANAGE YOUR USERS</h3>
+        	<p> Click on the username link to manage an individual profile </p>
+        </div>
+        <div id="usertable">
+	        <table>
+	        	{% render_table viewusers %}
+	        </table>
+	    </div>
+    {% endif %}
+
+{% endblock %}

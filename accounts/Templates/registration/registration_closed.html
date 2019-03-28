@@ -1,0 +1,26 @@
+﻿{% extends "welcome/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block head_css_page %}
+
+<link href="{% static 'ced_main/Styles/accountsstyle.css' %}"  rel="stylesheet" type="text/css" media="screen" />
+
+{% endblock head_css_page %}
+
+{% block title %}Login{% endblock title %}
+
+
+{% block content %}
+
+
+    <div id="acom">
+		<h3>Your registration has expired, please contact the SWTS team at <a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a></h3>
+    </div>
+
+{% endblock content %}  
+
+{% block body_script_page %}
+{% endblock body_script_page %}
+        
