@@ -18,13 +18,6 @@ import sciencebasepy as pysb
 from ced_main.OpenFootprintStudioPassProtectWebPage_v1 import *
 from ced_main.Clip_Featureservice_v3 import featurecount
 
-# TODO set path as environmental variable
-# sys.path.append(r'C:/ArcGIS/Pro/Resources/ArcPy')
-
-import arcpy
-from arcpy.sa import *
-from arcpy.management import *
-from arcpy.analysis import *
 
 import dbf
 from reportlab.pdfgen import canvas
@@ -35,7 +28,11 @@ from reportlab.lib.styles import getSampleStyleSheet
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from accounts.views import checkgroup
 
-arcpy.env.overwriteOutput = "True"
+# import arcpy
+# from arcpy.sa import *
+# from arcpy.management import *
+# from arcpy.analysis import *
+# arcpy.env.overwriteOutput = "True"
 
 import xlsxwriter
 import MySQLdb
@@ -44,6 +41,9 @@ from django.db.models import Max
 from django.conf import settings
 
 from ced.settings import STATIC_DIR
+
+
+
 
 sbpass = settings.SBPASS
 sbuser = settings.SBUSER
@@ -1063,307 +1063,304 @@ def checkproject(prjid, spatialid):
 
 
 def ClipFeates(feature, prid, username):
-    # Change this for production
-    #TODO
+
     Folder = os.path.join(STATIC_DIR, 'ced_main/GIS_Processing')
-    OutGeo = Folder + "/JsonConversion.gdb"
-    BackGeo = Folder + "/CED_GeoProc.gdb"
+    # OutGeo = Folder + "/JsonConversion.gdb"
+    # BackGeo = Folder + "/CED_GeoProc.gdb"
 
-    states = []
-    counties = []
-    wafwas = []
-    hucs = []
-    pops = []
+    # states = []
+    # counties = []
+    # wafwas = []
+    # hucs = []
+    # pops = []
 
-    arcpy.env.workspace = OutGeo
+    # # arcpy.env.workspace = OutGeo
 
-    BackClipFeat = []
-    BackClipFeat.append(
-        (BackGeo + "/COT_SG_Populations_2013", "poplayer" + str(prid), "pop" + str(prid) + ".dbf", 0, 0))
+    # BackClipFeat = []
     # BackClipFeat.append(
-    #     (BackGeo + "/HUC8_12Digit_WatershedBndry", "huclayer" + str(prid), "huc" + str(prid) + ".dbf", 11, 0))
-    BackClipFeat.append((BackGeo + "/sage_mgmt_zones", "wafwalayer" + str(prid), "waf" + str(prid) + ".dbf", 2, 0))
-    BackClipFeat.append(
-        (BackGeo + "/tl_2012_us_county_clipped", "countylayer" + str(prid), "con" + str(prid) + ".dbf", 4, 19))
-    BackClipFeat.append(
-        (BackGeo + "/tl_2012_us_state_clipped", "statelayer" + str(prid), "sta" + str(prid) + ".dbf", 5, 0))
+    #     (BackGeo + "/COT_SG_Populations_2013", "poplayer" + str(prid), "pop" + str(prid) + ".dbf", 0, 0))
+    # BackClipFeat.append((BackGeo + "/sage_mgmt_zones", "wafwalayer" + str(prid), "waf" + str(prid) + ".dbf", 2, 0))
+    # BackClipFeat.append(
+    #     (BackGeo + "/tl_2012_us_county_clipped", "countylayer" + str(prid), "con" + str(prid) + ".dbf", 4, 19))
+    # BackClipFeat.append(
+    #     (BackGeo + "/tl_2012_us_state_clipped", "statelayer" + str(prid), "sta" + str(prid) + ".dbf", 5, 0))
 
-    for backfeat, layer, table, i, j in BackClipFeat:
-        try:
-            arcpy.Delete_management(layer)
-        except:
-            print("Nothing to delete")
+    # for backfeat, layer, table, i, j in BackClipFeat:
+    #     try:
+    #         arcpy.Delete_management(layer)
+    #     except:
+    #         print("Nothing to delete")
 
-        try:
-            arcpy.Delete_management(Folder + "/" + table)
-        except:
-            print("Nothing to delete")
+    #     try:
+    #         arcpy.Delete_management(Folder + "/" + table)
+    #     except:
+    #         print("Nothing to delete")
 
-    try:
-        arcpy.Delete_management("feature_lyr")
-    except:
-        print("Nothing to delete")
+    # try:
+    #     arcpy.Delete_management("feature_lyr")
+    # except:
+    #     print("Nothing to delete")
 
 
-    ### Calculate the acres correctly
-    poppi = project_info.objects.get(pk=prid)
-    out_coordinate_system = arcpy.SpatialReference('USA Contiguous Albers Equal Area Conic USGS')
-    outfeat = Folder + "/JsonConversion.gdb/Acres_" + str(prid) + "_Calc"
-    try:
-        arcpy.Delete_management(outfeat)
-    except:
-        print("Nothing to delete")
-    arcpy.Project_management(feature, outfeat, out_coordinate_system)
+    # ### Calculate the acres correctly
+    # poppi = project_info.objects.get(pk=prid)
+    # out_coordinate_system = arcpy.SpatialReference('USA Contiguous Albers Equal Area Conic USGS')
+    # outfeat = Folder + "/JsonConversion.gdb/Acres_" + str(prid) + "_Calc"
+    # try:
+    #     arcpy.Delete_management(outfeat)
+    # except:
+    #     print("Nothing to delete")
+    # arcpy.Project_management(feature, outfeat, out_coordinate_system)
 
-    arcpy.MakeTableView_management(outfeat, "feature_lyr")
-    try:
-        arcpy.DeleteField_management("feature_lyr", ["CED_Acres"])
-    except:
-        a = 1
-    arcpy.AddField_management("feature_lyr", "CED_Acres", "DOUBLE", "", "", "", "CED_Acres", "NULLABLE",
-                              "NON_REQUIRED")
-    arcpy.CalculateField_management("feature_lyr", "CED_Acres", "!shape.area@acres!", "PYTHON", "")
+    # arcpy.MakeTableView_management(outfeat, "feature_lyr")
+    # try:
+    #     arcpy.DeleteField_management("feature_lyr", ["CED_Acres"])
+    # except:
+    #     a = 1
+    # arcpy.AddField_management("feature_lyr", "CED_Acres", "DOUBLE", "", "", "", "CED_Acres", "NULLABLE",
+    #                           "NON_REQUIRED")
+    # arcpy.CalculateField_management("feature_lyr", "CED_Acres", "!shape.area@acres!", "PYTHON", "")
 
-    try:
-        arcpy.Delete_management("feature_lyr")
-    except:
-        print("Nothing to delete")
+    # try:
+    #     arcpy.Delete_management("feature_lyr")
+    # except:
+    #     print("Nothing to delete")
 
     
 
-    arcpy.MakeTableView_management(outfeat, "feature_lyr")
+    # arcpy.MakeTableView_management(outfeat, "feature_lyr")
 
-    GISAc = 0
-    fields = ["CED_Acres"]
-    with arcpy.da.SearchCursor("feature_lyr", fields) as cursor:
-        for row in cursor:
-            GISAc = GISAc + row[0]
-    try:
-        arcpy.Delete_management("feature_lyr")
-    except:
-        print("Nothing to delete")
-
-    try:
-        arcpy.Delete_management(outfeat)
-    except:
-        print("Nothing to delete")
-
-    GISAc = round(GISAc, 1)
-    poppi.GIS_Acres = abs(GISAc)
-    poppi.save()
-
-    # Attach the attributes
+    # GISAc = 0
+    # fields = ["CED_Acres"]
+    # with arcpy.da.SearchCursor("feature_lyr", fields) as cursor:
+    #     for row in cursor:
+    #         GISAc = GISAc + row[0]
     # try:
-    # Loop through the background GIS table and clip all background GIS to the feature perimeters
-    for backfeat, layer, table, i, j in BackClipFeat:
-        # Execute clips of each layer, converting features to polygons if applicable
-        featcnt = 1
-        arcpy.MakeFeatureLayer_management(backfeat, layer)
-        
-        try:
-            for feat in feature:
-
-                if featcnt < 4:
-                    if featcnt == 1:
-                        poppi.LC_Center_X = float(str(feat))
-                    if featcnt == 2:
-                        poppi.LC_Center_Y = float(str(feat))
-                    if featcnt == 3:
-                        poppi.LC_Zoom = int(str(feat))
-
-                else:
-                    arcpy.MakeFeatureLayer_management(feat, "feature_lyr")
-                    if featcnt == 4:
-                        arcpy.SelectLayerByLocation_management(layer, 'intersect', "feature_lyr")
-                    else:
-                        arcpy.SelectLayerByLocation_management(layer, 'intersect', "feature_lyr", "#",
-                                                               "ADD_TO_SELECTION")
-
-                    try:
-                        arcpy.Delete_management("feature_lyr")
-                    except:
-                        print("Nothing to delete")
-
-                featcnt = featcnt + 1
-        except:
-            arcpy.MakeFeatureLayer_management(feature, "feature_lyr")
-            arcpy.SelectLayerByLocation_management(layer, 'intersect', "feature_lyr")
-            try:
-                arcpy.Delete_management("feature_lyr")
-            except:
-                print("Nothing to delete")
-
-        
-        matchcount = int(arcpy.GetCount_management(layer).getOutput(0))
-        if matchcount == 0:
-            print('no features matched spatial and attribute criteria')
-        else:
-            arcpy.TableToTable_conversion(layer, Folder, table)
-
-            opentable = dbf.Table(Folder + "/" + table)
-            opentable.open()
-
-            for row in opentable:
-                if table == "pop" + str(prid) + ".dbf":
-                    pops.append(str(row[i]))
-                elif table == "huc" + str(prid) + ".dbf":
-                    hucs.append(str(row[i]))
-                elif table == "waf" + str(prid) + ".dbf":
-                    wafwas.append(str(row[i]))
-                elif table == "con" + str(prid) + ".dbf":
-                    cntyst = str(row[i]).strip() + ", " + str(row[j]).strip()
-                    counties.append(cntyst)
-                elif table == "sta" + str(prid) + ".dbf":
-                    states.append(str(row[i]))
-
-            opentable.close()
-
-    pid = project_info.objects.get(pk=prid)
-
-    pcnt = 0
-    try:
-        pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
-        for idp in idpop:
-            population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
-        pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-
-    except:
-        popc = population_info()
-        popc.Project_ID = pid
-        popc.Date_Entered = now
-        popc.User = str(username)
-        popc.save()
-
-        pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-
-    popids = []
-    for p in pops:
-        # print(p)
-        popids.append(population_values.objects.values_list('id', flat=True).get(Pop_Name=p))
-
-    popm = population_info.objects.get(pk=pidpop)
-    popm.Project_ID = pid
-    popm.Date_Entered = now
-    popm.Population_Value.set(popids)
-    popm.User = str(username)
-    popm.save()
-
-    # try:
-    #     pidhuc = huc12_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    #     idhuc = huc12_info.objects.values_list('HUC12_Value', flat=True).filter(Project_ID=prid)
-    #     for idh in idhuc:
-    #         huc12_info.objects.filter(Project_ID=prid, HUC12_Value=idh).delete()
-    #     pidhuc = huc12_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    #     arcpy.Delete_management("feature_lyr")
     # except:
-    #     hucc = huc12_info()
-    #     hucc.Project_ID = pid
-    #     hucc.Date_Entered = now
-    #     hucc.User = str(username)
-    #     hucc.save()
-    #     pidhuc = huc12_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    # hucids = []
-    # for h in hucs:
-    #     huc12vals = state_county_huc12_values.objects.values_list('id', flat=True).filter(HUC12=str(h))
-    #     for huc12vas in huc12vals:
-    #         hucids.append(huc12vas)
-    # hucm = huc12_info.objects.get(pk=pidhuc)
-    # hucm.Project_ID = pid
-    # hucm.Date_Entered = now
-    # hucm.HUC12_Value.set(hucids)
-    # hucm.User = str(username)
-    # hucm.save()
+    #     print("Nothing to delete")
 
-    try:
-        pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        idwaf = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=prid)
-        for idw in idwaf:
-            wafwa_info.objects.filter(Project_ID=prid, WAFWA_Value=idw).delete()
-        pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    except:
-        wafc = wafwa_info()
-        wafc.Project_ID = pid
-        wafc.Date_Entered = now
-        wafc.User = str(username)
-        wafc.save()
-        pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    wafids = []
-    for w in wafwas:
-        wafids.append(wafwa_zone_values.objects.values_list('id', flat=True).get(id=w))
-    wafm = wafwa_info.objects.get(pk=pidwaf)
-    wafm.Project_ID = pid
-    wafm.Date_Entered = now
-    wafm.WAFWA_Value.set(wafids)
-    wafm.User = str(username)
-    wafm.save()
+    # try:
+    #     arcpy.Delete_management(outfeat)
+    # except:
+    #     print("Nothing to delete")
 
-    try:
-        pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        idcnty = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prid)
-        for idc in idcnty:
-            county_info.objects.filter(Project_ID=prid, County_Value=idc).delete()
-        pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    except:
-        cntyc = county_info()
-        cntyc.Project_ID = pid
-        cntyc.Date_Entered = now
-        cntyc.User = str(username)
-        cntyc.save()
-        pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    cntyids = []
-    for c in counties:
-        cntyids.append(state_county.objects.values_list('id', flat=True).get(Cnty_St=c))
-    cntym = county_info.objects.get(pk=pidcnty)
-    cntym.Project_ID = pid
-    cntym.Date_Entered = now
-    cntym.County_Value.set(cntyids)
-    cntym.User = str(username)
-    cntym.save()
+    # GISAc = round(GISAc, 1)
+    # poppi.GIS_Acres = abs(GISAc)
+    # poppi.save()
 
-    try:
-        pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        idstt = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prid)
-        for ids in idstt:
-            state_info.objects.filter(Project_ID=prid, State_Value=ids).delete()
-        pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    except:
-        sttc = state_info()
-        sttc.Project_ID = pid
-        sttc.Date_Entered = now
-        sttc.User = str(username)
-        sttc.save()
-        pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    sttids = []
-    for s in states:
-        sttids.append(state.objects.values_list('id', flat=True).get(State=s))
-    sttm = state_info.objects.get(pk=pidstt)
-    sttm.Project_ID = pid
-    sttm.Date_Entered = now
-    sttm.State_Value.set(sttids)
-    sttm.User = str(username)
-    sttm.save()
+    # # Attach the attributes
+    # # try:
+    # # Loop through the background GIS table and clip all background GIS to the feature perimeters
+    # for backfeat, layer, table, i, j in BackClipFeat:
+    #     # Execute clips of each layer, converting features to polygons if applicable
+    #     featcnt = 1
+    #     arcpy.MakeFeatureLayer_management(backfeat, layer)
+        
+    #     try:
+    #         for feat in feature:
 
-    try:
-        arcpy.Delete_management("feature_lyr")
-    except:
-        print("Nothing to delete")
+    #             if featcnt < 4:
+    #                 if featcnt == 1:
+    #                     poppi.LC_Center_X = float(str(feat))
+    #                 if featcnt == 2:
+    #                     poppi.LC_Center_Y = float(str(feat))
+    #                 if featcnt == 3:
+    #                     poppi.LC_Zoom = int(str(feat))
 
-    try:
-        arcpy.Delete_management(feature)
-    except:
-        print("Nothing to delete")
+    #             else:
+    #                 arcpy.MakeFeatureLayer_management(feat, "feature_lyr")
+    #                 if featcnt == 4:
+    #                     arcpy.SelectLayerByLocation_management(layer, 'intersect', "feature_lyr")
+    #                 else:
+    #                     arcpy.SelectLayerByLocation_management(layer, 'intersect', "feature_lyr", "#",
+    #                                                            "ADD_TO_SELECTION")
 
-    for backfeat, layer, table, i, j in BackClipFeat:
-        try:
-            arcpy.Delete_management(layer)
-        except:
-            print("Nothing to delete")
+    #                 try:
+    #                     arcpy.Delete_management("feature_lyr")
+    #                 except:
+    #                     print("Nothing to delete")
 
-        try:
-            arcpy.Delete_management(Folder + "/" + table)
-        except:
-            print("Nothing to delete")
-    print("Features Clipped")
+    #             featcnt = featcnt + 1
+    #     except:
+    #         arcpy.MakeFeatureLayer_management(feature, "feature_lyr")
+    #         arcpy.SelectLayerByLocation_management(layer, 'intersect', "feature_lyr")
+    #         try:
+    #             arcpy.Delete_management("feature_lyr")
+    #         except:
+    #             print("Nothing to delete")
+
+        
+    #     matchcount = int(arcpy.GetCount_management(layer).getOutput(0))
+    #     if matchcount == 0:
+    #         print('no features matched spatial and attribute criteria')
+    #     else:
+    #         arcpy.TableToTable_conversion(layer, Folder, table)
+
+    #         opentable = dbf.Table(Folder + "/" + table)
+    #         opentable.open()
+
+    #         for row in opentable:
+    #             if table == "pop" + str(prid) + ".dbf":
+    #                 pops.append(str(row[i]))
+    #             elif table == "huc" + str(prid) + ".dbf":
+    #                 hucs.append(str(row[i]))
+    #             elif table == "waf" + str(prid) + ".dbf":
+    #                 wafwas.append(str(row[i]))
+    #             elif table == "con" + str(prid) + ".dbf":
+    #                 cntyst = str(row[i]).strip() + ", " + str(row[j]).strip()
+    #                 counties.append(cntyst)
+    #             elif table == "sta" + str(prid) + ".dbf":
+    #                 states.append(str(row[i]))
+
+    #         opentable.close()
+
+    # pid = project_info.objects.get(pk=prid)
+
+    # pcnt = 0
+    # try:
+    #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    #     idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
+    #     for idp in idpop:
+    #         population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
+    #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+
+    # except:
+    #     popc = population_info()
+    #     popc.Project_ID = pid
+    #     popc.Date_Entered = now
+    #     popc.User = str(username)
+    #     popc.save()
+
+    #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+
+    # popids = []
+    # for p in pops:
+    #     # print(p)
+    #     popids.append(population_values.objects.values_list('id', flat=True).get(Pop_Name=p))
+
+    # popm = population_info.objects.get(pk=pidpop)
+    # popm.Project_ID = pid
+    # popm.Date_Entered = now
+    # popm.Population_Value.set(popids)
+    # popm.User = str(username)
+    # popm.save()
+
+    # # try:
+    # #     pidhuc = huc12_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    # #     idhuc = huc12_info.objects.values_list('HUC12_Value', flat=True).filter(Project_ID=prid)
+    # #     for idh in idhuc:
+    # #         huc12_info.objects.filter(Project_ID=prid, HUC12_Value=idh).delete()
+    # #     pidhuc = huc12_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    # # except:
+    # #     hucc = huc12_info()
+    # #     hucc.Project_ID = pid
+    # #     hucc.Date_Entered = now
+    # #     hucc.User = str(username)
+    # #     hucc.save()
+    # #     pidhuc = huc12_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    # # hucids = []
+    # # for h in hucs:
+    # #     huc12vals = state_county_huc12_values.objects.values_list('id', flat=True).filter(HUC12=str(h))
+    # #     for huc12vas in huc12vals:
+    # #         hucids.append(huc12vas)
+    # # hucm = huc12_info.objects.get(pk=pidhuc)
+    # # hucm.Project_ID = pid
+    # # hucm.Date_Entered = now
+    # # hucm.HUC12_Value.set(hucids)
+    # # hucm.User = str(username)
+    # # hucm.save()
+
+    # try:
+    #     pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    #     idwaf = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=prid)
+    #     for idw in idwaf:
+    #         wafwa_info.objects.filter(Project_ID=prid, WAFWA_Value=idw).delete()
+    #     pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    # except:
+    #     wafc = wafwa_info()
+    #     wafc.Project_ID = pid
+    #     wafc.Date_Entered = now
+    #     wafc.User = str(username)
+    #     wafc.save()
+    #     pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    # wafids = []
+    # for w in wafwas:
+    #     wafids.append(wafwa_zone_values.objects.values_list('id', flat=True).get(id=w))
+    # wafm = wafwa_info.objects.get(pk=pidwaf)
+    # wafm.Project_ID = pid
+    # wafm.Date_Entered = now
+    # wafm.WAFWA_Value.set(wafids)
+    # wafm.User = str(username)
+    # wafm.save()
+
+    # try:
+    #     pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    #     idcnty = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prid)
+    #     for idc in idcnty:
+    #         county_info.objects.filter(Project_ID=prid, County_Value=idc).delete()
+    #     pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    # except:
+    #     cntyc = county_info()
+    #     cntyc.Project_ID = pid
+    #     cntyc.Date_Entered = now
+    #     cntyc.User = str(username)
+    #     cntyc.save()
+    #     pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    # cntyids = []
+    # for c in counties:
+    #     cntyids.append(state_county.objects.values_list('id', flat=True).get(Cnty_St=c))
+    # cntym = county_info.objects.get(pk=pidcnty)
+    # cntym.Project_ID = pid
+    # cntym.Date_Entered = now
+    # cntym.County_Value.set(cntyids)
+    # cntym.User = str(username)
+    # cntym.save()
+
+    # try:
+    #     pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    #     idstt = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prid)
+    #     for ids in idstt:
+    #         state_info.objects.filter(Project_ID=prid, State_Value=ids).delete()
+    #     pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    # except:
+    #     sttc = state_info()
+    #     sttc.Project_ID = pid
+    #     sttc.Date_Entered = now
+    #     sttc.User = str(username)
+    #     sttc.save()
+    #     pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+    # sttids = []
+    # for s in states:
+    #     sttids.append(state.objects.values_list('id', flat=True).get(State=s))
+    # sttm = state_info.objects.get(pk=pidstt)
+    # sttm.Project_ID = pid
+    # sttm.Date_Entered = now
+    # sttm.State_Value.set(sttids)
+    # sttm.User = str(username)
+    # sttm.save()
+
+    # try:
+    #     arcpy.Delete_management("feature_lyr")
+    # except:
+    #     print("Nothing to delete")
+
+    # try:
+    #     arcpy.Delete_management(feature)
+    # except:
+    #     print("Nothing to delete")
+
+    # for backfeat, layer, table, i, j in BackClipFeat:
+    #     try:
+    #         arcpy.Delete_management(layer)
+    #     except:
+    #         print("Nothing to delete")
+
+    #     try:
+    #         arcpy.Delete_management(Folder + "/" + table)
+    #     except:
+    #         print("Nothing to delete")
+    # print("Features Clipped")
     return "Done"
 
 

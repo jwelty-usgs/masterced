@@ -11,7 +11,7 @@ from django.urls import resolve
 import json
 import os
 import datetime
-import arcpy
+# import arcpy
 import urllib
 # import urllib2
 import codecs
@@ -22,8 +22,8 @@ def QueryESRIFeatureServiceReturnFeatureSet(strAGS_URL, strToken, strWhere, strF
     strBaseURL= strAGS_URL + "/query"
     strQuery = "?where={}&outFields={}&returnGeometry=true&f=json&token={}".format(strWhere, strFields, strToken)
     strFsURL = strBaseURL + strQuery
-    fs = arcpy.FeatureSet()
-    fs.load(strFsURL)
+    # fs = arcpy.FeatureSet()
+    # fs.load(strFsURL)
 
     return fs
   except Exception as e:

@@ -71,6 +71,11 @@ function LoadOffices() {
                 appofflist.push([appoffval, appofftxt]);
             }
 
+            if (strfld == 'Oregon Department of Fish and Wildlife' & appoffval == 'LeeFosterODFW'){
+                appofflist = [];
+                appofflist.push([appoffval, appofftxt]);
+            }
+
             if (strag === 'Bureau of Land Management' & appoffval == 'Vickiherren'){
                 appofflist = [];
                 appofflist.push([appoffval, appofftxt]);
@@ -436,6 +441,8 @@ function UpdateAppOff() {
             appoffvelsel = "jamie.mcfadden";
         }else if (strfld === "Oregon Soil and Water Conservation District"){
             appoffvelsel = "Jeff_Everett";
+        }else if (strfld === "'Oregon Department of Fish and Wildlife"){
+            appoffvelsel = 'LeeFosterODFW';
         }else if (strfld === "Oregon Dept of State Lands"){
             appoffvelsel = "DSL";
         }else{

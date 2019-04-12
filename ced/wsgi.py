@@ -15,7 +15,8 @@ path = 'C:\\Users\\sgce\\ced'
 if path not in sys.path:
     sys.path.append(path)
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ced.settings")
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ced.settings")
+os.environ['DJANGO_SETTINGS_MODULE'] = 'ced.settings'
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
