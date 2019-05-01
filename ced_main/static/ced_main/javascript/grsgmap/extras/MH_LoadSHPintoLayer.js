@@ -1,5 +1,5 @@
 ﻿//Created By:  Matt Heller,  U.S. Fish and Wildlife Service, Science Applications, Region 6
-//Date:        May 2018, Updated Oct 2018
+//Date:        May 2018, Updated May 2019
 
 define([
     "dojo/_base/declare",
@@ -122,10 +122,11 @@ define([
                     pNewFeatures2Add.push(graphic);
                 });
 
-                var capabilities = pSrcFeatureLayer.getEditCapabilities();
+                var capabilities = app.pSrcFeatureLayer.getEditCapabilities();
                 if (capabilities.canUpdate) {
                     console.log("This layer can be updated");
-                    pSrcFeatureLayer.applyEdits(pNewFeatures2Add, null, null, app.pSHPLoading.onsucess, onerror);
+                    app.pSrcFeatureLayer.applyEdits(pNewFeatures2Add, null, null, app.pSHPLoading.onsucess, onerror);
+                    app.blnEditOccured = true;  //this will allow the area and intersect calculations in the MH_ProcAreaIntersect code
                 }
             });
 
