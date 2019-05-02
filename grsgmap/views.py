@@ -214,60 +214,43 @@ def footprinteditor(request, prid):
         print("grsgpopvals")
         print(grsg)
 
-        pcnt = 0
-        try:
-            pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-            idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
-            for idp in idpop:
-                population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
-            pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+        # pcnt = 0
+        # try:
+        #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+        #     idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
+        #     for idp in idpop:
+        #         population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
+        #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
 
-        except:
-            popc = population_info()
-            popc.Project_ID = pid
-            popc.Date_Entered = now
-            popc.User = str(username)
-            popc.save()
+        # except:
+        #     popc = population_info()
+        #     popc.Project_ID = pid
+        #     popc.Date_Entered = now
+        #     popc.User = str(username)
+        #     popc.save()
 
-            pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+        #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
 
-        popids = []
-        pops = grsg.split(",")
-        for p in pops:
-            print(p)
-            popids.append(population_values.objects.values_list('id', flat=True).get(Pop_Name=p))
+        # popids = []
+        # pops = grsg.split(",")
+        # for p in pops:
+        #     print(p)
+        #     popids.append(population_values.objects.values_list('id', flat=True).get(Pop_Name=p))
 
-        popm = population_info.objects.get(pk=pidpop)
-        popm.Project_ID = pid
-        popm.Date_Entered = now
-        popm.Population_Value.set(popids)
-        popm.User = str(username)
-        popm.save()
+        # popm = population_info.objects.get(pk=pidpop)
+        # popm.Project_ID = pid
+        # popm.Date_Entered = now
+        # popm.Population_Value.set(popids)
+        # popm.User = str(username)
+        # popm.save()
 
-        area = request.POST.get("areavals")
-        print("Area")
-        print(area)
+        # area = request.POST.get("areavals")
+        # print("Area")
+        # print(area)
 
-        poppi = project_info.objects.get(pk=prid)
-        poppi.GIS_Acres = abs(float(area))
-        poppi.save()
-
-        # strQuery = "Project_ID=" + strProjectID
-        # current_url = resolve(request.path_info).url_name
-     
-        # if current_url == 'conservationeffforts.org':
-        #     strAGS_URL = "https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/NA_SRC_v2/FeatureServer/5" # Production
-        # else:
-        #     strAGS_URL = "https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/Development_Src_v2/FeatureServer/0" # Development
-        
-        # strToken = GenerateTokenFromAGOL("https://usgs.maps.arcgis.com/sharing/rest/generateToken", strAGOLUsername, strAGOLPassword, "https://usgs.maps.arcgis.com") #"https://fws.maps.arcgis.com"
-        # pFS_Result = QueryESRIFeatureServiceReturnFeatureSet(strAGS_URL, strToken, strQuery, "Project_ID")
-
-        # clipf = ClipFeates(pFS_Result, strProjectID, request.user.username)
-
-        # DT_End = datetime.datetime.now()
-        # DT_Diff = DT_End - DT_Start
-        # strNotes = "Elapsed Time (Minutes)= " + str((DT_Diff.seconds) / 60)
+        # poppi = project_info.objects.get(pk=prid)
+        # poppi.GIS_Acres = abs(float(area))
+        # poppi.save()
 
         return redirect('/sgce/' + prid + '/editproject/?step=Location')
     else:
