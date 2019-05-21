@@ -1,17 +1,5 @@
 ﻿//Created By:  Matt Heller,  U.S. Fish and Wildlife Service, Science Applications, Region 6
-//Date:        May 2018, Updated May 2019
-
-function showLoading() {
-    esri.show(app.loading);
-    app.map.disableMapNavigation();
-    app.map.hideZoomSlider();
-}
-
-function hideLoading(error) {
-    esri.hide(app.loading);
-    app.map.enableMapNavigation();
-    app.map.showZoomSlider();
-}
+//Date:        February 2018, updated May 2019
 
 define([
     "extras/MH_LoadSHPintoLayer",
@@ -44,6 +32,9 @@ define([
 
     return declare([], {
         StartAreaIntersect: function () {
+            showLoading();
+            document.getElementById("btn_Next").disabled = true;
+
             app.pStateGraphicsLayer.clear();
             app.pCountyGraphicsLayer.clear();
             app.pMZGraphicsLayer.clear();
@@ -54,7 +45,7 @@ define([
             strCountiesURL = "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Counties/FeatureServer/0";
             strGRSGPopulationAreasURL = "https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/CED_Base_Layers/FeatureServer/0";
             strWAFWAManagementZones = "https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/CED_Base_Layers/FeatureServer/1";
-            strStates = "https://services.arcgis.com/ue9rwulIoeLEI9bj/arcgis/rest/services/US_StateBoundaries/FeatureServer/0";
+            strStates = "https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/States_and_Provinces_Map/FeatureServer/0";
 
             app.m_Array2Proc = [];
             //app.m_Array2Proc.push([strHUCs, "HUC12", "HUCs"]);
@@ -95,6 +86,7 @@ define([
             }
 
             function returnEventsZoom(results) {
+
                 var resultFeatures = [];
                 resultFeatures = resultFeatures.concat(results[0].features);
 
@@ -146,6 +138,7 @@ define([
                         var params = new ProjectParameters();
                         params.geometries = [app.pGeometry];
                         params.outSR = outSpatialReference;
+                        showLoading();
                         gsvc.project(params, projectedPolysResults, projectError);
                     }
                 }
@@ -174,14 +167,15 @@ define([
                 showErrorDialog("The area is to complex to calculate Acres, proceeding with other spatial operations.");
                 app.m_ProcIndex = 0;
                 hideLoading();
+                document.getElementById("btn_Next").disabled = false;
                 qry_SelectFeaturesFromLayer(app.m_ProcIndex);  //run the select by intersect
             }
 
             function projectedPolysResults(pResults) {
+                showLoading();
                 pProjectedGeometry = pResults[0];
                 app.m_EffortArea = calcAreaPlanar4ProjectedAndNotWebMerc(pProjectedGeometry);
                 app.m_ProcIndex = 0;
-                hideLoading();
                 qry_SelectFeaturesFromLayer(app.m_ProcIndex);  //run the select by intersect
             }
 
@@ -291,13 +285,13 @@ define([
                 }
 
                 app.m_ProcIndex += 1;
-                hideLoading();
+
                 if (app.m_ProcIndex < app.m_Array2Proc.length) {
                     qry_SelectFeaturesFromLayer(app.m_ProcIndex);
                 } else {
                     document.getElementById("ToggleGraphicsContainer").style.display = 'inline';
 
-                    // var strDialogText = "<u>Click Ok to continue editing next step OR click Cancel to resume spatial editing...</u><br>";
+                    var strDialogText = "<u>Click Ok to continue editing next step OR click Cancel to resume spatial editing...</u><br>";
                     var strDialogText = "";
                     strDialogText += "<b>Effort " + app.iCEDID + " Area:</b> " + app.m_EffortArea.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " (US Acres)<br>";
 
@@ -333,6 +327,7 @@ define([
 
             function Results1Error1(results) {
                 hideLoading();
+                document.getElementById("btn_Next").disabled = false;
                 console.log("Error with query1: " + results);
                 alert("Error with query1");
             }
@@ -375,7 +370,7 @@ define([
 
                     if (theme == "GRSG Population Areas") {
                         if (grsgpops.length > 0) {
-                            grsgpops += "," + pResultObject2.intersectName;
+                            grsgpops += ";" + pResultObject2.intersectName;
                         } else {
                             grsgpops = pResultObject2.intersectName;
                         }
@@ -387,6 +382,9 @@ define([
                 document.getElementById('id_mzvals').value = wafwamz;
                 document.getElementById('id_grsgpopvals').value = grsgpops;
                 document.getElementById('id_areavals').value = app.m_EffortArea;
+
+                hideLoading();
+                document.getElementById("btn_Next").disabled = false;
 
                 if (((document.location.host.indexOf("localhost") > -1) | (document.location.host.indexOf("github") > -1)) & (document.location.host != 'localhost:9000')) {
                     alert("Area/Interesect Successfull, Local/Testing version not configured with CED");

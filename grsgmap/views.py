@@ -105,13 +105,8 @@ def footprinteditor(request, prid):
         # DT_Start = datetime.datetime.now()
 
         username = request.user.username
-
-
         pid = project_info.objects.get(pk=prid)
-
         counties1 = request.POST.get("countyvals")
-        print("countyvals")
-        print(counties1)
 
         try:
             pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
@@ -140,8 +135,10 @@ def footprinteditor(request, prid):
                 if sl[1] == stat:
                     cntval = cnty + ", " + sl[0]
                     break
-            print(cntval)
-            cntyids.append(state_county.objects.values_list('id', flat=True).get(Cnty_St=cntval))
+            try:
+                cntyids.append(state_county.objects.values_list('id', flat=True).get(Cnty_St=cntval))
+            except:
+                a=1
         
         cntym = county_info.objects.get(pk=pidcnty)
         cntym.Project_ID = pid
@@ -151,8 +148,7 @@ def footprinteditor(request, prid):
         cntym.save()
 
         states = request.POST.get("statevals")
-        print("statevals")
-        print(states)
+
 
         try:
             pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
@@ -170,8 +166,10 @@ def footprinteditor(request, prid):
         sttids = []
         states1 = states.split(",")
         for s in states1:
-            print(s)
-            sttids.append(state.objects.values_list('id', flat=True).get(StateName=s))
+            try:
+                sttids.append(state.objects.values_list('id', flat=True).get(StateName=s))
+            except:
+                a=1
         sttm = state_info.objects.get(pk=pidstt)
         sttm.Project_ID = pid
         sttm.Date_Entered = now
@@ -180,8 +178,6 @@ def footprinteditor(request, prid):
         sttm.save()
 
         mzs = request.POST.get("mzvals")
-        print("mzvals")
-        print(mzs)
 
         try:
             pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
@@ -211,46 +207,41 @@ def footprinteditor(request, prid):
         wafm.save()
 
         grsg = request.POST.get("grsgpopvals")
-        print("grsgpopvals")
-        print(grsg)
 
-        # pcnt = 0
-        # try:
-        #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        #     idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
-        #     for idp in idpop:
-        #         population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
-        #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+        pcnt = 0
+        try:
+            pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+            idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
+            for idp in idpop:
+                population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
+            pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
 
-        # except:
-        #     popc = population_info()
-        #     popc.Project_ID = pid
-        #     popc.Date_Entered = now
-        #     popc.User = str(username)
-        #     popc.save()
+        except:
+            popc = population_info()
+            popc.Project_ID = pid
+            popc.Date_Entered = now
+            popc.User = str(username)
+            popc.save()
 
-        #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+            pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
 
-        # popids = []
-        # pops = grsg.split(",")
-        # for p in pops:
-        #     print(p)
-        #     popids.append(population_values.objects.values_list('id', flat=True).get(Pop_Name=p))
+        popids = []
+        pops = grsg.split(";")
+        for p in pops:
+            popids.append(population_values.objects.values_list('id', flat=True).get(Pop_Name=p))
 
-        # popm = population_info.objects.get(pk=pidpop)
-        # popm.Project_ID = pid
-        # popm.Date_Entered = now
-        # popm.Population_Value.set(popids)
-        # popm.User = str(username)
-        # popm.save()
+        popm = population_info.objects.get(pk=pidpop)
+        popm.Project_ID = pid
+        popm.Date_Entered = now
+        popm.Population_Value.set(popids)
+        popm.User = str(username)
+        popm.save()
 
-        # area = request.POST.get("areavals")
-        # print("Area")
-        # print(area)
+        area = request.POST.get("areavals")
 
-        # poppi = project_info.objects.get(pk=prid)
-        # poppi.GIS_Acres = abs(float(area))
-        # poppi.save()
+        poppi = project_info.objects.get(pk=prid)
+        poppi.GIS_Acres = abs(float(area))
+        poppi.save()
 
         return redirect('/sgce/' + prid + '/editproject/?step=Location')
     else:

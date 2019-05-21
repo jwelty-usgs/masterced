@@ -1,4 +1,4 @@
-﻿//Created By:  Matt Heller,  U.S. Fish and Wildlife Service, Science Applications, Region 6
+﻿//Created By:  Matt Heller, U.S. Fish and Wildlife Service, Region 6 Science Applications
 //Date:        May 2018, Updated May 2019
 
 define([
