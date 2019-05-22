@@ -106,142 +106,142 @@ def footprinteditor(request, prid):
 
         username = request.user.username
         pid = project_info.objects.get(pk=prid)
+        
         counties1 = request.POST.get("countyvals")
-
-        try:
-            pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-            idcnty = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prid)
-            for idc in idcnty:
-                county_info.objects.filter(Project_ID=prid, County_Value=idc).delete()
-            pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        except:
-            cntyc = county_info()
-            cntyc.Project_ID = pid
-            cntyc.Date_Entered = now
-            cntyc.User = str(username)
-            cntyc.save()
-            pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        
-        cntyids = []
-        counties = counties1.split(",")
-        for c in counties:
-            csplit = c.split(":")
-            cnty = csplit[0]
-            stat = csplit[1]
-
-            statlist = [['AZ', 'Arizona'], ['CA', 'California'], ['CO', 'Colorado'], ['ID', 'Idaho'], ['MT', 'Montana'], ['ND', 'North Dakota'], ['NE', 'Nebraksa'], ['NV', 'Nevada'], ['OR', 'Oregon'], ['SD', 'South Dakota'], ['UT', 'Utah'], ['WA', 'Washington'], ['WY', 'Wyoming'], ['AB', 'Alberta'], ['SK', 'Saskatchewan']]
-
-            for sl in statlist:
-                if sl[1] == stat:
-                    cntval = cnty + ", " + sl[0]
-                    break
+        if len(str(counties1)) > 0:
             try:
-                cntyids.append(state_county.objects.values_list('id', flat=True).get(Cnty_St=cntval))
+                pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+                idcnty = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prid)
+                for idc in idcnty:
+                    county_info.objects.filter(Project_ID=prid, County_Value=idc).delete()
+                pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
             except:
-                a=1
-        
-        cntym = county_info.objects.get(pk=pidcnty)
-        cntym.Project_ID = pid
-        cntym.Date_Entered = now
-        cntym.County_Value.set(cntyids)
-        cntym.User = str(username)
-        cntym.save()
+                cntyc = county_info()
+                cntyc.Project_ID = pid
+                cntyc.Date_Entered = now
+                cntyc.User = str(username)
+                cntyc.save()
+                pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+            
+            cntyids = []
+            counties = counties1.split(",")
+            for c in counties:
+                csplit = c.split(":")
+                cnty = csplit[0]
+                stat = csplit[1]
+
+                statlist = [['AZ', 'Arizona'], ['CA', 'California'], ['CO', 'Colorado'], ['ID', 'Idaho'], ['MT', 'Montana'], ['ND', 'North Dakota'], ['NE', 'Nebraksa'], ['NV', 'Nevada'], ['OR', 'Oregon'], ['SD', 'South Dakota'], ['UT', 'Utah'], ['WA', 'Washington'], ['WY', 'Wyoming'], ['AB', 'Alberta'], ['SK', 'Saskatchewan']]
+
+                for sl in statlist:
+                    if sl[1] == stat:
+                        cntval = cnty + ", " + sl[0]
+                        break
+                try:
+                    cntyids.append(state_county.objects.values_list('id', flat=True).get(Cnty_St=cntval))
+                except:
+                    a=1
+            
+            cntym = county_info.objects.get(pk=pidcnty)
+            cntym.Project_ID = pid
+            cntym.Date_Entered = now
+            cntym.County_Value.set(cntyids)
+            cntym.User = str(username)
+            cntym.save()
 
         states = request.POST.get("statevals")
-
-
-        try:
-            pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-            idstt = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prid)
-            for ids in idstt:
-                state_info.objects.filter(Project_ID=prid, State_Value=ids).delete()
-            pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        except:
-            sttc = state_info()
-            sttc.Project_ID = pid
-            sttc.Date_Entered = now
-            sttc.User = str(username)
-            sttc.save()
-            pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        sttids = []
-        states1 = states.split(",")
-        for s in states1:
+        if len(str(states)) > 0:
             try:
-                sttids.append(state.objects.values_list('id', flat=True).get(StateName=s))
+                pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+                idstt = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prid)
+                for ids in idstt:
+                    state_info.objects.filter(Project_ID=prid, State_Value=ids).delete()
+                pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
             except:
-                a=1
-        sttm = state_info.objects.get(pk=pidstt)
-        sttm.Project_ID = pid
-        sttm.Date_Entered = now
-        sttm.State_Value.set(sttids)
-        sttm.User = str(username)
-        sttm.save()
+                sttc = state_info()
+                sttc.Project_ID = pid
+                sttc.Date_Entered = now
+                sttc.User = str(username)
+                sttc.save()
+                pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+            sttids = []
+            states1 = states.split(",")
+            for s in states1:
+                try:
+                    sttids.append(state.objects.values_list('id', flat=True).get(StateName=s))
+                except:
+                    a=1
+            sttm = state_info.objects.get(pk=pidstt)
+            sttm.Project_ID = pid
+            sttm.Date_Entered = now
+            sttm.State_Value.set(sttids)
+            sttm.User = str(username)
+            sttm.save()
 
         mzs = request.POST.get("mzvals")
-
-        try:
-            pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-            idwaf = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=prid)
-            for idw in idwaf:
-                wafwa_info.objects.filter(Project_ID=prid, WAFWA_Value=idw).delete()
-            pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        except:
-            wafc = wafwa_info()
-            wafc.Project_ID = pid
-            wafc.Date_Entered = now
-            wafc.User = str(username)
-            wafc.save()
-            pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-        
-        wafids = []
-        wafwas = mzs.split(",")
-        for w in wafwas:
-            w1 = w.replace("MZ ", "")
-            wafids.append(wafwa_zone_values.objects.values_list('id', flat=True).get(WAFWA_Zone=w1))
-        
-        wafm = wafwa_info.objects.get(pk=pidwaf)
-        wafm.Project_ID = pid
-        wafm.Date_Entered = now
-        wafm.WAFWA_Value.set(wafids)
-        wafm.User = str(username)
-        wafm.save()
+        if len(str(mzs)) > 0:
+            try:
+                pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+                idwaf = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=prid)
+                for idw in idwaf:
+                    wafwa_info.objects.filter(Project_ID=prid, WAFWA_Value=idw).delete()
+                pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+            except:
+                wafc = wafwa_info()
+                wafc.Project_ID = pid
+                wafc.Date_Entered = now
+                wafc.User = str(username)
+                wafc.save()
+                pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+            
+            wafids = []
+            wafwas = mzs.split(",")
+            for w in wafwas:
+                w1 = w.replace("MZ ", "")
+                wafids.append(wafwa_zone_values.objects.values_list('id', flat=True).get(WAFWA_Zone=w1))
+            
+            wafm = wafwa_info.objects.get(pk=pidwaf)
+            wafm.Project_ID = pid
+            wafm.Date_Entered = now
+            wafm.WAFWA_Value.set(wafids)
+            wafm.User = str(username)
+            wafm.save()
 
         grsg = request.POST.get("grsgpopvals")
+        if len(str(grsg)) > 0:
+            pcnt = 0
+            try:
+                pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+                idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
+                for idp in idpop:
+                    population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
+                pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
 
-        pcnt = 0
-        try:
-            pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-            idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
-            for idp in idpop:
-                population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
-            pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+            except:
+                popc = population_info()
+                popc.Project_ID = pid
+                popc.Date_Entered = now
+                popc.User = str(username)
+                popc.save()
 
-        except:
-            popc = population_info()
-            popc.Project_ID = pid
-            popc.Date_Entered = now
-            popc.User = str(username)
-            popc.save()
+                pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
 
-            pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
+            popids = []
+            pops = grsg.split(";")
+            for p in pops:
+                popids.append(population_values.objects.values_list('id', flat=True).get(Pop_Name=p))
 
-        popids = []
-        pops = grsg.split(";")
-        for p in pops:
-            popids.append(population_values.objects.values_list('id', flat=True).get(Pop_Name=p))
-
-        popm = population_info.objects.get(pk=pidpop)
-        popm.Project_ID = pid
-        popm.Date_Entered = now
-        popm.Population_Value.set(popids)
-        popm.User = str(username)
-        popm.save()
+            popm = population_info.objects.get(pk=pidpop)
+            popm.Project_ID = pid
+            popm.Date_Entered = now
+            popm.Population_Value.set(popids)
+            popm.User = str(username)
+            popm.save()
 
         area = request.POST.get("areavals")
-
-        poppi = project_info.objects.get(pk=prid)
-        poppi.GIS_Acres = abs(float(area))
-        poppi.save()
+        if len(str(area)) > 0:
+            poppi = project_info.objects.get(pk=prid)
+            poppi.GIS_Acres = abs(float(area))
+            poppi.save()
 
         return redirect('/sgce/' + prid + '/editproject/?step=Location')
     else:
