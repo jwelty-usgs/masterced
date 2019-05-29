@@ -10,8 +10,12 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 import os
 import sys
 
+path = os.path.dirname(os.path.dirname(__file__))
+print("Base Path")
+print(path)
+
 #TODO
-path = 'C:\\Users\\sgce\\ced'
+# path = 'C:\\Users\\sgce\\ced'
 if path not in sys.path:
     sys.path.append(path)
 

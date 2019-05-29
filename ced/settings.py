@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-with open(BASE_DIR + '\config\sgceConfig.json', 'r') as f:
+with open(BASE_DIR + '/config/sgceConfig.json', 'r') as f:
     config = json.load(f)
     SBUSER = config['DEFAULT']['SBUSER']
     SBPASS = config['DEFAULT']['SBPASS']
@@ -33,8 +33,6 @@ with open(BASE_DIR + '\config\sgceConfig.json', 'r') as f:
     DBHOST = config['DEFAULT']['DBHOST']
     DBUSER = config['DEFAULT']['DBUSER']
     DBPASSWORD = config['DEFAULT']['DBPASSWORD']
-    # DBUSER1 = config['DEFAULT']['DBUSER1']
-    # DBPASSWORD1 = config['DEFAULT']['DBPASSWORD1']
     DBNAME = config['DEFAULT']['DBNAME']
     AGOLUsername = config['DEFAULT']['AGOLUsername']
     AGOLPassword = config['DEFAULT']['AGOLPassword']
@@ -108,14 +106,14 @@ DATABASES = {
     'default': {
           'ENGINE':'django.db.backends.mysql',
           'NAME': DBNAME,
-          # #Uncomment for production
-          # 'USER': DBUSER,
-          # 'PASSWORD': DBPASSWORD,
-          #Comment out for production
+          #Uncomment for production
           'USER': DBUSER,
           'PASSWORD': DBPASSWORD,
-          'HOST': DBHOST,
-          'PORT': 3306,
+          # #Comment out for production
+          # 'USER': DBUSER1,
+          # 'PASSWORD': DBPASSWORD1,
+          # 'HOST': DBHOST,
+          # 'PORT': 3306,
     }
 }
 
@@ -174,10 +172,10 @@ TEMPLATES = [
     {    
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-        os.path.join(BASE_DIR, 'ced_main\Templates'),
-        os.path.join(BASE_DIR, 'welcome\Templates'),
-        os.path.join(BASE_DIR, 'accounts\Templates'), 
-        os.path.join(BASE_DIR, 'grsgmap\Templates'), 
+        os.path.join(BASE_DIR, 'ced_main/Templates'),
+        os.path.join(BASE_DIR, 'welcome/Templates'),
+        os.path.join(BASE_DIR, 'accounts/Templates'), 
+        os.path.join(BASE_DIR, 'grsgmap/Templates'), 
         os.path.join(BASE_DIR, 'Templates')],
         'APP_DIRS': True,
         'OPTIONS': {
