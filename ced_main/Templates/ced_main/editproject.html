@@ -1172,6 +1172,27 @@
 </script>
 
 <script type="text/javascript">
+function showsubmit(){
+ 
+  var docs = ""
+  var docs = document.getElementsByName('myfiles');
+  var docsexist = 0
+  for(var i=0; i<docs.length;i++) {
+      if(docs[i].value > ""){
+          docsexist = 1
+      }
+  }
+
+  if(docsexist == 1){
+      document.getElementById("subbutton").style.display = "inline-block";
+  }else{
+      document.getElementById("subbutton").style.display = "none";
+  }
+}
+
+</script>
+
+<script type="text/javascript">
   UpdateEndDateLabel(subactiv)
   LoadLists('State_Value', 'States Selected: ', 'StatesList');
   LoadLists('County_Value', 'Counties Selected: ', 'CntsList');

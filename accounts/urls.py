@@ -49,7 +49,7 @@ urlpatterns = [
 
     ### Password Reset URLs
     # url(r'^password/reset/$', auth_views.password_reset, name='password_reset_form'), #python 2.7
-    url(r'^password/reset/$', auth_views.PasswordResetView, name='password_reset_form'),
+    url(r'^password/reset/$', auth_views.PasswordResetView.as_view(), name='password_reset_form'),
 
     # url(r'^password/reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm,
     #     name='password_reset_confirm'), #python 2.7

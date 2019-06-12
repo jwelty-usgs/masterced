@@ -98,6 +98,17 @@
     font-size: 17px;
 }
 
+#forpass{
+    position: relative;
+    float: left;
+    margin-left: 30px;
+}
+
+#forpass h1{
+    text-align: left;
+}
+
+
 #forpass1{
     margin-left: 30px;
 }
