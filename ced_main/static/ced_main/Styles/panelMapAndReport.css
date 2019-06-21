@@ -18,8 +18,8 @@
 
 input.button-SelectOnMap {
     /* referencing image in Matt's local dev env*/
-    /* 16px x 16px */
-    /*background-image: url(../images/SelectionSelectTool32.png); */
+    /*background-image: url(../images/SelectionSelectTool32.png);/* 16px x 16px */*/
+
     /* referencing image in CED Django env*/
     background-image: url("/static/ced_main/images/grsgmap/SelectionSelectTool32.png");
 

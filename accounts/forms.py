@@ -241,6 +241,27 @@ class UsereditForm(s.ModelForm):
         else:
             return self.cleaned_data['username', 'email', 'first_name', 'last_name']
 
+class UserMngForm(s.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name', 'is_active')
+
+    def __init__(self, *args, **kwargs):
+        super(UserMngForm, self).__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            self.fields['username'].widget.attrs['readonly'] = True
+            self.fields['email'].widget.attrs['readonly'] = True
+            self.fields['first_name'].widget.attrs['readonly'] = True
+            self.fields['last_name'].widget.attrs['readonly'] = True
+
+    def clean_sku(self):
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            return instance.username
+        else:
+            return self.cleaned_data['username', 'email', 'first_name', 'last_name', 'is_active']
+
 
 class profileedit_Form(s.ModelForm):
     Agency = s.CharField(label = "Agency")

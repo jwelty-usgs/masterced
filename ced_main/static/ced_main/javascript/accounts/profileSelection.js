@@ -81,6 +81,7 @@ function LoadOffices() {
                 appofflist.push([appoffval, appofftxt]);
             }
 
+
             if (strfld == 'Montana Department of Natural Resources and Conservation' & appoffval == 'jamie.mcfadden'){
                 appofflist = [];
                 appofflist.push([appoffval, appofftxt]);

@@ -15,6 +15,8 @@ from django.shortcuts import redirect
 from django.utils import timezone
 import datetime
 from django.views.decorators.clickjacking import xframe_options_sameorigin
+from django.urls import resolve
+from django.contrib.sites.shortcuts import get_current_site
 now = datetime.datetime.utcnow()
 now = now.replace(tzinfo=timezone.utc)
 
@@ -93,11 +95,64 @@ def loginpage(request):
         if str(user) != 'None':
             if user.is_active:
                 auth_login(request, user)
+                current_url = get_current_site(request).domain
                 request.session['member_id'] = user.id
 
-                obj1=userprofile.objects.get(User_id=userid)
-                obj1.Attempts_Remaining = 3
-                obj1.save()
+                if current_url == "conservationefforts.org":
+                    print("Running on Prod")
+                    obj1=userprofile.objects.get(User_id=userid)
+                    obj1.Attempts_Remaining = 3
+                    obj1.Day_365_Warning_Sent = False
+                    obj1.Day_400_Deactivation = False
+                    obj1.save()
+
+                    #Check old usernames and deactivate them.
+                    userid = User.objects.all()
+                    new1 = datetime.datetime.utcnow()
+                    new1 = new1.replace(tzinfo=timezone.utc)
+                    for us in userid:
+                        try:
+                            daysoff = (new1-us.last_login).days
+                            accountact = 1
+                        except:
+                            print("User: " + us.username + " has not logged in to the system yet")
+                            accountact = 0
+
+                        if accountact == 1:
+                            if daysoff >= 365:
+                                userprof = userprofile.objects.get(User_id=us.id)
+                                if userprof.Day_365_Warning_Sent == None or userprof.Day_365_Warning_Sent == 0 or userprof.Day_365_Warning_Sent == False:
+                                    #Send Warning message
+                                    Subject = "Your CED account has been inactive for over 365 days"
+                                    Message = "You have not logged in to your Conservation Efforts Database account in at least 365 days. Please log-in to keep your profile activated.  Failure to log in to your account will result in deactivation in 35 days (400 days total). If you have any questions please email us at conservationefforts@fws.gov. If you would like to voluntarily deactivate your CED account/profile,  are no longer participating in the CED please let us know and we will deactivate your account."
+                                    From = DEFAULT_FROM_EMAIL
+                                    To = us.email
+                                    send_mail(Subject, Message, From, [To], fail_silently=False)
+
+                                    #Indicate warning email has been sent
+                                    obj1=userprofile.objects.get(User_id=us.id)
+                                    obj1.Day_365_Warning_Sent = True
+                                    obj1.save()
+
+                            if daysoff >= 400:
+                                userprof = userprofile.objects.get(User_id=us.id)
+                                if userprof.Day_400_Deactivation == None or userprof.Day_400_Deactivation == 0 or userprof.Day_400_Deactivation == False:
+                                    #Send Warning message
+
+                                    Subject = "Your CED account has been inactive for over 400 days"
+                                    Message = "You have not logged in to your Conservation Efforts Database account in 400 days. Your account has been automatically deactivated. If you would like your account reactivated please email the CED team at conservationefforts@fws.gov"
+                                    From = DEFAULT_FROM_EMAIL
+                                    To = us.email
+                                    send_mail(Subject, Message, From, [To], fail_silently=False)
+
+                                    #Indicate warning email has been sent
+                                    obj1=userprofile.objects.get(User_id=us.id)
+                                    obj1.Day_400_Deactivation = True
+                                    obj1.save()
+
+                                    obj2=User.objects.get(id=us.id)
+                                    obj2.is_active = False
+                                    obj2.save()
 
                 urlcheck = request.get_full_path()
                 urlcheck = str(urlcheck)
@@ -107,7 +162,10 @@ def loginpage(request):
                     return redirect('/sgce/accounts/profile/')
                 try:
                     urlcheck1 = urlcheck.split('?next=')[1]
-                    return redirect(urlcheck1)
+                    if len(urlcheck1) > 0:
+                        return redirect(urlcheck1)
+                    else:
+                        return redirect('/sgce')
                 except:
                     return redirect('/sgce')
             else:
@@ -203,6 +261,21 @@ def ProfUp_Main(request):
                         obj.User_Approved = 1
                     else:
                         obj.User_Approved = 0
+
+                # day365 = userprofile.objects.values_list('Day_365_Warning_Sent',flat=True).get(pk=request.user.id)
+                # print(day365)
+                # if day365 == 1:
+                #     obj.Day_365_Warning_Sent = 1
+                # else:
+                #     obj.Day_365_Warning_Sent = 0
+
+                # day400 = userprofile.objects.values_list('Day_400_Deactivation',flat=True).get(pk=request.user.id)
+                # print(day400)
+                # if day400 == 1:
+                #     obj.Day_400_Deactivation = 1
+                # else:
+                #     obj.Day_400_Deactivation = 0
+
                    
 
                 if 'emailapp' in request.POST:
@@ -374,12 +447,11 @@ def email_success(request):
     authen = checkgroup(request.user.groups.values_list('name',flat=True))
     # if request.user.is_authenticated(): Pythoon 2.7
     if request.user.is_authenticated:
-        if authen == 'authenadmin':
-            context = {'authen':authen}
-            return render(request, 'accounts/email_success.html', context)
-        else:
-            context = {'authen':authen}
-            return render(request, 'accounts/permission_denied.html', context)
+        context = {'authen':authen}
+        return render(request, 'accounts/email_success.html', context)
+    else:
+        context = {'authen':authen}
+        return render(request, 'accounts/permission_denied.html', context)
 
 @login_required
 def viewallusers(request):
@@ -412,7 +484,7 @@ def manageuser(request, prid):
         if conoffice == 'Congress':
             return redirect('/sgce/readonly/')
 
-        form = UsereditForm(request.POST, instance=profile)
+        form = UserMngForm(request.POST, instance=profile)
         subform1 = profilemanage_Form(request.POST, instance=sf)
         try:
             subform2 = profilegrp_manage(request.POST, instance=pid)
@@ -463,7 +535,7 @@ def manageuser(request, prid):
 
     else:
         # If the request was not a POST, display the form to enter details.
-        form = UsereditForm(instance=profile)
+        form = UserMngForm(instance=profile)
         subform1 = profilemanage_Form(instance=sf)
         try:
             subform2 = profilegrp_manage(initial = {

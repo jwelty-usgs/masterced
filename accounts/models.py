@@ -55,6 +55,8 @@ class userprofile(models.Model):
     Date_Waiver_Approved = models.DateTimeField()
     User_Approved = models.IntegerField(default=0)
     Attempts_Remaining = models.IntegerField(default=3)
+    Day_365_Warning_Sent = models.BooleanField(default=False)
+    Day_400_Deactivation = models.BooleanField(default=False)
 
     def __str__(self):
         return "%s" % self.User

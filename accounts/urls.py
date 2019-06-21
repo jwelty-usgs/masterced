@@ -31,13 +31,13 @@ urlpatterns = [
     ### Manage User URLs
     url(r'^viewusers/$', views.viewusers, name='viewusers'),
 
-    url(r'(?P<prid>\d+)/edituser/$', views.edituser, name='edituser'),
+    url(r'^(?P<prid>\d+)/edituser/$', views.edituser, name='edituser'),
 
     url(r'^profile_edit_success/$', views.profile_edit_success, name='profile_edit_success'),
 
     url(r'^viewallusers/$', views.viewallusers, name='viewallusers'),
 
-    url(r'(?P<prid>\d+)/manageuser/$', views.manageuser, name='manageuser'),
+    url(r'^(?P<prid>\d+)/manageuser/$', views.manageuser, name='manageuser'),
 
     url(r'^profile_manage_success/$', views.profile_manage_success, name='profile_manage_success'),
 

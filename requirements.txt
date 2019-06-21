@@ -4,7 +4,7 @@ certifi==2017.1.23
 cffi==1.9.1
 cryptography==1.7.2
 dbf==0.98.0
-Django==2.1.8
+Django==2.1.9
 django-bootstrap3==11.0.0
 django-form-utils==1.0.3
 django-formset-js==0.5.0
@@ -29,7 +29,7 @@ python-dateutil==2.8.0
 pytz==2018.9
 pywin32==223
 reportlab==3.5.28
-requests==2.21.0
+requests==2.22.0
 sciencebasepy==1.6.3
 scipy==2.3.2
 six==1.10.0

@@ -23,6 +23,7 @@ def faq(request):
 def news(request):
     authen = checkgroup(request.user.groups.values_list('name',flat=True))
     context = {'authen':authen}
+
     # if request.user.is_authenticated(): Pythoon 2.7
     if request.user.is_authenticated:
         return render(request, 'welcome/news.html', context)
