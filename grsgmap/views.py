@@ -18,6 +18,14 @@ import urllib
 # import urllib2
 import codecs
 #from django.conf import settings
+from django.conf import settings
+from ced.settings import STATIC_DIR
+
+sbpass = settings.SBPASS
+sbuser = settings.SBUSER
+
+strAGOLUsername = settings.AGOLUSERNAME
+strAGOLPassword = settings.AGOLPASSWORD
 
 now = datetime.datetime.utcnow()
 now = now.replace(tzinfo=timezone.utc)
@@ -95,11 +103,6 @@ def Tindex(request):
 def footprinteditor(request, prid):
     authen = checkgroup(request.user.groups.values_list('name',flat=True))
     authuser = checkauthorization(prid, request.user)
-    basedir = os.path.dirname(os.path.dirname(__file__))
-    with open(basedir + '\config\sgceConfig.json', 'r') as f:
-        config = json.load(f)
-        strAGOLUsername = config['DEFAULT']['AGOLUsername']
-        strAGOLPassword = config['DEFAULT']['AGOLPassword']
 
     if request.method == 'POST':
         # DT_Start = datetime.datetime.now()

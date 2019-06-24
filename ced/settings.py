@@ -33,9 +33,12 @@ with open(BASE_DIR + '/config/sgceConfig.json', 'r') as f:
     DBHOST = config['DEFAULT']['DBHOST']
     DBUSER = config['DEFAULT']['DBUSER']
     DBPASSWORD = config['DEFAULT']['DBPASSWORD']
+    # DBUSER1 = config['DEFAULT']['DBUSER1']
+    # DBPASSWORD1 = config['DEFAULT']['DBPASSWORD1']
     DBNAME = config['DEFAULT']['DBNAME']
-    AGOLUsername = config['DEFAULT']['AGOLUsername']
-    AGOLPassword = config['DEFAULT']['AGOLPassword']
+    AGOLUSERNAME = config['DEFAULT']['AGOLUSERNAME']
+    AGOLPASSWORD = config['DEFAULT']['AGOLPASSWORD']
+    ENVIRONMENT = config['DEFAULT']['ENVIRONMENT']
 
 DEBUG = APPDEBUG
 #TEMPLATE_DEBUG = True
