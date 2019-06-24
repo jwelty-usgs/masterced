@@ -17,15 +17,6 @@ import datetime
 import urllib
 # import urllib2
 import codecs
-#from django.conf import settings
-from django.conf import settings
-from ced.settings import STATIC_DIR
-
-sbpass = settings.SBPASS
-sbuser = settings.SBUSER
-
-strAGOLUsername = settings.AGOLUSERNAME
-strAGOLPassword = settings.AGOLPASSWORD
 
 now = datetime.datetime.utcnow()
 now = now.replace(tzinfo=timezone.utc)

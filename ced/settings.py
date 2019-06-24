@@ -36,8 +36,6 @@ with open(BASE_DIR + '/config/sgceConfig.json', 'r') as f:
     # DBUSER1 = config['DEFAULT']['DBUSER1']
     # DBPASSWORD1 = config['DEFAULT']['DBPASSWORD1']
     DBNAME = config['DEFAULT']['DBNAME']
-    AGOLUSERNAME = config['DEFAULT']['AGOLUSERNAME']
-    AGOLPASSWORD = config['DEFAULT']['AGOLPASSWORD']
     ENVIRONMENT = config['DEFAULT']['ENVIRONMENT']
 
 DEBUG = APPDEBUG
@@ -115,8 +113,9 @@ DATABASES = {
           # #Comment out for production
           # 'USER': DBUSER1,
           # 'PASSWORD': DBPASSWORD1,
-          # 'HOST': DBHOST,
-          # 'PORT': 3306,
+          
+          'HOST': DBHOST,
+          'PORT': 3306,
     }
 }
 
