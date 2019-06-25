@@ -52,7 +52,7 @@ function LoadLists(ListName, ListTitle, ListID) {
     var countyvallabel
     var innerhtm
     var list = document.getElementsByName('State_Value') 
-    var updatelist = document.getElementsByName('County_Value') 
+    var updatelist = document.getElementsByName('county_value') 
     var updatelist1 = []
     var labels
 
@@ -69,7 +69,7 @@ function LoadLists(ListName, ListTitle, ListID) {
         UpdateControl1 = UpdateControl1.substr(1);
 
         updatelist1.push(UpdateControl1)
-        countyval = 'id_County_Value_' + (u)
+        countyval = 'id_county_value_' + (u)
         document.getElementById(countyval).style.display = "none";
         var cnty = document.getElementById("county")
         cnty.getElementsByTagName("li")[u].style.display="none";
@@ -91,7 +91,7 @@ function LoadLists(ListName, ListTitle, ListID) {
 
             for(var j=0; j<updatelist1.length;j++) {
                 CountState  = updatelist1[j].substr(updatelist1[j].length - 2);
-                countyval = 'id_County_Value_' + (u)
+                countyval = 'id_county_value_' + (u)
 
                 if (CountState == State) {
                     
@@ -119,7 +119,7 @@ function LoadLists(ListName, ListTitle, ListID) {
 
             for(var j=0; j<updatelist1.length;j++) {
                 CountState  = updatelist1[j].substr(updatelist1[j].length - 2);
-                countyval = 'id_County_Value_' + (u)
+                countyval = 'id_county_value_' + (u)
                 if (CountState == State) {
                     document.getElementById(countyval).checked = false;
                 }
@@ -1698,9 +1698,9 @@ function GoToEdit(Location) {
       document.getElementById('errorcheckdiv').style.display = "inline-block";
       document.getElementById('sectype').innerHTML = "Step 5: Review/Error Check";
       
-    // var loclists = [['WAFWA_Value', 'WAFWAs Selected: ', 'WAFWAList1'], ['Population_Value', 'Populations Selected: ', 'PopList1'], ['State_Value', 'States Selected: ', 'StateList1'], ['County_Value', 'Counties Selected: ', 'CountyList1']]
+    // var loclists = [['WAFWA_Value', 'WAFWAs Selected: ', 'WAFWAList1'], ['Population_Value', 'Populations Selected: ', 'PopList1'], ['State_Value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
 
-    var loclists = [['State_Value', 'States Selected: ', 'StateList1'], ['County_Value', 'Counties Selected: ', 'CountyList1']]
+    var loclists = [['State_Value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
     
     var effnam = document.getElementById("id_Project_Name").value
 
@@ -3525,8 +3525,8 @@ function DisplayEC() {
     var errorlist = []
     var cnt = 1
 
-    // var loclists = [['WAFWA_Value', 'WAFWAs Selected: ', 'WAFWAList1'], ['Population_Value', 'Populations Selected: ', 'PopList1'], ['State_Value', 'States Selected: ', 'StateList1'], ['County_Value', 'Counties Selected: ', 'CountyList1']]
-    var loclists = [['State_Value', 'States Selected: ', 'StateList1'], ['County_Value', 'Counties Selected: ', 'CountyList1']]
+    // var loclists = [['WAFWA_Value', 'WAFWAs Selected: ', 'WAFWAList1'], ['Population_Value', 'Populations Selected: ', 'PopList1'], ['State_Value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
+    var loclists = [['State_Value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
 
     var stmnth = document.getElementById("id_Start_Date_month").value
     var stday = document.getElementById("id_Start_Date_day").value

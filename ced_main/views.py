@@ -856,7 +856,7 @@ def checkproject(prjid, spatialid):
         stateskip = 1
     if stateskip == 0:
         # Check for Counties
-        countysadd = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prjid)
+        countysadd = county_info.objects.values_list('county_value', flat=True).filter(Project_ID=prjid)
         countyscnt = 0
         countylist = []
         for countyadd in countysadd:
@@ -1296,9 +1296,9 @@ def ClipFeates(feature, prid, username):
 
     # try:
     #     pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    #     idcnty = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prid)
+    #     idcnty = county_info.objects.values_list('county_value', flat=True).filter(Project_ID=prid)
     #     for idc in idcnty:
-    #         county_info.objects.filter(Project_ID=prid, County_Value=idc).delete()
+    #         county_info.objects.filter(Project_ID=prid, county_value=idc).delete()
     #     pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
     # except:
     #     cntyc = county_info()
@@ -1313,7 +1313,7 @@ def ClipFeates(feature, prid, username):
     # cntym = county_info.objects.get(pk=pidcnty)
     # cntym.Project_ID = pid
     # cntym.Date_Entered = now
-    # cntym.County_Value.set(cntyids)
+    # cntym.county_value.set(cntyids)
     # cntym.User = str(username)
     # cntym.save()
 
@@ -2604,7 +2604,7 @@ def editproject(request, prid):
     try:
         subform6 = county_Form(initial={
             'Project_ID': county_info.objects.get(Project_ID=prid),
-            'County_Value': county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prid)
+            'county_value': county_info.objects.values_list('county_value', flat=True).filter(Project_ID=prid)
         }, instance=pidco)
     except:
         subform6 = county_Form()
@@ -2761,7 +2761,7 @@ def editproject(request, prid):
                 origvalst = ["None"]
 
             try:
-                origvalcn = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prid)
+                origvalcn = county_info.objects.values_list('county_value', flat=True).filter(Project_ID=prid)
             except:
                 origvalcn = ["None"]
 
@@ -3060,7 +3060,7 @@ def editproject(request, prid):
 
             try:
                 cntcnt = 0
-                for level4 in request.POST.getlist('County_Value'):
+                for level4 in request.POST.getlist('county_value'):
                     obj6 = subform6.save(commit=False)
                     obj6.Project_ID = pid
                     obj6.Date_Entered = now
@@ -5341,7 +5341,7 @@ def sgcedquery(request):
                     Countycnt = 1
                 else:
                     CountyVal = CountyVal + ", " + str(countyval1)
-                Counval = county_info.objects.values_list('Project_ID', flat=True).filter(County_Value=Cou)
+                Counval = county_info.objects.values_list('Project_ID', flat=True).filter(county_value=Cou)
                 for Co in Counval:
                     Coun.append(Co)
                 Councnt = 1
@@ -5443,7 +5443,7 @@ def sgcedquery(request):
                             # County
                             coutxt = state_county.objects.values_list('id', flat=True).filter(Cnty_St__icontains=KWV)
                             couni = county_info.objects.values_list('Project_ID', flat=True).filter(
-                                County_Value__in=coutxt)
+                                county_value__in=coutxt)
                             for prjv in couni:
                                 kwprjs.append(prjv)
                                 kwcnt = 1
@@ -6569,7 +6569,7 @@ def viewproject(request, prid):
 
     counties1 = "None"
     counties1cnt = 0
-    thri = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prjid)
+    thri = county_info.objects.values_list('county_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = state_county.objects.values_list('Cnty_St', flat=True).get(id=thr)
         if counties1cnt == 0:
@@ -6998,7 +6998,7 @@ def viewonlyproject(request, prid):
 
     counties1 = "None"
     counties1cnt = 0
-    thri = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prjid)
+    thri = county_info.objects.values_list('county_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = state_county.objects.values_list('Cnty_St', flat=True).get(id=thr)
         if counties1cnt == 0:

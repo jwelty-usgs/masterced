@@ -116,7 +116,7 @@
                         <label id="StatesMod">Select all 'States' where your project occurs and is implemented</label>
 
                     </div>
-                    <div id='statebody' onchange="LoadLists('State_Value', 'States Selected: ', 'StatesList'); SelectCounties(); LoadLists('County_Value', 'Counties Selected: ', 'CntsList');">
+                    <div id='statebody' onchange="LoadLists('State_Value', 'States Selected: ', 'StatesList'); SelectCounties(); LoadLists('county_value', 'Counties Selected: ', 'CntsList');">
                             <ul>
                                 {% for field in subform5.State_Value %}
                                 {% if field.is_hidden %}
@@ -143,9 +143,9 @@
                         <label id="CntsList">Counties Selected:</label><br>
                         <label id="CntsMod">Select all 'Counties' where your project occurs and is implemented.</label>
                     </div>
-                    <div id="county" onchange="LoadLists('County_Value', 'Counties Selected: ', 'CntsList');">
+                    <div id="county" onchange="LoadLists('county_value', 'Counties Selected: ', 'CntsList');">
                             <ul>
-                                {% for field in subform6.County_Value %}
+                                {% for field in subform6.county_value %}
                                 {% if field.is_hidden %}
                                 {{ field }}
                                 {% else %}
@@ -1195,7 +1195,7 @@ function showsubmit(){
 <script type="text/javascript">
   UpdateEndDateLabel(subactiv)
   LoadLists('State_Value', 'States Selected: ', 'StatesList');
-  LoadLists('County_Value', 'Counties Selected: ', 'CntsList');
+  LoadLists('county_value', 'Counties Selected: ', 'CntsList');
   if("{{typeactval}}" != "Non-Spatial Plan"){
     LoadLists('Owner_Value', 'Ownership Selected: ', 'OwnerList');
   }
@@ -2807,7 +2807,7 @@ function showsubmit(){
     var countyvallabel
     var innerhtm
     var list = document.getElementsByName('State_Value') 
-    var updatelist = document.getElementsByName('County_Value') 
+    var updatelist = document.getElementsByName('county_value') 
     var updatelist1 = []
     var labels
 
@@ -2822,7 +2822,7 @@ function showsubmit(){
         UpdateControl1 = UpdateControl1.substr(1);
 
         updatelist1.push(UpdateControl1)
-        countyval = 'id_County_Value_' + (u)
+        countyval = 'id_county_value_' + (u)
         document.getElementById(countyval).style.display = "none";
         var cnty = document.getElementById("county")
         cnty.getElementsByTagName("li")[u].style.display="none";
@@ -2841,7 +2841,7 @@ function showsubmit(){
 
             for(var j=0; j<updatelist1.length;j++) {
                 CountState  = updatelist1[j].substr(updatelist1[j].length - 2);
-                countyval = 'id_County_Value_' + (u)
+                countyval = 'id_county_value_' + (u)
 
                 if (CountState == State) {
                     

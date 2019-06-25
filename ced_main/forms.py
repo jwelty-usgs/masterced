@@ -787,7 +787,7 @@ class state_Form(s.ModelForm):
 
 class county_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    County_Value = s.ModelMultipleChoiceField(queryset=state_county.objects.all(), widget=s.CheckboxSelectMultiple,
+    county_value = s.ModelMultipleChoiceField(queryset=state_county.objects.all(), widget=s.CheckboxSelectMultiple,
                                               required=False, label="")
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
@@ -796,7 +796,7 @@ class county_Form(s.ModelForm):
     class Meta:
         # Provide an association between the ModelForm and a model
         model = county_info
-        fields = ('County_Value',)
+        fields = ('county_value',)
 
 
 class huc_Form(s.ModelForm):
@@ -818,7 +818,7 @@ class huc_Form(s.ModelForm):
             prjid = str(instance)
             prjid = int(prjid)
             County1 = state_county.objects.values_list('Cnty_St', flat=True).filter(
-                id__in=county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prjid))
+                id__in=county_info.objects.values_list('county_value', flat=True).filter(Project_ID=prjid))
             StCnty = "Cnty_St='"
             cnt = 0
             for Cn in County1:
@@ -1365,8 +1365,8 @@ class batch_s4_Spatial_Form(s.ModelForm):
                                                   label="Population_Value")
     State_Value = s.ModelMultipleChoiceField(queryset=state.objects.all(), widget=s.CheckboxSelectMultiple,
                                              required=False, label="State_Value")
-    County_Value = s.ModelMultipleChoiceField(queryset=state_county.objects.all(), widget=s.CheckboxSelectMultiple,
-                                              required=False, label="County_Value")
+    county_value = s.ModelMultipleChoiceField(queryset=state_county.objects.all(), widget=s.CheckboxSelectMultiple,
+                                              required=False, label="county_value")
     Owner_Value = s.ModelMultipleChoiceField(queryset=ownership_values.objects.all().order_by('Owners'),
                                              widget=s.CheckboxSelectMultiple, required=False, label="Owner_Value")
     Collab_Party = s.ModelMultipleChoiceField(queryset=imp_party_values.objects.all().order_by('Implementation_Party'),
@@ -1378,7 +1378,7 @@ class batch_s4_Spatial_Form(s.ModelForm):
         # Provide an association between the ModelForm and a model
         model = project_info
         fields = (
-        'Prj_ID', 'Project_Name', 'WAFWA_Value', 'Population_Value', 'State_Value', 'County_Value', 'Owner_Value',
+        'Prj_ID', 'Project_Name', 'WAFWA_Value', 'Population_Value', 'State_Value', 'county_value', 'Owner_Value',
         'Collab_Party')
 
     def __init__(self, *args, **kwargs):

@@ -154,7 +154,7 @@ class state_info(models.Model):
 
 class county_info(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    County_Value = models.ManyToManyField('state_county', db_column='Cnty_St')
+    county_value = models.ManyToManyField('state_county', db_column='Cnty_St')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 

@@ -105,9 +105,9 @@ def footprinteditor(request, prid):
         if len(str(counties1)) > 0:
             try:
                 pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-                idcnty = county_info.objects.values_list('County_Value', flat=True).filter(Project_ID=prid)
+                idcnty = county_info.objects.values_list('county_value', flat=True).filter(Project_ID=prid)
                 for idc in idcnty:
-                    county_info.objects.filter(Project_ID=prid, County_Value=idc).delete()
+                    county_info.objects.filter(Project_ID=prid, county_value=idc).delete()
                 pidcnty = county_info.objects.values_list('id', flat=True).get(Project_ID=prid)
             except:
                 cntyc = county_info()
@@ -138,7 +138,7 @@ def footprinteditor(request, prid):
             cntym = county_info.objects.get(pk=pidcnty)
             cntym.Project_ID = pid
             cntym.Date_Entered = now
-            cntym.County_Value.set(cntyids)
+            cntym.county_value.set(cntyids)
             cntym.User = str(username)
             cntym.save()
 
