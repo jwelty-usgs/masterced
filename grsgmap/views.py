@@ -146,9 +146,9 @@ def footprinteditor(request, prid):
         if len(str(states)) > 0:
             try:
                 pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-                idstt = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prid)
+                idstt = state_info.objects.values_list('state_value', flat=True).filter(Project_ID=prid)
                 for ids in idstt:
-                    state_info.objects.filter(Project_ID=prid, State_Value=ids).delete()
+                    state_info.objects.filter(Project_ID=prid, state_value=ids).delete()
                 pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
             except:
                 sttc = state_info()
@@ -167,7 +167,7 @@ def footprinteditor(request, prid):
             sttm = state_info.objects.get(pk=pidstt)
             sttm.Project_ID = pid
             sttm.Date_Entered = now
-            sttm.State_Value.set(sttids)
+            sttm.state_value.set(sttids)
             sttm.User = str(username)
             sttm.save()
 
@@ -175,9 +175,9 @@ def footprinteditor(request, prid):
         if len(str(mzs)) > 0:
             try:
                 pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-                idwaf = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=prid)
+                idwaf = wafwa_info.objects.values_list('wafwa_value', flat=True).filter(Project_ID=prid)
                 for idw in idwaf:
-                    wafwa_info.objects.filter(Project_ID=prid, WAFWA_Value=idw).delete()
+                    wafwa_info.objects.filter(Project_ID=prid, wafwa_value=idw).delete()
                 pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
             except:
                 wafc = wafwa_info()
@@ -196,7 +196,7 @@ def footprinteditor(request, prid):
             wafm = wafwa_info.objects.get(pk=pidwaf)
             wafm.Project_ID = pid
             wafm.Date_Entered = now
-            wafm.WAFWA_Value.set(wafids)
+            wafm.wafwa_value.set(wafids)
             wafm.User = str(username)
             wafm.save()
 
@@ -205,9 +205,9 @@ def footprinteditor(request, prid):
             pcnt = 0
             try:
                 pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-                idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
+                idpop = population_info.objects.values_list('population_value', flat=True).filter(Project_ID=prid)
                 for idp in idpop:
-                    population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
+                    population_info.objects.filter(Project_ID=prid, population_value=idp).delete()
                 pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
 
             except:
@@ -227,7 +227,7 @@ def footprinteditor(request, prid):
             popm = population_info.objects.get(pk=pidpop)
             popm.Project_ID = pid
             popm.Date_Entered = now
-            popm.Population_Value.set(popids)
+            popm.population_value.set(popids)
             popm.User = str(username)
             popm.save()
 

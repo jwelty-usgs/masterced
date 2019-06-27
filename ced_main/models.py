@@ -145,7 +145,7 @@ class location_info(models.Model):
 
 class state_info(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    State_Value = models.ManyToManyField('state', db_column='State')
+    state_value = models.ManyToManyField('state', db_column='State')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 
@@ -163,7 +163,7 @@ class county_info(models.Model):
 
 class huc12_info(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    HUC12_Value = models.ManyToManyField('state_county_huc12_values', db_column='HUC12_Cnty_State')
+    huc12_value = models.ManyToManyField('state_county_huc12_values', db_column='HUC12_Cnty_State')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 
@@ -172,7 +172,7 @@ class huc12_info(models.Model):
 
 class wafwa_info(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    WAFWA_Value = models.ManyToManyField('wafwa_zone_values', db_column='WAFWA_Zone')
+    wafwa_value = models.ManyToManyField('wafwa_zone_values', db_column='WAFWA_Zone')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 
@@ -181,7 +181,7 @@ class wafwa_info(models.Model):
 
 class population_info(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    Population_Value = models.ManyToManyField('population_values', db_column='Populations')
+    population_value = models.ManyToManyField('population_values', db_column='Populations')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 
@@ -190,7 +190,7 @@ class population_info(models.Model):
 
 class ownership_info(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    Owner_Value = models.ManyToManyField('ownership_values', db_column='Owners')
+    owner_value = models.ManyToManyField('ownership_values', db_column='Owners')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 
@@ -199,7 +199,7 @@ class ownership_info(models.Model):
 
 class threats(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    Threat = models.ManyToManyField('threat_values', db_column='Threats')
+    threat = models.ManyToManyField('threat_values', db_column='Threats')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 
@@ -208,7 +208,7 @@ class threats(models.Model):
 
 class collab_party(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    Collab_Party = models.ManyToManyField('imp_party_values', db_column='Implementation_Party')
+    collab_party = models.ManyToManyField('imp_party_values', db_column='Implementation_Party')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 
@@ -250,7 +250,7 @@ class implementation_info(models.Model):
 
 class subactivity_objectives(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    Objective = models.ManyToManyField('subactivity_objectives_data', db_column='Objective')
+    objective = models.ManyToManyField('subactivity_objectives_data', db_column='Objective')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 
@@ -259,7 +259,7 @@ class subactivity_objectives(models.Model):
 
 class subactivity_methods(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    Method = models.ManyToManyField('subactivity_methods_data', db_column='Method')
+    method = models.ManyToManyField('subactivity_methods_data', db_column='Method')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 
@@ -268,7 +268,7 @@ class subactivity_methods(models.Model):
 
 class subactivity_effective_state(models.Model):
     Project_ID = models.ForeignKey('project_info', on_delete=models.PROTECT, db_column='Project_ID')
-    Effectiveness_Statement = models.ManyToManyField('subactivity_effective_state_data', db_column='Effectiveness_Statement')
+    effectiveness_statement = models.ManyToManyField('subactivity_effective_state_data', db_column='Effectiveness_Statement')
     Date_Entered = models.DateTimeField()
     User = models.CharField(max_length=50)
 

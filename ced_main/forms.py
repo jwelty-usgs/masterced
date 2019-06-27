@@ -576,39 +576,39 @@ class agreement_protect_Form(s.ModelForm):
 
 class threats_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    Threat = s.ModelMultipleChoiceField(queryset=threat_values.objects.all(), widget=s.CheckboxSelectMultiple,
+    threat = s.ModelMultipleChoiceField(queryset=threat_values.objects.all(), widget=s.CheckboxSelectMultiple,
                                         required=False)
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), initial=now, required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
 
     class Meta:
         model = threats
-        fields = ('Threat',)
+        fields = ('threat',)
 
     def __init__(self, *args, **kwargs):
         super(threats_Form, self).__init__(*args, **kwargs)
         instance = getattr(self, 'instance', None)
         if instance and instance.pk:
-            self.fields['Threat'].widget.attrs['readonly'] = True
+            self.fields['threat'].widget.attrs['readonly'] = True
 
     def clean_sku(self):
         instance = getattr(self, 'instance', None)
         if instance and instance.pk:
-            return instance.Threat
+            return instance.threat
         else:
-            return self.cleaned_data['Threat']
+            return self.cleaned_data['threat']
 
 
 class collab_party_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    Collab_Party = s.ModelMultipleChoiceField(queryset=imp_party_values.objects.all().order_by('Implementation_Party'),
+    collab_party = s.ModelMultipleChoiceField(queryset=imp_party_values.objects.all().order_by('Implementation_Party'),
                                               widget=s.CheckboxSelectMultiple, required=False)
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), initial=now, required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
 
     class Meta:
         model = collab_party
-        fields = ('Collab_Party',)
+        fields = ('collab_party',)
 
 
 class MultiFileInput(s.FileInput):
@@ -741,39 +741,39 @@ class implementation_info_Form(BetterModelForm):
 
 class subactivity_objectives_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    Objective = s.ModelMultipleChoiceField(queryset=subactivity_objectives_data.objects.all(), widget=s.CheckboxSelectMultiple, required=False)
+    objective = s.ModelMultipleChoiceField(queryset=subactivity_objectives_data.objects.all(), widget=s.CheckboxSelectMultiple, required=False)
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), initial=now, required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
 
     class Meta:
         model = subactivity_objectives
-        fields = ('Objective',)
+        fields = ('objective',)
 
 class subactivity_methods_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    Method = s.ModelMultipleChoiceField(queryset=subactivity_methods_data.objects.all(), widget=s.CheckboxSelectMultiple, required=False)
+    method = s.ModelMultipleChoiceField(queryset=subactivity_methods_data.objects.all(), widget=s.CheckboxSelectMultiple, required=False)
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), initial=now, required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
 
     class Meta:
         model = subactivity_methods
-        fields = ('Method',)
+        fields = ('method',)
 
 class subactivity_effective_state_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    Effectiveness_Statement = s.ModelMultipleChoiceField(queryset=subactivity_effective_state_data.objects.all(), widget=s.CheckboxSelectMultiple, required=False)
+    effectiveness_statement = s.ModelMultipleChoiceField(queryset=subactivity_effective_state_data.objects.all(), widget=s.CheckboxSelectMultiple, required=False)
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), initial=now, required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
 
     class Meta:
         model = subactivity_effective_state
-        fields = ('Effectiveness_Statement',)
+        fields = ('effectiveness_statement',)
 
 ### Location information forms ###
 
 class state_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    State_Value = s.ModelMultipleChoiceField(queryset=state.objects.all(), widget=s.CheckboxSelectMultiple,
+    state_value = s.ModelMultipleChoiceField(queryset=state.objects.all(), widget=s.CheckboxSelectMultiple,
                                              required=False, label="Select States")
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
@@ -782,7 +782,7 @@ class state_Form(s.ModelForm):
     class Meta:
         # Provide an association between the ModelForm and a model
         model = state_info
-        fields = ('State_Value',)
+        fields = ('state_value',)
 
 
 class county_Form(s.ModelForm):
@@ -801,7 +801,7 @@ class county_Form(s.ModelForm):
 
 class huc_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    HUC12_Value = s.ModelMultipleChoiceField(queryset=huc12.objects.none(), widget=s.CheckboxSelectMultiple,
+    huc12_value = s.ModelMultipleChoiceField(queryset=huc12.objects.none(), widget=s.CheckboxSelectMultiple,
                                              required=False, label="")
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
@@ -809,7 +809,7 @@ class huc_Form(s.ModelForm):
     class Meta:
         # Provide an association between the ModelForm and a model
         model = huc12_info
-        fields = ('HUC12_Value',)
+        fields = ('huc12_value',)
 
     def __init__(self, *args, **kwargs):
         super(huc_Form, self).__init__(*args, **kwargs)
@@ -828,13 +828,13 @@ class huc_Form(s.ModelForm):
                 else:
                     counties = counties + " OR " + StCnty + Cn + "'"
 
-            self.fields['HUC12_Value'].queryset = state_county_huc12_values.objects.extra(where=[counties])
+            self.fields['huc12_value'].queryset = state_county_huc12_values.objects.extra(where=[counties])
         except:
             try:
                 prjid = str(instance)
                 prjid = int(prjid)
                 State1 = state.objects.values_list('State', flat=True).filter(
-                    id__in=state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prjid))
+                    id__in=state_info.objects.values_list('state_value', flat=True).filter(Project_ID=prjid))
                 StStrt = "State='"
                 cnt = 0
                 for St in State1:
@@ -844,14 +844,14 @@ class huc_Form(s.ModelForm):
                     else:
                         states = states + " OR " + StStrt + St + "'"
 
-                self.fields['HUC12_Value'].queryset = state_county_huc12_values.objects.extra(where=[states])
+                self.fields['huc12_value'].queryset = state_county_huc12_values.objects.extra(where=[states])
             except:
                 Nothing = "None"
 
 
 class wafwa_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    WAFWA_Value = s.ModelMultipleChoiceField(queryset=wafwa_zone_values.objects.all(), widget=s.CheckboxSelectMultiple,
+    wafwa_value = s.ModelMultipleChoiceField(queryset=wafwa_zone_values.objects.all(), widget=s.CheckboxSelectMultiple,
                                              required=False, label="")
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
@@ -860,12 +860,12 @@ class wafwa_Form(s.ModelForm):
     class Meta:
         # Provide an association between the ModelForm and a model
         model = wafwa_info
-        fields = ('WAFWA_Value',)
+        fields = ('wafwa_value',)
 
 
 class population_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    Population_Value = s.ModelMultipleChoiceField(queryset=population_values.objects.all().order_by('Populations'),
+    population_value = s.ModelMultipleChoiceField(queryset=population_values.objects.all().order_by('Populations'),
                                                   widget=s.CheckboxSelectMultiple, required=False, label="")
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
@@ -874,12 +874,12 @@ class population_Form(s.ModelForm):
     class Meta:
         # Provide an association between the ModelForm and a model
         model = population_info
-        fields = ('Population_Value',)
+        fields = ('population_value',)
 
 
 class ownership_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    Owner_Value = s.ModelMultipleChoiceField(queryset=ownership_values.objects.all().order_by('Owners'),
+    owner_value = s.ModelMultipleChoiceField(queryset=ownership_values.objects.all().order_by('Owners'),
                                              widget=s.CheckboxSelectMultiple, required=False, label="")
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
@@ -888,7 +888,7 @@ class ownership_Form(s.ModelForm):
     class Meta:
         # Provide an association between the ModelForm and a model
         model = ownership_info
-        fields = ('Owner_Value',)
+        fields = ('owner_value',)
 
 
 class documentation_Form(s.ModelForm):
@@ -1358,18 +1358,18 @@ class batch_s4_Spatial_Form(s.ModelForm):
     Prj_ID = s.IntegerField(widget=s.TextInput(attrs={'size': '2'}), required=False, label="ID")
     Project_Name = s.CharField(widget=s.TextInput(attrs={'size': '20'}), max_length=75, label="Effort Name",
                                required=False)
-    WAFWA_Value = s.ModelMultipleChoiceField(queryset=wafwa_zone_values.objects.all(), widget=s.CheckboxSelectMultiple,
-                                             required=False, label="WAFWA_Value")
-    Population_Value = s.ModelMultipleChoiceField(queryset=population_values.objects.all().order_by('Populations'),
+    wafwa_value = s.ModelMultipleChoiceField(queryset=wafwa_zone_values.objects.all(), widget=s.CheckboxSelectMultiple,
+                                             required=False, label="wafwa_value")
+    population_value = s.ModelMultipleChoiceField(queryset=population_values.objects.all().order_by('Populations'),
                                                   widget=s.CheckboxSelectMultiple, required=False,
-                                                  label="Population_Value")
-    State_Value = s.ModelMultipleChoiceField(queryset=state.objects.all(), widget=s.CheckboxSelectMultiple,
-                                             required=False, label="State_Value")
+                                                  label="population_value")
+    state_value = s.ModelMultipleChoiceField(queryset=state.objects.all(), widget=s.CheckboxSelectMultiple,
+                                             required=False, label="state_value")
     county_value = s.ModelMultipleChoiceField(queryset=state_county.objects.all(), widget=s.CheckboxSelectMultiple,
                                               required=False, label="county_value")
-    Owner_Value = s.ModelMultipleChoiceField(queryset=ownership_values.objects.all().order_by('Owners'),
-                                             widget=s.CheckboxSelectMultiple, required=False, label="Owner_Value")
-    Collab_Party = s.ModelMultipleChoiceField(queryset=imp_party_values.objects.all().order_by('Implementation_Party'),
+    owner_value = s.ModelMultipleChoiceField(queryset=ownership_values.objects.all().order_by('Owners'),
+                                             widget=s.CheckboxSelectMultiple, required=False, label="owner_value")
+    collab_party = s.ModelMultipleChoiceField(queryset=imp_party_values.objects.all().order_by('Implementation_Party'),
                                               widget=s.CheckboxSelectMultiple, label="Collaborating Party*",
                                               required=False)
 
@@ -1378,8 +1378,8 @@ class batch_s4_Spatial_Form(s.ModelForm):
         # Provide an association between the ModelForm and a model
         model = project_info
         fields = (
-        'Prj_ID', 'Project_Name', 'WAFWA_Value', 'Population_Value', 'State_Value', 'county_value', 'Owner_Value',
-        'Collab_Party')
+        'Prj_ID', 'Project_Name', 'wafwa_value', 'population_value', 'state_value', 'county_value', 'owner_value',
+        'collab_party')
 
     def __init__(self, *args, **kwargs):
         super(batch_s4_Spatial_Form, self).__init__(*args, **kwargs)

@@ -21,11 +21,9 @@
 
 <script type="text/javascript" src="{% static 'ced_main/javascript/cedprjedit/cededitprj.js' %}"></script>
 <script type="text/javascript">
-
     var activ = "{{Activity}}"
     var subactiv = "{{subact}}"
     var tyacval = "{{typeactval}}"
-
 </script>
 
 
@@ -116,9 +114,9 @@
                         <label id="StatesMod">Select all 'States' where your project occurs and is implemented</label>
 
                     </div>
-                    <div id='statebody' onchange="LoadLists('State_Value', 'States Selected: ', 'StatesList'); SelectCounties(); LoadLists('county_value', 'Counties Selected: ', 'CntsList');">
+                    <div id='statebody' onchange="LoadLists('state_value', 'States Selected: ', 'StatesList'); SelectCounties(); LoadLists('county_value', 'Counties Selected: ', 'CntsList');">
                             <ul>
-                                {% for field in subform5.State_Value %}
+                                {% for field in subform5.state_value %}
                                 {% if field.is_hidden %}
                                 {{ field }}
                                 {% else %}
@@ -167,9 +165,9 @@
                         <h3 id=colabcolor>Collaborators<span class='required'>*</span></h3><br>
                         <label id="collabList">Collaborators Selected:</label><br>
                     </div>
-                    <div id="collab" onchange="LoadLists('Collab_Party', 'Collaborators Selected: ', 'collabList'); checknull();">
+                    <div id="collab" onchange="LoadLists('collab_party', 'Collaborators Selected: ', 'collabList'); checknull();">
                         <ul>
-                            {% for field in subform3.Collab_Party %}
+                            {% for field in subform3.collab_party %}
                             {% if field.is_hidden %}
                             {{ field }}
                             {% else %}
@@ -195,9 +193,9 @@
                         <label id="OwnerList">Ownership Selected:</label><br>
                         <label id="OwnerMod">Select all 'Land Owners' where your project occurs and is implemented.</label>
                     </div>
-                    <div id="owner" onchange="LoadLists('Owner_Value', 'Ownership Selected: ', 'OwnerList');">
+                    <div id="owner" onchange="LoadLists('owner_value', 'Ownership Selected: ', 'OwnerList');">
                         <ul>
-                            {% for field in subform10.Owner_Value %}
+                            {% for field in subform10.owner_value %}
                             {% if field.is_hidden %}
                             {{ field }}
                             {% else %}
@@ -285,7 +283,7 @@
               </div>
               <div id='objbody' onchange="SelectMethods('{{subact}}'); UpdateEndDateLabel('{{subact}}');">
                 <ul>
-                    {% for field in subform11.Objective %}
+                    {% for field in subform11.objective %}
                     {% if field.is_hidden %}
                     {{ field }}
                     {% else %}
@@ -330,7 +328,7 @@
               </div>
               <div id='methodbody' onchange="SelectOtherRequired();">
                 <ul>
-                    {% for field in subform12.Method %}
+                    {% for field in subform12.method %}
                     {% if field.is_hidden %}
                     {{ field }}
                     {% else %}
@@ -481,7 +479,7 @@
                                   </div>
                                   <div id='effstatbody' onchange="SelectOtherRequiredEff();">
                                       <ul>
-                                          {% for field in subform13.Effectiveness_Statement %}
+                                          {% for field in subform13.effectiveness_statement %}
                                           {% if field.is_hidden %}
                                           {{ field }}
                                           {% else %}
@@ -798,7 +796,7 @@
                                     </div>
                                   <div id="ThreatVals">
                                     <ul>
-                                      {% for field in subform2.Threat %}
+                                      {% for field in subform2.threat %}
                                         {% if field.is_hidden %}
                                           {{ field }}
                                         {% else %}
@@ -922,8 +920,8 @@
 
                         {% elif field.label == "Seeding Type" %}
                             {% if subact == "Vegetation Management / Habitat Enhancement" or subact == "Energy development reclamation with the goal of sagebrush restoration" %}
-                                <div id="actdiv">
-                                    <div id="seedtype"><lab id="seedtypelab"><b>Seeding Type:</b><span class='required'>*</span></lab><span id='seedchoicecolor'>{{ field }}</span></div>
+                                <div id="actdiv1">
+                                    <lab class="reviewlabel" id="SeedingTypeLab">Seeding Type:<span class='required'>*</span></lab><div class='reviewval' id='SeedingTypeVal'></div>
                                 </div>
                             {% endif %}
 
@@ -1182,22 +1180,20 @@ function showsubmit(){
           docsexist = 1
       }
   }
-
   if(docsexist == 1){
       document.getElementById("subbutton").style.display = "inline-block";
   }else{
       document.getElementById("subbutton").style.display = "none";
   }
 }
-
 </script>
 
 <script type="text/javascript">
   UpdateEndDateLabel(subactiv)
-  LoadLists('State_Value', 'States Selected: ', 'StatesList');
+  LoadLists('state_value', 'States Selected: ', 'StatesList');
   LoadLists('county_value', 'Counties Selected: ', 'CntsList');
   if("{{typeactval}}" != "Non-Spatial Plan"){
-    LoadLists('Owner_Value', 'Ownership Selected: ', 'OwnerList');
+    LoadLists('owner_value', 'Ownership Selected: ', 'OwnerList');
   }
   var loc = window.location.href 
   var vars = loc.split("step=");
@@ -1230,7 +1226,6 @@ function showsubmit(){
     if(styear > 1980){
       stmonth = document.getElementById('id_Start_Date_month').value
       stday = document.getElementById('id_Start_Date_day').value
-
       if(stmonth == 4 | stmonth == 6 | stmonth == 9 | stmonth == 11){
         if(stday > 30){
           alert('This month only has 30 days in it, not 31')
@@ -1239,7 +1234,6 @@ function showsubmit(){
           document.getElementById('id_Start_Date_day').value = 0
         }
       }
-
       if(stmonth == 2){
         if(stday > 28){
             alert('February only has 28 days in it. If the effort started on the leap day please indicate March 1st as the start date.')
@@ -1248,10 +1242,8 @@ function showsubmit(){
             document.getElementById('id_Start_Date_month').value = 0
         }
       }
-
       var stdate = new Date(styear, stmonth, stday);
       var curdate = new Date()
-
       if(impstat == true & stdate > curdate){
         alert('Your effort is marked Complete, your start date cannot occur after today')
         document.getElementById('id_Start_Date_year').value = 0
@@ -1260,7 +1252,6 @@ function showsubmit(){
       }
       
     }
-
     enyear = document.getElementById('id_End_Date_year').value
     if(enyear > 1980){
       enmonth = document.getElementById('id_End_Date_month').value
@@ -1274,7 +1265,6 @@ function showsubmit(){
           document.getElementById('id_End_Date_day').value = 0
         }
       }
-
       if(enmonth == 2){
         if(enday > 28){
             alert('February only has 28 days in it. If the effort started on the leap day please indicate March 1st as the start date.')
@@ -1283,10 +1273,8 @@ function showsubmit(){
             document.getElementById('id_End_Date_day').value = 0
         }
       }
-
       var endate = new Date(enyear, enmonth, enday);
       var curdate = new Date()
-
       if(impstat == true & endate > curdate){
         alert('Your effort is marked Complete, your end date cannot occur after today')
         document.getElementById('id_End_Date_year').value = 0
@@ -1302,7 +1290,6 @@ function showsubmit(){
         document.getElementById('id_End_Date_day').value = 0
       }
     }
-
   }
 </script>
 
@@ -1311,521 +1298,452 @@ function showsubmit(){
 <script type="text/javascript">
   subact = subactiv
   var list = document.getElementsByName('Effective_Determined') 
-  var updatelist = document.getElementsByName('Effectiveness_Statement') 
+  var updatelist = document.getElementsByName('effectiveness_statement') 
   var updatelist1 = []
   var labels
-
   var optionlist = []
-
   var u = 0
   for(var j=0; j<updatelist.length;j++) {
       UpdateControl = updatelist[j].parentNode.innerHTML;
       UpdateControl1 = UpdateControl.split(">")[1];
       UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
       UpdateControl1 = UpdateControl1.substr(1);
-
       updatelist1.push(UpdateControl1)
-      effstval = 'id_Effectiveness_Statement_' + (u)
+      effstval = 'id_effectiveness_statement_' + (u)
       document.getElementById(effstval).style.display = "none";
       var mthd = document.getElementById("effstatbody")
       mthd.getElementsByTagName("li")[u].style.display="none";
       u = u + 1
   }
-
   for(var i=0; i<list.length;i++) {
     if (list[i].checked) {
       var EffectStat = list[i].value
       var u = 0
-
       // Set effectiveness statement select boxes for subactivity Conservation Easement
       if(subact == 'Conservation Easement'){
         for(var u=0; u<4; u++){
           if (EffectStat == 1 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 2 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 3 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Land Acquisition
       if(subact == 'Land Acquisition'){
         for(var u=0; u<4; u++){
           if (EffectStat == 4 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 5 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 6 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Fuel Breaks
       if(subact == 'Fuel Breaks'){
         for(var u=0; u<7; u++){
           if (EffectStat == 7 & (u == 0 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 8 & (u == 1 | u == 2 | u == 3 | u == 4 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 9 & (u == 5 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Conifer Removal (All Phases)
       if(subact == 'Conifer Removal (All Phases)'){
         for(var u=0; u<10; u++){
           if (EffectStat == 10 & (u == 1 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 11 & (u == 0 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 12 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 6 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 13 & (u == 7 | u == 8 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Vegetation Management / Habitat Enhancement
       if(subact == 'Vegetation Management / Habitat Enhancement'){
         for(var u=0; u<10; u++){
           if (EffectStat == 14 & (u == 0 | u == 1 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 15 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 16 & (u == 6 | u == 7 | u == 8 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Fuels Management
       if(subact == 'Fuels Management'){
         for(var u=0; u<10; u++){
           if (EffectStat == 17 & (u == 1 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 18 & (u == 0 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 19 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 20 & (u == 6 | u == 7 | u == 8 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Annual Grass Treatments
       if(subact == 'Annual Grass Treatments'){
         for(var u=0; u<10; u++){
           if (EffectStat == 21 & (u == 0 | u == 1 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 22 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 23 & (u == 6 | u == 7 | u == 8 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Noxious Weed Treatments
       if(subact == 'Noxious Weed Treatments'){
         for(var u=0; u<9; u++){
           if (EffectStat == 24 & (u == 0 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 25 & (u == 1 | u == 2 | u == 3 | u == 4 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 26 & (u == 5 | u == 6 | u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Riparian, Wet Meadow or Spring Restoration
       if(subact == 'Riparian, Wet Meadow or Spring Restoration'){
         for(var u=0; u<9; u++){
           if (EffectStat == 27 & (u == 0 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 28 & (u == 1 | u == 2 | u == 3 | u == 4 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 29 & (u == 5 | u == 6 | u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Energy development reclamation with the goal of sagebrush restoration
       if(subact == 'Energy development reclamation with the goal of sagebrush restoration'){
         for(var u=0; u<9; u++){
           if (EffectStat == 30 & (u == 0 | u == 1 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 31 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 32 & (u == 6 | u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Area Closure
       if(subact == 'Area Closure'){
         for(var u=0; u<5; u++){
           if (EffectStat == 33 & (u == 0 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 34 & (u == 1 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 35 & (u == 2 | u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Improved Grazing Practices (Rest, Rotation, Etc.)
       if(subact == 'Improved Grazing Practices (Rest, Rotation, Etc.)'){
         for(var u=0; u<7; u++){
           if (EffectStat == 36 & (u == 0 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 37 & (u == 1 | u == 2 | u == 3 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 38 & (u == 4 | u == 5 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Road and Trail closure OR Rerouted Roads and/or Trails
       if(subact == 'Road and Trail closure' | subact == 'Rerouted Roads and/or Trails'){
         for(var u=0; u<5; u++){
           if ((EffectStat == 39 | EffectStat == 42) & (u == 0 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if ((EffectStat == 40 | EffectStat == 43) & (u == 1 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if ((EffectStat == 41 | EffectStat == 44) & (u == 2 | u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Powerline Retrofitting / Modification
       if(subact == 'Powerline Retrofitting / Modification'){
         for(var u=0; u<6; u++){
           if (EffectStat == 45 & (u == 0 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 46 & (u == 1 | u == 2 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 47 & (u == 3 | u == 4 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Powerline Burial OR Structure Removal
       if(subact == 'Powerline Burial' | subact == 'Structure Removal'){
         for(var u=0; u<4; u++){
           if ((EffectStat == 48 | EffectStat == 51) & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if ((EffectStat == 49 | EffectStat == 52) & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if ((EffectStat == 50 | EffectStat == 53) & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Fence Marking
       if(subact == 'Fence Marking'){
         for(var u=0; u<5; u++){
           if (EffectStat == 54 & (u == 0 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 55 & (u == 1 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 56 & (u == 2 | u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Fence Modification
       if(subact == 'Fence Modification'){
         for(var u=0; u<4; u++){
           if (EffectStat == 57 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 58 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 59 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Fence Removal
       if(subact == 'Fence Removal'){
         for(var u=0; u<4; u++){
           if (EffectStat == 60 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 61 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 62 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Wild Equid Population Control
       if(subact == 'Wild Equid Population Control'){
         for(var u=0; u<5; u++){
           if (EffectStat == 63 & (u == 0 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 64 & (u == 1 | u == 2 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 65 & (u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Wild Equid Gather
       if(subact == 'Wild Equid Gather'){
         for(var u=0; u<4; u++){
           if (EffectStat == 66 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 67 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 68 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
         }
       }
-
       // Set effectiveness statement select boxes for subactivity Translocation
       if(subact == 'Translocation'){
         for(var u=0; u<4; u++){
           if (EffectStat == 69 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 70 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
-
           if (EffectStat == 71 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1875,17 +1793,15 @@ function showsubmit(){
 </script>
 
 <script type="text/javascript">
-  var list = document.getElementsByName('Method') 
+  var list = document.getElementsByName('method') 
   for(var i=0; i<list.length;i++) {
     if (list[i].checked) {
-
         Control = list[i].parentNode.innerHTML;
         Control1 = Control.split(">");
         Control2 = String(Control1[1])
         Control2 = Control2.replace(/[\n\r]/g, '');
         Control2 = Control2.substr(1);
         var Method = Control2
-
         if (Method == 'Other - Please specify in text box'){
           document.getElementById('methaster').style.display = "inline-block"
         }
@@ -1896,7 +1812,6 @@ function showsubmit(){
 <script type="text/javascript">
   var subact = subactiv
   if(subact == 'Vegetation Management / Habitat Enhancement' | subact == 'Fuels Management' | subact == 'Riparian, Wet Meadow or Spring Restoration'){
-
     var Control
     var Control1
     var UpdateControl
@@ -1907,34 +1822,27 @@ function showsubmit(){
     var Outputlist = "" 
     var CountState   
     var innerhtm
-    var list = document.getElementsByName('Objective') 
-    var updatelist = document.getElementsByName('Method') 
+    var list = document.getElementsByName('objective') 
+    var updatelist = document.getElementsByName('method') 
     var updatelist1 = []
     var labels
-
     var optionlist = []
-
     var u = 0
-
     
-
     for(var j=0; j<updatelist.length;j++) {
         UpdateControl = updatelist[j].parentNode.innerHTML;
         UpdateControl1 = UpdateControl.split(">")[1];
         UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
         UpdateControl1 = UpdateControl1.substr(1);
-
         updatelist1.push(UpdateControl1)
-        methodval = 'id_Method_' + (u)
+        methodval = 'id_method_' + (u)
         document.getElementById(methodval).style.display = "none";
         var mthd = document.getElementById("methodbody")
         mthd.getElementsByTagName("li")[u].style.display="none";
         u = u + 1
     }
-
     for(var i=0; i<list.length;i++) {
         if (list[i].checked) {
-
             Control = list[i].parentNode.innerHTML;
             Control1 = Control.split(">");
             Control2 = String(Control1[1])
@@ -1942,176 +1850,153 @@ function showsubmit(){
             Control2 = Control2.substr(1);
             Objective = Control2
             var u = 0
-
             // Set select boxes for subactivity Vegetation Management / Habitat Enhancement
             if(subact == 'Vegetation Management / Habitat Enhancement'){
               for(var j=0; j<updatelist1.length;j++) {
                 if (Objective == 'Increase native bunchgrass density and/or diversity (local scale)' | Objective == 'Improve and/or restore habitat quality through planting of sagebrush or other shrubs providing habitat (local scale)' | Objective == 'Increase forb density or diversity in understory (local scale)') {
                     for(var u=0; u<7; u++){
                       if(u == 0 | u == 1 | u == 5 | u == 6){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Reduce or remove shrubs that may contribute to sagebrush habitat loss or degradation (local scale)'){
                     for(var u=0; u<7; u++){
                       if(u == 2 | u == 3 | u == 4){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Other - Please specify in text box'){
                   for(var u=0; u<7; u++){
-                      document.getElementById('id_Method_' + u).style.display = "inline-block";
+                      document.getElementById('id_method_' + u).style.display = "inline-block";
                       var mthd = document.getElementById("methodbody")
                       mthd.getElementsByTagName("li")[u].style.display="inline-block";
                   }
                   document.getElementById('objaster').style.display = "inline-block"
                 }
-
-                document.getElementById('id_Method_7').style.display = "inline-block";
+                document.getElementById('id_method_7').style.display = "inline-block";
                 var mthd = document.getElementById("methodbody")
                 mthd.getElementsByTagName("li")[7].style.display="inline-block";
-
-                document.getElementById('id_Method_8').style.display = "inline-block";
+                document.getElementById('id_method_8').style.display = "inline-block";
                 var mthd = document.getElementById("methodbody")
                 mthd.getElementsByTagName("li")[8].style.display="inline-block";
-
               }
             }
-
             // Set select boxes for Fuels Management
             if(subact == 'Fuels Management'){
               for(var j=0; j<updatelist1.length;j++) {
                 if (Objective == 'Reduce woody fuels (slash) following conifer removal (local scale)') {
                     for(var u=0; u<5; u++){
                       if(u == 0 | u == 3 | u == 4){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Reduce fuel continuity by thinning shrubs (local scale)') {
                     for(var u=0; u<5; u++){
                       if(u == 0 | u == 1 | u == 2){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Other - Please specify in text box'){
                   for(var u=0; u<5; u++){
-                      document.getElementById('id_Method_' + u).style.display = "inline-block";
+                      document.getElementById('id_method_' + u).style.display = "inline-block";
                       var mthd = document.getElementById("methodbody")
                       mthd.getElementsByTagName("li")[u].style.display="inline-block";
                   }
                   document.getElementById('objaster').style.display = "inline-block"
                 }
-
-                document.getElementById('id_Method_5').style.display = "inline-block";
+                document.getElementById('id_method_5').style.display = "inline-block";
                 var mthd = document.getElementById("methodbody")
                 mthd.getElementsByTagName("li")[5].style.display="inline-block";
-
-                document.getElementById('id_Method_6').style.display = "inline-block";
+                document.getElementById('id_method_6').style.display = "inline-block";
                 var mthd = document.getElementById("methodbody")
                 mthd.getElementsByTagName("li")[6].style.display="inline-block";
-
               }
             }
-
             // Set select boxes for Riparian
             if(subact == 'Riparian, Wet Meadow or Spring Restoration'){
               for(var j=0; j<updatelist1.length;j++) {
                 if (Objective == 'Restore hydroligic function to floodplain/wet meadow (local scale)'){
                     for(var u=0; u<11; u++){
                       if(u == 0 | u == 2 | u == 3 | u == 4 | u == 6){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Raise floodplain/wet meadow water table (local scale)'){
                     for(var u=0; u<11; u++){
                       if(u == 3 | u == 4 | u == 6){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Restore riparian vegetation (local scale)'){
                     for(var u=0; u<11; u++){
                       if(u == 7 | u == 8 | u == 9 | u == 10){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Reduce bank erosion to improve riparian function (local scale)'){
                     for(var u=0; u<11; u++){
                       if(u == 1 | u == 6 | u == 7 | u == 8 | u == 9 | u == 10){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Spring enhancement (local scale)'){
                     for(var u=0; u<11; u++){
                       if(u == 7 | u == 8 | u == 9 | u == 10){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Playa restoration (local scale)'){
                     for(var u=0; u<11; u++){
                       if(u == 5){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("objaster")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                       }
                     }
                 }
-
                 if (Objective == 'Other - Please specify in text box'){
                   for(var u=0; u<11; u++){
-                      document.getElementById('id_Method_' + u).style.display = "inline-block";
+                      document.getElementById('id_method_' + u).style.display = "inline-block";
                       var mthd = document.getElementById("methodbody")
                       mthd.getElementsByTagName("li")[u].style.display="inline-block";
                   }
                   document.getElementById('objaster').style.display = "inline-block"
                 }
-
-                document.getElementById('id_Method_11').style.display = "inline-block";
+                document.getElementById('id_method_11').style.display = "inline-block";
                 var mthd = document.getElementById("methodbody")
                 mthd.getElementsByTagName("li")[11].style.display="inline-block";
-
-                document.getElementById('id_Method_12').style.display = "inline-block";
+                document.getElementById('id_method_12').style.display = "inline-block";
                 var mthd = document.getElementById("methodbody")
                 mthd.getElementsByTagName("li")[12].style.display="inline-block";
-
               }
             }
-
         }
     }
   }
@@ -2126,7 +2011,6 @@ function showsubmit(){
         if (needToConfirm){
            return "You are attempting to leave this page.  If you have made any changes to the fields without clicking the 'Save and Exit' or 'Submit for Approval' buttons, your changes will be lost.  Are you sure you want to exit this page?";
         } else {
-
             if (document.getElementById("deleteprj").name == "deleteapp"){
             
               if (confirm('Deleting the project will erase all data, GIS, and documentation for this project.  Are you sure you want to continue?')) {
@@ -2137,7 +2021,6 @@ function showsubmit(){
                 event.preventDefault();
               }
             }
-
           
         }
         
@@ -2147,10 +2030,8 @@ function showsubmit(){
 <script type="text/javascript">
   if("{{typeactval}}" == "Spatial Project"){
     var repAcre = document.getElementById('id_Metric_Value').value;
-
     var GISAcre = document.getElementById('GISACVAL').innerHTML;
     var AcreDiff = repAcre - GISAcre;
-
     if(AcreDiff >= 0){
         var diffthan = "greater than"
     }else{
@@ -2159,7 +2040,6 @@ function showsubmit(){
     AcreDiff = Math.abs(AcreDiff)
     var AcrePer = repAcre / GISAcre * 100;
     AcrePer = Math.round(AcrePer)
-
     if(AcreDiff >= 100){
         document.getElementById('GISAcres').innerHTML = "*Reported acreage ('Metric Value') is " + AcreDiff + "ac (" + AcrePer +"%) " + diffthan + " the GIS-calculated acreage (represented by your spatial input).  Please ensure these values represent the correct area where the conservation action was implemented. We caution including adjacent acres that may receive indirect benefit, if they are not included in the project/treatment area.";
     }else{
@@ -2175,32 +2055,26 @@ function showsubmit(){
     dojo.require("dijit.layout.TabContainer");
     dojo.require("dijit.layout.ContentPane");
     var app = {};
-
     require([
             "esri/map", "esri/layers/FeatureLayer", "esri/layers/KMLLayer", "dojo/dom-style", "esri/layers/WFSLayer", "esri/urlUtils", "dojo/_base/array", "dojo/parser", "esri/config", "dojo/dom", "dojo/dom-class", "dojo/on",
             "esri/geometry/webMercatorUtils", "dojo/mouse", "dojo/promise/all", "esri/geometry/Point", "esri/symbols/SimpleMarkerSymbol",
             "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "dojo/_base/Color",
             "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/arcgis/utils", "dojo/domReady!"
         ],
-
         //normal approved project poly      ?CEDID=486        //normal approved project point   ?CEDID=439        //normal approved project line    ?CEDID=7358
         //not applicable poly (typeact: Project)    ?CEDID=377        //not applicable poly (typeact: )         ?CEDID=482        //not applicable poly (typeact: Plan)     ?CEDID=413
         //not applicable line (project)         ?CEDID=812        //not applicable point (not prj or plan)      ?CEDID=942        //not applicable point (prj)          ?CEDID=601
         //not applicable point (typeact: Project)   ?CEDID=468        //not applicable point (typeact: Plan)    ?CEDID=838
-
     function (Map, FeatureLayer, KMLLayer, domStyle, WFSLayer, urlUtils, arrayUtils, parser, esriConfig, dom, domClass, on, webMercatorUtils, mouse, all, Point, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, Color) {
         //var tokens = getTokens
         // var iCEDID = getTokens()['CEDID'];
         var iCEDID = "{{prid}}";
-
         parser.parse();
-
         app.loading = dojo.byId("loadingImg");  //loading image. id
         var customExtentAndSR = new esri.geometry.Extent(-14000000, 4595472, -11000000, 5943351, new esri.SpatialReference({ "wkid": 3857 }));
         app.map = new esri.Map("map", { basemap: "topo", logo: false, extent: customExtentAndSR, sliderPosition: "bottom-left" });
       
         dojo.connect(app.map, "onUpdateStart", showLoading); dojo.connect(app.map, "onUpdateEnd", hideLoading);
-
             
         if (typeof iCEDID != 'undefined') {
             app.strFSURL1 = "https://utility.arcgis.com/usrsvcs/servers/5d5fc053dd7e4de4b9765f7a6b6f1f61/rest/services/CEDfrontpage_map_v9_Restrict/FeatureServer/";  //Theme Layers
@@ -2213,29 +2087,23 @@ function showsubmit(){
             CED_PP_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
             var CED_PP_poly = new FeatureLayer(app.strFSURL1 + "2", { "opacity": 0.8 }, { autoGeneralize: true, visible: true });
             CED_PP_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
-
             var CED_NA_point = new FeatureLayer(app.strFSURL2 + "0", { visible: true });
             CED_NA_point.setDefinitionExpression("(project_id = " + iCEDID + ")  and ((sourcefeaturetype = 'point') OR (sourcefeaturetype = 'poly' AND wobbled_gis = 1) OR (sourcefeaturetype = 'line' AND wobbled_gis = 1))");
             var CED_NA_line = new FeatureLayer(app.strFSURL2 + "2", { visible: true });
             CED_NA_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
             var CED_NA_poly = new FeatureLayer(app.strFSURL2 + "4", { "opacity": 0.8 }, { autoGeneralize: true, visible: true });
             CED_NA_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
-
             var CED_SRC_point = new FeatureLayer(app.strFSURL2 + "1", { visible: true });
             CED_SRC_point.setDefinitionExpression("(project_id = " + iCEDID + ")");
             var CED_SRC_line = new FeatureLayer(app.strFSURL2 + "3", { visible: true });
             CED_SRC_line.setDefinitionExpression("(project_id = " + iCEDID + ")");
-
             if(document.location.host == "conservationefforts.org"){
               var CED_SRC_poly = new FeatureLayer(app.strFSURL2 + "5", { "opacity": 0.8 }, { autoGeneralize: true,  visible: true }); //Production
             }else{
               var CED_SRC_poly = new FeatureLayer("https://utility.arcgis.com/usrsvcs/servers/e09a9437e03d4190a3f3a8f2e36190b4/rest/services/Development_Src_v2/FeatureServer/0", { "opacity": 0.8 }, { autoGeneralize: true,  visible: true }); //Sandbox
             }
-
             CED_SRC_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
             //Production
-
-
             app.map.addLayers([CED_PP_poly, CED_NA_poly, CED_SRC_poly, CED_PP_line, CED_NA_line, CED_SRC_line, CED_PP_point, CED_NA_point, CED_SRC_point]); //Production
             
             app.dblExpandNum = 1.5
@@ -2247,7 +2115,6 @@ function showsubmit(){
             app.map.disableMapNavigation();
             app.map.hideZoomSlider();
         }
-
         function hideLoading(error) {
             esri.hide(app.loading);
             app.map.enableMapNavigation();
@@ -2265,7 +2132,6 @@ function showsubmit(){
             resultFeatures = resultFeatures.concat(results[6].features);
             resultFeatures = resultFeatures.concat(results[7].features);
             resultFeatures = resultFeatures.concat(results[8].features);
-
             if (resultFeatures.length > 0) {
                 var pExtent;
                 pfeatureExtent1 = esri.graphicsExtent(resultFeatures);
@@ -2286,7 +2152,6 @@ function showsubmit(){
                     app.map.setExtent(pExtent, true);
                 }
                 else { var strMessage = "hold it up here"; }
-
                 arrayUtils.forEach(results[0].features, function (feat) {//This section handles features with no symbology
                     var attr = feat.attributes;
                     if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
@@ -2335,8 +2200,6 @@ function showsubmit(){
             }
             return results;
         }
-
-
         function qry_Zoom2FeatureLayerExtent(pFeatureLayer1, pFeatureLayer2, pFeatureLayer3, pFeatureLayer4, pFeatureLayer5, pFeatureLayer6, pFeatureLayer7, pFeatureLayer8, pFeatureLayer9) {
             var pQueryT1 = new esri.tasks.QueryTask(pFeatureLayer1.url);
             var pQuery1 = new esri.tasks.Query();
@@ -2344,25 +2207,21 @@ function showsubmit(){
             var pQuery2 = new esri.tasks.Query();
             var pQueryT3 = new esri.tasks.QueryTask(pFeatureLayer3.url);
             var pQuery3 = new esri.tasks.Query();
-
             var pQueryT4 = new esri.tasks.QueryTask(pFeatureLayer4.url);
             var pQuery4 = new esri.tasks.Query();
             var pQueryT5 = new esri.tasks.QueryTask(pFeatureLayer5.url);
             var pQuery5 = new esri.tasks.Query();
             var pQueryT6 = new esri.tasks.QueryTask(pFeatureLayer6.url);
             var pQuery6 = new esri.tasks.Query();
-
             var pQueryT7 = new esri.tasks.QueryTask(pFeatureLayer7.url);
             var pQuery7 = new esri.tasks.Query();
             var pQueryT8 = new esri.tasks.QueryTask(pFeatureLayer8.url);
             var pQuery8 = new esri.tasks.Query();
             var pQueryT9 = new esri.tasks.QueryTask(pFeatureLayer9.url);
             var pQuery9 = new esri.tasks.Query();
-
             pQuery1.returnGeometry = pQuery2.returnGeometry = pQuery3.returnGeometry = pQuery4.returnGeometry = pQuery5.returnGeometry = pQuery6.returnGeometry = pQuery7.returnGeometry = pQuery8.returnGeometry = pQuery9.returnGeometry = true;
             pQuery1.outFields = pQuery2.outFields = pQuery3.outFields = pQuery4.outFields = pQuery5.outFields = pQuery6.outFields = ["objectid, typeact"];
             pQuery7.outFields = pQuery8.outFields = pQuery9.outFields = ["objectid"];
-
             var strQuery1 = pFeatureLayer1.getDefinitionExpression();
             var strQuery2 = pFeatureLayer2.getDefinitionExpression();
             var strQuery3 = pFeatureLayer3.getDefinitionExpression();
@@ -2395,17 +2254,14 @@ function showsubmit(){
             pPromises = new all([FLayer1, FLayer2, FLayer3, FLayer4, FLayer5, FLayer6, FLayer7, FLayer8, FLayer9]);
             return pPromises.then(returnEvents, err);
         }
-
         function err(err) {
             console.log("Failed to get stat results due to an error: ", err);
         }
-
         function getCookie(name) {
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
             if (parts.length == 2) return parts.pop().split(";").shift();
         }
-
         function getTokens() {
             var tokens = [];
             var query = location.search;
@@ -2425,16 +2281,11 @@ function showsubmit(){
 
 
 <script type="text/javascript">
-
   var ua = window.navigator.userAgent;
   var msie = ua.indexOf("MSIE ");
-
-
-
   if("{{NotPoly}}" == "NotPoly"){
     alert("Only polygons can be uploaded into the CED. Please upload the correct spatial type.")
   }
-
     try{
           var objwrdcntval = document.getElementById('id_Objectives_Desc').value
           var objchacntval1 = objwrdcntval.length
@@ -2446,7 +2297,6 @@ function showsubmit(){
           document.getElementById("objwrdcnt").innerHTML = objwrdval 
     }catch(err){
     }
-
     try{
           var mthwrdcntval = document.getElementById('id_Methods_Explained').value
           var mthchacntval1 = mthwrdcntval.length
@@ -2458,7 +2308,6 @@ function showsubmit(){
           document.getElementById("mthwrdcnt").innerHTML = mthwrdval 
     }catch(err){
     }
-
     try{
         var effexpwrdcntval = document.getElementById('id_Effective_Explained').value
         var effexpchacntval1 = effexpwrdcntval.length
@@ -2470,7 +2319,6 @@ function showsubmit(){
         document.getElementById("effexpwrdcnt").innerHTML = effexpwrdval
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Ag_Conversion_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2482,7 +2330,6 @@ function showsubmit(){
           document.getElementById("acwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Conifer_Encroach_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2494,7 +2341,6 @@ function showsubmit(){
           document.getElementById("cwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Oil_Gas_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2506,7 +2352,6 @@ function showsubmit(){
           document.getElementById("ogwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Fire_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2518,7 +2363,6 @@ function showsubmit(){
           document.getElementById("fwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Feral_Equids_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2530,7 +2374,6 @@ function showsubmit(){
           document.getElementById("fewrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Improper_Grazing_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2542,7 +2385,6 @@ function showsubmit(){
           document.getElementById("igwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Infrastructure_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2554,7 +2396,6 @@ function showsubmit(){
           document.getElementById("infwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Isolated_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2566,7 +2407,6 @@ function showsubmit(){
           document.getElementById("ipwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Mining_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2578,7 +2418,6 @@ function showsubmit(){
           document.getElementById("mwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Invasives_Explained').value
           var acchacntval1 = acwrdcntval.length
@@ -2590,7 +2429,6 @@ function showsubmit(){
           document.getElementById("invwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Recreation_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2602,7 +2440,6 @@ function showsubmit(){
           document.getElementById("rwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Sagebrush_Loss_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2614,7 +2451,6 @@ function showsubmit(){
           document.getElementById("slwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
     try{
           var acwrdcntval = document.getElementById('id_Urban_Devel_Explain').value
           var acchacntval1 = acwrdcntval.length
@@ -2626,11 +2462,9 @@ function showsubmit(){
           document.getElementById("udwrdcnt").innerHTML = acwrdval 
     }catch(err){
     }
-
   if (msie > 0){      // If Internet Explorer, return version number
       document.getElementById('map').style.width='610px';
   }  
-
   var radios = document.getElementsByName('Entry_Type');
   for (var i = 0, length = radios.length; i < length; i++) {
     if (radios[i].checked) {
@@ -2640,7 +2474,6 @@ function showsubmit(){
         break;
     }
   }
-
   if (status == 1){
     var status1 = "Being Edited (Not Approved)";
   }
@@ -2653,15 +2486,12 @@ function showsubmit(){
   if (status == 4){
     var status1 = "Marked for Deletion";
   }
-
   // var status = document.getElementById('id_Entry_Type').text
   
    document.getElementById('effstatus').innerHTML = status1
-
     if ("{{ LCJasonDown }}" == "True"){
         document.getElementById('DownDoc').click();
     }
-
     if("{{subact}}" == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)"){
         document.getElementById('lab66').innerHTML = 'Acres Enrolled:<span class="required">*</span>'
         document.getElementById('MetValLab').innerHTML = 'Acres Enrolled:<span class="required">*</span>'
@@ -2684,15 +2514,12 @@ function showsubmit(){
         document.getElementById('lab66').innerHTML = 'Acres Treated:<span class="required">*</span>'
         document.getElementById('MetValLab').innerHTML = 'Acres Treated:<span class="required">*</span>'
     }
-
-
     if("{{typeactval}}" == 'Spatial Project'){
         var repAcre = document.getElementById('id_Metric_Value').value;
     repAcre = Math.round(repAcre)
     var GISAcre = document.getElementById('GISACVAL').innerHTML;
     GISAcre = Math.round(GISAcre)
     var AcreDiff = repAcre - GISAcre;
-
     if(GISAcre > 0){
       if(AcreDiff >= 0){
           var diffthan = "greater than"
@@ -2719,15 +2546,13 @@ function showsubmit(){
           
       }
       
-
       
     }
     }
-
     // var Control
     // var Control1
     // var Outputlist = ""    
-    // var list = document.getElementsByName('Threat')
+    // var list = document.getElementsByName('threat')
     // for(var i=0; i<list.length;i++) {
     //   if (list[i].checked) {
     //     Control = list[i].parentNode.innerHTML;
@@ -2735,51 +2560,39 @@ function showsubmit(){
     //     var Control2 = String(Control1[1])
     //     Control2 = Control2.replace(/[\n\r]/g, '');
     //     Control2 = Control2.substr(1);
-
-
     //     if (Control2 == "AGRICULTURAL CONVERSION (Tillage Risk)"){
     //       document.getElementById('threatdivac').style.display = "block";
     //     }
     //     if (Control2 == "CONIFER ENCROACHMENT"){
     //       document.getElementById('threatdivce').style.display = "block";
     //     }
-
     //     if (Control2 == "OIL &amp; GAS DEVELOPMENT"){
     //       document.getElementById('threatdivog').style.display = "block";
     //     }
-
     //     if (Control2 == "FIRE"){
     //       document.getElementById('threatdivfi').style.display = "block";
     //     }
-
     //     if (Control2 == "FERAL EQUIDS"){
     //       document.getElementById('threatdivfe').style.display = "block";
     //     }
-
     //     if (Control2 == "IMPROPER GRAZING / RANGE MANAGEMENT"){
     //       document.getElementById('threatdivig').style.display = "block";
     //     }
-
     //     if (Control2 == "INFRASTRUCTURE (Roads, Powerlines, Renewable Energy)"){
     //       document.getElementById('threatdivin').style.display = "block";
     //     }
-
     //     if (Control2 == "ISOLATED / SMALL POPULATION SIZE"){
     //       document.getElementById('threatdivip').style.display = "block";
     //     }
-
     //     if (Control2 == "MINING"){
     //       document.getElementById('threatdivmi').style.display = "block";
     //     }
-
     //     if (Control2 == "INVASIVES (Annual Grasses and Noxious Weeds)"){
     //       document.getElementById('threatdiviv').style.display = "block";
     //     }
-
     //     if (Control2 == "RECREATION"){
     //       document.getElementById('threatdivre').style.display = "block";
     //     }
-
     //     if (Control2 == "SAGEBRUSH LOSS or DEGRADATION"){
     //       document.getElementById('threatdivsl').style.display = "block";
     //     }
@@ -2789,10 +2602,6 @@ function showsubmit(){
     //     }
     //   }
     // }
-
-
-
-
     var Control
     var Control1
     var UpdateControl
@@ -2806,21 +2615,17 @@ function showsubmit(){
     var countyval
     var countyvallabel
     var innerhtm
-    var list = document.getElementsByName('State_Value') 
+    var list = document.getElementsByName('state_value') 
     var updatelist = document.getElementsByName('county_value') 
     var updatelist1 = []
     var labels
-
     var optionlist = []
-
     var u = 0
-
     for(var j=0; j<updatelist.length;j++) {
         UpdateControl = updatelist[j].parentNode.innerHTML;
         UpdateControl1 = UpdateControl.split(">")[1];
         UpdateControl1 = UpdateControl1.replace(/[\n\r]/g, '');
         UpdateControl1 = UpdateControl1.substr(1);
-
         updatelist1.push(UpdateControl1)
         countyval = 'id_county_value_' + (u)
         document.getElementById(countyval).style.display = "none";
@@ -2828,37 +2633,26 @@ function showsubmit(){
         cnty.getElementsByTagName("li")[u].style.display="none";
         u = u + 1
     }
-
     for(var i=0; i<list.length;i++) {
         if (list[i].checked) {
-
             Control = list[i].parentNode.innerHTML;
             Control1 = Control.split(">");
             State = Control1[1]
             State = State.substr(State.length - 2);
-
             var u = 0
-
             for(var j=0; j<updatelist1.length;j++) {
                 CountState  = updatelist1[j].substr(updatelist1[j].length - 2);
                 countyval = 'id_county_value_' + (u)
-
                 if (CountState == State) {
                     
                     document.getElementById(countyval).style.display = "inline-block";
                     var cnty = document.getElementById("county")
                     cnty.getElementsByTagName("li")[u].style.display="inline-block";
-
                 }
-
                 u = u + 1
-
             }
-
         }
     }
-
-
       
 </script>
 
@@ -2869,8 +2663,6 @@ var fulleftlist = []
 var fullactlist = []
 var fullsubactlist = []
 var fullmetlist = []
-
-
   list = document.getElementsByName('Imp_Status')
     for(var i=0; i<list.length;i++) {
       if (document.getElementsByName('Imp_Status')[i].checked) {
@@ -2884,9 +2676,7 @@ var fullmetlist = []
             document.getElementById('Regulatory_Mech').style.display = "inline-block";
             document.getElementById('Compliance').style.display = "inline-block";
             document.getElementById('Vol_Incentives').style.display = "inline-block";
-
         }
-
         if (document.getElementsByName('Imp_Status')[i].value == 3){
             var str = "With your effort complete, no additional questions required for Part 1";
             document.getElementById('Part1Label').innerHTML = str;
@@ -2896,11 +2686,9 @@ var fullmetlist = []
             document.getElementById('Regulatory_Mech').style.display = "none";
             document.getElementById('Compliance').style.display = "none";
             document.getElementById('Vol_Incentives').style.display = "none";
-
         }
       }
     }
-
     list = document.getElementsByName('Effective_Determined')
     for(var i=0; i<list.length;i++) {
       if (document.getElementsByName('Effective_Determined')[i].checked) {
@@ -2908,7 +2696,6 @@ var fullmetlist = []
         
         var effval = document.getElementsByName('Effective_Determined')[i].value
         if (effval == 1 | effval == 4 | effval == 10 | effval == 17 | effval == 33 | effval == 39 | effval == 42 | effval == 45 | effval == 48 | effval == 51 | effval == 54 | effval == 57 | effval == 60 | effval == 7 | effval == 11 | effval == 14 | effval == 18 | effval == 21 | effval == 24 | effval == 27 | effval == 30 | effval == 36 | effval == 63 | effval == 66 | effval == 69){
-
           var str = "With your effort fully effective, no additional questions required for Part 2";
           document.getElementById('Part2Label').innerHTML = str;
           var str1 = 'Explain why the activity was deemed effective:';
@@ -2931,8 +2718,6 @@ var fullmetlist = []
         }
       }
     }
-
-
 </script>
 
 

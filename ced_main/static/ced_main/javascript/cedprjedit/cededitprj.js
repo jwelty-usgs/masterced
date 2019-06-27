@@ -1,4 +1,3 @@
-
 function LoadLists(ListName, ListTitle, ListID) {
 
   var list
@@ -51,7 +50,7 @@ function LoadLists(ListName, ListTitle, ListID) {
     var countyval
     var countyvallabel
     var innerhtm
-    var list = document.getElementsByName('State_Value') 
+    var list = document.getElementsByName('state_value') 
     var updatelist = document.getElementsByName('county_value') 
     var updatelist1 = []
     var labels
@@ -132,7 +131,7 @@ function LoadLists(ListName, ListTitle, ListID) {
 }
 
 function SelectOtherRequired(){
-  var list = document.getElementsByName('Method') 
+  var list = document.getElementsByName('method') 
   for(var i=0; i<list.length;i++) {
     if (list[i].checked) {
 
@@ -162,7 +161,7 @@ function SelectOtherRequired(){
 }
 
 function SelectOtherRequiredEff(){
-  var list = document.getElementsByName('Effectiveness_Statement') 
+  var list = document.getElementsByName('effectiveness_statement') 
   for(var i=0; i<list.length;i++) {
     if (list[i].checked) {
 
@@ -194,7 +193,7 @@ function SelectOtherRequiredEff(){
 function UpdateEndDateLabel(subact){
 
   var list = document.getElementsByName('Imp_Status') 
-  var objlist = document.getElementsByName('Objective') 
+  var objlist = document.getElementsByName('objective') 
   for(var i=0; i<list.length;i++) {
     if (list[i].checked) {
       var statusval = list[i].value
@@ -319,8 +318,8 @@ function SelectMethods(subact){
       var Outputlist = "" 
       var CountState   
       var innerhtm
-      var list = document.getElementsByName('Objective') 
-      var updatelist = document.getElementsByName('Method') 
+      var list = document.getElementsByName('objective') 
+      var updatelist = document.getElementsByName('method') 
       var updatelist1 = []
       var labels
 
@@ -334,7 +333,7 @@ function SelectMethods(subact){
           UpdateControl1 = UpdateControl1.substr(1);
 
           updatelist1.push(UpdateControl1)
-          methodval = 'id_Method_' + (u)
+          methodval = 'id_method_' + (u)
           document.getElementById(methodval).style.display = "none";
           var mthd = document.getElementById("methodbody")
           mthd.getElementsByTagName("li")[u].style.display="none";
@@ -358,7 +357,7 @@ function SelectMethods(subact){
                   if (Objective == 'Increase native bunchgrass density and/or diversity (local scale)' | Objective == 'Improve and/or restore habitat quality through planting of sagebrush or other shrubs providing habitat (local scale)' | Objective == 'Increase forb density or diversity in understory (local scale)') {
                       for(var u=0; u<7; u++){
                         if(u == 0 | u == 1 | u == 5 | u == 6){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -368,7 +367,7 @@ function SelectMethods(subact){
                   if (Objective == 'Reduce or remove shrubs that may contribute to sagebrush habitat loss or degradation (local scale)'){
                       for(var u=0; u<7; u++){
                         if(u == 2 | u == 3 | u == 4){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -377,18 +376,18 @@ function SelectMethods(subact){
 
                   if (Objective == 'Other - Please specify in text box'){
                     for(var u=0; u<7; u++){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                     }
                     document.getElementById('objaster').style.display = "inline-block"
                   }
 
-                  document.getElementById('id_Method_7').style.display = "inline-block";
+                  document.getElementById('id_method_7').style.display = "inline-block";
                   var mthd = document.getElementById("methodbody")
                   mthd.getElementsByTagName("li")[7].style.display="inline-block";
 
-                  document.getElementById('id_Method_8').style.display = "inline-block";
+                  document.getElementById('id_method_8').style.display = "inline-block";
                   var mthd = document.getElementById("methodbody")
                   mthd.getElementsByTagName("li")[8].style.display="inline-block";
 
@@ -401,7 +400,7 @@ function SelectMethods(subact){
                   if (Objective == 'Reduce woody fuels (slash) following conifer removal (local scale)') {
                       for(var u=0; u<5; u++){
                         if(u == 0 | u == 3 | u == 4){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -411,7 +410,7 @@ function SelectMethods(subact){
                   if (Objective == 'Reduce fuel continuity by thinning shrubs (local scale)') {
                       for(var u=0; u<5; u++){
                         if(u == 0 | u == 1 | u == 2){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -420,18 +419,18 @@ function SelectMethods(subact){
 
                   if (Objective == 'Other - Please specify in text box'){
                     for(var u=0; u<5; u++){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                     }
                     document.getElementById('objaster').style.display = "inline-block"
                   }
 
-                  document.getElementById('id_Method_5').style.display = "inline-block";
+                  document.getElementById('id_method_5').style.display = "inline-block";
                   var mthd = document.getElementById("methodbody")
                   mthd.getElementsByTagName("li")[5].style.display="inline-block";
 
-                  document.getElementById('id_Method_6').style.display = "inline-block";
+                  document.getElementById('id_method_6').style.display = "inline-block";
                   var mthd = document.getElementById("methodbody")
                   mthd.getElementsByTagName("li")[6].style.display="inline-block";
 
@@ -444,7 +443,7 @@ function SelectMethods(subact){
                   if (Objective == 'Restore hydroligic function to floodplain/wet meadow (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 0 | u == 2 | u == 3 | u == 4 | u == 6){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -454,7 +453,7 @@ function SelectMethods(subact){
                   if (Objective == 'Raise floodplain/wet meadow water table (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 3 | u == 4 | u == 6){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -464,7 +463,7 @@ function SelectMethods(subact){
                   if (Objective == 'Restore riparian vegetation (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 7 | u == 8 | u == 9 | u == 10){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -474,7 +473,7 @@ function SelectMethods(subact){
                   if (Objective == 'Reduce bank erosion to improve riparian function (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 1 | u == 6 | u == 7 | u == 8 | u == 9 | u == 10){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -484,7 +483,7 @@ function SelectMethods(subact){
                   if (Objective == 'Spring enhancement (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 7 | u == 8 | u == 9 | u == 10){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -494,7 +493,7 @@ function SelectMethods(subact){
                   if (Objective == 'Playa restoration (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 5){
-                          document.getElementById('id_Method_' + u).style.display = "inline-block";
+                          document.getElementById('id_method_' + u).style.display = "inline-block";
                           var mthd = document.getElementById("methodbody")
                           mthd.getElementsByTagName("li")[u].style.display="inline-block";
                         }
@@ -503,18 +502,18 @@ function SelectMethods(subact){
 
                   if (Objective == 'Other - Please specify in text box'){
                     for(var u=0; u<11; u++){
-                        document.getElementById('id_Method_' + u).style.display = "inline-block";
+                        document.getElementById('id_method_' + u).style.display = "inline-block";
                         var mthd = document.getElementById("methodbody")
                         mthd.getElementsByTagName("li")[u].style.display="inline-block";
                     }
                     document.getElementById('objaster').style.display = "inline-block"
                   }
 
-                  document.getElementById('id_Method_11').style.display = "inline-block";
+                  document.getElementById('id_method_11').style.display = "inline-block";
                   var mthd = document.getElementById("methodbody")
                   mthd.getElementsByTagName("li")[11].style.display="inline-block";
 
-                  document.getElementById('id_Method_12').style.display = "inline-block";
+                  document.getElementById('id_method_12').style.display = "inline-block";
                   var mthd = document.getElementById("methodbody")
                   mthd.getElementsByTagName("li")[12].style.display="inline-block";
 
@@ -540,7 +539,7 @@ function SelectMethods(subact){
                   if (Objective == 'Increase native bunchgrass density and/or diversity (local scale)' | Objective == 'Improve and/or restore habitat quality through planting of sagebrush or other shrubs providing habitat (local scale)' | Objective == 'Increase forb density or diversity in understory (local scale)') {
                       for(var u=0; u<7; u++){
                         if(u == 0 | u == 1 | u == 5 | u == 6){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -548,7 +547,7 @@ function SelectMethods(subact){
                   if (Objective == 'Reduce or remove shrubs that may contribute to sagebrush habitat loss or degradation (local scale)') {
                       for(var u=0; u<7; u++){
                         if(u == 2 | u == 3 | u == 4){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -566,7 +565,7 @@ function SelectMethods(subact){
                   if (Objective == 'Reduce woody fuels (slash) following conifer removal (local scale)') {
                       for(var u=0; u<5; u++){
                         if(u == 0 | u == 3 | u == 4){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -574,7 +573,7 @@ function SelectMethods(subact){
                   if (Objective == 'Reduce fuel continuity by thinning shrubs (local scale)') {
                       for(var u=0; u<5; u++){
                         if(u == 0 | u == 1 | u == 2){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -591,7 +590,7 @@ function SelectMethods(subact){
                   if (Objective == 'Restore hydroligic function to floodplain/wet meadow (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 0 | u == 2 | u == 3 | u == 4 | u == 6){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -599,7 +598,7 @@ function SelectMethods(subact){
                   if (Objective == 'Raise floodplain/wet meadow water table (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 3 | u == 4 | u == 6){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -607,7 +606,7 @@ function SelectMethods(subact){
                   if (Objective == 'Restore riparian vegetation (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 7 | u == 8 | u == 9 | u == 10){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -615,7 +614,7 @@ function SelectMethods(subact){
                   if (Objective == 'Reduce bank erosion to improve riparian function (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 1 | u == 6 | u == 7 | u == 8 | u == 9 | u == 10){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -623,7 +622,7 @@ function SelectMethods(subact){
                   if (Objective == 'Spring enhancement (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 7 | u == 8 | u == 9 | u == 10){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -631,7 +630,7 @@ function SelectMethods(subact){
                   if (Objective == 'Playa restoration (local scale)'){
                       for(var u=0; u<11; u++){
                         if(u == 5){
-                          document.getElementById('id_Method_' + u).checked = false;
+                          document.getElementById('id_method_' + u).checked = false;
                         }
                       }
                   }
@@ -661,7 +660,7 @@ function SelectEffStat(subact){
   var CountState   
   var innerhtm
   var list = document.getElementsByName('Effective_Determined') 
-  var updatelist = document.getElementsByName('Effectiveness_Statement') 
+  var updatelist = document.getElementsByName('effectiveness_statement') 
   var updatelist1 = []
   var labels
 
@@ -675,7 +674,7 @@ function SelectEffStat(subact){
       UpdateControl1 = UpdateControl1.substr(1);
 
       updatelist1.push(UpdateControl1)
-      effstval = 'id_Effectiveness_Statement_' + (u)
+      effstval = 'id_effectiveness_statement_' + (u)
       document.getElementById(effstval).style.display = "none";
       var mthd = document.getElementById("effstatbody")
       mthd.getElementsByTagName("li")[u].style.display="none";
@@ -691,19 +690,19 @@ function SelectEffStat(subact){
       if(subact == 'Conservation Easement'){
         for(var u=0; u<4; u++){
           if (EffectStat == 1 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 2 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 3 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -714,19 +713,19 @@ function SelectEffStat(subact){
       if(subact == 'Land Acquisition'){
         for(var u=0; u<4; u++){
           if (EffectStat == 4 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 5 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 6 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -737,19 +736,19 @@ function SelectEffStat(subact){
       if(subact == 'Fuel Breaks'){
         for(var u=0; u<7; u++){
           if (EffectStat == 7 & (u == 0 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 8 & (u == 1 | u == 2 | u == 3 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 9 & (u == 4 | u == 5 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -760,25 +759,25 @@ function SelectEffStat(subact){
       if(subact == 'Conifer Removal (All Phases)'){
         for(var u=0; u<10; u++){
           if (EffectStat == 10 & (u == 1 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 11 & (u == 0 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 12 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 6 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 13 & (u == 7 | u == 8 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -789,19 +788,19 @@ function SelectEffStat(subact){
       if(subact == 'Vegetation Management / Habitat Enhancement'){
         for(var u=0; u<10; u++){
           if (EffectStat == 14 & (u == 0 | u == 1 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 15 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 16 & (u == 6 | u == 7 | u == 8 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -812,25 +811,25 @@ function SelectEffStat(subact){
       if(subact == 'Fuels Management'){
         for(var u=0; u<10; u++){
           if (EffectStat == 17 & (u == 1 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 18 & (u == 0 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 19 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 20 & (u == 6 | u == 7 | u == 8 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -841,19 +840,19 @@ function SelectEffStat(subact){
       if(subact == 'Annual Grass Treatments'){
         for(var u=0; u<10; u++){
           if (EffectStat == 21 & (u == 0 | u == 1 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 22 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 23 & (u == 6 | u == 7 | u == 8 | u == 9)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -864,19 +863,19 @@ function SelectEffStat(subact){
       if(subact == 'Noxious Weed Treatments'){
         for(var u=0; u<9; u++){
           if (EffectStat == 24 & (u == 0 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 25 & (u == 1 | u == 2 | u == 3 | u == 4 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 26 & (u == 5 | u == 6 | u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -887,19 +886,19 @@ function SelectEffStat(subact){
       if(subact == 'Riparian, Wet Meadow or Spring Restoration'){
         for(var u=0; u<9; u++){
           if (EffectStat == 27 & (u == 0 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 28 & (u == 1 | u == 2 | u == 3 | u == 4 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 29 & (u == 5 | u == 6 | u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -910,19 +909,19 @@ function SelectEffStat(subact){
       if(subact == 'Energy development reclamation with the goal of sagebrush restoration'){
         for(var u=0; u<9; u++){
           if (EffectStat == 30 & (u == 0 | u == 1 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 31 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 32 & (u == 6 | u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -933,19 +932,19 @@ function SelectEffStat(subact){
       if(subact == 'Area Closure'){
         for(var u=0; u<5; u++){
           if (EffectStat == 33 & (u == 0 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 34 & (u == 1 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 35 & (u == 2 | u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -956,19 +955,19 @@ function SelectEffStat(subact){
       if(subact == 'Improved Grazing Practices (Rest, Rotation, Etc.)'){
         for(var u=0; u<7; u++){
           if (EffectStat == 36 & (u == 0 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 37 & (u == 1 | u == 2 | u == 3 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 38 & (u == 4 | u == 5 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -979,19 +978,19 @@ function SelectEffStat(subact){
       if(subact == 'Road and Trail closure' | subact == 'Rerouted Roads and/or Trails'){
         for(var u=0; u<5; u++){
           if ((EffectStat == 39 | EffectStat == 42) & (u == 0 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if ((EffectStat == 40 | EffectStat == 43) & (u == 1 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if ((EffectStat == 41 | EffectStat == 44) & (u == 2 | u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1002,19 +1001,19 @@ function SelectEffStat(subact){
       if(subact == 'Powerline Retrofitting / Modification'){
         for(var u=0; u<6; u++){
           if (EffectStat == 45 & (u == 0 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 46 & (u == 1 | u == 2 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 47 & (u == 3 | u == 4 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1025,19 +1024,19 @@ function SelectEffStat(subact){
       if(subact == 'Powerline Burial' | subact == 'Structure Removal'){
         for(var u=0; u<4; u++){
           if ((EffectStat == 48 | EffectStat == 51) & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if ((EffectStat == 49 | EffectStat == 52) & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if ((EffectStat == 50 | EffectStat == 53) & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1048,19 +1047,19 @@ function SelectEffStat(subact){
       if(subact == 'Fence Marking'){
         for(var u=0; u<5; u++){
           if (EffectStat == 54 & (u == 0 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 55 & (u == 1 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 56 & (u == 2 | u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1071,19 +1070,19 @@ function SelectEffStat(subact){
       if(subact == 'Fence Modification'){
         for(var u=0; u<4; u++){
           if (EffectStat == 57 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 58 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 59 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1094,19 +1093,19 @@ function SelectEffStat(subact){
       if(subact == 'Fence Removal'){
         for(var u=0; u<4; u++){
           if (EffectStat == 60 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 61 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 62 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1117,19 +1116,19 @@ function SelectEffStat(subact){
       if(subact == 'Wild Equid Population Control'){
         for(var u=0; u<5; u++){
           if (EffectStat == 63 & (u == 0 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 64 & (u == 1 | u == 2 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 65 & (u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1140,19 +1139,19 @@ function SelectEffStat(subact){
       if(subact == 'Wild Equid Gather'){
         for(var u=0; u<4; u++){
           if (EffectStat == 66 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 67 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 68 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1163,19 +1162,19 @@ function SelectEffStat(subact){
       if(subact == 'Translocation'){
         for(var u=0; u<4; u++){
           if (EffectStat == 69 & (u == 0 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 70 & (u == 1 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
 
           if (EffectStat == 71 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).style.display = "inline-block";
+              document.getElementById('id_effectiveness_statement_' + u).style.display = "inline-block";
               var effst = document.getElementById("effstatbody")
               effst.getElementsByTagName("li")[u].style.display="inline-block";
           }
@@ -1188,15 +1187,15 @@ function SelectEffStat(subact){
       if(subact == 'Conservation Easement'){
         for(var u=0; u<4; u++){
           if (EffectStat == 1 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 2 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 3 & (u == 2)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1205,15 +1204,15 @@ function SelectEffStat(subact){
       if(subact == 'Land Acquisition'){
         for(var u=0; u<4; u++){
           if (EffectStat == 4 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 5 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 6 & (u == 2)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1222,15 +1221,15 @@ function SelectEffStat(subact){
       if(subact == 'Fuel Breaks'){
         for(var u=0; u<7; u++){
           if (EffectStat == 7 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 8 & (u == 1 | u == 2 | u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 9 & (u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1239,19 +1238,19 @@ function SelectEffStat(subact){
       if(subact == 'Conifer Removal (All Phases)'){
         for(var u=0; u<10; u++){
           if (EffectStat == 10 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 11 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 12 & (u == 2 | u == 3 | u == 4 | u == 5 | u == 6)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 13 & (u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1260,15 +1259,15 @@ function SelectEffStat(subact){
       if(subact == 'Vegetation Management / Habitat Enhancement'){
         for(var u=0; u<10; u++){
           if (EffectStat == 14 & (u == 0 | u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 15 & (u == 2 | u == 3 | u == 4 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 16 & (u == 6 | u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1277,19 +1276,19 @@ function SelectEffStat(subact){
       if(subact == 'Fuels Management'){
         for(var u=0; u<10; u++){
           if (EffectStat == 17 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 18 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 19 & (u == 2 | u == 3 | u == 4 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 20 & (u == 6 | u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1298,15 +1297,15 @@ function SelectEffStat(subact){
       if(subact == 'Annual Grass Treatments'){
         for(var u=0; u<10; u++){
           if (EffectStat == 21 & (u == 0 | u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 22 & (u == 2 | u == 3 | u == 4 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 23 & (u == 6 | u == 7 | u == 8)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1315,15 +1314,15 @@ function SelectEffStat(subact){
       if(subact == 'Noxious Weed Treatments'){
         for(var u=0; u<9; u++){
           if (EffectStat == 24 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 25 & (u == 1 | u == 2 | u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 26 & (u == 5 | u == 6 | u == 7)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1332,15 +1331,15 @@ function SelectEffStat(subact){
       if(subact == 'Riparian, Wet Meadow or Spring Restoration'){
         for(var u=0; u<9; u++){
           if (EffectStat == 27 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 28 & (u == 1 | u == 2 | u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 29 & (u == 5 | u == 6 | u == 7)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1349,15 +1348,15 @@ function SelectEffStat(subact){
       if(subact == 'Energy development reclamation with the goal of sagebrush restoration'){
         for(var u=0; u<9; u++){
           if (EffectStat == 30 & (u == 0 | u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 31 & (u == 2 | u == 3 | u == 4 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 32 & (u == 6 | u == 7)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1366,15 +1365,15 @@ function SelectEffStat(subact){
       if(subact == 'Area Closure'){
         for(var u=0; u<5; u++){
           if (EffectStat == 33 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 34 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 35 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1383,15 +1382,15 @@ function SelectEffStat(subact){
       if(subact == 'Improved Grazing Practices (Rest, Rotation, Etc.)'){
         for(var u=0; u<7; u++){
           if (EffectStat == 36 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 37 & (u == 1 | u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 38 & (u == 4 | u == 5)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1400,15 +1399,15 @@ function SelectEffStat(subact){
       if(subact == 'Road and Trail closure' | subact == 'Rerouted Roads and/or Trails'){
         for(var u=0; u<5; u++){
           if ((EffectStat == 39 | EffectStat == 42) & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if ((EffectStat == 40 | EffectStat == 43) & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if ((EffectStat == 41 | EffectStat == 44) & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1417,15 +1416,15 @@ function SelectEffStat(subact){
       if(subact == 'Powerline Retrofitting / Modification'){
         for(var u=0; u<6; u++){
           if (EffectStat == 45 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 46 & (u == 1 | u == 2)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 47 & (u == 3 | u == 4)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1434,15 +1433,15 @@ function SelectEffStat(subact){
       if(subact == 'Powerline Burial' | subact == 'Structure Removal'){
         for(var u=0; u<4; u++){
           if ((EffectStat == 48 | EffectStat == 51) & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if ((EffectStat == 49 | EffectStat == 52) & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if ((EffectStat == 50 | EffectStat == 53) & (u == 2)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1451,15 +1450,15 @@ function SelectEffStat(subact){
       if(subact == 'Fence Marking'){
         for(var u=0; u<5; u++){
           if (EffectStat == 54 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 55 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 56 & (u == 2 | u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1468,15 +1467,15 @@ function SelectEffStat(subact){
       if(subact == 'Fence Modification'){
         for(var u=0; u<4; u++){
           if (EffectStat == 57 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 58 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 59 & (u == 2)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1485,15 +1484,15 @@ function SelectEffStat(subact){
       if(subact == 'Fence Removal'){
         for(var u=0; u<4; u++){
           if (EffectStat == 60 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 61 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 62 & (u == 2)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1502,15 +1501,15 @@ function SelectEffStat(subact){
       if(subact == 'Wild Equid Population Control'){
         for(var u=0; u<5; u++){
           if (EffectStat == 63 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 64 & (u == 1 | u == 2)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 65 & (u == 3)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1519,15 +1518,15 @@ function SelectEffStat(subact){
       if(subact == 'Wild Equid Gather'){
         for(var u=0; u<4; u++){
           if (EffectStat == 66 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 67 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 68 & (u == 2)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1536,15 +1535,15 @@ function SelectEffStat(subact){
       if(subact == 'Translocation'){
         for(var u=0; u<4; u++){
           if (EffectStat == 69 & (u == 0)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 70 & (u == 1)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
 
           if (EffectStat == 71 & (u == 2)) {
-              document.getElementById('id_Effectiveness_Statement_' + u).checked = false;
+              document.getElementById('id_effectiveness_statement_' + u).checked = false;
           }
         }
       }
@@ -1698,9 +1697,9 @@ function GoToEdit(Location) {
       document.getElementById('errorcheckdiv').style.display = "inline-block";
       document.getElementById('sectype').innerHTML = "Step 5: Review/Error Check";
       
-    // var loclists = [['WAFWA_Value', 'WAFWAs Selected: ', 'WAFWAList1'], ['Population_Value', 'Populations Selected: ', 'PopList1'], ['State_Value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
+    // var loclists = [['wafwa_value', 'WAFWAs Selected: ', 'WAFWAList1'], ['population_value', 'Populations Selected: ', 'PopList1'], ['state_value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
 
-    var loclists = [['State_Value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
+    var loclists = [['state_value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
     
     var effnam = document.getElementById("id_Project_Name").value
 
@@ -1997,7 +1996,7 @@ function GoToEdit(Location) {
 
     if(tyacval != 'Non-Spatial Plan'){
         // Objective List
-        var objlist = document.getElementsByName('Objective') 
+        var objlist = document.getElementsByName('objective') 
         var objtxt = ""
         var cnt = 0
         var ObjectiveTextTest = 0
@@ -2062,7 +2061,7 @@ function GoToEdit(Location) {
 
         
         // Method List
-        var mthlist = document.getElementsByName('Method') 
+        var mthlist = document.getElementsByName('method') 
         var mthtxt = ""
         var cnt = 0
         var mthTextTest = 0
@@ -2170,7 +2169,7 @@ function GoToEdit(Location) {
 
 
         // Effectivenss Statements List
-        var efflist = document.getElementsByName('Effectiveness_Statement') 
+        var efflist = document.getElementsByName('effectiveness_statement') 
         var efftxt = ""
         var cnt = 0
         var effTextTest = 0
@@ -2237,11 +2236,11 @@ function GoToEdit(Location) {
 
     //Threats//
     cnt = 0
-    list = document.getElementsByName("Threat")
+    list = document.getElementsByName("threat")
     var Outputlist = ""
     for(var i=0; i<list.length;i++) {
-      if (document.getElementsByName("Threat")[i].checked) {
-        Control = document.getElementsByName("Threat")[i].parentNode.innerHTML;
+      if (document.getElementsByName("threat")[i].checked) {
+        Control = document.getElementsByName("threat")[i].parentNode.innerHTML;
         Control1 = Control.split(">");
         Control2 = String(Control1[1])
         Control2 = Control2.replace(/[\n\r]/g, '');
@@ -2281,7 +2280,7 @@ function GoToEdit(Location) {
     // document.getElementById('SageLoss1').style.display = "none";
     // document.getElementById('UrbDevel1').style.display = "none";
 
-    // var list = document.getElementsByName('Threat')
+    // var list = document.getElementsByName('threat')
     // for(var i=0; i<list.length;i++) {
     //   if (list[i].checked) {
     //     Control = list[i].parentNode.innerHTML;
@@ -2451,11 +2450,11 @@ function GoToEdit(Location) {
 
     //Collaborators//
     cnt = 0
-    list = document.getElementsByName("Collab_Party")
+    list = document.getElementsByName("collab_party")
     var Outputlist = ""
     for(var i=0; i<list.length;i++) {
-      if (document.getElementsByName("Collab_Party")[i].checked) {
-        Control = document.getElementsByName("Collab_Party")[i].parentNode.innerHTML;
+      if (document.getElementsByName("collab_party")[i].checked) {
+        Control = document.getElementsByName("collab_party")[i].parentNode.innerHTML;
         Control1 = Control.split(">");
         Control2 = String(Control1[1])
         Control2 = Control2.replace(/[\n\r]/g, '');
@@ -3456,7 +3455,7 @@ function showsubmit(){
 //   document.getElementById('threatdivre').style.display = "none";
 //   document.getElementById('threatdivsl').style.display = "none";
 //   document.getElementById('threatdivud').style.display = "none";
-//   var list = document.getElementsByName('Threat')
+//   var list = document.getElementsByName('threat')
 //   for(var i=0; i<list.length;i++) {
 //     if (list[i].checked) {
 //       Control = list[i].parentNode.innerHTML;
@@ -3525,8 +3524,8 @@ function DisplayEC() {
     var errorlist = []
     var cnt = 1
 
-    // var loclists = [['WAFWA_Value', 'WAFWAs Selected: ', 'WAFWAList1'], ['Population_Value', 'Populations Selected: ', 'PopList1'], ['State_Value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
-    var loclists = [['State_Value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
+    // var loclists = [['wafwa_value', 'WAFWAs Selected: ', 'WAFWAList1'], ['population_value', 'Populations Selected: ', 'PopList1'], ['state_value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
+    var loclists = [['state_value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
 
     var stmnth = document.getElementById("id_Start_Date_month").value
     var stday = document.getElementById("id_Start_Date_day").value
@@ -3699,7 +3698,7 @@ function DisplayEC() {
     
     if(tyacval != 'Non-Spatial Plan'){
         // Objective List
-        var objlist = document.getElementsByName('Objective') 
+        var objlist = document.getElementsByName('objective') 
         var objtxt = ""
         var cnt = 0
         var ObjectiveTextTest = 0
@@ -3739,7 +3738,7 @@ function DisplayEC() {
 
         
         // Method List
-        var mthlist = document.getElementsByName('Method') 
+        var mthlist = document.getElementsByName('method') 
         var mthtxt = ""
         var cnt = 0
         var mthTextTest = 0
@@ -3810,7 +3809,7 @@ function DisplayEC() {
 
 
         // Effectivenss Statements List
-        var efflist = document.getElementsByName('Effectiveness_Statement') 
+        var efflist = document.getElementsByName('effectiveness_statement') 
         var efftxt = ""
         var cnt = 0
         var effTextTest = 0
@@ -3863,11 +3862,11 @@ function DisplayEC() {
 
     //Threats//
     cnt = 0
-    list = document.getElementsByName("Threat")
+    list = document.getElementsByName("threat")
     var Outputlist = ""
     for(var i=0; i<list.length;i++) {
-      if (document.getElementsByName("Threat")[i].checked) {
-        Control = document.getElementsByName("Threat")[i].parentNode.innerHTML;
+      if (document.getElementsByName("threat")[i].checked) {
+        Control = document.getElementsByName("threat")[i].parentNode.innerHTML;
         Control1 = Control.split(">");
         var Control2 = String(Control1[1])
         Control2 = Control2.replace(/[\n\r]/g, '');
@@ -3890,7 +3889,7 @@ function DisplayEC() {
     
 
 
-    // var list = document.getElementsByName('Threat')
+    // var list = document.getElementsByName('threat')
     // for(var i=0; i<list.length;i++) {
     //   if (list[i].checked) {
     //     Control = list[i].parentNode.innerHTML;
@@ -4123,11 +4122,11 @@ function DisplayEC() {
 
     //Collaborators//
     cnt = 0
-    list = document.getElementsByName("Collab_Party")
+    list = document.getElementsByName("collab_party")
     var Outputlist = ""
     for(var i=0; i<list.length;i++) {
-      if (document.getElementsByName("Collab_Party")[i].checked) {
-        Control = document.getElementsByName("Collab_Party")[i].parentNode.innerHTML;
+      if (document.getElementsByName("collab_party")[i].checked) {
+        Control = document.getElementsByName("collab_party")[i].parentNode.innerHTML;
         Control1 = Control.split(">");
         var Control2 = String(Control1[1])
         Control2 = Control2.replace(/[\n\r]/g, '');
@@ -4351,11 +4350,11 @@ function showDiv2() {
 
 function checknull(){
 
-    list = document.getElementsByName('Collab_Party');
+    list = document.getElementsByName('collab_party');
     var removerest = 0
     for(var i=0; i<list.length;i++) {
         if(i == 10){
-          if(document.getElementsByName('Collab_Party')[i].checked == true){
+          if(document.getElementsByName('collab_party')[i].checked == true){
             removerest = 1
             alert("Collaborator value 'None' checked, any other existing collaborators will be unchecked")
             
@@ -4367,9 +4366,9 @@ function checknull(){
     if(removerest == 1){
       for(var i=0; i<list.length;i++) {
           if(i == 10){
-            document.getElementsByName('Collab_Party')[i].checked = true
+            document.getElementsByName('collab_party')[i].checked = true
           }else{
-            document.getElementsByName('Collab_Party')[i].checked = false
+            document.getElementsByName('collab_party')[i].checked = false
           }
       }
     }

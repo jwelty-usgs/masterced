@@ -846,10 +846,18 @@
 #seedtype{
     position: relative;
     float: left;
+    margin-top: 7px;
 }
 
 #seedchoicecolor ul{
-    margin-top: -5px;
+    position: relative;
+    float: left;
+    margin-left: -30px;
+}
+
+#seedtypelab{
+    position: relative;
+    float: left;
 }
 
 #pfirechoicecolor ul{

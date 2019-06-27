@@ -170,15 +170,15 @@ def gettables():
     return threavaltest1, activitytest1, subactivitytest1, wafwatest1
 
 def gettablesfws(stval):
-    stateval11 = state_info.objects.values_list('Project_ID', flat=True).filter(State_Value=stval)
+    stateval11 = state_info.objects.values_list('Project_ID', flat=True).filter(state_value=stval)
     return stateval11
 
 def gettablesfwswa(waval):
-    wafwaval11 = wafwa_info.objects.values_list('Project_ID', flat=True).filter(WAFWA_Value=waval)
+    wafwaval11 = wafwa_info.objects.values_list('Project_ID', flat=True).filter(wafwa_value=waval)
     return wafwaval11
 
 def gettablesfwspo(poval):
-    popval11 = population_info.objects.values_list('Project_ID', flat=True).filter(Population_Value=poval)
+    popval11 = population_info.objects.values_list('Project_ID', flat=True).filter(population_value=poval)
     return popval11
 
 def gettablesfwsth(thval):
@@ -775,7 +775,7 @@ def checkproject(prjid, spatialid):
             errorcnt = errorcnt + 1
 
     # Threats Addressed
-    threatsadd = threats.objects.values_list('Threat', flat=True).filter(Project_ID=prjid)
+    threatsadd = threats.objects.values_list('threat', flat=True).filter(Project_ID=prjid)
     thrtscnt = 0
     for thradd in threatsadd:
         thrtscnt = thrtscnt + 1
@@ -815,7 +815,7 @@ def checkproject(prjid, spatialid):
             errorcnt = errorcnt + 1
 
     # Check for WAFWA Zone
-    wafwasadd = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=prjid)
+    wafwasadd = wafwa_info.objects.values_list('wafwa_value', flat=True).filter(Project_ID=prjid)
     wafwascnt = 0
     wafwalist = []
     for wafwaadd in wafwasadd:
@@ -827,7 +827,7 @@ def checkproject(prjid, spatialid):
         errorcnt = errorcnt + 1
 
     # Check for SG Populations Zone
-    popsadd = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prjid)
+    popsadd = population_info.objects.values_list('population_value', flat=True).filter(Project_ID=prjid)
     popscnt = 0
     poplist = []
     for popadd in popsadd:
@@ -841,7 +841,7 @@ def checkproject(prjid, spatialid):
         errorcnt = errorcnt + 1
 
     # Check for States
-    statesadd = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prjid)
+    statesadd = state_info.objects.values_list('state_value', flat=True).filter(Project_ID=prjid)
     statescnt = 0
     statelist = []
     for stateadd in statesadd:
@@ -870,7 +870,7 @@ def checkproject(prjid, spatialid):
             errorcnt = errorcnt + 1
 
         # Check for HUC 12 Zones
-        hucsadd = huc12_info.objects.values_list('HUC12_Value', flat=True).filter(Project_ID=prjid)
+        hucsadd = huc12_info.objects.values_list('huc12_value', flat=True).filter(Project_ID=prjid)
         hucscnt = 0
         huclist = []
         for hucadd in hucsadd:
@@ -884,7 +884,7 @@ def checkproject(prjid, spatialid):
             errorcnt = errorcnt + 1
 
     # Check for Ownership
-    ownersadd = ownership_info.objects.values_list('Owner_Value', flat=True).filter(Project_ID=prjid)
+    ownersadd = ownership_info.objects.values_list('owner_value', flat=True).filter(Project_ID=prjid)
     ownerscnt = 0
     for owneradd in ownersadd:
         ownerscnt = ownerscnt + 1
@@ -1047,7 +1047,7 @@ def checkproject(prjid, spatialid):
         qcnt = qcnt + 1
 
     # Check for Collaborating Parties
-    ColPasadd = collab_party.objects.values_list('Collab_Party', flat=True).filter(Project_ID=prjid)
+    ColPasadd = collab_party.objects.values_list('collab_party', flat=True).filter(Project_ID=prjid)
     ColPascnt = 0
     for ColPaadd in ColPasadd:
         ColPascnt = ColPascnt + 1
@@ -1220,9 +1220,9 @@ def ClipFeates(feature, prid, username):
     # pcnt = 0
     # try:
     #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    #     idpop = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prid)
+    #     idpop = population_info.objects.values_list('population_value', flat=True).filter(Project_ID=prid)
     #     for idp in idpop:
-    #         population_info.objects.filter(Project_ID=prid, Population_Value=idp).delete()
+    #         population_info.objects.filter(Project_ID=prid, population_value=idp).delete()
     #     pidpop = population_info.objects.values_list('id', flat=True).get(Project_ID=prid)
 
     # except:
@@ -1242,15 +1242,15 @@ def ClipFeates(feature, prid, username):
     # popm = population_info.objects.get(pk=pidpop)
     # popm.Project_ID = pid
     # popm.Date_Entered = now
-    # popm.Population_Value.set(popids)
+    # popm.population_value.set(popids)
     # popm.User = str(username)
     # popm.save()
 
     # # try:
     # #     pidhuc = huc12_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    # #     idhuc = huc12_info.objects.values_list('HUC12_Value', flat=True).filter(Project_ID=prid)
+    # #     idhuc = huc12_info.objects.values_list('huc12_value', flat=True).filter(Project_ID=prid)
     # #     for idh in idhuc:
-    # #         huc12_info.objects.filter(Project_ID=prid, HUC12_Value=idh).delete()
+    # #         huc12_info.objects.filter(Project_ID=prid, huc12_value=idh).delete()
     # #     pidhuc = huc12_info.objects.values_list('id', flat=True).get(Project_ID=prid)
     # # except:
     # #     hucc = huc12_info()
@@ -1267,15 +1267,15 @@ def ClipFeates(feature, prid, username):
     # # hucm = huc12_info.objects.get(pk=pidhuc)
     # # hucm.Project_ID = pid
     # # hucm.Date_Entered = now
-    # # hucm.HUC12_Value.set(hucids)
+    # # hucm.huc12_value.set(hucids)
     # # hucm.User = str(username)
     # # hucm.save()
 
     # try:
     #     pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    #     idwaf = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=prid)
+    #     idwaf = wafwa_info.objects.values_list('wafwa_value', flat=True).filter(Project_ID=prid)
     #     for idw in idwaf:
-    #         wafwa_info.objects.filter(Project_ID=prid, WAFWA_Value=idw).delete()
+    #         wafwa_info.objects.filter(Project_ID=prid, wafwa_value=idw).delete()
     #     pidwaf = wafwa_info.objects.values_list('id', flat=True).get(Project_ID=prid)
     # except:
     #     wafc = wafwa_info()
@@ -1290,7 +1290,7 @@ def ClipFeates(feature, prid, username):
     # wafm = wafwa_info.objects.get(pk=pidwaf)
     # wafm.Project_ID = pid
     # wafm.Date_Entered = now
-    # wafm.WAFWA_Value.set(wafids)
+    # wafm.wafwa_value.set(wafids)
     # wafm.User = str(username)
     # wafm.save()
 
@@ -1319,9 +1319,9 @@ def ClipFeates(feature, prid, username):
 
     # try:
     #     pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
-    #     idstt = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prid)
+    #     idstt = state_info.objects.values_list('state_value', flat=True).filter(Project_ID=prid)
     #     for ids in idstt:
-    #         state_info.objects.filter(Project_ID=prid, State_Value=ids).delete()
+    #         state_info.objects.filter(Project_ID=prid, state_value=ids).delete()
     #     pidstt = state_info.objects.values_list('id', flat=True).get(Project_ID=prid)
     # except:
     #     sttc = state_info()
@@ -1336,7 +1336,7 @@ def ClipFeates(feature, prid, username):
     # sttm = state_info.objects.get(pk=pidstt)
     # sttm.Project_ID = pid
     # sttm.Date_Entered = now
-    # sttm.State_Value.set(sttids)
+    # sttm.state_value.set(sttids)
     # sttm.User = str(username)
     # sttm.save()
 
@@ -2560,7 +2560,7 @@ def editproject(request, prid):
     try:
         subform1 = documentation_Form(initial={
             'Project_ID': collab_party.objects.get(Project_ID=prid),
-            'Threat': collab_party.objects.values_list('Collab_Party', flat=True).filter(Project_ID=prid)
+            # 'Threat': collab_party.objects.values_list('collab_party', flat=True).filter(Project_ID=prid)
         }, instance=pidthr)
     except:
         subform1 = documentation_Form()
@@ -2568,7 +2568,7 @@ def editproject(request, prid):
     try:
         subform2 = threats_Form(initial={
             'Project_ID': threats.objects.get(Project_ID=prid),
-            'Threat': threats.objects.values_list('Threat', flat=True).filter(Project_ID=prid)
+            'threat': threats.objects.values_list('threat', flat=True).filter(Project_ID=prid)
         }, instance=pidthr)
     except:
         subform2 = threats_Form()
@@ -2576,7 +2576,7 @@ def editproject(request, prid):
     try:
         subform3 = collab_party_Form(initial={
             'Project_ID': collab_party.objects.get(Project_ID=prid),
-            'Collab_Party': collab_party.objects.values_list('Collab_Party', flat=True).filter(Project_ID=prid)
+            'collab_party': collab_party.objects.values_list('collab_party', flat=True).filter(Project_ID=prid)
         }, instance=pidcol)
     except:
         subform3 = collab_party_Form()
@@ -2596,7 +2596,7 @@ def editproject(request, prid):
     try:
         subform5 = state_Form(initial={
             'Project_ID': state_info.objects.get(Project_ID=prid),
-            'State_Value': state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prid)
+            'state_value': state_info.objects.values_list('state_value', flat=True).filter(Project_ID=prid)
         }, instance=pidst)
     except:
         subform5 = state_Form()
@@ -2612,7 +2612,7 @@ def editproject(request, prid):
     try:
         subform10 = ownership_Form(initial={
             'Project_ID': ownership_info.objects.get(Project_ID=prid),
-            'Owner_Value': ownership_info.objects.values_list('Owner_Value', flat=True).filter(Project_ID=prid)
+            'owner_value': ownership_info.objects.values_list('owner_value', flat=True).filter(Project_ID=prid)
         }, instance=pidow)
     except:
         subform10 = ownership_Form()
@@ -2621,32 +2621,32 @@ def editproject(request, prid):
     try:
         subform11 = subactivity_objectives_Form(initial={
             'Project_ID': subactivity_objectives.objects.get(Project_ID=prid),
-            'Objective': subactivity_objectives.objects.values_list('Objective', flat=True).filter(Project_ID=prid)
+            'objective': subactivity_objectives.objects.values_list('objective', flat=True).filter(Project_ID=prid)
         }, instance=obcol)
-        subform11.fields["Objective"].queryset = subactivity_objectives_data.objects.filter(SubActivity=subact).order_by("Ordering")
+        subform11.fields["objective"].queryset = subactivity_objectives_data.objects.filter(SubActivity=subact).order_by("Ordering")
     except:
         subform11 = subactivity_objectives_Form()
-        subform11.fields["Objective"].queryset = subactivity_objectives_data.objects.filter(SubActivity=subact).order_by("Ordering")
+        subform11.fields["objective"].queryset = subactivity_objectives_data.objects.filter(SubActivity=subact).order_by("Ordering")
 
     try:
         subform12 = subactivity_methods_Form(initial={
             'Project_ID': subactivity_methods.objects.get(Project_ID=prid),
-            'Method': subactivity_methods.objects.values_list('Method', flat=True).filter(Project_ID=prid)
+            'method': subactivity_methods.objects.values_list('method', flat=True).filter(Project_ID=prid)
         }, instance=mtcol)
-        subform12.fields["Method"].queryset = subactivity_methods_data.objects.filter(SubActivity=subact).order_by("Ordering")
+        subform12.fields["method"].queryset = subactivity_methods_data.objects.filter(SubActivity=subact).order_by("Ordering")
     except:
         subform12 = subactivity_methods_Form()
-        subform12.fields["Method"].queryset = subactivity_methods_data.objects.filter(SubActivity=subact).order_by("Ordering")
+        subform12.fields["method"].queryset = subactivity_methods_data.objects.filter(SubActivity=subact).order_by("Ordering")
 
     try:
         subform13 = subactivity_effective_state_Form(initial={
             'Project_ID': subactivity_effective_state.objects.get(Project_ID=prid),
-            'Effectiveness_Statement': subactivity_effective_state.objects.values_list('Effectiveness_Statement', flat=True).filter(Project_ID=prid)
+            'effectiveness_statement': subactivity_effective_state.objects.values_list('effectiveness_statement', flat=True).filter(Project_ID=prid)
         }, instance=escol)
-        subform13.fields["Effectiveness_Statement"].queryset = subactivity_effective_state_data.objects.filter(SubActivity=subact).order_by("Ordering")
+        subform13.fields["effectiveness_statement"].queryset = subactivity_effective_state_data.objects.filter(SubActivity=subact).order_by("Ordering")
     except:
         subform13 = subactivity_effective_state_Form()
-        subform13.fields["Effectiveness_Statement"].queryset = subactivity_effective_state_data.objects.filter(SubActivity=subact).order_by("Ordering")
+        subform13.fields["effectiveness_statement"].queryset = subactivity_effective_state_data.objects.filter(SubActivity=subact).order_by("Ordering")
 
 
 
@@ -2756,7 +2756,7 @@ def editproject(request, prid):
             # Save the new category to the database.
             EmailSent = "None"
             try:
-                origvalst = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prid)
+                origvalst = state_info.objects.values_list('state_value', flat=True).filter(Project_ID=prid)
             except:
                 origvalst = ["None"]
 
@@ -2846,7 +2846,7 @@ def editproject(request, prid):
 
             try:
                 thcnt = 0
-                for level in request.POST.getlist('Threat'):
+                for level in request.POST.getlist('threat'):
                     obj2 = subform2.save(commit=False)
                     obj2.Project_ID = pid
                     obj2.Date_Entered = now
@@ -2980,7 +2980,7 @@ def editproject(request, prid):
 
             try:
                 obcnt = 0
-                for level in request.POST.getlist('Objective'):
+                for level in request.POST.getlist('objective'):
                     obj11 = subform11.save(commit=False)
                     obj11.Project_ID = pid
                     obj11.Date_Entered = now
@@ -2996,7 +2996,7 @@ def editproject(request, prid):
 
             try:
                 mtcnt = 0
-                for level in request.POST.getlist('Method'):
+                for level in request.POST.getlist('method'):
                     obj12 = subform12.save(commit=False)
                     obj12.Project_ID = pid
                     obj12.Date_Entered = now
@@ -3012,7 +3012,7 @@ def editproject(request, prid):
 
             try:
                 escnt = 0
-                for level in request.POST.getlist('Effectiveness_Statement'):
+                for level in request.POST.getlist('effectiveness_statement'):
                     obj13 = subform13.save(commit=False)
                     obj13.Project_ID = pid
                     obj13.Date_Entered = now
@@ -3028,7 +3028,7 @@ def editproject(request, prid):
 
             try:
                 stcnt = 0
-                for level2 in request.POST.getlist('State_Value'):
+                for level2 in request.POST.getlist('state_value'):
                     obj5 = subform5.save(commit=False)
                     obj5.Project_ID = pid
                     obj5.Date_Entered = now
@@ -3043,7 +3043,7 @@ def editproject(request, prid):
 
             try:
                 colcnt = 0
-                for level3 in request.POST.getlist('Collab_Party'):
+                for level3 in request.POST.getlist('collab_party'):
                     obj3 = subform3.save(commit=False)
                     obj3.Project_ID = pid
                     obj3.Date_Entered = now
@@ -3077,7 +3077,7 @@ def editproject(request, prid):
 
             try:
                 owncnt = 0
-                for level8 in request.POST.getlist('Owner_Value'):
+                for level8 in request.POST.getlist('owner_value'):
                     obj10 = subform10.save(commit=False)
                     obj10.Project_ID = pid
                     obj10.Date_Entered = now
@@ -4293,7 +4293,7 @@ def fwsquery(request):
                             # Check if wafwa exists for selected effort
                             try:
                                 checkvalw = wafwa_info.objects.filter(Project_ID=str(uq1)).filter(
-                                    WAFWA_Value=str(fwswaf))
+                                    wafwa_value=str(fwswaf))
                                 checkcntw = 0
 
                                 for chckvw in checkvalw:
@@ -4352,7 +4352,7 @@ def fwsquery(request):
                                 col += 1
                                 worksheet.write(row, col, str(fwsthreat), formatwrap)
                                 # Add Population
-                                sagepopvals = population_info.objects.values_list('Population_Value', flat=True).filter(
+                                sagepopvals = population_info.objects.values_list('population_value', flat=True).filter(
                                     Project_ID=str(uq1))
                                 sagepops = ""
                                 scnt = 0
@@ -4857,7 +4857,7 @@ def sgcedquery(request):
                 WAFW = []
                 wafwaval1 = wafwa_zone_values.objects.get(id=MUExst)
                 wafwavaltxt = wafwa_zone_values.objects.values_list('WAFWA_Zone', flat=True).get(id=MUExst)
-                WAFWval = wafwa_info.objects.values_list('Project_ID', flat=True).filter(WAFWA_Value=wafwaval1)
+                WAFWval = wafwa_info.objects.values_list('Project_ID', flat=True).filter(wafwa_value=wafwaval1)
                 WAFWAVal = wafwavaltxt
                 for WA in WAFWval:
                     WAFW.append(WA)
@@ -4867,7 +4867,7 @@ def sgcedquery(request):
                 sagepop1 = population_values.objects.get(id=POPExst)
                 sagepoptxt = population_values.objects.values_list('Populations', flat=True).get(id=POPExst)
                 sagepopval = population_info.objects.values_list('Project_ID', flat=True).filter(
-                    Population_Value=sagepop1)
+                    population_value=sagepop1)
                 SGPopVal = sagepoptxt
                 for sagep in sagepopval:
                     sagepop.append(sagep)
@@ -4876,7 +4876,7 @@ def sgcedquery(request):
                 Stat = []
                 stateval1 = state.objects.get(id=STExst)
                 statevaltxt = state.objects.values_list('State', flat=True).get(id=STExst)
-                Statval = state_info.objects.values_list('Project_ID', flat=True).filter(State_Value=stateval1)
+                Statval = state_info.objects.values_list('Project_ID', flat=True).filter(state_value=stateval1)
                 StateVal = statevaltxt
                 for St in Statval:
                     Stat.append(St)
@@ -5279,7 +5279,7 @@ def sgcedquery(request):
                 else:
                     WAFWAVal = WAFWAVal + ", " + str(wafwaval1)
                     spatiallist = spatiallist + "," + str(WAF)
-                WAFWval = wafwa_info.objects.values_list('Project_ID', flat=True).filter(WAFWA_Value=WAF)
+                WAFWval = wafwa_info.objects.values_list('Project_ID', flat=True).filter(wafwa_value=WAF)
                 for WA in WAFWval:
                     WAFW.append(WA)
                 WAFWcnt = 1
@@ -5302,7 +5302,7 @@ def sgcedquery(request):
                     SGPopVal = SGPopVal + ", " + str(sagepop1)
                     spatiallist = spatiallist + "," + str(sagepo)
                 sagepopval = population_info.objects.values_list('Project_ID', flat=True).filter(
-                    Population_Value=sagepo)
+                    population_value=sagepo)
                 for sagep in sagepopval:
                     sagepop.append(sagep)
                 sagepopcnt = 1
@@ -5324,7 +5324,7 @@ def sgcedquery(request):
                 else:
                     StateVal = StateVal + ", " + str(stateval1)
                     spatiallist = spatiallist + "," + str(Sta)
-                Statval = state_info.objects.values_list('Project_ID', flat=True).filter(State_Value=Sta)
+                Statval = state_info.objects.values_list('Project_ID', flat=True).filter(state_value=Sta)
                 for St in Statval:
                     Stat.append(St)
                 Statcnt = 1
@@ -5436,7 +5436,7 @@ def sgcedquery(request):
                             imptxt = imp_party_values.objects.values_list('id', flat=True).filter(
                                 Implementation_Party__icontains=KWV)
                             colli = collab_party.objects.values_list('Project_ID', flat=True).filter(
-                                Collab_Party__in=imptxt)
+                                collab_party__in=imptxt)
                             for prjv in colli:
                                 kwprjs.append(prjv)
                                 kwcnt = 1
@@ -5450,14 +5450,14 @@ def sgcedquery(request):
 
                             # State
                             sttxt = state.objects.values_list('id', flat=True).filter(State__icontains=KWV)
-                            sti = state_info.objects.values_list('Project_ID', flat=True).filter(State_Value__in=sttxt)
+                            sti = state_info.objects.values_list('Project_ID', flat=True).filter(state_value__in=sttxt)
                             for prjv in sti:
                                 kwprjs.append(prjv)
                                 kwcnt = 1
 
                             sttxt1 = state.objects.values_list('id', flat=True).filter(StateName__icontains=KWV)
                             sti1 = state_info.objects.values_list('Project_ID', flat=True).filter(
-                                State_Value__in=sttxt1)
+                                state_value__in=sttxt1)
                             for prjv in sti1:
                                 kwprjs.append(prjv)
                                 kwcnt = 1
@@ -5466,7 +5466,7 @@ def sgcedquery(request):
                             huctxt = state_county_huc12_values.objects.values_list('id', flat=True).filter(
                                 HUC12_Cnty_State__icontains=KWV)
                             huci = huc12_info.objects.values_list('Project_ID', flat=True).filter(
-                                HUC12_Value__in=huctxt)
+                                huc12_value__in=huctxt)
                             for prjv in huci:
                                 kwprjs.append(prjv)
                                 kwcnt = 1
@@ -5474,7 +5474,7 @@ def sgcedquery(request):
                             # WAFWA
                             waftxt = wafwa_zone_values.objects.values_list('id', flat=True).filter(WAFWA_Zone=KWV)
                             wafi = wafwa_info.objects.values_list('Project_ID', flat=True).filter(
-                                WAFWA_Value__in=waftxt)
+                                wafwa_value__in=waftxt)
                             for prjv in wafi:
                                 kwprjs.append(prjv)
                                 kwcnt = 1
@@ -5482,7 +5482,7 @@ def sgcedquery(request):
                             try:
                                 waftxt1 = wafwa_zone_values.objects.values_list('id', flat=True).filter(id=KWV)
                                 wafi1 = wafwa_info.objects.values_list('Project_ID', flat=True).filter(
-                                    WAFWA_Value__in=waftxt1)
+                                    wafwa_value__in=waftxt1)
                                 for prjv in wafi1:
                                     kwprjs.append(prjv)
                                     kwcnt = 1
@@ -5493,7 +5493,7 @@ def sgcedquery(request):
                             poptxt = population_values.objects.values_list('id', flat=True).filter(
                                 Populations__icontains=KWV)
                             popi = population_info.objects.values_list('Project_ID', flat=True).filter(
-                                Population_Value__in=poptxt)
+                                population_value__in=poptxt)
                             for prjv in popi:
                                 kwprjs.append(prjv)
                                 kwcnt = 1
@@ -5501,7 +5501,7 @@ def sgcedquery(request):
                             # Ownership
                             owntxt = ownership_values.objects.values_list('id', flat=True).filter(Owners__icontains=KWV)
                             owni = ownership_info.objects.values_list('Project_ID', flat=True).filter(
-                                Owner_Value__in=owntxt)
+                                owner_value__in=owntxt)
                             for prjv in owni:
                                 kwprjs.append(prjv)
                                 kwcnt = 1
@@ -5614,7 +5614,7 @@ def sgcedquery(request):
                     statenm = st[1]
                     try:
                         Statval1 = state_info.objects.values_list('Project_ID', flat=True).filter(
-                            State_Value=int(state1))
+                            state_value=int(state1))
                     except:
                         nostate = -1
                     getcnt = Statval1.count()
@@ -5630,7 +5630,7 @@ def sgcedquery(request):
                                 mznm = mz[1]
                                 try:
                                     WAFWval1 = wafwatest.values_list('Project_ID', flat=True).filter(
-                                        WAFWA_Value=int(mz1))
+                                        wafwa_value=int(mz1))
                                 except:
                                     nowafa = -1
                                 getcnt = WAFWval1.count()
@@ -5737,7 +5737,7 @@ def sgcedquery(request):
                     # create the line string
                     line = ""
                     try:
-                        wafwas = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=int(uqtab))
+                        wafwas = wafwa_info.objects.values_list('wafwa_value', flat=True).filter(Project_ID=int(uqtab))
                     except:
                         wafwas = []
                     waf1 = ","
@@ -5813,7 +5813,7 @@ def sgcedquery(request):
                     line = line + AgCon + ConEnc + EnDev + Fire + RoamEq + GraRan + Infra + SmPop + Mining + NWAG + Rec + SageElim + Urban
 
                     try:
-                        pops = population_info.objects.values_list('Population_Value', flat=True).filter(
+                        pops = population_info.objects.values_list('population_value', flat=True).filter(
                             Project_ID=int(uqtab))
                     except:
                         pops = []
@@ -5963,7 +5963,7 @@ def sgcedquery(request):
 
                     # Add Ownership Data
                     try:
-                        owners = ownership_info.objects.values_list('Owner_Value', flat=True).filter(
+                        owners = ownership_info.objects.values_list('owner_value', flat=True).filter(
                             Project_ID=int(uqtab))
                     except:
                         owners = []
@@ -6525,7 +6525,7 @@ def viewproject(request, prid):
 
     threatsf = "None"
     thrtxtfcnt = 0
-    thri = threats.objects.values_list('Threat', flat=True).filter(Project_ID=prjid)
+    thri = threats.objects.values_list('threat', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = threat_values.objects.values_list('Threats', flat=True).get(id=thr)
         if thrtxtfcnt == 0:
@@ -6536,7 +6536,7 @@ def viewproject(request, prid):
 
     wafwaz = "None"
     wafwazcnt = 0
-    thri = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=prjid)
+    thri = wafwa_info.objects.values_list('wafwa_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = wafwa_zone_values.objects.values_list('WAFWA_Zone', flat=True).get(id=thr)
         if wafwazcnt == 0:
@@ -6547,7 +6547,7 @@ def viewproject(request, prid):
 
     sgpops = "None"
     sgpopscnt = 0
-    thri = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prjid)
+    thri = population_info.objects.values_list('population_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = population_values.objects.values_list('Populations', flat=True).get(id=thr)
         if sgpopscnt == 0:
@@ -6558,7 +6558,7 @@ def viewproject(request, prid):
 
     states1 = "None"
     states1cnt = 0
-    thri = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prjid)
+    thri = state_info.objects.values_list('state_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = state.objects.values_list('StateName', flat=True).get(id=thr)
         if states1cnt == 0:
@@ -6580,7 +6580,7 @@ def viewproject(request, prid):
 
     ownership1 = "None"
     ownership1cnt = 0
-    thri = ownership_info.objects.values_list('Owner_Value', flat=True).filter(Project_ID=prjid)
+    thri = ownership_info.objects.values_list('owner_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = ownership_values.objects.values_list('Owners', flat=True).get(id=thr)
         if ownership1cnt == 0:
@@ -6954,7 +6954,7 @@ def viewonlyproject(request, prid):
 
     threatsf = "None"
     thrtxtfcnt = 0
-    thri = threats.objects.values_list('Threat', flat=True).filter(Project_ID=prjid)
+    thri = threats.objects.values_list('threat', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = threat_values.objects.values_list('Threats', flat=True).get(id=thr)
         if thrtxtfcnt == 0:
@@ -6965,7 +6965,7 @@ def viewonlyproject(request, prid):
 
     wafwaz = "None"
     wafwazcnt = 0
-    thri = wafwa_info.objects.values_list('WAFWA_Value', flat=True).filter(Project_ID=prjid)
+    thri = wafwa_info.objects.values_list('wafwa_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = wafwa_zone_values.objects.values_list('WAFWA_Zone', flat=True).get(id=thr)
         if wafwazcnt == 0:
@@ -6976,7 +6976,7 @@ def viewonlyproject(request, prid):
 
     sgpops = "None"
     sgpopscnt = 0
-    thri = population_info.objects.values_list('Population_Value', flat=True).filter(Project_ID=prjid)
+    thri = population_info.objects.values_list('population_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = population_values.objects.values_list('Populations', flat=True).get(id=thr)
         if sgpopscnt == 0:
@@ -6987,7 +6987,7 @@ def viewonlyproject(request, prid):
 
     states1 = "None"
     states1cnt = 0
-    thri = state_info.objects.values_list('State_Value', flat=True).filter(Project_ID=prjid)
+    thri = state_info.objects.values_list('state_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = state.objects.values_list('StateName', flat=True).get(id=thr)
         if states1cnt == 0:
@@ -7009,7 +7009,7 @@ def viewonlyproject(request, prid):
 
     ownership1 = "None"
     ownership1cnt = 0
-    thri = ownership_info.objects.values_list('Owner_Value', flat=True).filter(Project_ID=prjid)
+    thri = ownership_info.objects.values_list('owner_value', flat=True).filter(Project_ID=prjid)
     for thr in thri:
         thrtxt = ownership_values.objects.values_list('Owners', flat=True).get(id=thr)
         if ownership1cnt == 0:
