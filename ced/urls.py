@@ -12,6 +12,6 @@ urlpatterns = [
     url(r'^sgce/accounts/', include('django.contrib.auth.urls')),
     url(r'^sgce/grsgmap/', include('grsgmap.urls')),
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^admin/', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
     url(r'^', include('welcome.urls'))
 ]
