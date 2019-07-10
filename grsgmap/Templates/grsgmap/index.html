@@ -137,7 +137,7 @@ Date:        Oct 2014, Updated Oct 2018-->
                          data-dojo-props="title:'Search Query Tools', iconClass:'Find32Icon', selected:true" 
                          style="overflow-x: hidden !important; overflow-y: scroll"</div>
                 <br />
-                <form id="dropdownForm">
+                <form id="dropdownForm">{% csrf_token %}
 
                     <div class="centerElement"><h2 title="To Filter/Query Data, select any of the dropdown filter options or use the 'Select Efforts On Map Tool' to spatially select conservation efforts.  Click the 'Clear' button to clear search criteria and return to full map extent.  Searching and zooming by Plan/Project name, or general geographic location name, is also available below">Filter/Query Data<img id="ImgResultsLoading" src="{% static 'ced_main/images/ced_main/loading.gif' %}" style="height:15px" /></h2></div>
                     <!--<div class="centerElement"><h2 title="To Filter/Query Data, select any of the dropdown filter options or use the 'Select Efforts On Map Tool' to spatially select conservation efforts.  Click the 'Clear' button to clear search criteria and return to full map extent.  Searching and zooming by Plan/Project name, or general geographic location name, is also available below">Filter/Query Data<img id="ImgResultsLoading" src="images/loading.gif" style="height:15px" /></h2></div>-->
