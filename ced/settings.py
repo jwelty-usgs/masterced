@@ -38,7 +38,8 @@ with open(BASE_DIR + '/config/sgceConfig.json', 'r') as f:
     DBNAME = config['DEFAULT']['DBNAME']
     ENVIRONMENT = config['DEFAULT']['ENVIRONMENT']
 
-DEBUG = APPDEBUG
+#DEBUG = APPDEBUG
+DEBUG = False
 #TEMPLATE_DEBUG = True
 
 ACCOUNT_ACTIVATION_DAYS=7
