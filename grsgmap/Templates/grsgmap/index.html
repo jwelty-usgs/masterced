@@ -124,7 +124,7 @@ Date:        Oct 2014, Updated Oct 2018-->
                         <!--data-dojo-props='title:"Legend and Layer Options"'>-->
 
                         <div class="centerElement"><h2 title="Turn on/off layer visibility using the checkboxes next to the layer names.">Layer Visibility</h2></div>
-                        <form id="toggleForm" style="width:650px; padding: 2px 2px;">
+                        <form id="toggleForm" style="width:650px; padding: 2px 2px;">{% csrf_token %}
                             <div id="toggle"></div>
                         </form>
                         <br />
