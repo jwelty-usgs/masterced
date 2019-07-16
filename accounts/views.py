@@ -106,53 +106,53 @@ def loginpage(request):
                     obj1.Day_400_Deactivation = False
                     obj1.save()
 
-                    #Check old usernames and deactivate them.
-                    userid = User.objects.all()
-                    new1 = datetime.datetime.utcnow()
-                    new1 = new1.replace(tzinfo=timezone.utc)
-                    for us in userid:
-                        try:
-                            daysoff = (new1-us.last_login).days
-                            accountact = 1
-                        except:
-                            print("User: " + us.username + " has not logged in to the system yet")
-                            accountact = 0
+                    # #Check old usernames and deactivate them.
+                    # userid = User.objects.all()
+                    # new1 = datetime.datetime.utcnow()
+                    # new1 = new1.replace(tzinfo=timezone.utc)
+                    # for us in userid:
+                    #     try:
+                    #         daysoff = (new1-us.last_login).days
+                    #         accountact = 1
+                    #     except:
+                    #         print("User: " + us.username + " has not logged in to the system yet")
+                    #         accountact = 0
 
-                        if accountact == 1:
-                            if daysoff >= 365:
-                                userprof = userprofile.objects.get(User_id=us.id)
-                                if userprof.Day_365_Warning_Sent == None or userprof.Day_365_Warning_Sent == 0 or userprof.Day_365_Warning_Sent == False:
-                                    #Send Warning message
-                                    Subject = "Your CED account has been inactive for over 365 days"
-                                    Message = "You have not logged in to your Conservation Efforts Database account in at least 365 days. Please log-in to keep your profile activated.  Failure to log in to your account will result in deactivation in 35 days (400 days total). If you have any questions please email us at conservationefforts@fws.gov. If you would like to voluntarily deactivate your CED account/profile,  are no longer participating in the CED please let us know and we will deactivate your account."
-                                    From = DEFAULT_FROM_EMAIL
-                                    To = us.email
-                                    send_mail(Subject, Message, From, [To], fail_silently=False)
+                    #     if accountact == 1:
+                    #         if daysoff >= 365:
+                    #             userprof = userprofile.objects.get(User_id=us.id)
+                    #             if userprof.Day_365_Warning_Sent == None or userprof.Day_365_Warning_Sent == 0 or userprof.Day_365_Warning_Sent == False:
+                    #                 #Send Warning message
+                    #                 Subject = "Your CED account has been inactive for over 365 days"
+                    #                 Message = "You have not logged in to your Conservation Efforts Database account in at least 365 days. Please log-in to keep your profile activated.  Failure to log in to your account will result in deactivation in 35 days (400 days total). If you have any questions please email us at conservationefforts@fws.gov. If you would like to voluntarily deactivate your CED account/profile,  are no longer participating in the CED please let us know and we will deactivate your account."
+                    #                 From = DEFAULT_FROM_EMAIL
+                    #                 To = us.email
+                    #                 send_mail(Subject, Message, From, [To], fail_silently=False)
 
-                                    #Indicate warning email has been sent
-                                    obj1=userprofile.objects.get(User_id=us.id)
-                                    obj1.Day_365_Warning_Sent = True
-                                    obj1.save()
+                    #                 #Indicate warning email has been sent
+                    #                 obj1=userprofile.objects.get(User_id=us.id)
+                    #                 obj1.Day_365_Warning_Sent = True
+                    #                 obj1.save()
 
-                            if daysoff >= 400:
-                                userprof = userprofile.objects.get(User_id=us.id)
-                                if userprof.Day_400_Deactivation == None or userprof.Day_400_Deactivation == 0 or userprof.Day_400_Deactivation == False:
-                                    #Send Warning message
+                    #         if daysoff >= 400:
+                    #             userprof = userprofile.objects.get(User_id=us.id)
+                    #             if userprof.Day_400_Deactivation == None or userprof.Day_400_Deactivation == 0 or userprof.Day_400_Deactivation == False:
+                    #                 #Send Warning message
 
-                                    Subject = "Your CED account has been inactive for over 400 days"
-                                    Message = "You have not logged in to your Conservation Efforts Database account in 400 days. Your account has been automatically deactivated. If you would like your account reactivated please email the CED team at conservationefforts@fws.gov"
-                                    From = DEFAULT_FROM_EMAIL
-                                    To = us.email
-                                    send_mail(Subject, Message, From, [To], fail_silently=False)
+                    #                 Subject = "Your CED account has been inactive for over 400 days"
+                    #                 Message = "You have not logged in to your Conservation Efforts Database account in 400 days. Your account has been automatically deactivated. If you would like your account reactivated please email the CED team at conservationefforts@fws.gov"
+                    #                 From = DEFAULT_FROM_EMAIL
+                    #                 To = us.email
+                    #                 send_mail(Subject, Message, From, [To], fail_silently=False)
 
-                                    #Indicate warning email has been sent
-                                    obj1=userprofile.objects.get(User_id=us.id)
-                                    obj1.Day_400_Deactivation = True
-                                    obj1.save()
+                    #                 #Indicate warning email has been sent
+                    #                 obj1=userprofile.objects.get(User_id=us.id)
+                    #                 obj1.Day_400_Deactivation = True
+                    #                 obj1.save()
 
-                                    obj2=User.objects.get(id=us.id)
-                                    obj2.is_active = False
-                                    obj2.save()
+                    #                 obj2=User.objects.get(id=us.id)
+                    #                 obj2.is_active = False
+                    #                 obj2.save()
 
                 urlcheck = request.get_full_path()
                 urlcheck = str(urlcheck)
