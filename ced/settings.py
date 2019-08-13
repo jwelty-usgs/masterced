@@ -33,8 +33,8 @@ with open(BASE_DIR + '/config/sgceConfig.json', 'r') as f:
     DBHOST = config['DEFAULT']['DBHOST']
     DBUSER = config['DEFAULT']['DBUSER']
     DBPASSWORD = config['DEFAULT']['DBPASSWORD']
-    # DBUSER1 = config['DEFAULT']['DBUSER1']
-    # DBPASSWORD1 = config['DEFAULT']['DBPASSWORD1']
+    DBUSER1 = config['DEFAULT']['DBUSER1']
+    DBPASSWORD1 = config['DEFAULT']['DBPASSWORD1']
     DBNAME = config['DEFAULT']['DBNAME']
     ENVIRONMENT = config['DEFAULT']['ENVIRONMENT']
 
@@ -44,6 +44,7 @@ DEBUG = False
 
 ACCOUNT_ACTIVATION_DAYS=7
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = EMAIL_HOST
 EMAIL_USE_TLS = True
 ALLOWED_HOSTS = [ALLOWED_HOST,'LocalHost'];
 
@@ -129,7 +130,8 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-SECURE_SSL_REDIRECT = True
+#SECURE_SSL_REDIRECT = True #For Dev and Prod but not local
+SECURE_SSL_REDIRECT = False #Local Only
 SECURE_HSTS_SECONDS = 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_FRAME_DENY = True
