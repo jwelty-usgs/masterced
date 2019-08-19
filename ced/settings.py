@@ -40,14 +40,14 @@ with open(BASE_DIR + '/config/sgceConfig.json', 'r') as f:
 
 
 #DEBUG = APPDEBUG
-DEBUG = True
+DEBUG = False
 #TEMPLATE_DEBUG = True
 
 ACCOUNT_ACTIVATION_DAYS=7
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 ## Use locally
-# EMAIL_USE_TLS = True
+#EMAIL_USE_TLS = True
 ## Use for Dev and Prod
 EMAIL_USE_TLS = False
 
