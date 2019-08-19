@@ -38,14 +38,19 @@ with open(BASE_DIR + '/config/sgceConfig.json', 'r') as f:
     DBNAME = config['DEFAULT']['DBNAME']
     ENVIRONMENT = config['DEFAULT']['ENVIRONMENT']
 
+
 #DEBUG = APPDEBUG
-DEBUG = False
+DEBUG = True
 #TEMPLATE_DEBUG = True
 
 ACCOUNT_ACTIVATION_DAYS=7
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = EMAIL_HOST
-EMAIL_USE_TLS = True
+
+## Use locally
+# EMAIL_USE_TLS = True
+## Use for Dev and Prod
+EMAIL_USE_TLS = False
+
 ALLOWED_HOSTS = [ALLOWED_HOST,'LocalHost'];
 
 # Password requirements
@@ -68,7 +73,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'sslserver', # Comment this out for production
+    #'sslserver', # Comment this out for production
     'registration',
     'form_utils',
     'jquery',
@@ -82,7 +87,6 @@ INSTALLED_APPS = (
 MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # 'djangosecure.middleware.SecurityMiddleware', python 2.7
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -112,9 +116,9 @@ DATABASES = {
           #Uncomment for production
           'USER': DBUSER,
           'PASSWORD': DBPASSWORD,
-          # #Comment out for production
-          # 'USER': DBUSER1,
-          # 'PASSWORD': DBPASSWORD1,
+          ##Comment out for production
+          #'USER': DBUSER1,
+          #'PASSWORD': DBPASSWORD1,
           
           'HOST': DBHOST,
           'PORT': 3306,
@@ -184,7 +188,7 @@ TEMPLATES = [
         os.path.join(BASE_DIR, 'Templates')],
         'APP_DIRS': True,
         'OPTIONS': {
-            # 'debug': DEBUG, # Comment out debug line before production
+            #'debug': DEBUG, # Comment out debug line before production
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
