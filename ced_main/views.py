@@ -48,8 +48,8 @@ from ced.settings import STATIC_DIR
 sbpass = settings.SBPASS
 sbuser = settings.SBUSER
 hst = settings.DBHOST
-usr = settings.DBUSER
-psswrd = settings.DBPASSWORD
+usr = settings.DBUSER1
+psswrd = settings.DBPASSWORD1
 dtbs = settings.DBNAME
 DEFAULT_FROM_EMAIL = settings.DEFAULT_FROM_EMAIL
 
@@ -2079,6 +2079,7 @@ def dataentry_new(request):
     siteurl1 = siteurl.split("/")
     siteurl2 = siteurl1[0] + "//" + siteurl1[2]
 
+    
     # Get the context from the request.
     authen = checkgroup(request.user.groups.values_list('name', flat=True))
     enterdata = checkenter(request.user.groups.values_list('name', flat=True))
@@ -2094,9 +2095,9 @@ def dataentry_new(request):
         context = {'form': form, 'authen': authen, 'showlogin': 'True'}
         # Have we been provided with a valid form?
         if form.is_valid():
-
             actval = form.cleaned_data['Activity']
             subactval = str(form.cleaned_data['SubActivity'])
+            prvlands = str(form.cleaned_data['Private_Lands'])
 
             typeactval = subactivity.objects.values_list('TypeAct', flat=True).get(SubActivity=subactval)
             # Save the new category to the database.
@@ -2120,12 +2121,12 @@ def dataentry_new(request):
             obj.User_Phone_Number = userprofile.objects.values_list('User_Phone_Number', flat=True).get(
                 User_id__exact=User.objects.values_list('id', flat=True).get(username__exact=request.user))
 
+            obj.Private_Lands = prvlands
             obj.Last_Updated = datetime.datetime.now()
             obj.Updating_User = request.user.username
             obj.Created_By = request.user.username
 
             obj.save()
-
             try:
                 obj = form.save(commit=False)
                 prjid = str(obj.Project_ID)
@@ -2146,7 +2147,6 @@ def dataentry_new(request):
             except:
                 context = {'authen': authen, 'showlogin': 'True'}
                 return render(request, 'ced_main/lcmap_sb_down.html', context)
-
             obj = form.save(commit=False)
             prid = obj.Project_ID
             obj.save()
@@ -2162,6 +2162,8 @@ def dataentry_new(request):
             # Now call the index() view.
             # The user will be shown the homepage.
             context = {'form': form, 'authen': authen}
+            if 'submitsru' in request.POST:
+                return redirect('/sgce/grsgmap/' + str(prid) + '/SRUEditor?CEDID=' + str(prid))
 
             if typeactval == "Spatial Project":
                 return redirect('/sgce/grsgmap/' + str(prid) + '/footprinteditor?CEDID=' + str(prid))
@@ -2233,6 +2235,10 @@ def editproject(request, prid):
     seedtype = project_info.objects.values_list('seeding_type', flat=True).get(pk=prid)
     approval = project_info.objects.values_list('Entry_Type', flat=True).get(pk=prid)
 
+    sruid = project_info.objects.values_list('SRU_ID', flat=True).get(pk=prid)
+
+    if sruid == None or sruid == '':
+        sruid = 0
     db = MySQLdb.connect(host=hst, user=usr, passwd=psswrd, db=dtbs)
 
     staids = state_info.objects.values_list('id', flat=True).filter(Project_ID=prid)
@@ -2682,10 +2688,7 @@ def editproject(request, prid):
     Activity = project_info.objects.values_list('Activity', flat=True).get(pk=prid)
     # A HTTP POST?
     if request.method == 'POST':
-
-        if 'spatlink' in request.POST:
-
-            return redirect('/sgce/grsgmap/' + prid + '/footprinteditor?CEDID=' + prid)
+           
 
         if conoffice == 'Congress':
             if 'Spatial' in request.POST:
@@ -2788,6 +2791,9 @@ def editproject(request, prid):
                 obj.Date_Created = project_info.objects.values_list('Date_Created', flat=True).get(Project_ID=prid)
                 obj.Entry_Type = project_info.objects.values_list('Entry_Type', flat=True).get(Project_ID=prid)
                 obj.Project_Status = project_info.objects.values_list('Project_Status', flat=True).get(Project_ID=prid)
+                obj.SRU_ID = project_info.objects.values_list('SRU_ID', flat=True).get(Project_ID=prid)
+                obj.SRU_Name = project_info.objects.values_list('SRU_Name', flat=True).get(Project_ID=prid)
+                obj.Private_Lands = project_info.objects.values_list('Private_Lands', flat=True).get(Project_ID=prid)
 
 
 
@@ -3153,7 +3159,7 @@ def editproject(request, prid):
                         Project_ID=prid) + " be permanently deleted from the CED.  Please contact the approving official at " + request.user.email + " if confirmation is needed.  Otherwise this effort should be removed from the CED."
                     From = DEFAULT_FROM_EMAIL
 
-                    qresult = ["jwelty@usgs.gov", "lief_wiechman@fws.gov", "kernt@usgs.gov"]
+                    qresult = ["jwelty@usgs.gov", "lief_wiechman@fws.gov"]
                     To = ""
                     for rst in qresult:
                         To = To + rst
@@ -3235,7 +3241,10 @@ def editproject(request, prid):
                     context = {'form': form, 'authen': authen, 'EmailSent': EmailSent}
                     return redirect('/sgce/project_approval_success')
             if 'spatlink' in request.POST:
-                return redirect('/sgce/' + prid + '/footprinteditor')
+                return redirect('/sgce/grsgmap/' + prid + '/footprinteditor?CEDID=' + prid)
+
+            if 'spatlinksru' in request.POST:
+                return redirect('/sgce/grsgmap/' + prid + '/SRUEditor?CEDID=' + prid + "&SRUID=" + str(sruid))
 
             try:
                 context = {'authen': authen, 'EmailSent': EmailSent}
@@ -3245,6 +3254,8 @@ def editproject(request, prid):
                 print("Failed to redirect to project success")
 
             return redirect('/sgce/' + prid + '/editproject/?step=Location')
+        else:
+            print(form.errors)
     else:
         # if request.user.is_authenticated(): Pythoon 2.7
         if request.user.is_authenticated:
@@ -3274,7 +3285,7 @@ def editproject(request, prid):
                                        "Populations": Populations, "States": States, "Counties": Counties,
                                        "Ownership": Ownership, "Part1": Part1, "Part23": Part23, "Collab": Collab, "Objectives":Objectives, "Methods":Methods, "EffectState":EffectState,
                                        "Display": 'Location', "logon": logon, "josso": josso, "subact": subact,
-                                       "NotPoly": NotPoly, 'stassel': stassel,
+                                       "NotPoly": NotPoly, 'stassel': stassel, 'sruid':sruid,
                                            'cntssel': cntssel, 'ownssel': ownssel, 'colabssel': colabssel, "obidssel":obidssel, "mtidssel":mtidssel, "esidssel":esidssel,
                                            'thrssel': thrssel}
                         elif typeactval == 'Non-Spatial Project':
@@ -3287,7 +3298,7 @@ def editproject(request, prid):
                                    "Populations": Populations, "States": States, "Counties": Counties,
                                    "Ownership": Ownership, "Part1": Part1, "Part23": Part23, "Collab": Collab, "Objectives":Objectives, "Methods":Methods, "EffectState":EffectState,
                                    "Display": 'Location', "logon": logon, "josso": josso, "subact": subact,
-                                   "NotPoly": NotPoly, 'stassel': stassel,
+                                   "NotPoly": NotPoly, 'stassel': stassel, 'sruid':sruid,
                                        'cntssel': cntssel, 'ownssel': ownssel, 'colabssel': colabssel, "obidssel":obidssel, "mtidssel":mtidssel, "esidssel":esidssel,
                                        'thrssel': thrssel}
                         elif typeactval == 'Non-Spatial Plan':
@@ -3300,7 +3311,7 @@ def editproject(request, prid):
                                    "Populations": Populations, "States": States, "Counties": Counties,
                                    "Ownership": Ownership, "Part1": Part1, "Part23": Part23, "Collab": Collab, "Objectives":'', "Methods":'', "EffectState":'',
                                    "Display": 'Location', "logon": logon, "josso": josso, "subact": subact,
-                                   "NotPoly": NotPoly, 'stassel': stassel,
+                                   "NotPoly": NotPoly, 'stassel': stassel, 'sruid':sruid,
                                        'cntssel': cntssel, 'ownssel': ownssel, 'colabssel': colabssel, "obidssel":'', "mtidssel":'', "esidssel":'',
                                        'thrssel': thrssel}
                         return render(request, 'ced_main/editproject.html', context)
@@ -3317,7 +3328,7 @@ def editproject(request, prid):
                                        "Location": Location, "WAFWA": WAFWA, "Populations": Populations,
                                        "States": States, "Counties": Counties, "Ownership": Ownership, "Part1": Part1,
                                        "Part23": Part23, "Collab": Collab, "Objectives":Objectives, "Methods":Methods, "EffectState":EffectState, "Display": 'errorcheckdiv', "logon": logon,
-                                       "josso": josso, "subact": subact, "NotPoly": NotPoly, 'stassel': stassel,
+                                       "josso": josso, "subact": subact, "NotPoly": NotPoly, 'stassel': stassel, 'sruid':sruid,
                                        'cntssel': cntssel, 'ownssel': ownssel, 'colabssel': colabssel, "obidssel":obidssel, "mtidssel":mtidssel, "esidssel":obidssel,
                                        'thrssel': thrssel}
                             return render(request, 'ced_main/readonly.html', context)
@@ -3349,7 +3360,7 @@ def editproject(request, prid):
                                    "Populations": Populations, "States": States, "Counties": Counties,
                                    "Ownership": Ownership, "Part1": Part1, "Part23": Part23, "Collab": Collab, "Objectives":Objectives, "Methods":Methods, "EffectState":EffectState,
                                    "Display": 'Location', "logon": logon, "josso": josso, "subact": subact,
-                                   "NotPoly": NotPoly, 'stassel': stassel,
+                                   "NotPoly": NotPoly, 'stassel': stassel, 'sruid':sruid,
                                        'cntssel': cntssel, 'ownssel': ownssel, 'colabssel': colabssel, "obidssel":obidssel, "mtidssel":mtidssel, "esidssel":obidssel,
                                        'thrssel': thrssel}
                         return render(request, 'ced_main/editproject.html', context)
@@ -3365,7 +3376,7 @@ def editproject(request, prid):
                                        "Location": Location, "WAFWA": WAFWA, "Populations": Populations,
                                        "States": States, "Counties": Counties, "Ownership": Ownership, "Part1": Part1,
                                        "Part23": Part23, "Collab": Collab, "Objectives":Objectives, "Methods":Methods, "EffectState":EffectState, "Display": 'errorcheckdiv', "logon": logon,
-                                       "josso": josso, "subact": subact, "NotPoly": NotPoly, 'stassel': stassel,
+                                       "josso": josso, "subact": subact, "NotPoly": NotPoly, 'stassel': stassel, 'sruid':sruid,
                                        'cntssel': cntssel, 'ownssel': ownssel, 'colabssel': colabssel, "obidssel":obidssel, "mtidssel":mtidssel, "esidssel":obidssel,
                                        'thrssel': thrssel}
                             return render(request, 'ced_main/readonly.html', context)
@@ -3385,7 +3396,7 @@ def editproject(request, prid):
                                        "Location": Location, "WAFWA": WAFWA, "Populations": Populations,
                                        "States": States, "Counties": Counties, "Ownership": Ownership, "Part1": Part1,
                                        "Part23": Part23, "Collab": Collab, "Objectives":Objectives, "Methods":Methods, "EffectState":EffectState, "Display": 'errorcheckdiv', "logon": logon,
-                                       "josso": josso, "subact": subact, "NotPoly": NotPoly, 'stassel': stassel,
+                                       "josso": josso, "subact": subact, "NotPoly": NotPoly, 'stassel': stassel, 'sruid':sruid,
                                        'cntssel': cntssel, 'ownssel': ownssel, 'colabssel': colabssel, "obidssel":obidssel, "mtidssel":mtidssel, "esidssel":obidssel,
                                        'thrssel': thrssel}
                             return render(request, 'ced_main/readonly.html', context)
@@ -3946,7 +3957,10 @@ def emailcedusers(request):
                         eexistscheck = 1
                 if eexistscheck == 0:
                     useremails.append(iue)
-
+            print(subject)
+            print(emailbody)
+            print(From)
+            print(useremails)
             send_mail(subject, emailbody, From, useremails, fail_silently=False)
 
             return render(request, 'ced_main/emailceduserssuccess.html', context)

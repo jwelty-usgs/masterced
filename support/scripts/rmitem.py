@@ -76,7 +76,7 @@ if len(sys.argv) < 2:
     sys.exit(0)
 try:
     opts, args = getopt.getopt(sys.argv[2:], '', opt_fields)
-except getopt.GetoptError, err:
+except getopt.GetoptError(err):
     print(str(err))
     usage()
     sys.exit(2)

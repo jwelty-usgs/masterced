@@ -129,6 +129,8 @@ metricequ = (('----Choose an Equation----', '----Choose an Equation----'), ('Gre
 
 datequ = (('1', 'Before or Equal to'), ('2', 'After'), ('3', 'Between'))
 
+sgu_values = (('0', '---Select a SRU---'), ('1', '1: OR - Trout Creeks'), ('2', '2: OR - Beatys'), ('3', '3: OR - Louse - Soldier'), ('4', '4: OR - Steens - Pueblos'), ('5', '5: OR - Warners - Tucker'), ('6', '6: OR - Picture Rock'), ('7', '7: OR - Dry Valley'), ('8', '8: OR - Alvord - Folly'), ('9', '9: OR - Cow Lakes'), ('10', '10: OR - Crowley'), ('11', '11: OR - Brothers'), ('12', '12: OR - Burns'), ('13', '13: OR - Drewsey'), ('14', '14: OR - Paulina'), ('15', '15: OR - Prineville'), ('16', '16: OR - Bully - Cow Valley'), ('17', '17: OR - Baker')
+)
 
 All_Imp_Choices = (('1', 'Effort is already effective'), ('2', 'Effort has a high likelihood of being effective given adequate time'), ('3', 'Effort is uncertain or unlikely to be effective'), ('4', 'Effort is already effective'), ('5', 'Effort has a high likelihood of being effective given adequate time'), ('6', 'Effort is uncertain or unlikely to be effective'), ('7', 'Effort is already effective (Not applicable for 3 years)'), ('8', 'Effort has a high likelihood of being effective given adequate time'), ('9', 'Effort is uncertain or unlikely to be effective'), ('10', 'Effort is already effective'), ('11', 'Effort is already effective (Not applicable for 3 years)'), ('12', 'Effort has a high likelihood of being effective given adequate time'), ('13', 'Effort is uncertain or unlikely to be effective'), ('14', 'Effort is already effective (Not applicable for 3 years)'), ('15', 'Effort has a high likelihood of being effective given adequate time'), ('16', 'Effort is uncertain or unlikely to be effective'), ('17', 'Effort is already effective'), ('18', 'Effort is already effective (Not applicable for 3 years)'), ('19', 'Effort has a high likelihood of being effective given adequate time'), ('20', 'Effort is uncertain or unlikely to be effective'), ('21', 'Effort is already effective (Not applicable for 3 years)'), ('22', 'Effort has a high likelihood of being effective given adequate time'), ('23', 'Effort is uncertain or unlikely to be effective'), ('24', 'Effort is already effective (Not applicable for 3 years)'), ('25', 'Effort has a high likelihood of being effective given adequate time'), ('26', 'Effort is uncertain or unlikely to be effective'), ('27', 'Effort is already effective (Not applicable for 3 years)'), ('28', 'Effort has a high likelihood of being effective given adequate time'), ('29', 'Effort is uncertain or unlikely to be effective'), ('30', 'Effort is already effective (Not applicable for 3 years)'), ('31', 'Effort has a high likelihood of being effective given adequate time'), ('32', 'Effort is uncertain or unlikely to be effective'), ('33', 'Effort is already effective'), ('34', 'Effort has a high likelihood of being effective given adequate time'), ('35', 'Effort is uncertain or unlikely to be effective'), ('36', 'Effort is already effective (Not applicable for 3 years)'), ('37', 'Effort has a high likelihood of being effective given adequate time'), ('38', 'Effort is uncertain or unlikely to be effective'), ('39', 'Effort is already effective'), ('40', 'Effort has a high likelihood of being effective given adequate time'), ('41', 'Effort is uncertain or unlikely to be effective'), ('42', 'Effort is already effective'), ('43', 'Effort has a high likelihood of being effective given adequate time'), ('44', 'Effort is uncertain or unlikely to be effective'), ('45', 'Effort is already effective'), ('46', 'Effort has a high likelihood of being effective given adequate time'), ('47', 'Effort is uncertain or unlikely to be effective'), ('48', 'Effort is already effective'), ('49', 'Effort has a high likelihood of being effective given adequate time'), ('50', 'Effort is uncertain or unlikely to be effective'), ('51', 'Effort is already effective'), ('52', 'Effort has a high likelihood of being effective given adequate time'), ('53', 'Effort is uncertain or unlikely to be effective'), ('54', 'Effort is already effective'), ('55', 'Effort has a high likelihood of being effective given adequate time'), ('56', 'Effort is uncertain or unlikely to be effective'), ('57', 'Effort is already effective'), ('58', 'Effort has a high likelihood of being effective given adequate time'), ('59', 'Effort is uncertain or unlikely to be effective'), ('60', 'Effort is already effective'), ('61', 'Effort has a high likelihood of being effective given adequate time'), ('62', 'Effort is uncertain or unlikely to be effective'), ('63', 'Effort is already effective'), ('64', 'Effort has a high likelihood of being effective given adequate time'), ('65', 'Effort is uncertain or unlikely to be effective'), ('66', 'Effort is already effective'), ('67', 'Effort has a high likelihood of being effective given adequate time'), ('68', 'Effort is uncertain or unlikely to be effective'), ('69', 'Effort is already effective'), ('70', 'Effort has a high likelihood of being effective given adequate time'), ('71', 'Effort is uncertain or unlikely to be effective'))
 
@@ -331,14 +333,15 @@ class newprj_Form(s.ModelForm):
     Entry_Type = s.IntegerField(widget=s.HiddenInput(), initial=None, required=False)
     Shapefile = s.FileField(widget=s.HiddenInput(), required=False)
     Metadata = s.FileField(widget=s.HiddenInput(), required=False)
-    Location_Info = s.CharField(widget=s.HiddenInput(), max_length=255, required=False)
-    Location_Desc = s.CharField(widget=s.HiddenInput(), max_length=255, required=False)
     Agreement_Length = s.IntegerField(widget=s.HiddenInput(), required=False)
     Agreement_Penalty = s.IntegerField(widget=s.HiddenInput(), required=False)
 
     TypeAct = s.CharField(widget=s.HiddenInput(), required=False)
     Activity = s.ModelChoiceField(queryset=activity.objects.all().order_by('Activity'), required=False, label="Activity")
     SubActivity = s.ModelChoiceField(queryset=subactivity.objects.all().order_by('SubActivity'), required=False, label="Subactivity")
+
+    Private_Lands = s.TypedChoiceField(widget=s.RadioSelect(attrs={'display': 'inline-block'}), choices=YesNoOnly, initial=2, required=True, label="Private Lands")
+
 
     Objectives_Desc = s.CharField(widget=s.HiddenInput(), required=False)
     Effects_Desc = s.CharField(widget=s.HiddenInput(), required=False)
@@ -372,8 +375,7 @@ class newprj_Form(s.ModelForm):
         # Provide an association between the ModelForm and a model
         model = project_info
         fields = (
-        'Project_Name', 'Project_Status', 'Activity', 'SubActivity', 'Implementing_Party', 'Office', 'Created_By',
-        'Date_Created', 'PageLoc', 'LCMItem', 'Date_Approved',)
+        'Project_Name', 'Project_Status', 'Activity', 'SubActivity', 'Private_Lands', 'Implementing_Party', 'Office', 'Created_By','Date_Created', 'PageLoc', 'LCMItem', 'Date_Approved')
 
     def __init__(self, *args, **kwargs):
         super(newprj_Form, self).__init__(*args, **kwargs)
@@ -396,8 +398,10 @@ class editprj_Form(BetterModelForm):
     Entry_Type = s.ChoiceField(widget=s.RadioSelect(), choices=StatCHOICES, required=False, label="Entry Type")
     Shapefile = s.CharField(widget=s.HiddenInput(), max_length=255, label="Shapefile", required=False)
     Metadata = s.CharField(widget=s.HiddenInput(), max_length=255, label="Metadata", required=False)
-    Location_Info = s.CharField(widget=s.HiddenInput(), max_length=255, label="Location Information", required=False)
-    Location_Desc = s.CharField(widget=s.HiddenInput(), max_length=255, label="Location Description", required=False)
+
+    Private_Lands = s.TypedChoiceField(widget=s.RadioSelect(attrs={'display': 'inline-block'}), choices=YesNoOnly, initial=2, required=False, label="Private Lands")
+    SRU_ID = s.IntegerField(required=False, widget=s.TextInput(attrs={'size': '9'}), label="SRU ID")
+    SRU_Name = s.CharField(widget=s.TextInput(attrs={'size': '50'}), max_length=100, label="SRU Name", required=False)
 
     TypeAct = s.CharField(widget=s.TextInput(attrs={'size': '10'}), max_length=10, label="Effort Type", required=False)
     Activity = s.CharField(widget=s.TextInput(attrs={'size': '100'}), max_length=100, required=False, label="Activity")
@@ -489,10 +493,9 @@ class editprj_Form(BetterModelForm):
         fieldsets = (('Step 4: Activity Information', {'fields': (
         'Project_Name', 'TypeAct', 'Entry_Type', 'Activity', 'SubActivity', 'Agreement_Length', 'Agreement_Penalty',
         'Type_of_Powerline', 'seeding_type', 'post_fire', 'mitigation', 'CCAA_Num_Permit_Holders', 'Start_Date', 'End_Date', 'Metric',
-        'Metric_Value', 'GIS_Acres', 'Project_Status', 'Objectives_Desc', 'Notes','Location_Info',
-        'Location_Desc', 'Mark_For_Deletion', 'Created_By', 'User_Email', 'Date_Created', 'Implementing_Party',
+        'Metric_Value', 'GIS_Acres', 'Project_Status', 'Objectives_Desc', 'Notes', 'Mark_For_Deletion', 'Created_By', 'User_Email', 'Date_Created', 'Implementing_Party',
         'Office', 'Updating_User', 'Last_Updated', 'Approving_Official', 'Date_Approved', 'PageLoc', 'LCMItem'), }),
-                     ('Step 2: Location Information', {'fields': ('Location_Info', 'Location_Desc'), }),
+                     ('Step 2: Location Information', {'fields': ('Private_Lands', 'SRU_ID', 'SRU_Name'), }),
                      )
 
         row_attrs = {'Project_Name': {'class': 'style_names'}}
@@ -519,6 +522,9 @@ class editprj_Form(BetterModelForm):
             self.fields['Date_Approved'].widget.attrs['readonly'] = True
             self.fields['Shapefile'].widget.attrs['readonly'] = True
             self.fields['Metadata'].widget.attrs['readonly'] = True
+            self.fields['Private_Lands'].widget.attrs['readonly'] = True
+            self.fields['SRU_ID'].widget.attrs['readonly'] = True
+            self.fields['SRU_Name'].widget.attrs['readonly'] = True
 
     def clean_sku(self):
         instance = getattr(self, 'instance', None)

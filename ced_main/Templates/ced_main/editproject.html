@@ -71,50 +71,69 @@
         </div>
 
 
-         <div id="dismaps" style="display:none;">
-           <div id="menuitems">
-            <div id="bttn">
-                <button type="button" class="button" onclick="GoToEdit('Activity')">Go to Step 3</button>
-                <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
-                <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
-                
+        <div id="dismaps" style="display:none;">
+            <div id="menuitems">
+                <div id="bttn">
+                    <button type="button" class="button" onclick="GoToEdit('Activity', {{sruid}})">Go to Step 3</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review', {{sruid}})">Review Entry</button>
+                    <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;" />
+                    
+                </div>
             </div>
-          </div>
+            
 
-          <div id="menuitemsbottom">
-            <div id="bttnbottom">
-                <button type="button" class="button" onclick="GoToEdit('Activity')">Go to Step 3</button>
-                <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
-                <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
-                
+            <div id="menuitemsbottom">
+                <div id="bttnbottom">
+                    <button type="button" class="button" onclick="GoToEdit('Activity', {{sruid}})">Go to Step 3</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review', {{sruid}})">Review Entry</button>
+                    <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;" />
+
+                </div>
             </div>
-          </div>
 
-          <div id="Locationinfo" class="edittop">
+            <div id="Locationinfo" class="edittop">
 
                 {% for fieldset in form.fieldsets %}
+
                 {% if fieldset.name == "Step 2: Location Information" %}
+
+                <input style="display:none;" id='spatlinksru' class="button100" type="submit" name="spatlinksru" value="Edit SRU ID" onclick="needToConfirm = false;">
                 {% if typeactval == "Spatial Project" %}
-                <input id='spatlink' class="button100" type="submit" name="spatlink" value="Edit Spatial Data" onclick="needToConfirm = false;">
+                <input style="display:none;" id='spatlink' class="button100" type="submit" name="spatlink" value="Edit Spatial Data" onclick="needToConfirm = false;">
                 <div id="map">
                     <img id="loadingImg" src="{% static 'ced_main/images/ced_main/loading.gif' %}" style="position:fixed; right:50%; top:50%; z-index:10;" />
 
                 </div>
+
                 {% endif %}
 
-
-                <div id="state">
-                    <div id="processingDiv2" style="display:none;" class="answer_list">
-                    </div>
-                    {% if subform5.non_field_errors %}{{ subform5.non_field_errors }}
+                <div id="SRUflds" name="SRUname" style="display:none;">
+                    {% for field in form %}
+                    {% if field.label == "SRU ID" %}
+                    <div id="SRUIDVal"><lab class="srulabels"> SRU ID: </lab><b id="sruidseen">{{ field.value }}</b></div>
                     {% endif %}
-                    <div id="statehead">
-                        <h3 id='statcolor'> States<span class='required'>*</span></h3>
-                        <label id="StatesList">States Selected:</label><br>
-                        <label id="StatesMod">Select all 'States' where your project occurs and is implemented</label>
 
-                    </div>
-                    <div id='statebody' onchange="LoadLists('state_value', 'States Selected: ', 'StatesList'); SelectCounties(); LoadLists('county_value', 'Counties Selected: ', 'CntsList');">
+                    {% if field.label == "SRU Name" %}
+                    <div id="SRUIDName"><lab class="srulabels"> SRU Name: </lab><b id="srunmseen">{{ field.value }}</b></div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+
+
+                {% if sruid == 0 %}
+                    <div id="state" style="display:none;">
+                        <div id="processingDiv2" style="display:none;" class="answer_list">
+                        </div>
+                        {% if subform5.non_field_errors %}{{ subform5.non_field_errors }}
+                        {% endif %}
+                        <div id="statehead">
+                            <h3 id='statcolor'> States<span class='required'>*</span></h3>
+                            <label id="StatesList">States Selected:</label><br>
+                            <label id="StatesMod">Select all 'States' where your project occurs and is implemented</label>
+
+                        </div>
+                        <div id='statebody' onchange="LoadLists('state_value', 'States Selected: ', 'StatesList'); SelectCounties(); LoadLists('county_value', 'Counties Selected: ', 'CntsList');">
                             <ul>
                                 {% for field in subform5.state_value %}
                                 {% if field.is_hidden %}
@@ -128,20 +147,21 @@
                                 {% endif %}
                                 {% endfor %}
                             </ul>
+                        </div>
                     </div>
-                </div>
 
-                <div id="countyall">
 
-                    {% if subform6.non_field_errors %}{{ subform6.non_field_errors }}
-                    {% endif %}
+                    <div id="countyall" style="display:none;">
 
-                    <div id="countyhead">
-                        <h3 id='cntycolor'> Counties<span class='required'>*</span></h3>
-                        <label id="CntsList">Counties Selected:</label><br>
-                        <label id="CntsMod">Select all 'Counties' where your project occurs and is implemented.</label>
-                    </div>
-                    <div id="county" onchange="LoadLists('county_value', 'Counties Selected: ', 'CntsList');">
+                        {% if subform6.non_field_errors %}{{ subform6.non_field_errors }}
+                        {% endif %}
+
+                        <div id="countyhead">
+                            <h3 id='cntycolor'> Counties<span class='required'>*</span></h3>
+                            <label id="CntsList">Counties Selected:</label><br>
+                            <label id="CntsMod">Select all 'Counties' where your project occurs and is implemented.</label>
+                        </div>
+                        <div id="county" onchange="LoadLists('county_value', 'Counties Selected: ', 'CntsList');">
                             <ul>
                                 {% for field in subform6.county_value %}
                                 {% if field.is_hidden %}
@@ -155,9 +175,9 @@
                                 {% endif %}
                                 {% endfor %}
                             </ul>
+                        </div>
                     </div>
-                </div>
-
+                {% endif %}
                 <div id="collaball">
                     {% if subform3.non_field_errors %}{{ subform3.non_field_errors }}
                     {% endif %}
@@ -189,7 +209,7 @@
                     {% endif %}
 
                     <div id="ownerhead">
-                        <h3> Land Ownership<span class='required'>*</span></h3><br>
+                        <h3 id="ownmainlabel"> Land Ownership<span class='required'>*</span></h3><br>
                         <label id="OwnerList">Ownership Selected:</label><br>
                         <label id="OwnerMod">Select all 'Land Owners' where your project occurs and is implemented.</label>
                     </div>
@@ -207,7 +227,7 @@
                             {% endif %}
                             {% endfor %}
                         </ul>
-                        
+
                     </div>
                 </div>
                 {% endif %}
@@ -219,24 +239,24 @@
                 {% endfor %}
             </div>
 
-      </div>
+        </div>
 
       
         <div id="implementation" style="display:none;">
           {% if typeactval != "Non-Spatial Plan" %}
             <div id="menuitems">
                 <div id="bttn">
-                    <button type="button" class="button" onclick="GoToEdit('Activity')">Back to Step 3</button>
-                    <button type='button' class="button5" onclick="GoToEdit('Review')">Go to Step 5</button>
-                    <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                    <button type="button" class="button" onclick="GoToEdit('Activity', {{sruid}})">Back to Step 3</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review', {{sruid}})">Go to Step 5</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review', {{sruid}})">Review Entry</button>
                     <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
                 </div>
             </div>
             <div id="menuitemsbottom">
                 <div id="bttnbottom">
-                    <button type="button" class="button" onclick="GoToEdit('Activity')">Back to Step 3</button>
-                    <button type='button' class="button5" onclick="GoToEdit('Review')">Go to Step 5</button>
-                    <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                    <button type="button" class="button" onclick="GoToEdit('Activity', {{sruid}})">Back to Step 3</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review', {{sruid}})">Go to Step 5</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review', {{sruid}})">Review Entry</button>
                     <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
                 </div>
             </div>
@@ -531,309 +551,313 @@
         <div id="activityinfo" style="display:none;">
             <div id="menuitems">
                 <div id="bttn">
-                    <button type="button" class="button" onclick="GoToEdit('Location')">Back to Step 2</button>
+                    <button type="button" class="button" onclick="GoToEdit('Location', {{sruid}})">Back to Step 2</button>
                     {% if typeactval != "Non-Spatial Plan" %}
-                      <button type='button' class="button5" onclick="GoToEdit('Implementation')">Go to Step 4</button>
+                      <button type='button' class="button5" onclick="GoToEdit('Implementation', {{sruid}})">Go to Step 4</button>
                     {% endif %}
-                    <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review', {{sruid}})">Review Entry</button>
                     <input type="submit" class="button5" name="SandE" value="Save and Exit" onclick="needToConfirm = false;"/>
                 </div>
             </div>
 
             <div id="menuitemsbottom">
                 <div id="bttnbottom">
-                    <button type="button" class="button" onclick="GoToEdit('Location')">Back to Step 2</button>
+                    <button type="button" class="button" onclick="GoToEdit('Location', {{sruid}})">Back to Step 2</button>
                     {% if typeactval != "Non-Spatial Plan" %}
-                      <button type='button' class="button5" onclick="GoToEdit('Implementation')">Go to Step 4</button>
+                      <button type='button' class="button5" onclick="GoToEdit('Implementation', {{sruid}})">Go to Step 4</button>
                     {% endif %}
-                    <button type='button' class="button5" onclick="GoToEdit('Review')">Review Entry</button>
+                    <button type='button' class="button5" onclick="GoToEdit('Review', {{sruid}})">Review Entry</button>
                     <input type="submit" class="button5" name="SandE" value="Save and Exit" onclick="needToConfirm = false;"/>
                 </div>
             </div>
           {% for fieldset in form.fieldsets %}
             {% if fieldset.name == "Step 4: Activity Information" %}
 
-                <div id="actinfo" class="edittop">
-                    <h4> Activity Info</h4>
-                  {% for field in form %}
-                    
-                    {% if field.is_hidden %}
-                      {{ field }}
-                    {% else %}
+            <div id="actinfo" class="edittop">
+                <h4> Activity Info</h4>
+                {% for field in form %}
 
-                      
-                      {% if field.label == "Effort Name*" %}
-                        <div id="actdivmain">
-                            <lab id='effnamcolor'><b>Edit Name:</b></lab>{{ field }}
-                        </div>
-                      
-                             
-                      {% elif field.label == "Activity" %}
-                        <div id="actdiv">
-                            <lab  id='actcolor'>{{ field.label_tag }}</lab>{{ field.value }}
-                        </div>
+                {% if field.is_hidden %}
+                {{ field }}
+                {% else %}
 
-                        {% elif field.label == "Subactivity" %}
+
+                {% if field.label == "Effort Name*" %}
+                <div id="actdivmain">
+                    <lab id='effnamcolor'><b>Edit Name:</b></lab>{{ field }}
+                </div>
+
+
+                {% elif field.label == "Activity" %}
+                <div id="actdiv">
+                    <lab id='actcolor'>{{ field.label_tag }}</lab>{{ field.value }}
+                </div>
+
+                {% elif field.label == "Subactivity" %}
+                <div id="actdiv">
+                    <lab id='subactcolor'>{{ field.label_tag }}</lab>{{ field.value }}
+                </div>
+
+                {% elif field.label == "Agreement Length" %}
+                {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                <div id="actdiv">
+                    <div id="agreelen"><lab id="agreelenlab"><b>Agreement Length:</b><span class='required'>*</span></lab><span id='agreelencolor'>{{ field }}</span></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Agreement Penalty" %}
+                {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                <div id="actdiv">
+                    <div id="agreepen"><lab id="agreepenlab"><b>Agreement Penalty:</b><span class='required'>*</span></lab><span id='agreepencolor'>{{ field }}</span></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Seeding Type" %}
+                {% if subact == "Vegetation Management / Habitat Enhancement" or subact == "Energy development reclamation with the goal of sagebrush restoration" %}
+                <div id="actdiv">
+                    <div id="seedtype"><lab id="seedtypelab"><b>Seeding Type:</b><span class='required'>*</span></lab><span id='seedchoicecolor'>{{ field }}</span></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Post Wildfire Related" %}
+                {% if Activity == "RESTORATION: Post-Disturbance and/or Habitat Enhancement" %}
+                <div id="actdiv">
+                    <div id="pfire"><lab id="pfirelab"><b>Post Wildfire:</b><span class='required'>*</span></lab><span id='pfirechoicecolor'>{{ field }}</span></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Mitigation Treatment" %}
+                <div id="actdiv">
+                    <div id="pmitigation"><lab id="pmitigationlab"><b>Mitigation Treatment:</b><span class='required'>*</span></lab><span id='pmitigationchoicecolor'>{{ field }}</span></div>
+                </div>
+
+                {% elif field.label == "Type of Powerline*" %}
+                {% if subact == "Powerline Burial" %}
+                <div id="actdiv">
+                    <div id="tyofpo"><lab id="tyofpolab"><b>Type of Powerline</b><span class='required'>*</span></lab>{{ field }}</div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "# Permit Holders*" %}
+                {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                <div id="actdiv">
+                    <div id="perhold"><lab id='perholdcolor'><b># Permit Holders:</b><span class='required'>*</span></lab><span id='perholdcolor'>{{ field }}</span></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Start Date*" %}
+                <div id="actdiv" class="dates">
+                    <lab id='startcolor'><b>Start Date:</b><span class='required'>*</span></lab><div onchange="isValidDate();" id="strdtfld">{{ field }}</div>
+                    {% elif field.label == "End Date*" %}
+                    <lab id='endcolor'><b id="endlabel">End Date:</b><span class='required'>*</span></lab><div id="enddtfld" onchange="UpdateEndDateLabel('{{subact}}'); isValidDate();">{{ field }}</div><p id="enddatenote">**If there is no end date (e.g. In Perpetuity), select January 1, 2100.</p>
+                </div>
+
+                {% elif field.label == "Metric Type*" %}
+                {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
+                <div id="actdiv" style="display:none;">
+                    <lab id='mettypecolor'>{{ field.label_tag }}</lab>
+                    <select id="mettypeid" name="Metric" {{ field }} </>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Metric Value*" %}
+                {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
+                <div id="actdiv" class="metrics">
+                    <b><lab id="lab66">{{ field.label_tag }}</lab></b>
+                    <div id="metricleft" onchange="CheckAcDiff();">{{ field }} <i>(User Defined)</i></div>
+                </div>
+                {% endif %}
+
+
+                <br>
+                {% elif field.label == "GIS Acres*" %}
+                    {% if typeactval == "Spatial Project" %}
+                        {% if sruid == 0 %}
                             <div id="actdiv">
-                                <lab id='subactcolor'>{{ field.label_tag }}</lab>{{ field.value }}
-                            </div>
+                                <div id="gisfields">
+                                    <lab id='giscolor'><b>GIS Acres Treated:</b></lab>
+                                    <div id="GISAC"><span id="GISACVAL">{{ field.value }}</span> <i>{% if field.value > 0 %}(GIS Calculated){% endif %}</i></div>
 
-                        {% elif field.label == "Agreement Length" %}
-                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %} 
-                                <div id="actdiv">
-                                   <div id="agreelen"><lab id="agreelenlab"><b>Agreement Length:</b><span class='required'>*</span></lab><span id='agreelencolor'>{{ field }}</span></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Agreement Penalty" %}
-                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %} 
-                                <div id="actdiv">
-                                    <div id="agreepen"><lab id="agreepenlab"><b>Agreement Penalty:</b><span class='required'>*</span></lab><span id='agreepencolor'>{{ field }}</span></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Seeding Type" %}
-                            {% if subact == "Vegetation Management / Habitat Enhancement" or subact == "Energy development reclamation with the goal of sagebrush restoration" %}
-                                <div id="actdiv">
-                                    <div id="seedtype"><lab id="seedtypelab"><b>Seeding Type:</b><span class='required'>*</span></lab><span id='seedchoicecolor'>{{ field }}</span></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Post Wildfire Related" %}
-                            {% if Activity == "RESTORATION: Post-Disturbance and/or Habitat Enhancement" %}
-                                <div id="actdiv">
-                                    <div id="pfire"><lab id="pfirelab"><b>Post Wildfire:</b><span class='required'>*</span></lab><span id='pfirechoicecolor'>{{ field }}</span></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Mitigation Treatment" %}
-                              <div id="actdiv">
-                                  <div id="pmitigation"><lab id="pmitigationlab"><b>Mitigation Treatment:</b><span class='required'>*</span></lab><span id='pmitigationchoicecolor'>{{ field }}</span></div>
-                              </div>
-
-                        {% elif field.label == "Type of Powerline*" %}
-                            {% if subact == "Powerline Burial" %} 
-                                <div id="actdiv">
-                                    <div id="tyofpo"><lab id="tyofpolab"><b>Type of Powerline</b><span class='required'>*</span></lab>{{ field }}</div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "# Permit Holders*" %}
-                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %} 
-                                <div id="actdiv">
-                                    <div id="perhold"><lab id='perholdcolor'><b># Permit Holders:</b><span class='required'>*</span></lab><span id='perholdcolor'>{{ field }}</span></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Start Date*" %}
-                            <div id="actdiv" class="dates">
-                                <lab id='startcolor'><b>Start Date:</b><span class='required'>*</span></lab><div onchange="isValidDate();" id="strdtfld">{{ field }}</div>
-                        {% elif field.label == "End Date*" %}
-                                <lab id='endcolor'><b id="endlabel">End Date:</b><span class='required'>*</span></lab><div id="enddtfld" onchange="UpdateEndDateLabel('{{subact}}'); isValidDate();">{{ field }}</div><p id="enddatenote">**If there is no end date (e.g. In Perpetuity), select January 1, 2100.</p>
-                            </div>
-
-                        {% elif field.label == "Metric Type*" %}
-                            {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
-                                <div id="actdiv" style="display:none;">
-                                    <lab id='mettypecolor'>{{ field.label_tag }}</lab>
-                                    <select id="mettypeid" name="Metric" {{ field }} </>
-                                </div>
-                            {% endif %}
-                            
-                        {% elif field.label == "Metric Value*" %}
-                            {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
-                                <div id="actdiv" class="metrics">
-                                    <b><lab id="lab66">{{ field.label_tag }}</lab></b>
-                                    <div id="metricleft" onchange="CheckAcDiff();">{{ field }} <i>(User Defined)</i></div>
-                                </div>
-                            {% endif %}
-
-                        
-                            <br>
-                        {% elif field.label == "GIS Acres*" %}
-                            {% if typeactval == "Spatial Project" %}
-                                <div id="actdiv">
-                                    <div id="gisfields">
-                                        <lab id='giscolor'><b>GIS Acres Treated:</b></lab>
-                                        <div id="GISAC"><span id="GISACVAL">{{ field.value }}</span> <i>{% if field.value > 0 %}(GIS Calculated){% endif %}</i></div>
-
-                                        <input id='spatlink1' class="button10" type="submit" name="spatlink" value="Edit Spatial Data" onclick="needToConfirm = false;">    
-                                        <div id="GISWarnings">
-                                            {% if field.value > 0 %}
-                                                <div id="GISAcres"></div>
-                                            {% else %}
-                                                <div id="GISAcresMis"> <p>***Spatial data are required</p></div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                      
-                            {% elif field.label == "Created By" %}
-                                <hr>
-                                <div id="actdiv">
-                                    <div id="createby">
-                                    <lab5>{{ field.label_tag }}</lab5>{{ field.value }}
-                            {% elif field.label == "User Email" %}     
-                                <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
-                            {% elif field.label == "Date Created" %}     
-                                <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
-                            {% elif field.label == "Implementing Party" %}
-                                    <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
-                                    </div>
-                                </div>
-                                <div id="actdiv">    
-                            {% elif field.label == "Office" %}     
-                                <lab5>{{ field.label_tag }}</lab5>{{ field.value }}
-                            {% elif field.label == "Updating User" %}
-                                    <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
-                            {% elif field.label == "Last Updated" %}     
-                                <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
-                                </div>
-                                <div id="actdiv">
-                            {% elif field.label == "Approving Official" %}
-                                    <lab5>{{ field.label_tag }}</lab5>{{ field.value }}
-                            {% elif field.label == "Date Approved" %}     
-                                <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
-                                </div>
-                    
-                        
-
-                        {% elif field.label == "Objectives*" %}
-      
-                        {% elif field.label == "Notes" %}
-                            <div id="actdiv">
-                                <div id="notesall">
-                                    <lab id="notelabel">
-                                      {{ field.label_tag }}
-                                    </lab>
-                                    <span  id="notebox">
-                                        {{ field }}
-                                    </span>
-                                </div>
-                            </div>
-
-                        <lido id="docall">
-                            <div id="DocHead">
-                                <h4 id='doccolor'>Documentation:</h4>
-                                  <p> Select files you wish to upload.  Multiple files can be uploaded by using the 'Crtl' and 'Shift' commands. Select 'Upload' to load the files then fill in the remaining attributes for each file. Upload time can be slow, please be patient and wait for your files to appear below before continuing.</p>  
-                                  {% if DocFailed == "DocFailed" %}    
-                                    <h3> The document failed to upload, please try again. </h3>
-                                  {% endif %}               
-                            </div>
-                              
-                            <div id="doctextbody">
-
-                                <input id="myfile" style="color:black;" type="file" name="myfiles" multiple onchange="showsubmit()">
-                                <input id="subbutton" class="submitbuttondoc" type="submit" style="display:none;" name="upload" value="Upload" onclick="needToConfirm = false; showDiv()">
-                                <div id="DocText" style="display:none;"> <h5> Loading Documents...Please wait </h5></div>
-                                    <div id="processingDiv1" style="display:none;" class="answer_list">
-                                          <div id="loaderImage"> </div> 
-                                    </div>
-
-                                    <div id="fileformhead">
-                                        <head1>
-                                            <h5> File Type </h5>
-                                        </head1>
-
-                                        <head2>
-                                            <h5> Document Description</h5>
-                                        </head2>
-
-                                        <head3>
-                                            <h5> Document Name </h5>
-                                        </head3>
-
-
-                                        <div id="DocText1" style="display:none;"> <h3> Accessing Secure Data...Please wait </h3></div>
-                                        <div id="DocText2" style="display:none;"> <h3> Deleting Secure Data...Please wait </h3></div>
-                                    </div>
-                              
-                                    <div id="fileforms">
-                                        {{ formset.management_form }}
-                                        {% for form in formset %}
-                                        <div id="fileform">
-                                            {% for field in form %}
-                                        
-                                                {% if field.label != "Document_Name" %}
-                                            
-                                                    {% if field.is_hidden %}
-                                                        {{ field }}
-                                                    {% else %}
-                                                        <li>
-                                                            {{ field.errors }}
-                                                            <span class='required'>*&nbsp;&nbsp;</span>{{ field }}
-                                                        </li>
-                                                    {% endif %}
-                                            
-                                                {% else %}
-                                                    <li1>
-                                                        {{ field.value }} <a id="DownDoc" href="{{ LCJason }}" download="{{ LCJason }}"></a>
-                                                        <div style="display:none;">{{ field }}</div>
-                                                    </li1>
-                                                    <div id="ddbutton">
-
-                                                        <input id='Downloadsb' class="button6" type="submit" name="Download_{{ field.value }}" value="Download" onclick="checklink('{{ field.value }}'); needToConfirm = false; showDiv1()">
-                                                      
-                                                        <input class="button6" type="submit" name="Delete_{{ field.value }}" value="Delete" onclick="needToConfirm = false; showDiv2()">
-                                                    </div>                        
-                                                {% endif %}
-                                              
-                                            {% endfor %}
-                                        </div>
-                                    {% endfor %}
-
-                                </div>
-                            </div>
-                        </lido>
-
-                            <div id="ThrtBox">     
-                              {% if subform2.non_field_errors %}{{ subform2.non_field_errors }}{% endif %}
-                                <div id="field-checks"> 
-                                  <acat>
-                                    <div id="thradd">
-                                        <h4 id='thrtcolor'>Threats Addressed:<span class='required'>*</span></h4>
-                                    </div>
-                                  <div id="ThreatVals">
-                                    <ul>
-                                      {% for field in subform2.threat %}
-                                        {% if field.is_hidden %}
-                                          {{ field }}
+                                    <input id='spatlink1' class="button10" type="submit" name="spatlink" value="Edit Spatial Data" onclick="needToConfirm = false;">
+                                    <div id="GISWarnings">
+                                        {% if field.value > 0 %}
+                                        <div id="GISAcres"></div>
                                         {% else %}
-                                          <li><span>
-                                            {{ field.errors }}
-                                            {{ field.label_tag }}
-                                            {{ field }}</span>                       
-                                          </li>
+                                        <div id="GISAcresMis"> <p>***Spatial data are required</p></div>
                                         {% endif %}
-                                      {% endfor %}
-                                    </ul>
-                                  </div> 
-                                </acat>
-                              </div> 
+                                    </div>
+                                </div>
                             </div>
-                            <div id="actdiv2"> 
-                              <h5>For each threat selected above, please provide rationale explaining why the action was/is/will be effective at addressing and reducing the threat and the impact on sagebrush/sage-grouse. This needs to be completed in Step 4: Effectiveness Information. Either Select the appropriate Effectiveness Statement(s) or explain in further detail in the 'Explain why the activity was deemed effective' text box.</h5>
-                          </div>
-                        
-                           
-                        {% elif field.label == "Mark This Effort for Deletion" %}
-                        {% elif field.label == "Entry Type" %}
-                        {% elif field.label == "Effort Type" %}
-                        {% else %}
-                            <div id="actdiv">
-                                <lab>
-                                  {{ field.label_tag }}
-                                </lab>
-                                {{ field.value }}
-                            </div>
-
                         {% endif %}
-
                     {% endif %}
 
-                  {% endfor %}
-                </div>   
+                {% elif field.label == "Created By" %}
+                <hr>
+                <div id="actdiv">
+                    <div id="createby">
+                        <lab5>{{ field.label_tag }}</lab5>{{ field.value }}
+                        {% elif field.label == "User Email" %}
+                        <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                        {% elif field.label == "Date Created" %}
+                        <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                        {% elif field.label == "Implementing Party" %}
+                        <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                    </div>
+                </div>
+                <div id="actdiv">
+                    {% elif field.label == "Office" %}
+                    <lab5>{{ field.label_tag }}</lab5>{{ field.value }}
+                    {% elif field.label == "Updating User" %}
+                    <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                    {% elif field.label == "Last Updated" %}
+                    <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                </div>
+                <div id="actdiv">
+                    {% elif field.label == "Approving Official" %}
+                    <lab5>{{ field.label_tag }}</lab5>{{ field.value }}
+                    {% elif field.label == "Date Approved" %}
+                    <lab5 class="crtbyval">{{ field.label_tag }}</lab5>{{ field.value }}
+                </div>
+
+
+
+                {% elif field.label == "Objectives*" %}
+
+                {% elif field.label == "Notes" %}
+                <div id="actdiv">
+                    <div id="notesall">
+                        <lab id="notelabel">
+                            {{ field.label_tag }}
+                        </lab>
+                        <span id="notebox">
+                            {{ field }}
+                        </span>
+                    </div>
+                </div>
+
+                <lido id="docall">
+                    <div id="DocHead">
+                        <h4 id='doccolor'>Documentation:</h4>
+                        <p> Select files you wish to upload.  Multiple files can be uploaded by using the 'Crtl' and 'Shift' commands. Select 'Upload' to load the files then fill in the remaining attributes for each file. Upload time can be slow, please be patient and wait for your files to appear below before continuing.</p>
+                        {% if DocFailed == "DocFailed" %}
+                        <h3> The document failed to upload, please try again. </h3>
+                        {% endif %}
+                    </div>
+
+                    <div id="doctextbody">
+
+                        <input id="myfile" style="color:black;" type="file" name="myfiles" multiple onchange="showsubmit()">
+                        <input id="subbutton" class="submitbuttondoc" type="submit" style="display:none;" name="upload" value="Upload" onclick="needToConfirm = false; showDiv()">
+                        <div id="DocText" style="display:none;"> <h5> Loading Documents...Please wait </h5></div>
+                        <div id="processingDiv1" style="display:none;" class="answer_list">
+                            <div id="loaderImage"> </div>
+                        </div>
+
+                        <div id="fileformhead">
+                            <head1>
+                                <h5> File Type </h5>
+                            </head1>
+
+                            <head2>
+                                <h5> Document Description</h5>
+                            </head2>
+
+                            <head3>
+                                <h5> Document Name </h5>
+                            </head3>
+
+
+                            <div id="DocText1" style="display:none;"> <h3> Accessing Secure Data...Please wait </h3></div>
+                            <div id="DocText2" style="display:none;"> <h3> Deleting Secure Data...Please wait </h3></div>
+                        </div>
+
+                        <div id="fileforms">
+                            {{ formset.management_form }}
+                            {% for form in formset %}
+                            <div id="fileform">
+                                {% for field in form %}
+
+                                {% if field.label != "Document_Name" %}
+
+                                {% if field.is_hidden %}
+                                {{ field }}
+                                {% else %}
+                                <li>
+                                    {{ field.errors }}
+                                    <span class='required'>*&nbsp;&nbsp;</span>{{ field }}
+                                </li>
+                                {% endif %}
+
+                                {% else %}
+                                <li1>
+                                    {{ field.value }} <a id="DownDoc" href="{{ LCJason }}" download="{{ LCJason }}"></a>
+                                    <div style="display:none;">{{ field }}</div>
+                                </li1>
+                                <div id="ddbutton">
+
+                                    <input id='Downloadsb' class="button6" type="submit" name="Download_{{ field.value }}" value="Download" onclick="checklink('{{ field.value }}'); needToConfirm = false; showDiv1()">
+
+                                    <input class="button6" type="submit" name="Delete_{{ field.value }}" value="Delete" onclick="needToConfirm = false; showDiv2()">
+                                </div>
+                                {% endif %}
+
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </lido>
+
+                <div id="ThrtBox">
+                    {% if subform2.non_field_errors %}{{ subform2.non_field_errors }}{% endif %}
+                    <div id="field-checks">
+                        <acat>
+                            <div id="thradd">
+                                <h4 id='thrtcolor'>Threats Addressed:<span class='required'>*</span></h4>
+                            </div>
+                            <div id="ThreatVals">
+                                <ul>
+                                    {% for field in subform2.threat %}
+                                    {% if field.is_hidden %}
+                                    {{ field }}
+                                    {% else %}
+                                    <li>
+                                        <span>
+                                            {{ field.errors }}
+                                            {{ field.label_tag }}
+                                            {{ field }}
+                                        </span>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </acat>
+                    </div>
+                </div>
+                <div id="actdiv2">
+                    <h5>For each threat selected above, please provide rationale explaining why the action was/is/will be effective at addressing and reducing the threat and the impact on sagebrush/sage-grouse. This needs to be completed in Step 4: Effectiveness Information. Either Select the appropriate Effectiveness Statement(s) or explain in further detail in the 'Explain why the activity was deemed effective' text box.</h5>
+                </div>
+
+
+                {% elif field.label == "Mark This Effort for Deletion" %}
+                {% elif field.label == "Entry Type" %}
+                {% elif field.label == "Effort Type" %}
+                {% else %}
+                <div id="actdiv">
+                    <lab>
+                        {{ field.label_tag }}
+                    </lab>
+                    {{ field.value }}
+                </div>
+
+                {% endif %}
+
+                {% endif %}
+
+                {% endfor %}
+            </div>   
 
                 {% endif %}
               {% endfor %}
@@ -846,26 +870,26 @@
         <div id="menuitems">
             <div id="bttn">
                 {% if typeactval != "Non-Spatial Plan" %}
-                  <button type="button" class="button" onclick="GoToEdit('Implementation')">Back to Step 4</button>
+                  <button type="button" class="button" onclick="GoToEdit('Implementation', {{sruid}})">Back to Step 4</button>
                 {% else %}
-                  <button type="button" class="button" onclick="GoToEdit('Activity')">Back to Step 3</button>
+                  <button type="button" class="button" onclick="GoToEdit('Activity', {{sruid}})">Back to Step 3</button>
                 {% endif %}
                 <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
-                <input id='saveandsubmit' type="submit" class="button" name="emailapp" value="Save and Submit for Approval" onclick="needToConfirm = false; javascript:DisplayEC();"/>
+                <input id='saveandsubmit' type="submit" class="button" name="emailapp" value="Save and Submit for Approval" onclick="needToConfirm = false; javascript:DisplayEC({{sruid}});"/>
             </div> 
         </div>
         <div id="menuitemsbottom">
             <div id="bttnbottom">
                 {% if authen == 'authenapp' or authen == 'authenadmin' %}
-                    <input id="ApprovePrj" type="submit" class="buttonapp" name="approveapp" value="Approve Effort" onclick="needToConfirm = false; javascript:DisplayEC()"/>
+                    <input id="ApprovePrj" type="submit" class="buttonapp" name="approveapp" value="Approve Effort" onclick="needToConfirm = false; javascript:DisplayEC({{sruid}})"/>
                 {% endif %}
                 {% if typeactval != "Non-Spatial Plan" %}
-                  <button type="button" class="button" onclick="GoToEdit('Implementation')">Back to Step 4</button>
+                  <button type="button" class="button" onclick="GoToEdit('Implementation', {{sruid}})">Back to Step 4</button>
                 {% else %}
-                  <button type="button" class="button" onclick="GoToEdit('Activity')">Back to Step 3</button>
+                  <button type="button" class="button" onclick="GoToEdit('Activity', {{sruid}})">Back to Step 3</button>
                 {% endif %}
                 <input type="submit" class="button5" name="errorcheckdiv" value="Save and Exit" onclick="needToConfirm = false;"/>
-                <input id='saveandsubmit' type="submit" class="button" name="emailapp" value="Save and Submit for Approval" onclick="needToConfirm = false; javascript:DisplayEC();"/>
+                <input id='saveandsubmit' type="submit" class="button" name="emailapp" value="Save and Submit for Approval" onclick="needToConfirm = false; javascript:DisplayEC({{sruid}});"/>
             </div>
         </div> 
 
@@ -877,28 +901,38 @@
             <div id="Reviewfield">
 
                 <div id="MU">
-                    <h3></h3><button type='button' class="button7" onclick="GoToEdit('Location')">Step 2: Location Information</button><h3></h3>
+                    <h3></h3><button type='button' class="button7" onclick="GoToEdit('Location', {{sruid}})">Step 2: Location Information</button><h3></h3>
                 </div>
-                <div id="actdiv1"> 
+
+                {% if sruid == 0 %}
+                <div id="actdiv1">
                     <lab class='reviewlabel' id="sts">States:<span class='required'>*</span></lab><div class='reviewval' id="StateList1"></div>
                 </div>
-                <div id="actdiv1"> 
+                <div id="actdiv1">
                     <lab class='reviewlabel' id="cnties">Counties:<span class='required'>*</span></lab><div class='reviewval' id="CountyList1"></div>
                 </div>
+                {% else %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="sruidrev">SRU ID:</lab><div class='reviewval' id="SRUID1"></div>
+                </div>
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="srunmrev">SRU Name:</lab><div class='reviewval' id="SRUNM1"></div>
+                </div>
+                {% endif %}
                 {% if typeactval != "Non-Spatial Plan" %}
-                    <div id="actdiv1"> 
-                        <lab class='reviewlabel' id="ownlab">Ownership:&nbsp;</lab><div class='reviewval' id="OwnerList1"></div>
-                    </div>
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="ownlab">Ownership:<span class='required'>*</span></lab><div class='reviewval' id="OwnerList1"></div>
+                </div>
                 {% endif %}
 
                 {% if subform3.non_field_errors %}{{ subform3.non_field_errors }}{% endif %}
-                    <div id="actdiv1" class="actdivcl"> 
-                        <lab class='reviewlabel' id="ColCheckLab">Collaborators:<span class='required'>*</span></lab><div class='reviewval' id="ColCheckSel"></div>
-                    </div>
+                <div id="actdiv1" class="actdivcl">
+                    <lab class='reviewlabel' id="ColCheckLab">Collaborators:<span class='required'>*</span></lab><div class='reviewval' id="ColCheckSel"></div>
+                </div>
 
                 <div id="MU">
-               
-                    <h3></h3><button type='button' class="button7" onclick="GoToEdit('Activity')">Step 3: Activity Information</button><h3></h3>
+
+                    <h3></h3><button type='button' class="button7" onclick="GoToEdit('Activity', {{sruid}})">Step 3: Activity Information</button><h3></h3>
                 </div>
 
 
@@ -906,241 +940,243 @@
 
 
 
-              {% for fieldset in form.fieldsets %}
+                {% for fieldset in form.fieldsets %}
                 {% if fieldset.name == "Step 4: Activity Information" %}
-                  {% for field in form %}
-                    
-                    {% if field.is_hidden %}
-                      {{ field }}
-                    {% else %}
-                      {% if field.label == "Effort Name*" %}
-                                <div id="actdiv1"> 
-                                    <lab class='reviewlabel' id="ActNameLab">Effort Name:<span class='required'>*</span></lab><div class='reviewval' id="ActNameVal"></div>
-                                </div>
+                {% for field in form %}
 
-                        {% elif field.label == "Seeding Type" %}
-                            {% if subact == "Vegetation Management / Habitat Enhancement" or subact == "Energy development reclamation with the goal of sagebrush restoration" %}
-                                <div id="actdiv1">
-                                    <lab class="reviewlabel" id="SeedingTypeLab">Seeding Type:<span class='required'>*</span></lab><div class='reviewval' id='SeedingTypeVal'></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Post Wildfire Related" %}
-                            {% if Activity == "RESTORATION: Post-Disturbance and/or Habitat Enhancement" %}
-                                <div id="actdiv1"> 
-                                    <lab class='reviewlabel' id="PostFireLab">Post Wildfire:<span class='required'>*</span></lab><div class='reviewval' id="PostFireVal"></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Mitigation Treatment" %}
-                              <div id="actdiv1"> 
-                                  <lab class='reviewlabel' id="MitigationLab">Mitigation Treatment:<span class='required'>*</span></lab><div class='reviewval' id="MitigationVal"></div>
-                              </div>
-
-
-
-                        {% elif field.label == "Type of Powerline*" %}
-                            {% if subact == "Powerline Burial" %}
-                                <div id="actdiv1"> 
-                                    <lab class='reviewlabel' id="TypePowerLab">Type of Powerline:<span class='required'>*</span></lab><div class='reviewval' id="TypePowerVal"></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Agreement Length" %}
-                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
-                                <div id="actdiv1"> 
-                                    <lab class='reviewlabel' id="AgreeLenLab">Agreement Length:<span class='required'>*</span></lab><div class='reviewval' id="AgreeLenVal"></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Agreement Penalty" %}
-                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
-                                <div id="actdiv1"> 
-                                    <lab class='reviewlabel' id="AgreePenLab">Agreement Penalty:<span class='required'>*</span></lab><div class='reviewval' id="AgreePenVal"></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "# Permit Holders*" %}
-                            {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
-                                <div id="actdiv1"> 
-                                    <lab class='reviewlabel' id="PerHoldLab"># Permit Holders:<span class='required'>*</span></lab><div class='reviewval' id="PerHoldVal"></div>
-                                </div>
-                            {% endif %}
-
-                        
-                        {% elif field.label == "Start Date*" %}
-                            <div id="actdiv1"> 
-                                <lab class='reviewlabel' id="StartDateLab">Start Date:<span class='required'>*</span></lab><div class='reviewval' id="StartSel"></div>
-                            </div>
-                      
-                        {% elif field.label == "End Date*" %}
-                            <div id="actdiv1"> 
-                                <lab class='reviewlabel' id="FinishDateLab">End Date:<span class='required'>*</span></lab><div class='reviewval' id="EndSel"></div>
-                            </div>
-
-
-                        {% elif field.label == "Metric Type*" %}
-                            {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
-                                <div id="actdiv1" style="display:none;"> 
-                                    <lab class='reviewlabel' id="MetTypeLab">Miles Treated<span class='required'>*</span></lab><div class='reviewval' id="MetType"></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Metric Value*" %}
-                            {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
-                                <div id="actdiv1"> 
-                                    <lab class='reviewlabel' id="MetValLab">Acres Treated<span class='required'>*</span></lab><div class='reviewval' id="MetVal"></div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "GIS Acres*" %}
-                            {% if typeactval == "Spatial Project" %}
-                                <div id="actdiv1"> 
-                                    <lab class='reviewlabel' id="GISValLab">GIS Acres:<span class='required'>*</span></lab><div class='reviewval'>{{ field.value }}</div>
-                                </div>
-                            {% endif %}
-
-                        {% elif field.label == "Objectives*" %}
-
-                        {% elif field.label == "Notes" %}
-                            <div id="actdiv1"> 
-                                <lab class='reviewlabel'>Notes:&nbsp;</lab><div class='reviewval' id="NotesSel"></div>
-                            </div>
-
-                            <div id="actdiv1">
-                                <lab class='reviewlabel' id="docreviewlab">Documentation:</lab><div class='reviewval' id=docreviewcnt></div>
-                            </div>
-                            <div id="docreview"></div>
-
-                        
-                            <div id="actdiv1" class="actdivcl"> 
-                                <lab class='reviewlabel' id="ThrCheckLab">Threats:<span class='required'>*</span></lab><div class='reviewval' id="ThrCheckSel"></div>
-                            </div>
-
-
-                        {% elif field.label == "Mark This Effort for Deletion" %}
-                        {% elif field.label == "Entry Type" %}
-                        {% elif field.label == "Effort Type" %}
-                        {% else %}
-                            <div id="actdiv1">
-                                <lab> {{ field.label_tag }}&nbsp;</lab> 
-                                {{ field.value }}
-                            </div>
-
-                        {% endif %}    
-
-                    {% endif %}
-                  {% endfor %}
-                {% endif %}
-              {% endfor %}
-
-
-
-
-
-
-
-
-
-            {% if typeactval != "Non-Spatial Plan" %}
-                <div id="MU">
-                    <h3></h3><button type='button' class="button7" onclick="GoToEdit('Implementation')">Step 4: Implementation Information</button><h3></h3>
+                {% if field.is_hidden %}
+                {{ field }}
+                {% else %}
+                {% if field.label == "Effort Name*" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="ActNameLab">Effort Name:<span class='required'>*</span></lab><div class='reviewval' id="ActNameVal"></div>
                 </div>
 
-                <div id="actdiv2"> 
+                {% elif field.label == "Seeding Type" %}
+                {% if subact == "Vegetation Management / Habitat Enhancement" or subact == "Energy development reclamation with the goal of sagebrush restoration" %}
+                <div id="actdiv1">
+                    <lab class="reviewlabel" id="SeedingTypeLab">Seeding Type:<span class='required'>*</span></lab><div class='reviewval' id='SeedingTypeVal'></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Post Wildfire Related" %}
+                {% if Activity == "RESTORATION: Post-Disturbance and/or Habitat Enhancement" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="PostFireLab">Post Wildfire:<span class='required'>*</span></lab><div class='reviewval' id="PostFireVal"></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Mitigation Treatment" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="MitigationLab">Mitigation Treatment:<span class='required'>*</span></lab><div class='reviewval' id="MitigationVal"></div>
+                </div>
+
+
+
+                {% elif field.label == "Type of Powerline*" %}
+                {% if subact == "Powerline Burial" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="TypePowerLab">Type of Powerline:<span class='required'>*</span></lab><div class='reviewval' id="TypePowerVal"></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Agreement Length" %}
+                {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="AgreeLenLab">Agreement Length:<span class='required'>*</span></lab><div class='reviewval' id="AgreeLenVal"></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Agreement Penalty" %}
+                {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="AgreePenLab">Agreement Penalty:<span class='required'>*</span></lab><div class='reviewval' id="AgreePenVal"></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "# Permit Holders*" %}
+                {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="PerHoldLab"># Permit Holders:<span class='required'>*</span></lab><div class='reviewval' id="PerHoldVal"></div>
+                </div>
+                {% endif %}
+
+
+                {% elif field.label == "Start Date*" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="StartDateLab">Start Date:<span class='required'>*</span></lab><div class='reviewval' id="StartSel"></div>
+                </div>
+
+                {% elif field.label == "End Date*" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="FinishDateLab">End Date:<span class='required'>*</span></lab><div class='reviewval' id="EndSel"></div>
+                </div>
+
+
+                {% elif field.label == "Metric Type*" %}
+                {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
+                <div id="actdiv1" style="display:none;">
+                    <lab class='reviewlabel' id="MetTypeLab">Miles Treated<span class='required'>*</span></lab><div class='reviewval' id="MetType"></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "Metric Value*" %}
+                {% if typeactval == "Spatial Project" or subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" or subact == "Powerline Burial" or subact == "Fence Marking" or subact == "Fence Removal" or subact == "Improved Grazing Practices (Rest, Rotation, Etc.)" or subact == "Road and Trail closure" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="MetValLab">Acres Treated<span class='required'>*</span></lab><div class='reviewval' id="MetVal"></div><div id="metvalnote"></div>
+                </div>
+                {% endif %}
+
+                {% elif field.label == "GIS Acres*" %}
+                    {% if typeactval == "Spatial Project" %}
+                        {% if sruid == 0 %}
+                            <div id="actdiv1">
+                                <lab class='reviewlabel' id="GISValLab">GIS Acres:<span class='required'>*</span></lab><div class='reviewval'>{{ field.value }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                {% elif field.label == "Objectives*" %}
+
+                {% elif field.label == "Notes" %}
+                <div id="actdiv1">
+                    <lab class='reviewlabel'>Notes:&nbsp;</lab><div class='reviewval' id="NotesSel"></div>
+                </div>
+
+                <div id="actdiv1">
+                    <lab class='reviewlabel' id="docreviewlab">Documentation:</lab><div class='reviewval' id=docreviewcnt></div>
+                </div>
+                <div id="docreview"></div>
+
+
+                <div id="actdiv1" class="actdivcl">
+                    <lab class='reviewlabel' id="ThrCheckLab">Threats:<span class='required'>*</span></lab><div class='reviewval' id="ThrCheckSel"></div>
+                </div>
+
+
+                {% elif field.label == "Mark This Effort for Deletion" %}
+                {% elif field.label == "Entry Type" %}
+                {% elif field.label == "Effort Type" %}
+                {% else %}
+                <div id="actdiv1">
+                    <lab> {{ field.label_tag }}&nbsp;</lab>
+                    {{ field.value }}
+                </div>
+
+                {% endif %}
+
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+
+
+
+
+
+
+
+
+
+                {% if typeactval != "Non-Spatial Plan" %}
+                <div id="MU">
+                    <h3></h3><button type='button' class="button7" onclick="GoToEdit('Implementation', {{sruid}})">Step 4: Implementation Information</button><h3></h3>
+                </div>
+
+                <div id="actdiv2">
                     <h4>Part 1: Objectives and Methods</h4>
                 </div>
 
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <lab class='reviewlabel' id="objreview">Objectives:<span class='required'>*</span></lab><div class='reviewval' id="ObjectiveList1"></div>
                 </div>
 
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <lab class='reviewlabel' id="ObjectiveLab">Other Objectives:<span class='required' id='objidsel'>*</span></lab><div class='reviewval' id="ObjectiveSel1"></div>
                 </div>
 
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <lab class='reviewlabel' id="mthreview">Methods:<span class='required'>*</span></lab><div class='reviewval' id="MethodList1"></div>
                 </div>
 
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <lab class='reviewlabel' id="mthtxtreview">Other Methods:<span class='required' id='mthidsel1'>*</span></lab><div class='reviewval' id="MethodText1"></div>
                 </div>
 
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <h4>Part 2: Status</h4>
                 </div>
 
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <lab class='reviewlabel' id="impstatrevlab">Implementation Status:<span class='required'>*</span></lab><div class='reviewval' id="impstatrev"></div>
                 </div>
 
                 <div id='DisNotImp'>
-                    <div id="actdiv2"> 
+                    <div id="actdiv2">
                         <h5>For actions not yet implemented, is there a high level of certainty that:</h5>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="wbirevlab">Will be Implemented:<span class='required'>*</span></lab><div class='reviewval' id="wbirev"></div>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="larevlab">Legal Authority:<span class='required'>*</span></lab><div class='reviewval' id="larev"></div>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="rarevlab">Resources Available:<span class='required'>*</span></lab><div class='reviewval' id="rarev"></div>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="miprevlab">Mechanisms in Place:<span class='required'>*</span></lab><div class='reviewval' id="miprev"></div>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="crrevlab">Compliance Requirements:<span class='required'>*</span></lab><div class='reviewval' id="crrev"></div>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="vprevlab">Voluntary Participation:<span class='required'>*</span></lab><div class='reviewval' id="vprev"></div>
                     </div>
                 </div>
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <h4>Part 3: Effectiveness Information</h4>
                 </div>
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <lab class='reviewlabel' id="deemeffrevlab">Deemed Effective:<span class='required'>*</span></lab><div class='reviewval' id='deemeffrev1'></div>
                 </div>
 
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <lab class='reviewlabel' id="effreview">Effectiveness:<span class='required'>*</span></lab><div class='reviewval' id="EffectiveList1"></div>
                 </div>
 
-                <div id="actdiv2"> 
+                <div id="actdiv2">
                     <lab class='reviewlabel' id="expeffrevlab">Other Effectiveness:<span class='required' id="effidsel1">*</span></lab><div class='reviewval' id="expeffrevrev"></div>
                 </div>
 
                 <div id='DisNotEff'>
-                    <div id="actdiv2"> 
+                    <div id="actdiv2">
                         <h5>For actions that have not been deemed effective (e.g. programs/actions only recently implemented), does the action:</h5>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="dtrrevlab">Describe Threat Reduction:<span class='required'>*</span></lab><div class='reviewval1' id="dtrrev"></div>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="iorevlab">Provide Incremental Objectives:<span class='required'>*</span></lab><div class='reviewval1' id="iorev"></div>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="iemrevlab">Provide Implementation and Effectiveness Measures:<span class='required'>*</span></lab><div class='reviewval1' id="iemrev"></div>
                     </div>
 
-                    <div id="actdiv3"> 
+                    <div id="actdiv3">
                         <lab class='reviewlabel' id="amrevlab">Incorporate Adaptive Management:<span class='required'>*</span></lab><div class='reviewval1' id="amrev"></div>
                     </div>
                 </div>
-              {% endif %}
+                {% endif %}
             </div> 
             
             {% if authen == 'authenadmin' %}
@@ -1168,6 +1204,7 @@
 </script>
 <script type="text/javascript" src="https://js.arcgis.com/3.18/">
 </script>
+
 
 <script type="text/javascript">
 function showsubmit(){
@@ -1197,10 +1234,11 @@ function showsubmit(){
   }
   var loc = window.location.href 
   var vars = loc.split("step=");
+  var srid = "{{sruid}}"
   if (String(vars[1]) == 'undefined'){
-    GoToEdit('Location')
+    GoToEdit('Location', srid)
   } else {
-    GoToEdit(vars[1])
+    GoToEdit(vars[1], srid)
   }
   
 </script>
@@ -2028,7 +2066,7 @@ function showsubmit(){
 </script>
 
 <script type="text/javascript">
-  if("{{typeactval}}" == "Spatial Project"){
+  if("{{typeactval}}" == "Spatial Project" & "{{sruid}}" == 0){
     var repAcre = document.getElementById('id_Metric_Value').value;
     var GISAcre = document.getElementById('GISACVAL').innerHTML;
     var AcreDiff = repAcre - GISAcre;
@@ -2319,149 +2357,149 @@ function showsubmit(){
         document.getElementById("effexpwrdcnt").innerHTML = effexpwrdval
     }catch(err){
     }
-    try{
-          var acwrdcntval = document.getElementById('id_Ag_Conversion_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("acwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Conifer_Encroach_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("cwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Oil_Gas_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("ogwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Fire_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("fwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Feral_Equids_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("fewrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Improper_Grazing_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("igwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Infrastructure_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("infwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Isolated_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("ipwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Mining_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("mwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Invasives_Explained').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("invwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Recreation_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("rwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Sagebrush_Loss_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("slwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
-    try{
-          var acwrdcntval = document.getElementById('id_Urban_Devel_Explain').value
-          var acchacntval1 = acwrdcntval.length
-          var acwrdcntval1 = acwrdcntval.split(' ').length
-          if(acchacntval1 == 0){
-                acwrdcntval1 = 0
-            }
-          var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
-          document.getElementById("udwrdcnt").innerHTML = acwrdval 
-    }catch(err){
-    }
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Ag_Conversion_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("acwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Conifer_Encroach_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("cwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Oil_Gas_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("ogwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Fire_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("fwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Feral_Equids_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("fewrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Improper_Grazing_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("igwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Infrastructure_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("infwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Isolated_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("ipwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Mining_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("mwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Invasives_Explained').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("invwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Recreation_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("rwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Sagebrush_Loss_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("slwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
+    //try{
+    //      var acwrdcntval = document.getElementById('id_Urban_Devel_Explain').value
+    //      var acchacntval1 = acwrdcntval.length
+    //      var acwrdcntval1 = acwrdcntval.split(' ').length
+    //      if(acchacntval1 == 0){
+    //            acwrdcntval1 = 0
+    //        }
+    //      var acwrdval = "Words: " + acwrdcntval1 + "; Characters: " + acchacntval1
+    //      document.getElementById("udwrdcnt").innerHTML = acwrdval 
+    //}catch(err){
+    //}
   if (msie > 0){      // If Internet Explorer, return version number
       document.getElementById('map').style.width='610px';
   }  
@@ -2514,40 +2552,40 @@ function showsubmit(){
         document.getElementById('lab66').innerHTML = 'Acres Treated:<span class="required">*</span>'
         document.getElementById('MetValLab').innerHTML = 'Acres Treated:<span class="required">*</span>'
     }
-    if("{{typeactval}}" == 'Spatial Project'){
+    if("{{typeactval}}" == 'Spatial Project' & "{{sruid}}" == 0){
         var repAcre = document.getElementById('id_Metric_Value').value;
-    repAcre = Math.round(repAcre)
-    var GISAcre = document.getElementById('GISACVAL').innerHTML;
-    GISAcre = Math.round(GISAcre)
-    var AcreDiff = repAcre - GISAcre;
-    if(GISAcre > 0){
-      if(AcreDiff >= 0){
-          var diffthan = "greater than"
-          AcreDiff = Math.abs(AcreDiff)
-          var AcrePer = repAcre / GISAcre * 100;
-          AcrePer = Math.round(AcrePer)
-          AcrePer = AcrePer - 100
-          AcrePer = Math.abs(AcrePer)
-          if(AcrePer >= 1){
-            document.getElementById('GISAcres').innerHTML = "ATTENTION: *Reported acreage (User Defined -' Metric Value')  is " + AcreDiff + "ac (" + AcrePer +"%) " + diffthan + " aathe GIS-calculated acreage (represented by your spatial input).  Please ensure these values represent the correct area where the conservation action was implemented. We caution including adjacent acres that may receive indirect benefit, if they are not included in the project/treatment area.";
-          }
-      }else{
-          var diffthan = "less than"
-          AcreDiff = Math.abs(AcreDiff)
-          var AcrePer = repAcre / GISAcre * 100;
-          AcrePer = Math.round(AcrePer)
-          AcrePer = AcrePer - 100
-          AcrePer = Math.abs(AcrePer)
-          if(AcrePer < 25 & AcrePer >= 1){
-            document.getElementById('GISAcres').innerHTML = "ATTENTION: *Reported acreage (User Defined -' Metric Value')  is " + AcreDiff + "ac (" + AcrePer +"%) " + diffthan + " the GIS-calculated acreage (represented by your spatial input).  Please ensure these values represent the correct area where the conservation action was implemented. We caution including adjacent acres that may receive indirect benefit, if they are not included in the project/treatment area.";
-          }else if(AcrePer >= 25){
-            document.getElementById('GISAcres').innerHTML = "ATTENTION: *Reported acreage (User Defined -' Metric Value') is less than 75% of the “GIS-Calculated” acreage (represented by your spatial input). Please adjust your spatial input to accurately represent the area(s) treated.";
-          }
+        repAcre = Math.round(repAcre)
+        var GISAcre = document.getElementById('GISACVAL').innerHTML;
+        GISAcre = Math.round(GISAcre)
+        var AcreDiff = repAcre - GISAcre;
+        if(GISAcre > 0){
+          if(AcreDiff >= 0){
+              var diffthan = "greater than"
+              AcreDiff = Math.abs(AcreDiff)
+              var AcrePer = repAcre / GISAcre * 100;
+              AcrePer = Math.round(AcrePer)
+              AcrePer = AcrePer - 100
+              AcrePer = Math.abs(AcrePer)
+              if(AcrePer >= 1){
+                document.getElementById('GISAcres').innerHTML = "ATTENTION: *Reported acreage (User Defined -' Metric Value')  is " + AcreDiff + "ac (" + AcrePer +"%) " + diffthan + " aathe GIS-calculated acreage (represented by your spatial input).  Please ensure these values represent the correct area where the conservation action was implemented. We caution including adjacent acres that may receive indirect benefit, if they are not included in the project/treatment area.";
+              }
+          }else{
+              var diffthan = "less than"
+              AcreDiff = Math.abs(AcreDiff)
+              var AcrePer = repAcre / GISAcre * 100;
+              AcrePer = Math.round(AcrePer)
+              AcrePer = AcrePer - 100
+              AcrePer = Math.abs(AcrePer)
+              if(AcrePer < 25 & AcrePer >= 1){
+                document.getElementById('GISAcres').innerHTML = "ATTENTION: *Reported acreage (User Defined -' Metric Value')  is " + AcreDiff + "ac (" + AcrePer +"%) " + diffthan + " the GIS-calculated acreage (represented by your spatial input).  Please ensure these values represent the correct area where the conservation action was implemented. We caution including adjacent acres that may receive indirect benefit, if they are not included in the project/treatment area.";
+              }else if(AcrePer >= 25){
+                document.getElementById('GISAcres').innerHTML = "ATTENTION: *Reported acreage (User Defined -' Metric Value') is less than 75% of the “GIS-Calculated” acreage (represented by your spatial input). Please adjust your spatial input to accurately represent the area(s) treated.";
+              }
           
-      }
+          }
       
       
-    }
+        }
     }
     // var Control
     // var Control1
@@ -2656,8 +2694,6 @@ function showsubmit(){
       
 </script>
 
-
-
 <script type="text/javascript">
 var fulleftlist = []
 var fullactlist = []
@@ -2667,7 +2703,7 @@ var fullmetlist = []
     for(var i=0; i<list.length;i++) {
       if (document.getElementsByName('Imp_Status')[i].checked) {
         if (document.getElementsByName('Imp_Status')[i].value < 3){
-            var str = "***REQUIRED*** For efforts not yet implemented, is there a high level of certainty that:";
+            var str = "***REQUIRED*** For efforts not yet completed, is there a high level of certainty that:";
             var result = str.fontcolor("red");
             document.getElementById('Part1Label').innerHTML = result;
             document.getElementById('Reas_Certain').style.display = "inline-block";

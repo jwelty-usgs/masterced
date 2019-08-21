@@ -29,8 +29,12 @@ function LoadLists(ListName, ListTitle, ListID) {
       }
     }
   }
-
-  document.getElementById(ListID).innerHTML = Outputlist
+    try {
+        document.getElementById(ListID).innerHTML = Outputlist
+    } catch{
+        aa = "None"
+    }
+  
 
 }
 
@@ -1567,7 +1571,7 @@ function ExpandNotes(notefield, notelabel) {
 
 
 
-function GoToEdit(Location) {
+function GoToEdit(Location, sruid) {
   var varloc = Location
   var loc = window.location.href
       document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -1594,6 +1598,20 @@ function GoToEdit(Location) {
       document.getElementById('implementation').style.display = "none";
       document.getElementById('errorcheckdiv').style.display = "none";
       document.getElementById('sectype').innerHTML = "Step 2: Location Information";
+
+      if(sruid > 0){
+        document.getElementById('SRUflds').style.display = "inline-block";
+          document.getElementById('spatlinksru').style.display = "inline-block";
+          if (tyacval == 'Spatial Project') {
+              document.getElementById('spatlink').style.display = "none";
+          }
+      }else{
+        document.getElementById('SRUflds').style.display = "none";
+        document.getElementById('spatlinksru').style.display = "none";
+        document.getElementById('state').style.display = "inline-block";
+        document.getElementById('countyall').style.display = "inline-block";
+        document.getElementById('spatlink').style.display = "inline-block";
+      }
 
       window.history.pushState(loc,"CED Edit Effort", "?step=Location");
   }
@@ -1766,40 +1784,51 @@ function GoToEdit(Location) {
         }
 
         document.getElementById('MetVal').innerHTML = document.getElementById('id_Metric_Value').value
-
-        if(document.getElementById('GISAC').innerHTML <= 0){
-            document.getElementById('GISValLab').style.color = "red"
-            document.getElementById('giscolor').style.color = "red"
-        }else{
-            document.getElementById('GISValLab').style.color = "black"
-            document.getElementById('giscolor').style.color = "black"
+        if (sruid == 0) {
+            if (document.getElementById('GISAC').innerHTML <= 0) {
+                document.getElementById('GISValLab').style.color = "red"
+                document.getElementById('giscolor').style.color = "red"
+            } else {
+                document.getElementById('GISValLab').style.color = "black"
+                document.getElementById('giscolor').style.color = "black"
+            }
         }
 
         var repAcre = document.getElementById('id_Metric_Value').value;
         repAcre = Math.round(repAcre)
-        var GISAcre = document.getElementById('GISACVAL').innerHTML;
-        GISAcre = Math.round(GISAcre)
-        var AcreDiff = repAcre - GISAcre;
-        if(GISAcre > 0){
-          if(AcreDiff >= 0){
-              var diffthan = "greater than"
-          }else{
-              var diffthan = "less than"
-              AcreDiff = Math.abs(AcreDiff)
-              var AcrePer = repAcre / GISAcre * 100;
-              AcrePer = Math.round(AcrePer)
-              AcrePer = AcrePer - 100
-              AcrePer = Math.abs(AcrePer)
-              if(AcrePer < 25 & AcrePer >= 1){
-                a=1
-              }else if(AcrePer >= 25){
-                document.getElementById('GISValLab').style.color = "red"
-                document.getElementById('giscolor').style.color = "red"
-                document.getElementById('MetValLab').style.color = "red"
-                document.getElementById('lab66').style.color = "red"
-              }
-              
-          }
+        if (sruid == 0) {
+            var GISAcre = document.getElementById('GISACVAL').innerHTML;
+            GISAcre = Math.round(GISAcre)
+            var AcreDiff = repAcre - GISAcre;
+            if (GISAcre > 0) {
+                if (AcreDiff >= 0) {
+                    var diffthan = "greater than"
+                } else {
+                    var diffthan = "less than"
+                    AcreDiff = Math.abs(AcreDiff)
+                    var AcrePer = repAcre / GISAcre * 100;
+                    AcrePer = Math.round(AcrePer)
+                    AcrePer = AcrePer - 100
+                    AcrePer = Math.abs(AcrePer)
+                    if (AcrePer < 25 & AcrePer >= 1) {
+                        document.getElementById('metvalnote').innerHTML = ""
+                        document.getElementById('metvalnote').style.color = "black"
+                    } else if (AcrePer >= 25) {
+                        document.getElementById('GISValLab').style.color = "red"
+                        document.getElementById('giscolor').style.color = "red"
+                        document.getElementById('MetValLab').style.color = "red"
+                        document.getElementById('lab66').style.color = "red"
+                        document.getElementById('metvalnote').innerHTML = "Acres treated differs by >25% from GIS acres. Please adjust either reported acres or update your GIS polygon to reflect the true area." 
+                        document.getElementById('metvalnote').style.color = "red"
+                    }
+
+                }
+            }
+
+            if (GISAcre > 0) {
+                document.getElementById('GISValLab').style.color = "black"
+                document.getElementById('giscolor').style.color = "black"
+            }
           
 
           
@@ -2024,7 +2053,8 @@ function GoToEdit(Location) {
         }
 
 
-        if (cnt == 0){
+        if (cnt == 0) {
+          document.getElementById('ObjectiveList1').innerHTML = ""
           document.getElementById('objreview').style.color = "red"
           document.getElementById('objcolor1').style.color = "red"
         } else {
@@ -2088,7 +2118,8 @@ function GoToEdit(Location) {
 
         }
 
-        if (cnt == 0){
+        if (cnt == 0) {
+          document.getElementById('MethodList1').innerHTML = ""
           document.getElementById('mthreview').style.color = "red"
           document.getElementById('methodcolor').style.color = "red"
         } else {
@@ -2196,7 +2227,8 @@ function GoToEdit(Location) {
 
         }
 
-        if (cnt == 0){
+        if (cnt == 0) {
+          document.getElementById('EffectiveList1').innerHTML = ""
           document.getElementById('effreview').style.color = "red"
           document.getElementById('effstatcolor').style.color = "red"
         } else {
@@ -2577,36 +2609,49 @@ function GoToEdit(Location) {
         a = 1
     }
 
+      if (sruid == 0) {
+          var stalst = document.getElementById('StatesList').innerHTML
+          var stalst1 = stalst.split(":")[1]
+          if (stalst1 > "" & stalst1 != " ") {
+              document.getElementById('sts').style.color = "black"
+              document.getElementById('statcolor').style.color = "black"
+          } else {
+              document.getElementById('sts').style.color = "red"
+              document.getElementById('statcolor').style.color = "red"
+          }
+          document.getElementById('StateList1').innerHTML = stalst1
+          var coulst = document.getElementById('CntsList').innerHTML
+          var coulst1 = coulst.split(":")[1]
+          if (coulst1 > "" & coulst1 != " ") {
+              document.getElementById('cnties').style.color = "black"
+              document.getElementById('cntycolor').style.color = "black"
+          } else {
+              document.getElementById('cnties').style.color = "red"
+              document.getElementById('cntycolor').style.color = "red"
+          }
+          document.getElementById('CountyList1').innerHTML = coulst1
+      } else {
+          var suid = document.getElementById("sruidseen").innerHTML;
+          document.getElementById("SRUID1").innerHTML = suid;
 
-    var stalst = document.getElementById('StatesList').innerHTML
-    var stalst1 = stalst.split(":")[1]
-    if(stalst1 > "" & stalst1 != " "){
-        document.getElementById('sts').style.color = "black"
-        document.getElementById('statcolor').style.color = "black"
-    }else{
-        document.getElementById('sts').style.color = "red" 
-        document.getElementById('statcolor').style.color = "red" 
-    } 
-    document.getElementById('StateList1').innerHTML = stalst1
-    var coulst = document.getElementById('CntsList').innerHTML
-    var coulst1 = coulst.split(":")[1]
-    if(coulst1 > "" & coulst1 != " "){
-        document.getElementById('cnties').style.color = "black"
-        document.getElementById('cntycolor').style.color = "black"
-    }else{
-        document.getElementById('cnties').style.color = "red" 
-        document.getElementById('cntycolor').style.color = "red"
-    } 
-    document.getElementById('CountyList1').innerHTML = coulst1
+          var suname = document.getElementById("srunmseen").innerHTML;
+          document.getElementById("SRUNM1").innerHTML = suname;
 
-    if(tyacval != 'Non-Spatial Plan'){
+
+
+
+      }
+
+      if (tyacval != 'Non-Spatial Plan') {
         var ownlst = document.getElementById('OwnerList').innerHTML
-        var ownlst1 = ownlst.split(":")[1]
-        // if(ownlst1 > "" & ownlst1 != " "){
-        //     document.getElementById('ownlab').style.color = "black"
-        // }else{
-        //     document.getElementById('ownlab').style.color = "red" 
-        // } 
+          var ownlst1 = ownlst.split(":")[1]
+         if(ownlst1 > "" & ownlst1 != " "){
+             document.getElementById('ownlab').style.color = "black"
+             document.getElementById('ownmainlabel').style.color = "black"
+         }else{
+             document.getElementById('ownlab').style.color = "red" 
+             document.getElementById('ownmainlabel').style.color = "red"
+         } 
         document.getElementById('OwnerList1').innerHTML = ownlst1
     }
     
@@ -3519,11 +3564,11 @@ function showsubmit(){
 //   }
 // }
 
-function DisplayEC() {
+function DisplayEC(sruid) {
 
     var errorlist = []
     var cnt = 1
-
+    
     // var loclists = [['wafwa_value', 'WAFWAs Selected: ', 'WAFWAList1'], ['population_value', 'Populations Selected: ', 'PopList1'], ['state_value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
     var loclists = [['state_value', 'States Selected: ', 'StateList1'], ['county_value', 'Counties Selected: ', 'CountyList1']]
 
@@ -3558,42 +3603,43 @@ function DisplayEC() {
             errorlist.push(" Metric Value is required")
         }
 
+        if(sruid == 0){
 
-        if(document.getElementById('GISAC').innerHTML <= 0){
-            errorlist.push(" Spatial Data is required")
+            if(document.getElementById('GISAC').innerHTML <= 0){
+                errorlist.push(" Spatial Data is required")
+            }
         }
-    }
 
+    }
 
     var repAcre = document.getElementById('id_Metric_Value').value;
     repAcre = Math.round(repAcre)
-    var GISAcre = document.getElementById('GISACVAL').innerHTML;
-    GISAcre = Math.round(GISAcre)
-    var AcreDiff = repAcre - GISAcre;
 
-    if(GISAcre > 0){
-      if(AcreDiff >= 0){
-          var diffthan = "greater than"
-      }else{
-          var diffthan = "less than"
-          AcreDiff = Math.abs(AcreDiff)
-          var AcrePer = repAcre / GISAcre * 100;
-          AcrePer = Math.round(AcrePer)
-          AcrePer = AcrePer - 100
-          AcrePer = Math.abs(AcrePer)
-          if(AcrePer < 25 & AcrePer >= 1){
-            var a = 1
-          }else if(AcrePer >= 25){
-            errorlist.push(" ATTENTION: *Reported acreage (User Defined -' Metric Value') is less than 75% of the “GIS-Calculated” acreage (represented by your spatial input). Please adjust your spatial input to accurately represent the area(s) treated.")
-          }
-          
-      }
-      
+    if (sruid == 0) {
+        var GISAcre = document.getElementById('GISACVAL').innerHTML;
+        GISAcre = Math.round(GISAcre)
+        var AcreDiff = repAcre - GISAcre;
 
-      
+        if (GISAcre > 0) {
+            if (AcreDiff >= 0) {
+                var diffthan = "greater than"
+            } else {
+                var diffthan = "less than"
+                AcreDiff = Math.abs(AcreDiff)
+                var AcrePer = repAcre / GISAcre * 100;
+                AcrePer = Math.round(AcrePer)
+                AcrePer = AcrePer - 100
+                AcrePer = Math.abs(AcrePer)
+                if (AcrePer < 25 & AcrePer >= 1) {
+                    var a = 1
+                } else if (AcrePer >= 25) {
+                    errorlist.push(" ATTENTION: *Reported acreage (User Defined -' Metric Value') is less than 75% of the “GIS-Calculated” acreage (represented by your spatial input). Please adjust your spatial input to accurately represent the area(s) treated.")
+                }
+            }
+        }
     }
 
-
+  
     if(subact == "Vegetation Management / Habitat Enhancement" | subact == "Energy development reclamation with the goal of sagebrush restoration"){
         var stype = ""
         var st = document.getElementsByName('seeding_type')
@@ -4105,20 +4151,21 @@ function DisplayEC() {
         a = 1
     }
 
+    if (GISAcre > 0) {
+        var stalst = document.getElementById('StatesList').innerHTML
+        var stalst1 = stalst.split(":")[1]
+        if (stalst1 > "" & stalst1 != " ") {
+        } else {
+            errorlist.push(" At least 1 state is required")
+        }
 
-    var stalst = document.getElementById('StatesList').innerHTML
-    var stalst1 = stalst.split(":")[1]
-    if(stalst1 > "" & stalst1 != " "){
-    }else{
-        errorlist.push(" At least 1 state is required")
-    } 
-
-    var coulst = document.getElementById('CntsList').innerHTML
-    var coulst1 = coulst.split(":")[1]
-    if(coulst1 > "" & coulst1 != " "){
-    }else{
-        errorlist.push(" At least 1 county is required")
-    } 
+        var coulst = document.getElementById('CntsList').innerHTML
+        var coulst1 = coulst.split(":")[1]
+        if (coulst1 > "" & coulst1 != " ") {
+        } else {
+            errorlist.push(" At least 1 county is required")
+        }
+    }
 
     //Collaborators//
     cnt = 0

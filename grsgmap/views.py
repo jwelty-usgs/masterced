@@ -21,6 +21,18 @@ import codecs
 now = datetime.datetime.utcnow()
 now = now.replace(tzinfo=timezone.utc)
 
+def getsruname(sruid):
+    srulist = (('1', 'OR: Trout Creeks'), ('2', 'OR: Beatys'), ('3', 'OR: Louse - Soldier'), ('4', 'OR: Steens - Pueblos'), ('5', 'OR: Warners - Tucker'), ('6', 'OR: Picture Rock'), ('7', 'OR: Dry Valley'), ('8', 'OR: Alvord - Folly'), ('9', 'OR: Cow Lakes'), ('10', 'OR: Crowley'), ('11', 'OR: Brothers'), ('12', 'OR: Burns'), ('13', 'OR: Drewsey'), ('14', 'OR: Paulina'), ('15', 'OR: Prineville'), ('16', 'OR: Bully - Cow Valley'), ('17', 'OR: Baker'), ('18', 'ID: Bear Lake'), ('19', 'ID: Bennett Hills'), ('20', 'ID: Timmerman Hills'), ('21', 'ID: Craters of the Moon'), ('22', 'ID: Big Desert'), ('23', 'ID: Antelope Flats_Big Lost'), ('24', 'ID: Little Lost_Pahsimeroi'), ('25', 'ID: Hat Creek_Morgan Creek'), ('26', 'ID: Lemhi River'), ('27', 'ID: Inside Desert'), ('28', 'ID: Goose Creek'), ('29', 'ID: Upper Raft River Valley'), ('30', 'ID: Greater Curlew'), ('31', 'ID: Weiser'), ('9', 'ID: Cow Lakes'), ('33', 'ID: Muldoon'), ('34', 'ID: Browns Bench'), ('35', 'ID: East Idaho Upland'), ('36', 'ID: Antelope Ridge'), ('37', 'ID: Owyhee Canyonlands'), ('38', 'ID: Owyhee Desert'), ('3', 'ID: Soldier Creek'), ('3', 'ID: Louse Canyon'), ('41', 'ID: Sand Creek'), ('42', 'ID: Medicine Lodge'), ('43', 'ID: Twin Buttes'))
+
+    for sru in srulist:
+        sruexists = 0
+        if str(sruid) == str(sru[0]):
+            sruexists = 1
+            return(str(sru[1]))
+
+    if sruexists == 0:
+        return('No Name Found')
+
 def QueryESRIFeatureServiceReturnFeatureSet(strAGS_URL, strToken, strWhere, strFields):
   try:
     strBaseURL= strAGS_URL + "/query"
@@ -272,6 +284,38 @@ def footprinteditor(request, prid):
             else:
                 context = {'authen':authen}
                 return render(request, 'ced_main/permission_denied.html', context)
+        else:
+            context = {'authen':authen}
+            return render(request, 'ced_main/permission_denied.html', context)
+
+
+@xframe_options_sameorigin
+@login_required
+def SRUEditor(request, prid):
+    authen = checkgroup(request.user.groups.values_list('name',flat=True))
+    authuser = checkauthorization(prid, request.user)
+
+    if request.method == 'POST':
+        # DT_Start = datetime.datetime.now()
+
+        username = request.user.username
+        pid = project_info.objects.get(pk=prid)
+
+        sru = project_info.objects.get(pk=prid)
+
+        sruid = request.POST.get("sruid")
+
+        sru.SRU_ID = sruid
+        sruname = getsruname(str(sruid))
+        sru.SRU_Name = sruname
+        sru.save()
+
+        return redirect('/sgce/' + prid + '/editproject/?step=Location')
+    else:
+
+        if authen == 'authenadmin' or authen == 'authenapp' or authuser == 'Authorized':
+            context = {'authen':authen}
+            return render(request, 'grsgmap/SRUEditor.html', context)
         else:
             context = {'authen':authen}
             return render(request, 'ced_main/permission_denied.html', context)

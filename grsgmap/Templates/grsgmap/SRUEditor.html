@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Created By:  Matt Heller, U.S. Fish and Wildlife Service, Region 6 Science Applications
+Date:        February 2018, updated April 2019-->
+{% load staticfiles %}
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+	<title>CED SRU Web Tools</title>
+
+	<link rel="stylesheet" href="https://js.arcgis.com/3.28/dijit/themes/claro/claro.css">
+	<link rel="stylesheet" href="https://js.arcgis.com/3.28/esri/css/esri.css" />
+
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+	<!-- <link rel="stylesheet" type="text/css" href="Styles/SRUEditor.css" /> -->
+	<link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/SRUEditor.css' %}" />
+
+	<!-- <script type="text/javascript">var dojoConfig = { paths: { extras: location.pathname.replace(/\/[^/]+$/, "") + "/extras" } };</script> -->
+	<script type="text/javascript">var dojoConfig = { paths: { extras: "{% static 'ced_main/javascript/grsgmap/extras' %}" } };</script>
+
+
+
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://js.arcgis.com/3.28/"></script>
+	<!-- <script src="extras/jquery.ddslick.min.js"></script> -->
+	<script src="{% static 'ced_main/javascript/grsgmap/extras/jquery.ddslick.min.js' %}"></script>
+
+
+	<script type="text/javascript">
+		var editorWidget;
+		var pSrcFeatureLayer;
+		var pFCol;
+		var app = {};
+		require([
+			"extras/MH_SRUEdit_Setup",
+			"esri/config",
+			"esri/map",
+			"dojo/dom",
+			"dojo/dom-style", "dojo/dom-attr",
+			"dojo/dom-class",
+			"dojo/dom-construct",
+			"dojo/json",
+			"dojo/on",
+			"dojo/parser",
+			"esri/Color",
+			"dojo/_base/lang",
+			"dijit/layout/BorderContainer",
+			"dijit/layout/ContentPane",
+			"dojo/domReady!"
+		],
+			function (MH_Setup, esriConfig, Map, dom, domStyle, domAttr, domClass, domConstruct, JSON, on, parser, Color, lang
+			) {
+				parser.parse();
+				esriConfig.defaults.io.proxyUrl = "/proxy/";
+
+				app.pSup = new MH_Setup({}); // instantiate the class
+				app.pSup.Phase1();
+			});</script>
+
+	<style>
+		html, body {
+			height: 100%;
+			min-height: 100%;
+			font-family:Arial, Helvetica, sans-serif;
+		}
+	</style>
+</head>
+
+
+
+<body class="claro" style="overflow: hidden;">
+	<div dojotype="dijit.layout.BorderContainer" design="" gutters="false" style="width: 99%; height: 95%;	margin-bottom:40px; border:none;">
+		<div id="SRUHeader" dojotype="dijit.layout.ContentPane" region="left" style="width:325px !important; border:none; overflow:auto;">
+			<!--<div id="DivInitialCBXs1">
+				<input type="checkbox" id="cbx_SRU1">Is this effort on private lands?
+			</div>
+			<div id="DivInitialCBXs2" style="display:none">
+				<input type="checkbox" id="cbx_SRU2">Do you want to obscure location by SRU?
+			</div>-->
+
+			<!-- <form enctype="multipart/form-data" method="post" id="dropdownForm" style=""> -->
+			<form enctype="multipart/form-data" method="post" id="dropdownForm">{% csrf_token %}  <!--static-->
+				<!--<div style="border:inset; border-width: thin; margin:20px; padding:10px; ">
+					<div class="centerElement"><h2>Filter Options</h2></div>
+					<br />-->
+					<div id="divSRUState">
+						<u>Filter by state:</u>
+						<br />
+						<select id="ddlSRUState" class="selectClass" disabled>
+							<option value="99">All</option>
+						</select>
+					</div>
+					<br />					<!--<br />					<br />-->
+					<!--<div id="divBLMHAF">
+						<u>Filter by Lek Clusters/State HAFs:</u>
+						<br />
+						<select id="ddlBLMHAF" class="selectClass" disabled>
+							<option value="99">All</option>
+						</select>
+					</div>-->
+				<!--</div>-->
+
+				<br /><br />
+
+				<div id="ddlSRU"></div>
+				<br /><br /><br /><br /><br />
+
+				<div style="display:none;">
+	                <input id="id_sru" name="sruid" />
+	            </div>
+
+				<div id="messages"></div>
+			</form>
+		</div>
+
+		<div id="map" dojotype="dijit.layout.ContentPane" region="center" style="border:none;overflow:hidden;">
+			<!-- <img id="loadingImg" src="images/loading.gif" style="position:fixed; right:40%; top:50%; z-index:100;" /> -->
+			<img id="loadingImg" src="{% static 'ced_main/images/grsgmap/loading.gif' %}" style="position:fixed; right:40%; top:50%; z-index:100;" />
+		</div>
+
+		<div id="SRUFooter" dojotype="dijit.layout.ContentPane" region="bottom" style="border:none; height:70px; overflow:hidden;">
+			<input id="btn_NextSRU" type="button" class="button100Right" value="Save and Continue" disabled="disabled" />
+			<input id="btn_BackSRU" type="button" class="button100Right" value="Cancel/Back" />
+			<div id="DivInitialCBXs3" style="margin:20px;">
+				<input type="checkbox" id="cbx_SRU3" checked="checked">Show/Hide SRU Map Picker Tool
+			</div>
+		</div>
+	</div>
+</body>
+</html>

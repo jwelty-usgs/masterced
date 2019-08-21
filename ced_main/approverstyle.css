@@ -1,0 +1,63 @@
+li a {
+    color: blue;
+}
+
+
+ul
+{
+    list-style-type: none;
+}
+
+
+#usermenu {
+    width: 1150px;
+    height: 35px;
+    font-size: 12px;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    background-color: #FA5858;
+    border-radius: 8px;
+    position: relative;
+    list-style: none;
+    float: middle;
+}
+
+#usermenu ul {
+    height: auto;
+    padding: 8px 0px;
+    margin: 0px;
+    float: left;
+}
+
+#usermenu li { 
+    display: inline; 
+    padding: 20px; 
+}
+
+#usermenu a {
+    text-decoration: none;
+    color: #2E2EFE;
+    padding: 8px 8px 8px 8px;
+}
+
+#usermenu a:hover {
+    color: #FF0000;
+    background-color: #FFF;
+}
+
+.clear {
+    clear: both;
+}
+
+#HeaderInfo { 
+    font-size: 25px; 
+}
+
+fieldset{
+    border: solid 2px blue;  
+    float:left;
+}
+
+
+

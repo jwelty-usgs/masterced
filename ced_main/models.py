@@ -10,6 +10,9 @@ class project_info(models.Model):
     Project_Name = models.CharField(unique=True, max_length=75)
     Entry_Type = models.IntegerField(default=0)
     Shapefile = models.CharField(max_length=255)
+    SRU_ID = models.IntegerField(default=0)
+    SRU_Name = models.CharField(max_length=100)
+    Private_Lands = models.CharField(max_length=3)
     Metadata = models.CharField(max_length=255)
     Location_Info = models.CharField(max_length=255)
     Location_Desc = models.TextField()
@@ -482,3 +485,10 @@ class subactivity_effective_state_data(models.Model):
 
     def __str__(self):
         return "%s" % self.Effectiveness_Statement
+
+# class sagegrouse_reporting_units_lut(models.Model):
+#     sru_id = models.IntegerField()
+#     sru_name = models.CharField(max_length=100)
+
+#     def __str__(self):
+#         return "%s" % self.sru_name
