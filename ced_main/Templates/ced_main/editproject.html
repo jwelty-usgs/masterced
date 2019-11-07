@@ -671,25 +671,25 @@
 
                 <br>
                 {% elif field.label == "GIS Acres*" %}
-                    {% if typeactval == "Spatial Project" %}
-                        {% if sruid == 0 %}
-                            <div id="actdiv">
-                                <div id="gisfields">
-                                    <lab id='giscolor'><b>GIS Acres Treated:</b></lab>
-                                    <div id="GISAC"><span id="GISACVAL">{{ field.value }}</span> <i>{% if field.value > 0 %}(GIS Calculated){% endif %}</i></div>
+                {% if typeactval == "Spatial Project" %}
+                {% if sruid == 0 %}
+                <div id="actdiv">
+                    <div id="gisfields">
+                        <lab id='giscolor'><b>GIS Acres Treated:</b></lab>
+                        <div id="GISAC"><span id="GISACVAL">{{ field.value }}</span> <i>{% if field.value > 0 %}(GIS Calculated){% endif %}</i></div>
 
-                                    <input id='spatlink1' class="button10" type="submit" name="spatlink" value="Edit Spatial Data" onclick="needToConfirm = false;">
-                                    <div id="GISWarnings">
-                                        {% if field.value > 0 %}
-                                        <div id="GISAcres"></div>
-                                        {% else %}
-                                        <div id="GISAcresMis"> <p>***Spatial data are required</p></div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
+                        <input id='spatlink1' class="button10" type="submit" name="spatlink" value="Edit Spatial Data" onclick="needToConfirm = false;">
+                        <div id="GISWarnings">
+                            {% if field.value > 0 %}
+                            <div id="GISAcres"></div>
+                            {% else %}
+                            <div id="GISAcresMis"> <p>***Spatial data are required</p></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
 
                 {% elif field.label == "Created By" %}
                 <hr>
@@ -844,6 +844,9 @@
                 {% elif field.label == "Mark This Effort for Deletion" %}
                 {% elif field.label == "Entry Type" %}
                 {% elif field.label == "Effort Type" %}
+                {% elif field.label == "Private Lands" %}
+                {% elif field.label == "SRU ID" %}
+                {% elif field.label == "SRU Name" %}
                 {% else %}
                 <div id="actdiv">
                     <lab>
@@ -1229,6 +1232,7 @@ function showsubmit(){
   UpdateEndDateLabel(subactiv)
   LoadLists('state_value', 'States Selected: ', 'StatesList');
   LoadLists('county_value', 'Counties Selected: ', 'CntsList');
+  LoadLists('collab_party', 'Collaborators Selected: ', 'collabList');
   if("{{typeactval}}" != "Non-Spatial Plan"){
     LoadLists('owner_value', 'Ownership Selected: ', 'OwnerList');
   }
@@ -1262,7 +1266,7 @@ function showsubmit(){
     impstat = document.getElementById('id_Imp_Status_1').checked
     styear = document.getElementById('id_Start_Date_year').value
     if(styear > 1980){
-      stmonth = document.getElementById('id_Start_Date_month').value
+      stmonth = document.getElementById('id_Start_Date_month').value - 1
       stday = document.getElementById('id_Start_Date_day').value
       if(stmonth == 4 | stmonth == 6 | stmonth == 9 | stmonth == 11){
         if(stday > 30){
@@ -1272,7 +1276,7 @@ function showsubmit(){
           document.getElementById('id_Start_Date_day').value = 0
         }
       }
-      if(stmonth == 2){
+      if(stmonth == 1){
         if(stday > 28){
             alert('February only has 28 days in it. If the effort started on the leap day please indicate March 1st as the start date.')
             document.getElementById('id_Start_Date_year').value = 0
@@ -1282,6 +1286,7 @@ function showsubmit(){
       }
       var stdate = new Date(styear, stmonth, stday);
       var curdate = new Date()
+      
       if(impstat == true & stdate > curdate){
         alert('Your effort is marked Complete, your start date cannot occur after today')
         document.getElementById('id_Start_Date_year').value = 0
@@ -1292,7 +1297,7 @@ function showsubmit(){
     }
     enyear = document.getElementById('id_End_Date_year').value
     if(enyear > 1980){
-      enmonth = document.getElementById('id_End_Date_month').value
+        enmonth = document.getElementById('id_End_Date_month').value - 1
       enday = document.getElementById('id_End_Date_day').value
       
       if(enmonth == 4 | enmonth == 6 | enmonth == 9 | enmonth == 11){
@@ -1303,22 +1308,23 @@ function showsubmit(){
           document.getElementById('id_End_Date_day').value = 0
         }
       }
-      if(enmonth == 2){
+      if(enmonth == 1){
         if(enday > 28){
             alert('February only has 28 days in it. If the effort started on the leap day please indicate March 1st as the start date.')
             document.getElementById('id_End_Date_year').value = 0
             document.getElementById('id_End_Date_month').value = 0
             document.getElementById('id_End_Date_day').value = 0
         }
-      }
+        }
+
       var endate = new Date(enyear, enmonth, enday);
-      var curdate = new Date()
-      if(impstat == true & endate > curdate){
+        var curdate = new Date()
+        if (impstat == true & endate > curdate) {
         alert('Your effort is marked Complete, your end date cannot occur after today')
         document.getElementById('id_End_Date_year').value = 0
         document.getElementById('id_End_Date_day').value = 0
         document.getElementById('id_End_Date_month').value = 0
-      }
+        }
     }
     if(styear > 1980 & enyear > 1980){
       if(endate < stdate){

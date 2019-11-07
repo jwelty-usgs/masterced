@@ -1601,8 +1601,10 @@ function GoToEdit(Location, sruid) {
 
       if(sruid > 0){
         document.getElementById('SRUflds').style.display = "inline-block";
-        document.getElementById('spatlinksru').style.display = "inline-block";
-        document.getElementById('spatlink').style.display = "none";
+          document.getElementById('spatlinksru').style.display = "inline-block";
+          if (tyacval == 'Spatial Project') {
+              document.getElementById('spatlink').style.display = "none";
+          }
       }else{
         document.getElementById('SRUflds').style.display = "none";
         document.getElementById('spatlinksru').style.display = "none";

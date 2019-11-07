@@ -7,7 +7,7 @@ def_max_length = 255
 
 class project_info(models.Model):
     Project_ID = models.AutoField(primary_key=True)
-    Project_Name = models.CharField(unique=True, max_length=75)
+    Project_Name = models.CharField(unique=True, max_length=100)
     Entry_Type = models.IntegerField(default=0)
     Shapefile = models.CharField(max_length=255)
     SRU_ID = models.IntegerField(default=0)
@@ -28,7 +28,7 @@ class project_info(models.Model):
     Effects_Desc = models.TextField()
     Implementing_Party = models.TextField()
     Metric = models.CharField(max_length=10)
-    Metric_Value = models.IntegerField(default=0)
+    Metric_Value = models.FloatField(default=0)
     GIS_Acres = models.FloatField(default=0)
     Office = models.CharField(max_length=100)
     Created_By = models.CharField(max_length=50)

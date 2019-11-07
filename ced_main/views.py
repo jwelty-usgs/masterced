@@ -34,7 +34,10 @@ from accounts.views import checkgroup
 # from arcpy.analysis import *
 # arcpy.env.overwriteOutput = "True"
 
-import xlsxwriter
+import openpyxl
+from openpyxl import Workbook
+from openpyxl import load_workbook
+
 import MySQLdb
 from django.db.models import Max
 
@@ -1861,27 +1864,807 @@ def menu(request):
 @login_required
 def batch_upload(request):
     authen = checkgroup(request.user.groups.values_list('name', flat=True))
-    context = {'authen': authen, 'showlogin': 'True'}
+    context = {'authen': authen, 'showlogin': 'True', 'batchcw':''}
     if request.method == 'POST':
-        fn = request.POST.get("batchname", "")
-        for afile in request.FILES.getlist('myfile'):
-            dest = '58c05eeee4b014cc3a3bf428'
-            lcitem = handle_uploaded_file_sgce_batch(afile, dest, fn)
-            if lcitem == "Upload Failed":
-                DocFailed = "DocFailed"
-            else:
-                obj = batchupload()
-                obj.FolderName = str(fn)
-                obj.FileName = str(afile)
-                obj.LCMItem = str(lcitem)
-                obj.UploadStatus = "Zip File Uploaded"
-                obj.Date_Entered = now
-                obj.Uploading_User = request.user.username
-                obj.save()
+        if 'upload' in request.POST:
+            fn = request.POST.get("batchname", "")
+            for afile in request.FILES.getlist('myfile'):
+                dest = '58c05eeee4b014cc3a3bf428'
+                lcitem = handle_uploaded_file_sgce_batch(afile, dest, fn)
+                if lcitem == "Upload Failed":
+                    DocFailed = "DocFailed"
+                else:
+                    obj = batchupload()
+                    obj.FolderName = str(fn)
+                    obj.FileName = str(afile)
+                    obj.LCMItem = str(lcitem)
+                    obj.UploadStatus = "Zip File Uploaded"
+                    obj.Date_Entered = now
+                    obj.Uploading_User = request.user.username
+                    obj.save()
 
-        return redirect('/sgce/batch_upload_initial_success/')
+            return redirect('/sgce/batch_upload_initial_success/')
+        
+        if 'uploadandadd' in request.POST:
+            # Determine whether the collaborators data is from the collaborators table or incorrectly from the ownership table and needs to be altered.
+            collabtbl = request.POST.get("CollabTable", "")
+
+            batchcw = []
+
+            efflist = [[1, 34, 1], [2, 34, 3], [3, 34, 2], [4, 36, 1], [5, 36, 3], [6, 36, 2], [7, 35, 1], [8, 35, 3], [9, 35, 2], [11, 17, 1], [12, 17, 3], [13, 17, 2], [14, 33, 1], [15, 33, 3], [16, 33, 2], [18, 32, 1], [19, 32, 3], [20, 32, 2], [21, 30, 1], [22, 30, 3], [23, 30, 2], [24, 38, 1], [25, 38, 3], [26, 38, 2], [27, 39, 1], [28, 39, 3], [29, 39, 2], [30, 37, 1], [31, 37, 3], [32, 37, 2], [33, 31, 1], [34, 31, 3], [35, 31, 2], [36, 24, 1], [37, 24, 3], [38, 24, 2], [39, 27, 1], [40, 27, 3], [41, 27, 2], [42, 26, 1], [43, 26, 3], [44, 26, 2], [45, 22, 1], [46, 22, 3], [47, 22, 2], [48, 21, 1], [49, 21, 3], [50, 21, 2], [51, 23, 1], [52, 23, 3], [53, 23, 2], [54, 18, 1], [55, 18, 3], [56, 18, 2], [57, 19, 1], [58, 19, 3], [59, 19, 2], [60, 20, 1], [61, 20, 3], [62, 20, 2], [63, 29, 1], [64, 29, 3], [65, 29, 2], [66, 28, 1], [67, 28, 3], [68, 28, 2], [69, 25, 1], [70, 25, 3], [71, 25, 2]]
+            for afile in request.FILES.getlist('myfileba'):
+                wb = load_workbook(afile)
+                break
+
+            # Enter Batch Data into Project Info for 3 Batch Project Info Tables
+            prntwkshts = ['CED_1_Spatial_Projects', 'CED_2_NonSpatial_Projects', 'CED_3_NonSpatial_Plans']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    obj = project_info()
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+                        
+                        if headerval.lower() == 'objectid':
+                            obj.BatchUploadOBJECTID = ws.cell(row = i, column = j).value
+                            origbtchid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'project_name':
+                            obj.Project_Name = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'entry_status':
+                            obj.Project_Status = ws.cell(row = i, column = j).value
+                            impstat = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'activity':
+                            actid = ws.cell(row = i, column = j).value
+                            actval = activity.objects.values_list('Activity', flat=True).get(id=actid)
+                            obj.Activity = str(actval)
+                        if headerval.lower() == 'subactivity':
+                            subactid = ws.cell(row = i, column = j).value
+                            subactval = subactivity.objects.values_list('SubActivity', flat=True).get(id=subactid)
+                            obj.SubActivity = str(subactval)
+                        if headerval.lower() == 'type_of_powerline':
+                            obj.Type_of_Powerline = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'post_fire':
+                            pf = ws.cell(row = i, column = j).value
+                            if pf == 'Yes':
+                                pfval = 'Post Wildfire Effort'
+                            elif pf == 'No':
+                                pfval = 'Non-Wildfire Effort'
+                            else:
+                                pfval = 'Unknown'
+                            obj.post_fire = pfval
+                        if headerval.lower() == 'seeding_type':
+                            obj.seeding_type = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'start_date':
+                            obj.Start_Date = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'end_date':
+                            obj.End_Date = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'metric_type':
+                            obj.Metric = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'metric_value':
+                            obj.Metric_Value = round(ws.cell(row = i, column = j).value, 3)
+                        if headerval.lower() == 'gis_acres':
+                            obj.GIS_Acres = round(ws.cell(row = i, column = j).value, 3)
+                        if headerval.lower() == 'implementing_party':
+                            imppartid = ws.cell(row = i, column = j).value
+                            imppartval = ownership_values.objects.values_list('Owners', flat=True).get(id=imppartid)
+                            obj.Implementing_Party = imppartval
+                        if headerval.lower() == 'office':
+                            officeid = ws.cell(row = i, column = j).value
+                            officeval = office_values.objects.values_list('office', flat=True).get(id=officeid)
+                            obj.Office = str(officeval)
+                        if headerval.lower() == 'ceduser':
+                            obj.Created_By = ws.cell(row = i, column = j).value
+                            obj.Updating_User = ws.cell(row = i, column = j).value
+                            ceduser = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'notes':
+                            obj.Notes = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'mitigation_status':
+                            obj.mitigation = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'effect_status':
+                            effstatval = ws.cell(row = i, column = j).value 
+                            for eff in efflist:
+                                if eff[1] == subactid and eff[2] == effstatval:
+                                    effstat = eff[0]
+                        if headerval.lower() == 'state':
+                            stateval = ws.cell(row = i, column = j).value
+
+                    obj.BatchUploadFolderName = str(afile)
+                    obj.BatchUploadFileName = str(pwksh)
+                    obj.Batch_Upload = 1
+
+                    dtctnow = datetime.datetime.utcnow()
+                    dtctnow = now.replace(tzinfo=timezone.utc)
+                    obj.Date_Created = str(dtctnow)
+                    obj.Last_Updated = str(dtctnow)
+
+                    Userid = User.objects.values_list('id', flat=True).get(username__exact=ceduser)
+
+                    obj.User_Phone_Number = str(userprofile.objects.values_list('User_Phone_Number', flat=True).get(User_id__exact=Userid))
+                    obj.User_Email = str(User.objects.values_list('email', flat=True).get(username__exact=ceduser))
+
+                    obj.Entry_Type = 1
+
+                    if pwksh == 'CED_1_Spatial_Projects':
+                        obj.TypeAct = 'Spatial Project'
+                    elif pwksh == 'CED_2_NonSpatial_Projects':
+                        obj.TypeAct = 'Non-Spatial Project'
+                    elif pwksh == 'CED_3_NonSpatial_Plan':
+                        obj.TypeAct = 'Non-Spatial Plan'
+                    obj.save()
+
+                    # Add the new Project ID to Project_Info
+                    prjid = obj.Project_ID
+                    batchcw.append([origbtchid, prjid])
+
+                    obj1 = project_info.objects.get(Project_ID=prjid)
+                    obj1.Prj_ID = prjid 
+                    obj1.save() 
+
+                    #Create Implementation Info Record
+                    obj2 = implementation_info()
+                    obj2.Project_ID = prjid
+                    obj2.Prj_ID = prjid
+                    obj2.Imp_Status = impstat
+                    obj2.Effective_Determined = effstat
+                    dtctnow = datetime.datetime.utcnow()
+                    dtctnow = now.replace(tzinfo=timezone.utc)
+                    obj2.Date_Entered = dtctnow
+                    obj2.User = ceduser
+                    obj2.save()
+
+                    #Create State record
+                    
+
+                    prjinfo = project_info.objects.get(Project_ID=prjid)
+                    
+                    obj3 = state_info()
+                    obj3.Project_ID = prjinfo
+                    dtctnow = datetime.datetime.utcnow()
+                    dtctnow = now.replace(tzinfo=timezone.utc)
+                    obj3.Date_Entered = dtctnow
+                    obj3.User = ceduser
+                    obj3.save()
+
+                    obj3.state_value.add(stateval)
+
+            # Enter Batch Data into Project Info for Batch County Tables
+            prntwkshts = ['CED_1_Counties', 'CED_2_Counties', 'CED_3_Counties']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'county':
+                            cntval = ws.cell(row = i, column = j).value
+                    
+                    if pwksh == 'CED_1_Counties':
+                        batchfile = 'CED_1_Spatial_Projects'
+                    elif pwksh == 'CED_2_Counties':
+                        batchfile = 'CED_2_NonSpatial_Projects'
+                    elif pwksh == 'CED_3_Counties':
+                        batchfile = 'CED_3_NonSpatial_Plans'
+   
+                    prjinfo = project_info.objects.filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    try:
+                        obj4 = county_info.objects.get(Project_ID=prjinfo)
+                    except:
+                        obj4 = county_info()
+                        obj4.Project_ID = prjinfo
+                        obj4.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj4.Date_Entered = dtctnow
+                        obj4.save()
+                    
+                    obj4.county_value.add(cntval)
+
+            # Enter Batch Data into Project Info for Batch Objective Tables
+            prntwkshts = ['CED_1_Objectives', 'CED_2_Objectives']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'objective':
+                            objval = ws.cell(row = i, column = j).value
+                    
+                    if pwksh == 'CED_1_Objectives':
+                        batchfile = 'CED_1_Spatial_Projects'
+                    elif pwksh == 'CED_2_Objectives':
+                        batchfile = 'CED_2_NonSpatial_Projects'
+                    prjinfo = project_info.objects.filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    try:
+                        obj5 = subactivity_objectives.objects.get(Project_ID=prjinfo)
+                    except:
+                        obj5 = subactivity_objectives()
+                        obj5.Project_ID = prjinfo
+                        obj5.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj5.Date_Entered = dtctnow
+                        obj5.save()
+                    
+                    obj5.objective.add(objval)
+
+            # Enter Batch Data into Project Info for Batch Methods Tables
+            prntwkshts = ['CED_1_Methods', 'CED_2_Methods']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'method':
+                            methval = ws.cell(row = i, column = j).value
+                    
+                    if pwksh == 'CED_1_Methods':
+                        batchfile = 'CED_1_Spatial_Projects'
+                    elif pwksh == 'CED_2_Methods':
+                        batchfile = 'CED_2_NonSpatial_Projects'
+                    prjinfo = project_info.objects.filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    try:
+                        obj6 = subactivity_methods.objects.get(Project_ID=prjinfo)
+                    except:
+                        obj6 = subactivity_methods()
+                        obj6.Project_ID = prjinfo
+                        obj6.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj6.Date_Entered = dtctnow
+                        obj6.save()
+                    
+                    obj6.method.add(methval)
+
+            # Enter Batch Data into Project Info for Batch Effectiveness Statement Tables
+            prntwkshts = ['CED_1_Effectiveness_Statement', 'CED_2_Effectiveness_Statement']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'effectiveness_statement':
+                            efsval = ws.cell(row = i, column = j).value
+                    
+                    if pwksh == 'CED_1_Effectiveness_Statement':
+                        batchfile = 'CED_1_Spatial_Projects'
+                    elif pwksh == 'CED_2_Effectiveness_Statement':
+                        batchfile = 'CED_2_NonSpatial_Projects'
+                    prjinfo = project_info.objects.filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    try:
+                        obj7 = subactivity_effective_state.objects.get(Project_ID=prjinfo)
+                    except:
+                        obj7 = subactivity_effective_state()
+                        obj7.Project_ID = prjinfo
+                        obj7.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj7.Date_Entered = dtctnow
+                        obj7.save()
+                    
+                    obj7.effectiveness_statement.add(efsval)
+
+            # Enter Batch Data into Project Info for Batch Collaborators Tables
+            prntwkshts = ['CED_1_Project_Collaborators', 'CED_2_Project_Collaborators', 'CED_3_Project_Collaborators']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'collaborator':
+                            if collabtbl == 'Collaborators':
+                                colval = ws.cell(row = i, column = j).value
+                            else:
+                                ownval = ws.cell(row = i, column = j).value
+                                if ownval == 11:
+                                    ownval1 = 'U.S. Fish and Wildlife Service'
+                                else:
+                                    ownval1 = ownership_values.objects.values_list('Owners', flat=True).get(id=ownval)
+
+                                colval = imp_party_values.objects.values_list('id', flat=True).get(Implementation_Party=ownval1)
+                    
+                    if pwksh == 'CED_1_Project_Collaborators':
+                        batchfile = 'CED_1_Spatial_Projects'
+                    elif pwksh == 'CED_2_Project_Collaborators':
+                        batchfile = 'CED_2_NonSpatial_Projects'
+                    elif pwksh == 'CED_3_Project_Collaborators':
+                        batchfile = 'CED_3_NonSpatial_Plans'
+                    prjinfo = project_info.objects.filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    try:
+                        obj8 = collab_party.objects.get(Project_ID=prjinfo)
+                    except:
+                        obj8 = collab_party()
+                        obj8.Project_ID = prjinfo
+                        obj8.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj8.Date_Entered = dtctnow
+                        obj8.save()
+                    
+                    obj8.collab_party.add(colval)
+
+
+            # Enter Batch Data into Project Info for Batch Land Owner Tables
+            prntwkshts = ['CED_1_Land_Owners', 'CED_2_Land_Owners', 'CED_3_Land_Owners']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'landowner':
+                            ownval = ws.cell(row = i, column = j).value
+                    
+                    if pwksh == 'CED_1_Land_Owners':
+                        batchfile = 'CED_1_Spatial_Projects'
+                    elif pwksh == 'CED_2_Land_Owners':
+                        batchfile = 'CED_2_NonSpatial_Projects'
+                    elif pwksh == 'CED_3_Land_Owners':
+                        batchfile = 'CED_3_NonSpatial_Plans'
+                    prjinfo = project_info.objects.filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    try:
+                        obj9 = ownership_info.objects.get(Project_ID=prjinfo)
+                    except:
+                        obj9 = ownership_info()
+                        obj9.Project_ID = prjinfo
+                        obj9.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj9.Date_Entered = dtctnow
+                        obj9.save()
+                    
+                    obj9.owner_value.add(ownval)
+
+            # Enter Batch Data into Project Info for Batch Threat Tables
+            prntwkshts = ['CED_1_Threats', 'CED_2_Threats', 'CED_3_Threats']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'threats':
+                            thrval = ws.cell(row = i, column = j).value
+                    
+                    if pwksh == 'CED_1_Threats':
+                        batchfile = 'CED_1_Spatial_Projects'
+                    elif pwksh == 'CED_2_Threats':
+                        batchfile = 'CED_2_NonSpatial_Projects'
+                    elif pwksh == 'CED_3_Threats':
+                        batchfile = 'CED_3_NonSpatial_Plans'
+                    prjinfo = project_info.objects.filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    try:
+                        obj9 = threats.objects.get(Project_ID=prjinfo)
+                    except:
+                        obj9 = threats()
+                        obj9.Project_ID = prjinfo
+                        obj9.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj9.Date_Entered = dtctnow
+                        obj9.save()
+                    
+                    obj9.threat.add(thrval)
+
+
+            # Enter Batch Data into Project Info for Documentation Tables
+            prntwkshts = ['CED_1_Documentation', 'CED_2_Documentation', 'CED_3_Documentation']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'document_type':
+                            doctype = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'document_name':
+                            docname = ws.cell(row = i, column = j).value
+                    
+                    if pwksh == 'CED_1_Documentation':
+                        batchfile = 'CED_2_Spatial_Projects'
+                    elif pwksh == 'CED_1_Documentation':
+                        batchfile = 'CED_2_NonSpatial_Projects'
+                    elif pwksh == 'CED_3_Documentation':
+                        batchfile = 'CED_3_NonSpatial_Plans'
+                    
+                    prjinfo = project_info.objects.values_list('Project_ID', flat=True).filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    
+                    obj10 = documentation()
+                    obj10.Project_ID = prjinfo
+                    obj10.File_Type = doctype
+                    obj10.Document_Description = docname
+                    obj10.Document_Name = docname
+                    obj10.User = ceduser               
+                    dtctnow = datetime.datetime.utcnow()
+                    dtctnow = now.replace(tzinfo=timezone.utc)
+                    obj10.Date_Entered = dtctnow
+                    obj10.save()
+
+            # Enter Batch Data into Project Info for Batch Implementation Questions Tables
+            prntwkshts = ['CED_1_Implementation_Question']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'legalauthority':
+                            laval = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'resources':
+                            rsval = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'regulatory':
+                            rgval = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'compliance':
+                            coval = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'voluntary':
+                            voval = ws.cell(row = i, column = j).value
+                    
+                    if pwksh == 'CED_1_Implementation_Question':
+                        batchfile = 'CED_1_Spatial_Projects'
+
+                    prjinfo = project_info.objects.values_list('Project_ID', flat=True).filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    try:
+                        obj12 = implementation_info.objects.get(Project_ID=prjinfo)
+                        
+                        if laval == 'Yes':
+                            laval = 1
+                        elif laval == 'No':
+                            laval = 2
+                        elif laval == 'Unknown':
+                            laval = 3
+                        else:
+                            laval = 3
+                        obj12.Legal_Authority = laval
+                        
+                        if rsval == 'Yes':
+                            rsval = 1
+                        elif rsval == 'No':
+                            rsval = 2
+                        elif rsval == 'Unknown':
+                            rsval = 3
+                        else:
+                            rsval = 3
+                        obj12.Staff_Available = rsval
+                        
+                        if rgval == 'Yes':
+                            rgval = 1
+                        elif rgval == 'No':
+                            rgval = 2
+                        elif rgval == 'Unknown':
+                            rgval = 3
+                        else:
+                            rgval = 3
+                        obj12.Regulatory_Mech = rgval
+                        
+                        if coval == 'Yes':
+                            coval = 1
+                        elif coval == 'No':
+                            coval = 2
+                        elif coval == 'Unknown':
+                            coval = 3
+                        else:
+                            coval = 3
+                        obj12.Compliance = coval
+                        
+                        if voval == 'Yes':
+                            voval = 1
+                        elif voval == 'No':
+                            voval = 2
+                        elif voval == 'Unknown':
+                            voval = 3
+                        else:
+                            voval = 3
+                        obj12.Vol_Incentives = voval
+
+                        obj12.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj12.Date_Entered = dtctnow
+                        obj12.save()
+                    except:
+                        obj12 = implementation_info()
+                        obj12.Project_ID = prjinfo
+                        if laval == 'Yes':
+                            laval = 1
+                        elif laval == 'No':
+                            laval = 2
+                        elif laval == 'Unknown':
+                            laval = 3
+                        else:
+                            laval = 3
+                        obj12.Legal_Authority = laval
+                        
+                        if rsval == 'Yes':
+                            rsval = 1
+                        elif rsval == 'No':
+                            rsval = 2
+                        elif rsval == 'Unknown':
+                            rsval = 3
+                        else:
+                            rsval = 3
+                        obj12.Staff_Available = rsval
+                        
+                        if rgval == 'Yes':
+                            rgval = 1
+                        elif rgval == 'No':
+                            rgval = 2
+                        elif rgval == 'Unknown':
+                            rgval = 3
+                        else:
+                            rgval = 3
+                        obj12.Regulatory_Mech = rgval
+                        
+                        if coval == 'Yes':
+                            coval = 1
+                        elif coval == 'No':
+                            coval = 2
+                        elif coval == 'Unknown':
+                            coval = 3
+                        else:
+                            coval = 3
+                        obj12.Compliance = coval
+                        
+                        if voval == 'Yes':
+                            voval = 1
+                        elif voval == 'No':
+                            voval = 2
+                        elif voval == 'Unknown':
+                            voval = 3
+                        else:
+                            voval = 3
+                        obj12.Vol_Incentives = voval
+                        obj12.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj12.Date_Entered = dtctnow
+                        obj12.save()
+                  
+            
+            # Enter Batch Data into Project Info for Batch Effectiveness Questions Tables
+            prntwkshts = ['CED_1_Effectiveness_Questions']
+
+            for pwksh in prntwkshts:
+                for s in range(len(wb.sheetnames)):
+                    if wb.sheetnames[s] == pwksh:
+                        break
+                print(wb.sheetnames[s])
+                wb.active = s
+                ws = wb.active
+
+                startRow = 2
+                startCol = 1
+                endRow = ws.max_row
+                endCol = ws.max_column
+
+                for i in range(startRow,endRow + 1,1):
+                    for j in range(startCol,endCol+1,1):
+                        headerval = ws.cell(row = 1, column = j).value
+
+                        if headerval.lower() == 'prjid':
+                            excelprjid = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'reducethreats':
+                            rtval = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'incrementalobjectives':
+                            ioval = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'quantifiablemeasures':
+                            qmval = ws.cell(row = i, column = j).value
+                        if headerval.lower() == 'adaptivemanagement':
+                            amval = ws.cell(row = i, column = j).value
+                    
+                    if pwksh == 'CED_1_Effectiveness_Questions':
+                        batchfile = 'CED_1_Spatial_Projects'
+
+                    prjinfo = project_info.objects.values_list('Project_ID', flat=True).filter(BatchUploadFolderName=str(afile)).filter(BatchUploadFileName=str(batchfile)).get(BatchUploadOBJECTID=excelprjid)
+                    try:
+                        obj13 = implementation_info.objects.get(Project_ID=prjinfo)
+                        
+                        if rtval == 'Yes':
+                            rtval = 1
+                        elif rtval == 'No':
+                            rtval = 2
+                        elif rtval == 'Unknown':
+                            rtval = 3
+                        else:
+                            rtval = 3
+                        obj13.Reduce_Threats = rtval
+
+                        if ioval == 'Yes':
+                            ioval = 1
+                        elif ioval == 'No':
+                            ioval = 2
+                        elif ioval == 'Unknown':
+                            ioval = 3
+                        else:
+                            ioval = 3
+                        obj13.Incremental_Objectives = ioval
+
+                        if qmval == 'Yes':
+                            qmval = 1
+                        elif qmval == 'No':
+                            qmval = 2
+                        elif qmval == 'Unknown':
+                            qmval = 3
+                        else:
+                            qmval = 3
+                        obj13.Quantifiable_Measures = qmval
+
+                        if amval == 'Yes':
+                            amval = 1
+                        elif amval == 'No':
+                            amval = 2
+                        elif amval == 'Unknown':
+                            amval = 3
+                        else:
+                            amval = 3
+                        obj13.AD_Strategy = amval
+
+
+                        obj13.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj13.Date_Entered = dtctnow
+                        obj13.save()
+                    except:
+                        obj13 = implementation_info()
+                        obj13.Project_ID = prjinfo
+                        obj13.Reduce_Threats = rtval
+                        obj13.Incremental_Objectives = ioval
+                        obj13.Quantifiable_Measures = qmval
+                        obj13.AD_Strategy = amval
+                        obj13.User = ceduser               
+                        dtctnow = datetime.datetime.utcnow()
+                        dtctnow = now.replace(tzinfo=timezone.utc)
+                        obj13.Date_Entered = dtctnow
+                        obj13.save()
+
+            batchcw
+            authen = checkgroup(request.user.groups.values_list('name', flat=True))
+            context = {'authen': authen, 'showlogin': 'True', 'batchcw':batchcw}
+            return render(request, 'ced_main/batch_upload.html', context)
+
     else:
-        # if request.user.is_authenticated(): Pythoon 2.7
+        # if request.user.is_authenticated(): Python 2.7
         if request.user.is_authenticated:
             return render(request, 'ced_main/batch_upload.html', context)
         else:
