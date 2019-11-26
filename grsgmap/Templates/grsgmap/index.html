@@ -13,7 +13,7 @@ Date:        Oct 2014, Updated Oct 2018-->
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
     <!--<link rel="stylesheet" type="text/css" href="Styles/panelMapAndReport.css" />-->
-    <link rel="stylesheet" type="text/css" href="{% static 'ced_main/Styles/panelMapAndReport.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'ced_main/static/ced_main/Styles/panelMapAndReport.css' %}"/>
     <style>
         html, body {
               height: 100%;
@@ -139,7 +139,7 @@ Date:        Oct 2014, Updated Oct 2018-->
                 <br />
                 <form id="dropdownForm">{% csrf_token %}
 
-                    <div class="centerElement"><h2 title="To Filter/Query Data, select any of the dropdown filter options or use the 'Select Efforts On Map Tool' to spatially select conservation efforts.  Click the 'Clear' button to clear search criteria and return to full map extent.  Searching and zooming by Plan/Project name, or general geographic location name, is also available below">Filter/Query Data<img id="ImgResultsLoading" src="{% static 'ced_main/images/ced_main/loading.gif' %}" style="height:15px" /></h2></div>
+                    <div class="centerElement"><h2 title="To Filter/Query Data, select any of the dropdown filter options or use the 'Select Efforts On Map Tool' to spatially select conservation efforts.  Click the 'Clear' button to clear search criteria and return to full map extent.  Searching and zooming by Plan/Project name, or general geographic location name, is also available below">Filter/Query Data<img id="ImgResultsLoading" src="{% static 'ced_main/images/grsgmap/loading.gif' %}" style="height:15px" /></h2></div>
                     <!--<div class="centerElement"><h2 title="To Filter/Query Data, select any of the dropdown filter options or use the 'Select Efforts On Map Tool' to spatially select conservation efforts.  Click the 'Clear' button to clear search criteria and return to full map extent.  Searching and zooming by Plan/Project name, or general geographic location name, is also available below">Filter/Query Data<img id="ImgResultsLoading" src="images/loading.gif" style="height:15px" /></h2></div>-->
 
                     <font size="2" title="Non-Spatial Projects or Non-Spatial Plans selections will provice results in the table and summaries, however NO efforts will show in the map"><u>Project or Plan:</u></font><br />
@@ -273,7 +273,7 @@ Date:        Oct 2014, Updated Oct 2018-->
 
                 <div id="txt_xyCoords" style="position:absolute; left:25px; bottom:1px; color:#404040; z-index:50; font-size:11px"></div>
                 <div id="txt_Version" style="position:absolute; right:15px; bottom:20px; color:#404040; z-index:50; font-size:11px">CED Interactive Map Version 2.1.0</div>
-                <img id="loadingImg" src="{% static 'ced_main/images/ced_main/loading.gif' %}" style="position:fixed; right:40%; top:50%; z-index:100;" />
+                <img id="loadingImg" src="{% static 'ced_main/images/grsgmap/loading.gif' %}" style="position:fixed; right:40%; top:50%; z-index:100;" />
                 <!--<img id="loadingImg" src="images/loading.gif" style="position:fixed; right:40%; top:50%; z-index:100;" />-->
 
                 <div id="dialogWarning1" title="CED Data Retreival Error!">

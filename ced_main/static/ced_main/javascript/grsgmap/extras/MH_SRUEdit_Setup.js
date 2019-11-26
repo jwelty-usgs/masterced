@@ -55,11 +55,15 @@ define([
     "dojo/on",
 	"esri/map",
 	"extras/MH_SRUPopUniqueQueryInterfaceValues",
-	"extras/MH_SRUEdit_Backend"
+	"extras/MH_SRUEdit_Backend",
+	"extras/MH_Zoom2FeatureLayersSRUFootprinter",
+	"esri/dijit/BasemapGallery",
+	"esri/dijit/Legend"
 ], function (Color, SimpleRenderer, LabelLayer, TextSymbol, Query, Draw, SimpleFillSymbol, SimpleLineSymbol,
 		CheckBox, GraphicsLayer, Graphic, esriRequest, BasemapGallery, webMercatorUtils, declare, lang, arrayUtil, dojoJson, urlUtils, FeatureLayer,
             Scalebar, scaleUtils, arrayUtils, FeatureLayer,
-			dom, domClass, registry, mouse, on, Map, MH_SRUPopUniqueQueryInterfaceValues, MH_SRUEdit_Backend) {
+		dom, domClass, registry, mouse, on, Map, MH_SRUPopUniqueQueryInterfaceValues, MH_SRUEdit_Backend,
+		MH_Zoom2FeatureLayersSRUFootprinter, BasemapGallery, Legend) {
 
     return declare([], {
 		Phase1: function () {
@@ -73,19 +77,9 @@ define([
 
 			app.iSRUID = getTokens()['SRUID'];
 
-			//$(function () {
-			//	$('#cbx_SRU1').change(function () {
-			//		$('#DivInitialCBXs2').toggle(this.checked);
-			//	}).change(); //ensure visible state matches initially
-			//});
+			app.pSupZ = new MH_Zoom2FeatureLayersSRUFootprinter({}); // instantiate the class
+			app.dblExpandNum = 2;
 
-			//$(function () {
-			//	$('#cbx_SRU2').change(function () {
-			//		$('#dropdownForm').toggle(this.checked);
-			//	}).change(); //ensure visible state matches initially
-			//});
-
-	
 			$("#btn_NextSRU").click(function () {
 				app.pSup.ddSRUSaveClicked();
 			});
@@ -94,21 +88,21 @@ define([
 				app.pSup.ddSRUBackClicked();
 			});
 
+			app.loading = document.getElementById("loadingImg");  //loading image. id
+			dojo.connect(app.map, "onUpdateStart", showLoading);
+			dojo.connect(app.map, "onUpdateEnd", hideLoading);
 
-			$(function () {
-				$('#cbx_SRU3').change(function () {
-					if (document.getElementById('cbx_SRU3').checked) {
-						$("#map").show();
-
-
-					} else {
-						$("#map").hide();
-					}
-				}).change(); //ensure visible state matches initially
+			var basemapTitle = dom.byId("basemapTitle");
+			on(basemapTitle, "click", function () {
+				domClass.toggle("panelBasemaps", "panelBasemapsOn");
 			});
+			on(basemapTitle, mouse.enter, function () {
+				domClass.add("panelBasemaps", "panelBasemapsOn");
+			});
+			var panelBasemaps = dom.byId("panelBasemaps");
+			on(panelBasemaps, mouse.leave, function () { domClass.remove("panelBasemaps", "panelBasemapsOn"); });
 
 			on(dom.byId("ddlSRUState"), "change", ddlMatrix_Change);
-			//on(dom.byId("ddlBLMHAF"), "change", ddlMatrix_Change);
 
 			app.strSRU_URL = "https://services.arcgis.com/QVENGdaPbd4LUkLV/ArcGIS/rest/services/SRU_HAF_Map/FeatureServer/0";
 			app.MH_SRUUniques = new MH_SRUPopUniqueQueryInterfaceValues({ strURL: app.strSRU_URL, iNonSpatialTableIndex: 0, divTagSource: null });
@@ -116,43 +110,38 @@ define([
 
 			app.iNonSpatialTableIndex = 0;  //
 			app.MH_SRUUniques.divTagSource = null;
-			app.MH_SRUUniques.qry_SetUniqueValuesOf("Name", "SRU_ID", "Image", document.getElementById("ddlSRU"), "OBJECTID > 0"); //maybe move this to MH_FeatureCount  //clear111
+			app.MH_SRUUniques.qry_SetUniqueValuesOf("Name", "SRU_ID", "Image", document.getElementById("ddlSRU"), "1=1"); //maybe move this to MH_FeatureCount  //clear111
 
 			app.pSup.Phase2();
 
 			function ddlMatrix_Change(divTagSource) {
+				showLoading();
 				$('#ddlSRU').ddslick('destroy');
+				app.pSRULayer.clearSelection();
 
 				document.getElementById("loadingImg").style.visibility = "visible";
 				disableOrEnableFormElements("dropdownForm", 'select-one', true); //disable/enable to avoid user clicking query options during pending queries
 				disableOrEnableFormElements("dropdownForm", 'button', true);  //disable/enable to avoid user clicking query options during pending queries
 
 				var strddlSRUState = document.getElementById("ddlSRUState").options[document.getElementById("ddlSRUState").selectedIndex].value;
-				//var strddlBLMHAF = document.getElementById("ddlBLMHAF").options[document.getElementById("ddlBLMHAF").selectedIndex].value;
 				app.strQueryLabelText = "";
-
 				var strQuery = "";
 
 				if (strddlSRUState !== "99") {
-					if (strQuery !== "") { strQuery += " and "; }
-					strQuery += "State = '" + strddlSRUState + "'";
+					strQuery = "State = '" + strddlSRUState + "'";
+				} else {
+					strQuery = "1=1";
 				}
-
-				//if (strddlBLMHAF !== "99") {
-				//	if (strQuery !== "") { strQuery += " and "; }
-				//	strQuery += "HAF_SRU = '" + strddlBLMHAF + "'";
-				//}
-
 				ExecutetheDerivedQuery(strQuery, divTagSource);
 			};
 
 			function ExecutetheDerivedQuery(strQuery, divTagSource) {
-				if (strQuery == "") { strQuery = "OBJECTID_1 > 0"; }
 				app.iNonSpatialTableIndex = 0;  //
-
 				app.MH_SRUUniques.divTagSource = divTagSource;
 				app.MH_SRUUniques.qry_SetUniqueValuesOf("Name", "SRU_ID", "Image", document.getElementById("ddlSRU"), strQuery); //maybe move this to MH_FeatureCount  //clear111
 				app.pSRULayer.setDefinitionExpression(strQuery);
+				//hideLoading();
+				app.pSupZ.qry_Zoom2FeatureLayerExtent(app.pSRULayer);
 			};
 
 			function setQS(strQueryDef) {
@@ -160,18 +149,38 @@ define([
 				this.pCED_PP_poly.setVisibility(true);
 			};
 
+			if (app.map.loaded) {
+				mapLoaded();
+			} else {
+				app.map.on("load", function () { mapLoaded(); });
+			}
+
+			function mapLoaded() {        // map loaded//            // Map is ready
+				app.map.on("mouse-move", showCoordinates); //after map loads, connect to listen to mouse move & drag events
+				app.map.on("mouse-drag", showCoordinates);
+
+				app.basemapGallery = new BasemapGallery({ showArcGISBasemaps: true, map: app.map }, "basemapGallery");
+				app.basemapGallery.startup();
+				app.basemapGallery.on("selection-change", function () { domClass.remove("panelBasemaps", "panelBasemapsOn"); });
+				app.basemapGallery.on("error", function (msg) { console.log("basemap gallery error:  ", msg); });
+			}
+
+			function showCoordinates(evt) {
+				var mp = webMercatorUtils.webMercatorToGeographic(evt.mapPoint);  //the map is in web mercator but display coordinates in geographic (lat, long)
+				dom.byId("txt_xyCoords").innerHTML = " Latitude:" + mp.y.toFixed(4) + ", Longitude:" + mp.x.toFixed(4);  //display mouse coordinates
+			}
         },
 
 		Phase2: function () {
-			var customExtentAndSR = new esri.geometry.Extent(-13500000, 4950000, -13100000, 5950000, new esri.SpatialReference({ "wkid": 3857 }));
+			var customExtentAndSR = new esri.geometry.Extent(-14000000, 4250000, -11000000, 7050000, new esri.SpatialReference({ "wkid": 3857 }));
 			app.map = new esri.Map("map", { basemap: "topo", logo: false, extent: customExtentAndSR });
-
+			var scalebar = new Scalebar({ map: app.map, scalebarUnit: "dual" });
 			var strlabelField1 = "Name";
 			var strlabelField2 = "SRU_ID";
 			app.map.on("load", initSelectToolbar);
 
 			app.pSRULayer = new FeatureLayer(app.strSRU_URL, { id: "0", mode: FeatureLayer.MODE_ONDEMAND, outFields: [strlabelField1, strlabelField2], visible: true });
-
+			app.pSRULayer.setDefinitionExpression("1=1");
 			var pSelectionSymbol =
 				new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
 					new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASHDOT,
@@ -186,11 +195,10 @@ define([
 			pLabel1.font.setFamily("helvetica");
 			var pLabelRenderer1 = new SimpleRenderer(pLabel1);
 			var plabels1 = new LabelLayer({ id: "labels1" });
-			plabels1.addFeatureLayer(app.pSRULayer, pLabelRenderer1, "{" + strlabelField1 + "} : {" + strlabelField2 + "}");
+			plabels1.addFeatureLayer(app.pSRULayer, pLabelRenderer1, "{" + strlabelField1 + "}");
 
 			dojo.connect(app.map, "onUpdateStart", showLoading);
 			dojo.connect(app.map, "onUpdateEnd", hideLoading);
-
 
 			if (document.location.host == "conservationefforts.org") {
 				var strHFL_URL = "https://utility.arcgis.com/usrsvcs/servers/3ffd269482224fa9a08027ef8617a44c/rest/services/NA_SRC_v2/FeatureServer/5"; //***Production!!!!
@@ -198,9 +206,38 @@ define([
 				var strHFL_URL = "https://utility.arcgis.com/usrsvcs/servers/e09a9437e03d4190a3f3a8f2e36190b4/rest/services/Development_Src_v2/FeatureServer/0"; //***Sandbox!!!!!
 				//document.getElementById("messages").innerHTML += ": Sandbox AGOL Hosted Feature Layer Currently Configured";
 			}
-			app.pSrcFeatureLayer = new esri.layers.FeatureLayer(strHFL_URL, { id: "99", mode: esri.layers.FeatureLayer.MODE_ONDEMAND, "opacity": 0.6, outFields: ['*'], visible: false  });
+			app.pSrcFeatureLayer = new esri.layers.FeatureLayer(strHFL_URL, {
+												id: "99", mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
+												"opacity": 0.6, outFields: ['*'], visible: false
+			});
 
-			app.map.addLayers([app.pSrcFeatureLayer, app.pSRULayer, plabels1]);
+			app.pBase_SMA = new FeatureLayer("https://services.arcgis.com/QVENGdaPbd4LUkLV/arcgis/rest/services/CED_Base_Layers/FeatureServer/" + "8",
+												{ id: "SMA", "opacity": 0.75, mode: FeatureLayer.MODE_ONDEMAND, visible: false });
+			app.map.addLayers([app.pBase_SMA, app.pSrcFeatureLayer, app.pSRULayer, plabels1]);
+
+			var legendLayers = [];
+			legendLayers.push({ layer: app.pBase_SMA, title: 'Lands Ownership (BLM-SMA)' });
+			legendLayers.push({ layer: app.pSrcFeatureLayer, title: 'Effort/Project Footprint' });
+			legendLayers.push({ layer: app.pSRULayer, title: 'Selectable SRUs' });
+
+			dojo.connect(app.map, 'onLayersAddResult', function (results) {
+				var legend = new Legend({ map: app.map, layerInfos: legendLayers, respectCurrentMapScale: false, autoUpdate: true }, "legendDiv");
+				legend.startup();
+			});
+
+			$(function () {
+				$('#cbx_SMALayer').change(function () {
+					if (this.checked) {
+						//dojo.connect(app.map, "onUpdateStart", showLoading);
+						//dojo.connect(app.map, "onUpdateEnd", hideLoading);
+						app.pBase_SMA.show();
+					} else {
+						app.pBase_SMA.hide();
+
+					}
+					
+				}).change(); //ensure visible state matches initially
+			});
 
 			function initSelectToolbar(event) {
 				app.selectionToolbar = new Draw(event.map);
@@ -251,6 +288,8 @@ define([
 		},
 
 		ddSRUslickSelected: function (iSRU_ID) {
+			document.getElementById('id_sru').value = iSRU_ID;
+
 			app.iSelectedSRUID = iSRU_ID;
 			$("#btn_NextSRU").prop("disabled", false);
 
@@ -259,7 +298,6 @@ define([
 			} else {
 				//clear the map selection
 				app.pSRULayer.clearSelection();
-
 				var querySRU = new Query();
 				querySRU.where = "SRU_ID = " + iSRU_ID.toString();
 				app.pSRULayer.selectFeatures(querySRU, app.pSRULayer.SELECTION_NEW, function (results) {

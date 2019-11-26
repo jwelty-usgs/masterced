@@ -1864,7 +1864,7 @@ def menu(request):
 @login_required
 def batch_upload(request):
     authen = checkgroup(request.user.groups.values_list('name', flat=True))
-    context = {'authen': authen, 'showlogin': 'True', 'batchcw':''}
+    context = {'authen': authen, 'showlogin': 'True', 'batchcw':'', 'batchmessage':''}
     if request.method == 'POST':
         if 'upload' in request.POST:
             fn = request.POST.get("batchname", "")
@@ -1899,6 +1899,7 @@ def batch_upload(request):
             # Enter Batch Data into Project Info for 3 Batch Project Info Tables
             prntwkshts = ['CED_1_Spatial_Projects', 'CED_2_NonSpatial_Projects', 'CED_3_NonSpatial_Plans']
 
+            
             for pwksh in prntwkshts:
                 for s in range(len(wb.sheetnames)):
                     if wb.sheetnames[s] == pwksh:
@@ -2006,7 +2007,8 @@ def batch_upload(request):
 
                     # Add the new Project ID to Project_Info
                     prjid = obj.Project_ID
-                    batchcw.append([origbtchid, prjid])
+                    if pwksh == 'CED_1_Spatial_Projects':
+                        batchcw.append([origbtchid, prjid])
 
                     obj1 = project_info.objects.get(Project_ID=prjid)
                     obj1.Prj_ID = prjid 
@@ -2660,7 +2662,7 @@ def batch_upload(request):
 
             batchcw
             authen = checkgroup(request.user.groups.values_list('name', flat=True))
-            context = {'authen': authen, 'showlogin': 'True', 'batchcw':batchcw}
+            context = {'authen': authen, 'showlogin': 'True', 'batchcw':batchcw, 'batchmessage':'Batch Data Uploaded Successfully'}
             return render(request, 'ced_main/batch_upload.html', context)
 
     else:

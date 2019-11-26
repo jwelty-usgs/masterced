@@ -17,6 +17,7 @@
     <form id="batchupload" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
         <div id="regis">
             <h3>BATCH UPLOAD DATA</h3>
+            <div id="dismessage"></div>
             <p style="font-weight: bold;">Warning to users of this page: The batch upload process is currently being refined during the initial release phase. While the downloadable template and links are now up to date we highly reccomend working with the CED team to upload and enter your batch data as the process has not been throughly tested. If you have any questions please email us at  <a href="mailto:fw1sagegrouseced@fws.gov">fw1sagegrouseced@fws.gov</a> </p>
             <p>The CED program has the ability to upload existing datasets in batch format.  While more efficient for large datasets than single record data entry there are still steps that need to be taken. Click on each heading below to display or hide additional information for each heading.</p>
 
@@ -229,23 +230,38 @@
             </script>
 
             <script type="text/javascript">
+                var batchmsg = '{{batchmessage}}';
+                var batchmsglen = batchmsg.length;
+
+                if (batchmsglen == 0) {
+                    document.getElementById("dismessage").innerHTML = batchmsg;
+                } else {
+                    document.getElementById("dismessage").innerHTML = "";
+                }
+            </script>
+
+            <script type="text/javascript">
+                 function download(filename, text) {
+                      var element = document.createElement('a');
+                      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                      element.setAttribute('download', filename);
+
+                      element.style.display = 'none';
+                      document.body.appendChild(element);
+
+                      element.click();
+
+                      document.body.removeChild(element);
+                  }
+            </script>
+
+            <script type="text/javascript">
                 var batch = '{{batchcw}}';
                 var batchlen = batch.length;
 
-                if (batchlen == 0) {
-                    // Requiring fs module in which
-                    // writeFile function is defined.
-                    const fs = require('fs')
-
-                    // Data which will write in a file.
-                    let data = "Learning how to write in a file."
-
-                    // Write data in 'Output.txt' .
-                    fs.writeFile('Output.txt', data, (err) => {
-
-                        // In case of a error throw err.
-                        if (err) throw err;
-                    })
+                if (batchlen > 0) {
+                    // Start file download.
+                    download("CED_Batch_Upload.txt", batch);
                 }
             </script>
             {% endblock %}
