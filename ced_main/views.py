@@ -51,8 +51,8 @@ from ced.settings import STATIC_DIR
 sbpass = settings.SBPASS
 sbuser = settings.SBUSER
 hst = settings.DBHOST
-usr = settings.DBUSER1
-psswrd = settings.DBPASSWORD1
+usr = settings.DBUSER
+psswrd = settings.DBPASSWORD
 dtbs = settings.DBNAME
 DEFAULT_FROM_EMAIL = settings.DEFAULT_FROM_EMAIL
 

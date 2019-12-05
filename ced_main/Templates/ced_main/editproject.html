@@ -1202,10 +1202,10 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
-<link rel="stylesheet" href="https://js.arcgis.com/3.18/esri/css/esri.css"/>
+<link rel="stylesheet" href="https://js.arcgis.com/3.30/esri/css/esri.css"/>
 <script src="https://code.jquery.com/jquery-1.11.3.min.js">
 </script>
-<script type="text/javascript" src="https://js.arcgis.com/3.18/">
+<script type="text/javascript" src="https://js.arcgis.com/3.30/">
 </script>
 
 
@@ -2111,15 +2111,15 @@ function showsubmit(){
         //not applicable line (project)         ?CEDID=812        //not applicable point (not prj or plan)      ?CEDID=942        //not applicable point (prj)          ?CEDID=601
         //not applicable point (typeact: Project)   ?CEDID=468        //not applicable point (typeact: Plan)    ?CEDID=838
     function (Map, FeatureLayer, KMLLayer, domStyle, WFSLayer, urlUtils, arrayUtils, parser, esriConfig, dom, domClass, on, webMercatorUtils, mouse, all, Point, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, Color) {
-        //var tokens = getTokens
-        // var iCEDID = getTokens()['CEDID'];
+        // var iCEDID = getTokens()['CEDID'];    //Justin Change this to your Django CEID id variable!!!!!!!!*****************************************************
         var iCEDID = "{{prid}}";
         parser.parse();
         app.loading = dojo.byId("loadingImg");  //loading image. id
         var customExtentAndSR = new esri.geometry.Extent(-14000000, 4595472, -11000000, 5943351, new esri.SpatialReference({ "wkid": 3857 }));
         app.map = new esri.Map("map", { basemap: "topo", logo: false, extent: customExtentAndSR, sliderPosition: "bottom-left" });
       
-        dojo.connect(app.map, "onUpdateStart", showLoading); dojo.connect(app.map, "onUpdateEnd", hideLoading);
+        dojo.connect(app.map, "onUpdateStart", showLoading);
+        dojo.connect(app.map, "onUpdateEnd", hideLoading);
             
         if (typeof iCEDID != 'undefined') {
             app.strFSURL1 = "https://utility.arcgis.com/usrsvcs/servers/5d5fc053dd7e4de4b9765f7a6b6f1f61/rest/services/CEDfrontpage_map_v9_Restrict/FeatureServer/";  //Theme Layers
@@ -2145,7 +2145,7 @@ function showsubmit(){
             if(document.location.host == "conservationefforts.org"){
               var CED_SRC_poly = new FeatureLayer(app.strFSURL2 + "5", { "opacity": 0.8 }, { autoGeneralize: true,  visible: true }); //Production
             }else{
-              var CED_SRC_poly = new FeatureLayer("https://utility.arcgis.com/usrsvcs/servers/e09a9437e03d4190a3f3a8f2e36190b4/rest/services/Development_Src_v2/FeatureServer/0", { "opacity": 0.8 }, { autoGeneralize: true,  visible: true }); //Sandbox
+              var CED_SRC_poly = new FeatureLayer("https://utility.arcgis.com/usrsvcs/servers/e09a9437e03d4190a3f3a8f2e36190b4/rest/services/Development_Src_v2/FeatureServer/" + "0", { "opacity": 0.8 }, { autoGeneralize: true,  visible: true }); //Sandbox
             }
             CED_SRC_poly.setDefinitionExpression("(project_id = " + iCEDID + ")");
             //Production
@@ -2160,6 +2160,7 @@ function showsubmit(){
             app.map.disableMapNavigation();
             app.map.hideZoomSlider();
         }
+
         function hideLoading(error) {
             esri.hide(app.loading);
             app.map.enableMapNavigation();
@@ -2183,8 +2184,7 @@ function showsubmit(){
                 var ptempSR = new esri.SpatialReference({ "wkid": 3857 });
                 if (pfeatureExtent1) {
                     if ((pfeatureExtent1.xmin != pfeatureExtent1.xmax) & (pfeatureExtent1.ymin != pfeatureExtent1.ymax)){  //if not a multipoint feature then continue
-                        xmax = (((pfeatureExtent1.xmax - pfeatureExtent1.xmin) * 2.1) * -1) + pfeatureExtent1.xmax
-                        pExtent = new esri.geometry.Extent(pfeatureExtent1.xmin, pfeatureExtent1.ymin, xmax, pfeatureExtent1.ymax, new esri.SpatialReference({ "wkid": 3857 }));
+                        pExtent = new esri.geometry.Extent(pfeatureExtent1.xmin, pfeatureExtent1.ymin, pfeatureExtent1.xmax, pfeatureExtent1.ymax, new esri.SpatialReference({ "wkid": 3857 }));
                     }
                 }
                 if (pExtent == undefined) {
@@ -2194,47 +2194,68 @@ function showsubmit(){
                 }
                 if (pExtent) {
                     pExtent = pExtent.expand(app.dblExpandNum);
-                    app.map.setExtent(pExtent, true);
+                    //app.map.setExtent(pExtent, true);
+                    var MapPoint2 = pExtent.getCenter();
+
+                    lngArea = (pExtent.getHeight() * pExtent.getWidth());
+
+                    if (lngArea < 10000000) {
+                        iZoomValue = 12;}
+                    else if ((lngArea > 10000000) & (lngArea < 1000000000)) {
+                        iZoomValue = 11;}
+                    else if ((lngArea > 1000000000) & (lngArea < 10000000000)) {
+                        iZoomValue = 9;}
+                    else if ((lngArea > 10000000000) & (lngArea < 300000000000)) {
+                        iZoomValue = 7;}
+                    else if ((lngArea > 300000000000) & (lngArea < 1000000000000)) {
+                        iZoomValue = 6;}
+                    else if (lngArea > 1000000000000) {
+                        iZoomValue = 5;
+                    }
+
+                    app.map.centerAndZoom(MapPoint2, iZoomValue);
+
                 }
                 else { var strMessage = "hold it up here"; }
                 arrayUtils.forEach(results[0].features, function (feat) {//This section handles features with no symbology
                     var attr = feat.attributes;
-                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                //if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                    if (attr.TypeAct != "Spatial Project") {
                         feat.setSymbol(new SimpleMarkerSymbol().setColor(new Color([0, 255, 255, 0.4])));
                         app.map.graphics.add(feat);
                     }
                 }); // add the results to the map
                 arrayUtils.forEach(results[3].features, function (feat) {
                     var attr = feat.attributes;
-                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                    if (attr.TypeAct != "Spatial Project") {
                         feat.setSymbol(new SimpleMarkerSymbol().setColor(new Color([0, 255, 255, 0.4])));
                         app.map.graphics.add(feat);
                     }
                 }); // add the results to the map
                 arrayUtils.forEach(results[1].features, function (feat) {
                     var attr = feat.attributes;
-                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                    if (attr.TypeAct != "Spatial Project") {
                         feat.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new Color([0, 255, 255]), 3));
                         app.map.graphics.add(feat);
                     }
                 }); // add the results to the map
                 arrayUtils.forEach(results[4].features, function (feat) {
                     var attr = feat.attributes;
-                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                    if (attr.TypeAct != "Spatial Project") {
                         feat.setSymbol(new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, new Color([0, 255, 255]), 3));
                         app.map.graphics.add(feat);
                     }
                 }); // add the results to the map
                 arrayUtils.forEach(results[2].features, function (feat) {
                     var attr = feat.attributes;
-                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                    if (attr.TypeAct != "Spatial Project") {
                         feat.setSymbol(new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([255, 0, 0]), 2), new Color([0, 255, 255, 0.2])));
                         app.map.graphics.add(feat);
                     }
                 }); // add the results to the map
                 arrayUtils.forEach(results[5].features, function (feat) {
                     var attr = feat.attributes;
-                    if ((attr.typeact != "Project") && (attr.typeact != "Plan")) {
+                    if (attr.TypeAct != "Spatial Project") {
                         feat.setSymbol(new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([255, 0, 0]), 2), new Color([0, 255, 255, 0.2])));
                         app.map.graphics.add(feat);
                     }

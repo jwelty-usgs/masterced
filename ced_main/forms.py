@@ -793,7 +793,7 @@ class state_Form(s.ModelForm):
 
 class county_Form(s.ModelForm):
     Project_ID = s.CharField(widget=s.HiddenInput(), required=False)
-    county_value = s.ModelMultipleChoiceField(queryset=state_county.objects.all(), widget=s.CheckboxSelectMultiple,
+    county_value = s.ModelMultipleChoiceField(queryset=state_county.objects.all().order_by('Cnty_St'), widget=s.CheckboxSelectMultiple,
                                               required=False, label="")
     Date_Entered = s.DateTimeField(widget=s.HiddenInput(), required=False)
     User = s.CharField(max_length=50, widget=s.HiddenInput(), required=False)
