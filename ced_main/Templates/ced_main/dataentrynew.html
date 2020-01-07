@@ -301,14 +301,18 @@
 </script>
 
 <script type="text/javascript">
-    function checkfuels() {
+    function checksubact() {
         var e = document.getElementById('subactlen');
         var subact = e.options[e.selectedIndex].text;
         
         if (subact == 'Fuel Breaks' | subact == 'Fuels Management') {
-            document.getElementById('fuelbreaknotes').style.display = "inline-block";
+            document.getElementById('subactnotes').style.display = "inline-block";
+            document.getElementById('subactnotestextp').innerHTML = "If you are entering an effort related to treating invasive annual grasses and/or forbs, please select the <b><u>'ANNUAL GRASS TREATMENTS'</u></b> Subactivity under the <b><u>'RESTORATION: Post-Disturbance and/or Habitat Enhancement' Activity.</u></b>"
+        } else if(subact == 'Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)'){
+            document.getElementById('subactnotes').style.display = "inline-block";
+            document.getElementById('subactnotestextp').innerHTML = "<b>A CCAA is considered <u>‘Completed’</u> once the agreement is signed by the landowner/participant.</b> <p><i>The actions conducted as a part of the CCAA can be <b><u>entered separately</u></b> under the appropriate Activity/Subactivity and may have different implementation statuses.</i></p>"
         } else {
-            document.getElementById('fuelbreaknotes').style.display = "none";
+            document.getElementById('subactnotes').style.display = "none";
         }
     }
 </script>
@@ -392,7 +396,7 @@
             </lab>
 
             {% endif %}
-            <select id="actlen" onchange="checkfuels(); UpdateActivity()" name="Activity" class='textblack' {{ field }}</>
+            <select id="actlen" onchange="checksubact(); UpdateActivity()" name="Activity" class='textblack' {{ field }}</>
 
         {% elif field.label == "Subactivity" %}
         {% if SubactivityEr == "SubactivityEr" %}
@@ -404,14 +408,12 @@
             {{ field.label_tag }}<span class='required'>*</span>
         </lab>
         {% endif %}
-        <select id="subactlen" onchange="checkfuels(); checksubmit();" name="SubActivity" class='textblack' {{ field }}</>
-        <div id='fuelbreaknotes' style="display:none;">
-            <div id='fuelbreaknoteslabel'>WARNING:</div>
-            <div id='fuelbreaknotestext'>
-                <p>
-                    If you are entering an effort related to treating invasive annual grasses
-                    and/or forbs, please select the "ANNUAL GRASS TREATMENTS" Subactivity
-                    under the “RESTORATION: Post-Disturbance and/or Habitat Enhancement" Activity.
+        <select id="subactlen" onchange="checksubact(); checksubmit();" name="SubActivity" class='textblack' {{ field }}</>
+        <div id='subactnotes' style="display:none;">
+            <div id='subactnoteslabel'><b>WARNING:</b></div>
+            <div id='subactnotestext'>
+                <p id="subactnotestextp">
+                    
                 </p>
             </div>
         </div>

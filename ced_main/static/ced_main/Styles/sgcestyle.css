@@ -2,6 +2,12 @@ li{
   list-style-type: none;
 }
 
+#mrkfdel{
+  position: relative;
+  font-weight: bold;
+  text-align: center;
+}
+
 
 #AR{
   position: relative;
@@ -1495,12 +1501,54 @@ li{
   white-space: normal;
 }
 
+#subactnotes{
+  position: relative;
+  float: left;
+  width: 100%;
+  margin-left: 80px;
+}
+
+#subactnoteslabel{
+  position: relative;
+  float: left;
+  color: red;
+  font-weight: normal;
+}
+
+#subactnotestext{
+  position: relative;
+  float: left;
+  width: 800px;
+  margin-left: 10px;
+  margin-top: -2px;
+  word-wrap: normal;
+  white-space: normal;
+  font-weight: normal;
+}
+
+#CCAAdatenote{
+  position: relative;
+  float: left;
+  color: red;
+  font-weight: bold;
+}
+
+#CCAAStartDateNote{
+  position: relative;
+  float: left;
+  color: red;
+  font-weight: bold;
+  width: 100%;
+  top: 5px;
+}
+
 .noteshead{
     position: relative;
     float: left;
     margin-left: 0px;
     margin-top: 20px;
     width: 100%;
+    font-weight: normal;
 }
 
 .plussign{

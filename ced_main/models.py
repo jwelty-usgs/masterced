@@ -18,7 +18,7 @@ class project_info(models.Model):
     Location_Desc = models.TextField()
     TypeAct = models.CharField(max_length=30)
     Activity = models.CharField(max_length=75)
-    SubActivity = models.CharField(max_length=100)
+    SubActivity = models.CharField(max_length=200)
     seeding_type = models.CharField(max_length=60)
     post_fire = models.CharField(max_length=50)
     mitigation = models.CharField(max_length=20)

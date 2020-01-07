@@ -647,9 +647,14 @@
 
                 {% elif field.label == "Start Date*" %}
                 <div id="actdiv" class="dates">
+                    {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                      <p id="CCAAStartDateNote">NOTICE: For Conservation Agreements please use January 1, YEAR and December 31, YEAR for your start and end dates.  This will allow us to track changes year to year.</p>
+                    {% endif %}
+
                     <lab id='startcolor'><b>Start Date:</b><span class='required'>*</span></lab><div onchange="isValidDate();" id="strdtfld">{{ field }}</div>
                     {% elif field.label == "End Date*" %}
                     <lab id='endcolor'><b id="endlabel">End Date:</b><span class='required'>*</span></lab><div id="enddtfld" onchange="UpdateEndDateLabel('{{subact}}'); isValidDate();">{{ field }}</div><p id="enddatenote">**If there is no end date (e.g. In Perpetuity), select January 1, 2100.</p>
+                    
                 </div>
 
                 {% elif field.label == "Metric Type*" %}
@@ -665,6 +670,10 @@
                 <div id="actdiv" class="metrics">
                     <b><lab id="lab66">{{ field.label_tag }}</lab></b>
                     <div id="metricleft" onchange="CheckAcDiff();">{{ field }} <i>(User Defined)</i></div>
+                    {% if subact == "Conservation Agreements (including but not limited to: CCAs, CCAAs, Farm Bill and other Incentive-based programs)" %}
+                      <br/><br/>
+                      <p id="CCAAdatenote">NOTICE: For the most up-to-date figures on Conservation Agreement enrolled landowner numbers and associated acres, please contact your local state USFWS office.  These data are entered annually, and may not be reflective of current enrolled participants.</p>
+                    {% endif %}
                 </div>
                 {% endif %}
 
