@@ -12,7 +12,7 @@ django-jquery==3.1.0
 django-jquery-js==3.1.1
 django-passwords==0.3.12
 django-phonenumber-field==2.3.1
-django-registration==3.0
+django-registration==3.1.2
 django-tables2==2.0.6
 djangosecure==0.0.11
 idna==2.8
