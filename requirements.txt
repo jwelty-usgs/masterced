@@ -33,6 +33,6 @@ requests==2.22.0
 sciencebasepy==1.6.3
 scipy==2.3.2
 six==1.10.0
-urllib3==1.24
+urllib3==1.26.5
 xlrd==1.2.0
 XlsxWriter==1.1.5
