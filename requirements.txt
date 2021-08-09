@@ -27,7 +27,7 @@ pyOpenSSL==19.0.0
 pyparsing==2.3.1
 python-dateutil==2.8.0
 pytz==2018.9
-pywin32==223
+pywin32==301
 reportlab==3.5.28
 requests==2.22.0
 sciencebasepy==1.6.3
